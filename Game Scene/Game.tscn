@@ -1,3 +1,236 @@
-[gd_scene format=3 uid="uid://dr0fafp1u36yj"]
+[gd_scene load_steps=2 format=3 uid="uid://dr0fafp1u36yj"]
+
+[ext_resource type="Script" path="res://Game Scene/game.gd" id="1_t00el"]
 
 [node name="Game" type="Node2D"]
+script = ExtResource("1_t00el")
+
+[node name="CabinColorRect" type="ColorRect" parent="."]
+offset_left = 16.0
+offset_top = 16.0
+offset_right = 240.0
+offset_bottom = 368.0
+color = Color(0.0107422, 0.0170364, 0.171875, 1)
+
+[node name="ShipControlsColorRect" type="ColorRect" parent="."]
+offset_left = 16.0
+offset_top = 384.0
+offset_right = 240.0
+offset_bottom = 528.0
+color = Color(0.0976563, 0.0953674, 0.0953674, 1)
+
+[node name="Arrows" type="Node2D" parent="ShipControlsColorRect"]
+position = Vector2(112, 72)
+
+[node name="Arrow" type="Polygon2D" parent="ShipControlsColorRect/Arrows"]
+position = Vector2(0, -16)
+color = Color(1, 0.838562, 0.101563, 1)
+polygon = PackedVector2Array(-8, 0, -8, -16, -16, -16, 0, -32, 16, -16, 8, -16, 8, 0)
+
+[node name="Arrow2" type="Polygon2D" parent="ShipControlsColorRect/Arrows"]
+position = Vector2(16, 0)
+rotation = 1.57079
+color = Color(1, 0.838562, 0.101563, 1)
+polygon = PackedVector2Array(-8, 0, -8, -16, -16, -16, 0, -32, 16, -16, 8, -16, 8, 0)
+
+[node name="Arrow3" type="Polygon2D" parent="ShipControlsColorRect/Arrows"]
+position = Vector2(0, 16)
+rotation = -3.14159
+color = Color(1, 0.838562, 0.101563, 1)
+polygon = PackedVector2Array(-8, 0, -8, -16, -16, -16, 0, -32, 16, -16, 8, -16, 8, 0)
+
+[node name="Arrow4" type="Polygon2D" parent="ShipControlsColorRect/Arrows"]
+position = Vector2(-16, 0)
+rotation = -1.57079
+color = Color(1, 0.838562, 0.101563, 1)
+polygon = PackedVector2Array(-8, 0, -8, -16, -16, -16, 0, -32, 16, -16, 8, -16, 8, 0)
+
+[node name="Separator" type="VSeparator" parent="."]
+offset_left = 256.0
+offset_right = 260.0
+offset_bottom = 544.0
+
+[node name="Systems" type="Node2D" parent="."]
+position = Vector2(608, 280)
+
+[node name="SystemColorRect" type="ColorRect" parent="Systems"]
+offset_left = -300.0
+offset_top = -184.0
+offset_right = -132.0
+offset_bottom = -40.0
+color = Color(0.231384, 0.871094, 0.556237, 1)
+
+[node name="WarningLight" type="ColorRect" parent="Systems/SystemColorRect"]
+layout_mode = 0
+offset_left = 76.0
+offset_top = -24.0
+offset_right = 92.0
+offset_bottom = -8.0
+color = Color(0.460938, 0.00720215, 0.00720215, 1)
+
+[node name="SystemColorRect2" type="ColorRect" parent="Systems"]
+offset_left = -84.0
+offset_top = -184.0
+offset_right = 84.0
+offset_bottom = -40.0
+color = Color(0.231384, 0.871094, 0.556237, 1)
+
+[node name="WarningLight" type="ColorRect" parent="Systems/SystemColorRect2"]
+offset_left = 76.0
+offset_top = -24.0
+offset_right = 92.0
+offset_bottom = -8.0
+color = Color(0.460938, 0.00720215, 0.00720215, 1)
+
+[node name="SystemColorRect3" type="ColorRect" parent="Systems"]
+offset_left = 132.0
+offset_top = -184.0
+offset_right = 300.0
+offset_bottom = -40.0
+color = Color(0.231384, 0.871094, 0.556237, 1)
+
+[node name="WarningLight" type="ColorRect" parent="Systems/SystemColorRect3"]
+offset_left = 76.0
+offset_top = -24.0
+offset_right = 92.0
+offset_bottom = -8.0
+color = Color(0.460938, 0.00720215, 0.00720215, 1)
+
+[node name="SystemColorRect4" type="ColorRect" parent="Systems"]
+offset_left = -300.0
+offset_top = 32.0
+offset_right = -132.0
+offset_bottom = 176.0
+color = Color(0.231384, 0.871094, 0.556237, 1)
+
+[node name="WarningLight" type="ColorRect" parent="Systems/SystemColorRect4"]
+offset_left = 76.0
+offset_top = -24.0
+offset_right = 92.0
+offset_bottom = -8.0
+color = Color(0.460938, 0.00720215, 0.00720215, 1)
+
+[node name="SystemColorRect5" type="ColorRect" parent="Systems"]
+offset_left = -84.0
+offset_top = 32.0
+offset_right = 84.0
+offset_bottom = 176.0
+color = Color(0.231384, 0.871094, 0.556237, 1)
+
+[node name="WarningLight" type="ColorRect" parent="Systems/SystemColorRect5"]
+offset_left = 76.0
+offset_top = -24.0
+offset_right = 92.0
+offset_bottom = -8.0
+color = Color(0.460938, 0.00720215, 0.00720215, 1)
+
+[node name="SystemColorRect6" type="ColorRect" parent="Systems"]
+offset_left = 132.0
+offset_top = 32.0
+offset_right = 300.0
+offset_bottom = 176.0
+color = Color(0.231384, 0.871094, 0.556237, 1)
+
+[node name="WarningLight" type="ColorRect" parent="Systems/SystemColorRect6"]
+offset_left = 76.0
+offset_top = -24.0
+offset_right = 92.0
+offset_bottom = -8.0
+color = Color(0.460938, 0.00720215, 0.00720215, 1)
+
+[node name="BalanceColorRect" type="ColorRect" parent="."]
+offset_left = 784.0
+offset_top = 8.0
+offset_right = 952.0
+offset_bottom = 48.0
+color = Color(0.101563, 0.101563, 0.101563, 1)
+
+[node name="ColorRect" type="ColorRect" parent="BalanceColorRect"]
+custom_minimum_size = Vector2(8, 0)
+layout_mode = 2
+offset_left = 8.0
+offset_top = 8.0
+offset_right = 16.0
+offset_bottom = 32.0
+color = Color(0, 1, 0.0390625, 1)
+
+[node name="ColorRect2" type="ColorRect" parent="BalanceColorRect"]
+custom_minimum_size = Vector2(8, 0)
+layout_mode = 2
+offset_left = 24.0
+offset_top = 8.0
+offset_right = 32.0
+offset_bottom = 32.0
+color = Color(0, 1, 0.0390625, 1)
+
+[node name="ColorRect3" type="ColorRect" parent="BalanceColorRect"]
+custom_minimum_size = Vector2(8, 0)
+layout_mode = 2
+offset_left = 40.0
+offset_top = 8.0
+offset_right = 48.0
+offset_bottom = 32.0
+color = Color(0, 1, 0.0390625, 1)
+
+[node name="ColorRect4" type="ColorRect" parent="BalanceColorRect"]
+custom_minimum_size = Vector2(8, 0)
+layout_mode = 2
+offset_left = 56.0
+offset_top = 8.0
+offset_right = 64.0
+offset_bottom = 32.0
+color = Color(0, 1, 0.0390625, 1)
+
+[node name="ColorRect5" type="ColorRect" parent="BalanceColorRect"]
+custom_minimum_size = Vector2(8, 0)
+layout_mode = 2
+offset_left = 72.0
+offset_top = 8.0
+offset_right = 80.0
+offset_bottom = 32.0
+color = Color(0, 1, 0.0390625, 1)
+
+[node name="ColorRect6" type="ColorRect" parent="BalanceColorRect"]
+custom_minimum_size = Vector2(8, 0)
+layout_mode = 2
+offset_left = 88.0
+offset_top = 8.0
+offset_right = 96.0
+offset_bottom = 32.0
+color = Color(0, 1, 0.0390625, 1)
+
+[node name="ColorRect7" type="ColorRect" parent="BalanceColorRect"]
+custom_minimum_size = Vector2(8, 0)
+layout_mode = 2
+offset_left = 104.0
+offset_top = 8.0
+offset_right = 112.0
+offset_bottom = 32.0
+color = Color(0.0458984, 0.25, 0.0538712, 1)
+
+[node name="ColorRect8" type="ColorRect" parent="BalanceColorRect"]
+custom_minimum_size = Vector2(8, 0)
+layout_mode = 2
+offset_left = 120.0
+offset_top = 8.0
+offset_right = 128.0
+offset_bottom = 32.0
+color = Color(0.0458984, 0.25, 0.0538712, 1)
+
+[node name="ColorRect9" type="ColorRect" parent="BalanceColorRect"]
+custom_minimum_size = Vector2(8, 0)
+layout_mode = 2
+offset_left = 136.0
+offset_top = 8.0
+offset_right = 144.0
+offset_bottom = 32.0
+color = Color(0.0458984, 0.25, 0.0538712, 1)
+
+[node name="ColorRect10" type="ColorRect" parent="BalanceColorRect"]
+custom_minimum_size = Vector2(8, 0)
+layout_mode = 2
+offset_left = 152.0
+offset_top = 8.0
+offset_right = 160.0
+offset_bottom = 32.0
+color = Color(0.0458984, 0.25, 0.0538712, 1)
