@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://c2wnmae3lkpre"
-path="res://.godot/imported/Computer outside.png-260a6da06915b4318430b99caefeb4f6.ctex"
+uid="uid://df4rtlcuf88qo"
+path="res://.godot/imported/Patch module.png-29fe78a23669cd232b754d604bf7a9d1.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Systems/Computer/Computer outside.png"
-dest_files=["res://.godot/imported/Computer outside.png-260a6da06915b4318430b99caefeb4f6.ctex"]
+source_file="res://Systems/External/Assets/Patch module.png"
+dest_files=["res://.godot/imported/Patch module.png-29fe78a23669cd232b754d604bf7a9d1.ctex"]
 
 [params]
 

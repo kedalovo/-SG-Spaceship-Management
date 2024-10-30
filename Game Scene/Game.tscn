@@ -1,18 +1,23 @@
-[gd_scene load_steps=14 format=3 uid="uid://dr0fafp1u36yj"]
+[gd_scene load_steps=17 format=3 uid="uid://dr0fafp1u36yj"]
 
 [ext_resource type="Script" path="res://Game Scene/game.gd" id="1_t00el"]
 [ext_resource type="Texture2D" uid="uid://dmcht1gqpy4v3" path="res://Systems/Life Support/Assets/Life Support.png" id="2_3bjf3"]
 [ext_resource type="Texture2D" uid="uid://crc0xix75leon" path="res://Systems/Life Support/Assets/Life Support outline.png" id="3_hjlia"]
+[ext_resource type="Script" path="res://Systems/system_visual.gd" id="3_kjvah"]
 [ext_resource type="Texture2D" uid="uid://ssmcw3sgvd41" path="res://Systems/Engines/Assets/Engines.png" id="4_jxdcm"]
 [ext_resource type="Texture2D" uid="uid://brae5e5l23kpa" path="res://Systems/Engines/Assets/Engines Outline.png" id="5_6eb6w"]
 [ext_resource type="Texture2D" uid="uid://cnclshu285y1g" path="res://Systems/Hull/Assets/Hull.png" id="6_a3iyu"]
 [ext_resource type="Texture2D" uid="uid://bcklxi8t78ysf" path="res://Systems/Hull/Assets/Hull Outline.png" id="7_meg7b"]
 [ext_resource type="Texture2D" uid="uid://dcnklmox7xujm" path="res://Systems/Electrical/Assets/Electrical.png" id="8_qtinh"]
 [ext_resource type="Texture2D" uid="uid://dyveh6205nwoq" path="res://Systems/Electrical/Assets/Electrical Outline.png" id="9_xw2r2"]
-[ext_resource type="Texture2D" uid="uid://bxiggfy5n5u5t" path="res://Systems/External/External.png" id="10_50i1v"]
-[ext_resource type="Texture2D" uid="uid://bldg33ymu5far" path="res://Systems/External/External Outline.png" id="11_0dyms"]
-[ext_resource type="Texture2D" uid="uid://b1cawx0a3unrq" path="res://Systems/Computer/Computer.png" id="12_dg67k"]
-[ext_resource type="Texture2D" uid="uid://d3un7bfac0jb6" path="res://Systems/Computer/Computer Outline.png" id="13_3ucug"]
+[ext_resource type="Texture2D" uid="uid://bxiggfy5n5u5t" path="res://Systems/External/Assets/External.png" id="10_50i1v"]
+[ext_resource type="Texture2D" uid="uid://bldg33ymu5far" path="res://Systems/External/Assets/External Outline.png" id="11_0dyms"]
+[ext_resource type="Texture2D" uid="uid://b1cawx0a3unrq" path="res://Systems/Computer/Assets/Computer.png" id="12_dg67k"]
+[ext_resource type="Texture2D" uid="uid://d3un7bfac0jb6" path="res://Systems/Computer/Assets/Computer Outline.png" id="13_3ucug"]
+[ext_resource type="PackedScene" uid="uid://vofuvgwwjlr5" path="res://Systems/Life Support/life_support_system.tscn" id="15_8do5x"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_q5hu0"]
+size = Vector2(168, 144)
 
 [node name="Game" type="Node2D"]
 script = ExtResource("1_t00el")
@@ -68,6 +73,7 @@ position = Vector2(608, 280)
 [node name="LifeSupportSprite" type="Sprite2D" parent="SystemsSprites"]
 position = Vector2(-216, -112)
 texture = ExtResource("2_3bjf3")
+script = ExtResource("3_kjvah")
 
 [node name="WarningLight" type="ColorRect" parent="SystemsSprites/LifeSupportSprite"]
 offset_left = -8.0
@@ -80,9 +86,15 @@ color = Color(0.460938, 0.00720215, 0.00720215, 1)
 visible = false
 texture = ExtResource("3_hjlia")
 
+[node name="MouseArea" type="Area2D" parent="SystemsSprites/LifeSupportSprite"]
+
+[node name="Shape" type="CollisionShape2D" parent="SystemsSprites/LifeSupportSprite/MouseArea"]
+shape = SubResource("RectangleShape2D_q5hu0")
+
 [node name="EnginesSprite" type="Sprite2D" parent="SystemsSprites"]
 position = Vector2(0, -112)
 texture = ExtResource("4_jxdcm")
+script = ExtResource("3_kjvah")
 
 [node name="WarningLight" type="ColorRect" parent="SystemsSprites/EnginesSprite"]
 offset_left = -8.0
@@ -95,9 +107,15 @@ color = Color(0.460938, 0.00720215, 0.00720215, 1)
 visible = false
 texture = ExtResource("5_6eb6w")
 
+[node name="MouseArea" type="Area2D" parent="SystemsSprites/EnginesSprite"]
+
+[node name="Shape" type="CollisionShape2D" parent="SystemsSprites/EnginesSprite/MouseArea"]
+shape = SubResource("RectangleShape2D_q5hu0")
+
 [node name="HullSprite" type="Sprite2D" parent="SystemsSprites"]
 position = Vector2(216, -112)
 texture = ExtResource("6_a3iyu")
+script = ExtResource("3_kjvah")
 
 [node name="WarningLight" type="ColorRect" parent="SystemsSprites/HullSprite"]
 offset_left = -8.0
@@ -110,9 +128,15 @@ color = Color(0.460938, 0.00720215, 0.00720215, 1)
 visible = false
 texture = ExtResource("7_meg7b")
 
+[node name="MouseArea" type="Area2D" parent="SystemsSprites/HullSprite"]
+
+[node name="Shape" type="CollisionShape2D" parent="SystemsSprites/HullSprite/MouseArea"]
+shape = SubResource("RectangleShape2D_q5hu0")
+
 [node name="ElectricalSprite" type="Sprite2D" parent="SystemsSprites"]
 position = Vector2(-216, 104)
 texture = ExtResource("8_qtinh")
+script = ExtResource("3_kjvah")
 
 [node name="WarningLight" type="ColorRect" parent="SystemsSprites/ElectricalSprite"]
 offset_left = -8.0
@@ -125,9 +149,15 @@ color = Color(0.460938, 0.00720215, 0.00720215, 1)
 visible = false
 texture = ExtResource("9_xw2r2")
 
+[node name="MouseArea" type="Area2D" parent="SystemsSprites/ElectricalSprite"]
+
+[node name="Shape" type="CollisionShape2D" parent="SystemsSprites/ElectricalSprite/MouseArea"]
+shape = SubResource("RectangleShape2D_q5hu0")
+
 [node name="ExternalSprite" type="Sprite2D" parent="SystemsSprites"]
 position = Vector2(0, 104)
 texture = ExtResource("10_50i1v")
+script = ExtResource("3_kjvah")
 
 [node name="WarningLight" type="ColorRect" parent="SystemsSprites/ExternalSprite"]
 offset_left = -8.0
@@ -140,9 +170,15 @@ color = Color(0.460938, 0.00720215, 0.00720215, 1)
 visible = false
 texture = ExtResource("11_0dyms")
 
+[node name="MouseArea" type="Area2D" parent="SystemsSprites/ExternalSprite"]
+
+[node name="Shape" type="CollisionShape2D" parent="SystemsSprites/ExternalSprite/MouseArea"]
+shape = SubResource("RectangleShape2D_q5hu0")
+
 [node name="ComputerSprite" type="Sprite2D" parent="SystemsSprites"]
 position = Vector2(216, 104)
 texture = ExtResource("12_dg67k")
+script = ExtResource("3_kjvah")
 
 [node name="WarningLight" type="ColorRect" parent="SystemsSprites/ComputerSprite"]
 offset_left = -8.0
@@ -154,6 +190,11 @@ color = Color(0.460938, 0.00720215, 0.00720215, 1)
 [node name="Outline" type="Sprite2D" parent="SystemsSprites/ComputerSprite"]
 visible = false
 texture = ExtResource("13_3ucug")
+
+[node name="MouseArea" type="Area2D" parent="SystemsSprites/ComputerSprite"]
+
+[node name="Shape" type="CollisionShape2D" parent="SystemsSprites/ComputerSprite/MouseArea"]
+shape = SubResource("RectangleShape2D_q5hu0")
 
 [node name="BalanceColorRect" type="ColorRect" parent="."]
 offset_left = 784.0
@@ -257,3 +298,23 @@ offset_left = 304.0
 offset_top = 56.0
 offset_right = 920.0
 offset_bottom = 488.0
+
+[node name="Systems" type="Node2D" parent="."]
+position = Vector2(608, 280)
+
+[node name="Life Support System" parent="Systems" instance=ExtResource("15_8do5x")]
+visible = false
+scale = Vector2(1.75, 1.75)
+
+[connection signal="mouse_entered" from="SystemsSprites/LifeSupportSprite/MouseArea" to="SystemsSprites/LifeSupportSprite" method="_on_mouse_area_mouse_entered"]
+[connection signal="mouse_exited" from="SystemsSprites/LifeSupportSprite/MouseArea" to="SystemsSprites/LifeSupportSprite" method="_on_mouse_area_mouse_exited"]
+[connection signal="mouse_entered" from="SystemsSprites/EnginesSprite/MouseArea" to="SystemsSprites/EnginesSprite" method="_on_mouse_area_mouse_entered"]
+[connection signal="mouse_exited" from="SystemsSprites/EnginesSprite/MouseArea" to="SystemsSprites/EnginesSprite" method="_on_mouse_area_mouse_exited"]
+[connection signal="mouse_entered" from="SystemsSprites/HullSprite/MouseArea" to="SystemsSprites/HullSprite" method="_on_mouse_area_mouse_entered"]
+[connection signal="mouse_exited" from="SystemsSprites/HullSprite/MouseArea" to="SystemsSprites/HullSprite" method="_on_mouse_area_mouse_exited"]
+[connection signal="mouse_entered" from="SystemsSprites/ElectricalSprite/MouseArea" to="SystemsSprites/ElectricalSprite" method="_on_mouse_area_mouse_entered"]
+[connection signal="mouse_exited" from="SystemsSprites/ElectricalSprite/MouseArea" to="SystemsSprites/ElectricalSprite" method="_on_mouse_area_mouse_exited"]
+[connection signal="mouse_entered" from="SystemsSprites/ExternalSprite/MouseArea" to="SystemsSprites/ExternalSprite" method="_on_mouse_area_mouse_entered"]
+[connection signal="mouse_exited" from="SystemsSprites/ExternalSprite/MouseArea" to="SystemsSprites/ExternalSprite" method="_on_mouse_area_mouse_exited"]
+[connection signal="mouse_entered" from="SystemsSprites/ComputerSprite/MouseArea" to="SystemsSprites/ComputerSprite" method="_on_mouse_area_mouse_entered"]
+[connection signal="mouse_exited" from="SystemsSprites/ComputerSprite/MouseArea" to="SystemsSprites/ComputerSprite" method="_on_mouse_area_mouse_exited"]

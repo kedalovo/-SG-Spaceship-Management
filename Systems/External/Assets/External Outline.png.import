@@ -3,15 +3,15 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://bldg33ymu5far"
-path="res://.godot/imported/External Outline.png-2f5e6ee014c9705f31931835e17e53a8.ctex"
+path="res://.godot/imported/External Outline.png-ae47a0d87edb0ed20125567d043f9faf.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Systems/External/External Outline.png"
-dest_files=["res://.godot/imported/External Outline.png-2f5e6ee014c9705f31931835e17e53a8.ctex"]
+source_file="res://Systems/External/Assets/External Outline.png"
+dest_files=["res://.godot/imported/External Outline.png-ae47a0d87edb0ed20125567d043f9faf.ctex"]
 
 [params]
 

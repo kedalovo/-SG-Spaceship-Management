@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://d3un7bfac0jb6"
-path="res://.godot/imported/Computer Outline.png-2b48b1a0688acde22e06c805da8520a4.ctex"
+uid="uid://c2wnmae3lkpre"
+path="res://.godot/imported/Computer outside.png-2ad71fcf529a8985d21e2b6524cdc597.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Systems/Computer/Computer Outline.png"
-dest_files=["res://.godot/imported/Computer Outline.png-2b48b1a0688acde22e06c805da8520a4.ctex"]
+source_file="res://Systems/Computer/Assets/Computer outside.png"
+dest_files=["res://.godot/imported/Computer outside.png-2ad71fcf529a8985d21e2b6524cdc597.ctex"]
 
 [params]
 

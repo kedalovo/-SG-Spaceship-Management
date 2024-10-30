@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://b1cawx0a3unrq"
-path="res://.godot/imported/Computer.png-e4d5ea4d02aeb744700a7627c9e9fcb3.ctex"
+uid="uid://qb37byuk1foq"
+path="res://.godot/imported/Heater module.png-e01c2950458942bf8f8489a24bdf59f3.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Systems/Computer/Computer.png"
-dest_files=["res://.godot/imported/Computer.png-e4d5ea4d02aeb744700a7627c9e9fcb3.ctex"]
+source_file="res://Systems/External/Assets/Heater module.png"
+dest_files=["res://.godot/imported/Heater module.png-e01c2950458942bf8f8489a24bdf59f3.ctex"]
 
 [params]
 

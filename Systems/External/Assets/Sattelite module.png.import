@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://t6km4te1uuup"
-path="res://.godot/imported/External Outside.png-4d51912af0721d6c9ea1e2db71ddee0a.ctex"
+uid="uid://dusyf6kg2mp3x"
+path="res://.godot/imported/Sattelite module.png-224671181b5c246f345661fc81aa38ce.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Systems/External/External Outside.png"
-dest_files=["res://.godot/imported/External Outside.png-4d51912af0721d6c9ea1e2db71ddee0a.ctex"]
+source_file="res://Systems/External/Assets/Sattelite module.png"
+dest_files=["res://.godot/imported/Sattelite module.png-224671181b5c246f345661fc81aa38ce.ctex"]
 
 [params]
 
