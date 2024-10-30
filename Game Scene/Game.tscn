@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=3 uid="uid://dr0fafp1u36yj"]
+[gd_scene load_steps=14 format=3 uid="uid://dr0fafp1u36yj"]
 
 [ext_resource type="Script" path="res://Game Scene/game.gd" id="1_t00el"]
 [ext_resource type="Texture2D" uid="uid://dmcht1gqpy4v3" path="res://Systems/Life Support/Assets/Life Support.png" id="2_3bjf3"]
@@ -8,6 +8,11 @@
 [ext_resource type="Texture2D" uid="uid://cnclshu285y1g" path="res://Systems/Hull/Assets/Hull.png" id="6_a3iyu"]
 [ext_resource type="Texture2D" uid="uid://bcklxi8t78ysf" path="res://Systems/Hull/Assets/Hull Outline.png" id="7_meg7b"]
 [ext_resource type="Texture2D" uid="uid://dcnklmox7xujm" path="res://Systems/Electrical/Assets/Electrical.png" id="8_qtinh"]
+[ext_resource type="Texture2D" uid="uid://dyveh6205nwoq" path="res://Systems/Electrical/Assets/Electrical Outline.png" id="9_xw2r2"]
+[ext_resource type="Texture2D" uid="uid://bxiggfy5n5u5t" path="res://Systems/External/External.png" id="10_50i1v"]
+[ext_resource type="Texture2D" uid="uid://bldg33ymu5far" path="res://Systems/External/External Outline.png" id="11_0dyms"]
+[ext_resource type="Texture2D" uid="uid://b1cawx0a3unrq" path="res://Systems/Computer/Computer.png" id="12_dg67k"]
+[ext_resource type="Texture2D" uid="uid://d3un7bfac0jb6" path="res://Systems/Computer/Computer Outline.png" id="13_3ucug"]
 
 [node name="Game" type="Node2D"]
 script = ExtResource("1_t00el")
@@ -57,94 +62,98 @@ offset_left = 256.0
 offset_right = 260.0
 offset_bottom = 544.0
 
-[node name="Systems" type="Node2D" parent="."]
+[node name="SystemsSprites" type="Node2D" parent="."]
 position = Vector2(608, 280)
 
-[node name="SystemColorRect5" type="ColorRect" parent="Systems"]
-offset_left = -84.0
-offset_top = 32.0
-offset_right = 84.0
-offset_bottom = 176.0
-color = Color(0.231384, 0.871094, 0.556237, 1)
-
-[node name="WarningLight" type="ColorRect" parent="Systems/SystemColorRect5"]
-layout_mode = 0
-offset_left = 76.0
-offset_top = -24.0
-offset_right = 92.0
-offset_bottom = -8.0
-color = Color(0.460938, 0.00720215, 0.00720215, 1)
-
-[node name="SystemColorRect6" type="ColorRect" parent="Systems"]
-offset_left = 132.0
-offset_top = 32.0
-offset_right = 300.0
-offset_bottom = 176.0
-color = Color(0.231384, 0.871094, 0.556237, 1)
-
-[node name="WarningLight" type="ColorRect" parent="Systems/SystemColorRect6"]
-layout_mode = 0
-offset_left = 76.0
-offset_top = -24.0
-offset_right = 92.0
-offset_bottom = -8.0
-color = Color(0.460938, 0.00720215, 0.00720215, 1)
-
-[node name="LifeSupportSprite" type="Sprite2D" parent="Systems"]
+[node name="LifeSupportSprite" type="Sprite2D" parent="SystemsSprites"]
 position = Vector2(-216, -112)
 texture = ExtResource("2_3bjf3")
 
-[node name="WarningLight" type="ColorRect" parent="Systems/LifeSupportSprite"]
+[node name="WarningLight" type="ColorRect" parent="SystemsSprites/LifeSupportSprite"]
 offset_left = -8.0
 offset_top = -96.0
 offset_right = 8.0
 offset_bottom = -80.0
 color = Color(0.460938, 0.00720215, 0.00720215, 1)
 
-[node name="Outline" type="Sprite2D" parent="Systems/LifeSupportSprite"]
+[node name="Outline" type="Sprite2D" parent="SystemsSprites/LifeSupportSprite"]
 visible = false
 texture = ExtResource("3_hjlia")
 
-[node name="EnginesSprite" type="Sprite2D" parent="Systems"]
+[node name="EnginesSprite" type="Sprite2D" parent="SystemsSprites"]
 position = Vector2(0, -112)
 texture = ExtResource("4_jxdcm")
 
-[node name="WarningLight" type="ColorRect" parent="Systems/EnginesSprite"]
+[node name="WarningLight" type="ColorRect" parent="SystemsSprites/EnginesSprite"]
 offset_left = -8.0
 offset_top = -96.0
 offset_right = 8.0
 offset_bottom = -80.0
 color = Color(0.460938, 0.00720215, 0.00720215, 1)
 
-[node name="Outline" type="Sprite2D" parent="Systems/EnginesSprite"]
+[node name="Outline" type="Sprite2D" parent="SystemsSprites/EnginesSprite"]
 visible = false
 texture = ExtResource("5_6eb6w")
 
-[node name="HullSprite" type="Sprite2D" parent="Systems"]
+[node name="HullSprite" type="Sprite2D" parent="SystemsSprites"]
 position = Vector2(216, -112)
 texture = ExtResource("6_a3iyu")
 
-[node name="WarningLight" type="ColorRect" parent="Systems/HullSprite"]
+[node name="WarningLight" type="ColorRect" parent="SystemsSprites/HullSprite"]
 offset_left = -8.0
 offset_top = -96.0
 offset_right = 8.0
 offset_bottom = -80.0
 color = Color(0.460938, 0.00720215, 0.00720215, 1)
 
-[node name="Outline" type="Sprite2D" parent="Systems/HullSprite"]
+[node name="Outline" type="Sprite2D" parent="SystemsSprites/HullSprite"]
 visible = false
 texture = ExtResource("7_meg7b")
 
-[node name="ElectricalSprite" type="Sprite2D" parent="Systems"]
+[node name="ElectricalSprite" type="Sprite2D" parent="SystemsSprites"]
 position = Vector2(-216, 104)
 texture = ExtResource("8_qtinh")
 
-[node name="WarningLight" type="ColorRect" parent="Systems/ElectricalSprite"]
+[node name="WarningLight" type="ColorRect" parent="SystemsSprites/ElectricalSprite"]
 offset_left = -8.0
 offset_top = -96.0
 offset_right = 8.0
 offset_bottom = -80.0
 color = Color(0.460938, 0.00720215, 0.00720215, 1)
+
+[node name="Outline" type="Sprite2D" parent="SystemsSprites/ElectricalSprite"]
+visible = false
+texture = ExtResource("9_xw2r2")
+
+[node name="ExternalSprite" type="Sprite2D" parent="SystemsSprites"]
+position = Vector2(0, 104)
+texture = ExtResource("10_50i1v")
+
+[node name="WarningLight" type="ColorRect" parent="SystemsSprites/ExternalSprite"]
+offset_left = -8.0
+offset_top = -96.0
+offset_right = 8.0
+offset_bottom = -80.0
+color = Color(0.460938, 0.00720215, 0.00720215, 1)
+
+[node name="Outline" type="Sprite2D" parent="SystemsSprites/ExternalSprite"]
+visible = false
+texture = ExtResource("11_0dyms")
+
+[node name="ComputerSprite" type="Sprite2D" parent="SystemsSprites"]
+position = Vector2(216, 104)
+texture = ExtResource("12_dg67k")
+
+[node name="WarningLight" type="ColorRect" parent="SystemsSprites/ComputerSprite"]
+offset_left = -8.0
+offset_top = -96.0
+offset_right = 8.0
+offset_bottom = -80.0
+color = Color(0.460938, 0.00720215, 0.00720215, 1)
+
+[node name="Outline" type="Sprite2D" parent="SystemsSprites/ComputerSprite"]
+visible = false
+texture = ExtResource("13_3ucug")
 
 [node name="BalanceColorRect" type="ColorRect" parent="."]
 offset_left = 784.0
