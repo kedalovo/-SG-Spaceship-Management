@@ -1,4 +1,4 @@
-[gd_scene load_steps=17 format=3 uid="uid://dr0fafp1u36yj"]
+[gd_scene load_steps=23 format=3 uid="uid://dr0fafp1u36yj"]
 
 [ext_resource type="Script" path="res://Game Scene/game.gd" id="1_t00el"]
 [ext_resource type="Texture2D" uid="uid://dmcht1gqpy4v3" path="res://Systems/Life Support/Assets/Life Support.png" id="2_3bjf3"]
@@ -15,9 +15,17 @@
 [ext_resource type="Texture2D" uid="uid://b1cawx0a3unrq" path="res://Systems/Computer/Assets/Computer.png" id="12_dg67k"]
 [ext_resource type="Texture2D" uid="uid://d3un7bfac0jb6" path="res://Systems/Computer/Assets/Computer Outline.png" id="13_3ucug"]
 [ext_resource type="PackedScene" uid="uid://vofuvgwwjlr5" path="res://Systems/Life Support/life_support_system.tscn" id="15_8do5x"]
+[ext_resource type="PackedScene" uid="uid://ncafby3f1swm" path="res://Systems/Engines/engines_system.tscn" id="16_trc1u"]
+[ext_resource type="PackedScene" uid="uid://bwc0fqgxuabpd" path="res://Systems/Hull/hull_system.tscn" id="17_unxvt"]
+[ext_resource type="PackedScene" uid="uid://ccemslh3u213h" path="res://Systems/Electrical/electrical_system.tscn" id="18_p0hwu"]
+[ext_resource type="PackedScene" uid="uid://c22b6p4rrgv5p" path="res://Systems/External/external_system.tscn" id="19_kf2ef"]
+[ext_resource type="PackedScene" uid="uid://cn0fv0fedt2ig" path="res://Systems/Computer/computer_system.tscn" id="20_1h5sm"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_q5hu0"]
 size = Vector2(168, 144)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_672kh"]
+size = Vector2(616, 432)
 
 [node name="Game" type="Node2D"]
 script = ExtResource("1_t00el")
@@ -95,6 +103,7 @@ shape = SubResource("RectangleShape2D_q5hu0")
 position = Vector2(0, -112)
 texture = ExtResource("4_jxdcm")
 script = ExtResource("3_kjvah")
+system_index = 1
 
 [node name="WarningLight" type="ColorRect" parent="SystemsSprites/EnginesSprite"]
 offset_left = -8.0
@@ -116,6 +125,7 @@ shape = SubResource("RectangleShape2D_q5hu0")
 position = Vector2(216, -112)
 texture = ExtResource("6_a3iyu")
 script = ExtResource("3_kjvah")
+system_index = 2
 
 [node name="WarningLight" type="ColorRect" parent="SystemsSprites/HullSprite"]
 offset_left = -8.0
@@ -137,6 +147,7 @@ shape = SubResource("RectangleShape2D_q5hu0")
 position = Vector2(-216, 104)
 texture = ExtResource("8_qtinh")
 script = ExtResource("3_kjvah")
+system_index = 3
 
 [node name="WarningLight" type="ColorRect" parent="SystemsSprites/ElectricalSprite"]
 offset_left = -8.0
@@ -158,6 +169,7 @@ shape = SubResource("RectangleShape2D_q5hu0")
 position = Vector2(0, 104)
 texture = ExtResource("10_50i1v")
 script = ExtResource("3_kjvah")
+system_index = 4
 
 [node name="WarningLight" type="ColorRect" parent="SystemsSprites/ExternalSprite"]
 offset_left = -8.0
@@ -179,6 +191,7 @@ shape = SubResource("RectangleShape2D_q5hu0")
 position = Vector2(216, 104)
 texture = ExtResource("12_dg67k")
 script = ExtResource("3_kjvah")
+system_index = 5
 
 [node name="WarningLight" type="ColorRect" parent="SystemsSprites/ComputerSprite"]
 offset_left = -8.0
@@ -294,10 +307,28 @@ offset_bottom = 32.0
 color = Color(0.0458984, 0.25, 0.0538712, 1)
 
 [node name="SystemCloseUpMarker" type="Panel" parent="."]
+visible = false
 offset_left = 304.0
 offset_top = 56.0
 offset_right = 920.0
 offset_bottom = 488.0
+mouse_filter = 1
+
+[node name="ActiveArea" type="Area2D" parent="SystemCloseUpMarker"]
+position = Vector2(308, 216)
+monitoring = false
+monitorable = false
+
+[node name="Shape" type="CollisionShape2D" parent="SystemCloseUpMarker/ActiveArea"]
+shape = SubResource("RectangleShape2D_672kh")
+
+[node name="InputStopper" type="Control" parent="SystemCloseUpMarker"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
 
 [node name="Systems" type="Node2D" parent="."]
 position = Vector2(608, 280)
@@ -306,15 +337,49 @@ position = Vector2(608, 280)
 visible = false
 scale = Vector2(1.75, 1.75)
 
+[node name="Engines System" parent="Systems" instance=ExtResource("16_trc1u")]
+visible = false
+scale = Vector2(1.75, 1.75)
+
+[node name="Hull System" parent="Systems" instance=ExtResource("17_unxvt")]
+visible = false
+position = Vector2(4, -8)
+
+[node name="Electrical System" parent="Systems" instance=ExtResource("18_p0hwu")]
+visible = false
+scale = Vector2(1.75, 1.75)
+
+[node name="External System" parent="Systems" instance=ExtResource("19_kf2ef")]
+visible = false
+scale = Vector2(1.75, 1.75)
+
+[node name="Computer System" parent="Systems" instance=ExtResource("20_1h5sm")]
+visible = false
+scale = Vector2(1.75, 1.75)
+
+[connection signal="system_pressed" from="SystemsSprites/LifeSupportSprite" to="." method="_on_system_sprite_pressed"]
+[connection signal="input_event" from="SystemsSprites/LifeSupportSprite/MouseArea" to="SystemsSprites/LifeSupportSprite" method="_on_mouse_area_input_event"]
 [connection signal="mouse_entered" from="SystemsSprites/LifeSupportSprite/MouseArea" to="SystemsSprites/LifeSupportSprite" method="_on_mouse_area_mouse_entered"]
 [connection signal="mouse_exited" from="SystemsSprites/LifeSupportSprite/MouseArea" to="SystemsSprites/LifeSupportSprite" method="_on_mouse_area_mouse_exited"]
+[connection signal="system_pressed" from="SystemsSprites/EnginesSprite" to="." method="_on_system_sprite_pressed"]
+[connection signal="input_event" from="SystemsSprites/EnginesSprite/MouseArea" to="SystemsSprites/EnginesSprite" method="_on_mouse_area_input_event"]
 [connection signal="mouse_entered" from="SystemsSprites/EnginesSprite/MouseArea" to="SystemsSprites/EnginesSprite" method="_on_mouse_area_mouse_entered"]
 [connection signal="mouse_exited" from="SystemsSprites/EnginesSprite/MouseArea" to="SystemsSprites/EnginesSprite" method="_on_mouse_area_mouse_exited"]
+[connection signal="system_pressed" from="SystemsSprites/HullSprite" to="." method="_on_system_sprite_pressed"]
+[connection signal="input_event" from="SystemsSprites/HullSprite/MouseArea" to="SystemsSprites/HullSprite" method="_on_mouse_area_input_event"]
 [connection signal="mouse_entered" from="SystemsSprites/HullSprite/MouseArea" to="SystemsSprites/HullSprite" method="_on_mouse_area_mouse_entered"]
 [connection signal="mouse_exited" from="SystemsSprites/HullSprite/MouseArea" to="SystemsSprites/HullSprite" method="_on_mouse_area_mouse_exited"]
+[connection signal="system_pressed" from="SystemsSprites/ElectricalSprite" to="." method="_on_system_sprite_pressed"]
+[connection signal="input_event" from="SystemsSprites/ElectricalSprite/MouseArea" to="SystemsSprites/ElectricalSprite" method="_on_mouse_area_input_event"]
 [connection signal="mouse_entered" from="SystemsSprites/ElectricalSprite/MouseArea" to="SystemsSprites/ElectricalSprite" method="_on_mouse_area_mouse_entered"]
 [connection signal="mouse_exited" from="SystemsSprites/ElectricalSprite/MouseArea" to="SystemsSprites/ElectricalSprite" method="_on_mouse_area_mouse_exited"]
+[connection signal="system_pressed" from="SystemsSprites/ExternalSprite" to="." method="_on_system_sprite_pressed"]
+[connection signal="input_event" from="SystemsSprites/ExternalSprite/MouseArea" to="SystemsSprites/ExternalSprite" method="_on_mouse_area_input_event"]
 [connection signal="mouse_entered" from="SystemsSprites/ExternalSprite/MouseArea" to="SystemsSprites/ExternalSprite" method="_on_mouse_area_mouse_entered"]
 [connection signal="mouse_exited" from="SystemsSprites/ExternalSprite/MouseArea" to="SystemsSprites/ExternalSprite" method="_on_mouse_area_mouse_exited"]
+[connection signal="system_pressed" from="SystemsSprites/ComputerSprite" to="." method="_on_system_sprite_pressed"]
+[connection signal="input_event" from="SystemsSprites/ComputerSprite/MouseArea" to="SystemsSprites/ComputerSprite" method="_on_mouse_area_input_event"]
 [connection signal="mouse_entered" from="SystemsSprites/ComputerSprite/MouseArea" to="SystemsSprites/ComputerSprite" method="_on_mouse_area_mouse_entered"]
 [connection signal="mouse_exited" from="SystemsSprites/ComputerSprite/MouseArea" to="SystemsSprites/ComputerSprite" method="_on_mouse_area_mouse_exited"]
+[connection signal="mouse_entered" from="SystemCloseUpMarker/ActiveArea" to="." method="_on_active_area_mouse_entered"]
+[connection signal="mouse_exited" from="SystemCloseUpMarker/ActiveArea" to="." method="_on_active_area_mouse_exited"]

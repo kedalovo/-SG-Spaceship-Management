@@ -3,6 +3,8 @@ extends Node
 
 class_name game_manager
 
+var is_in_system: bool = false
+
 
 enum damage_types {
 	PHYSICAL,

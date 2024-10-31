@@ -21,8 +21,8 @@ func fix():
 
 
 func open():
-	pass
+	show()
 
 
 func close():
-	pass
+	hide()

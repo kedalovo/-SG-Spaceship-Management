@@ -1,0 +1,10 @@
+[gd_scene load_steps=3 format=3 uid="uid://ccemslh3u213h"]
+
+[ext_resource type="Texture2D" uid="uid://cckr30qae6unt" path="res://Systems/Electrical/Assets/Electrical Outside.png" id="1_cdce4"]
+[ext_resource type="Script" path="res://Systems/Electrical/electrical_system.gd" id="1_qh678"]
+
+[node name="Electrical System" type="Node2D"]
+script = ExtResource("1_qh678")
+
+[node name="Sprite" type="Sprite2D" parent="."]
+texture = ExtResource("1_cdce4")
