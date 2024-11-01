@@ -24,6 +24,7 @@ func _input(event: InputEvent) -> void:
 		systems[current_system_idx].close()
 		system_close_up_marker.hide()
 		GameManager.is_in_system = false
+		current_system_idx = -1
 	if event.is_action_pressed("esc"):
 		get_tree().quit()
 
@@ -37,7 +38,8 @@ func _on_active_area_mouse_exited() -> void:
 
 
 func _on_system_sprite_pressed(system_index: int) -> void:
-	systems[system_index].open()
-	current_system_idx = system_index
-	GameManager.is_in_system = true
-	system_close_up_marker.show()
+	if current_system_idx == -1:
+		systems[system_index].open()
+		current_system_idx = system_index
+		GameManager.is_in_system = true
+		system_close_up_marker.show()

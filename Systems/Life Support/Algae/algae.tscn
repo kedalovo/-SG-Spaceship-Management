@@ -1,0 +1,28 @@
+[gd_scene load_steps=4 format=3 uid="uid://cgui7sacjmeb7"]
+
+[ext_resource type="Script" path="res://Systems/Life Support/Algae/algae.gd" id="1_77bp4"]
+[ext_resource type="Texture2D" uid="uid://hxwlyo7e8ovw" path="res://Systems/Life Support/Assets/Algae.png" id="1_g5l83"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_50r2r"]
+radius = 8.0
+
+[node name="Algae" type="RigidBody2D"]
+input_pickable = true
+script = ExtResource("1_77bp4")
+
+[node name="Sprite" type="Sprite2D" parent="."]
+texture = ExtResource("1_g5l83")
+
+[node name="Shape" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_50r2r")
+
+[node name="Timer" type="Timer" parent="."]
+process_callback = 0
+wait_time = 0.2
+
+[node name="ImpulseTimer" type="Timer" parent="."]
+process_callback = 0
+
+[connection signal="input_event" from="." to="." method="_on_input_event"]
+[connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]
+[connection signal="timeout" from="ImpulseTimer" to="." method="_on_impulse_timer_timeout"]

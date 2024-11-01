@@ -1,10 +1,79 @@
-[gd_scene load_steps=3 format=3 uid="uid://vofuvgwwjlr5"]
+[gd_scene load_steps=9 format=3 uid="uid://vofuvgwwjlr5"]
 
 [ext_resource type="Texture2D" uid="uid://c6kiybletgsd" path="res://Systems/Life Support/Assets/Life Support Outside.png" id="1_cp3fi"]
 [ext_resource type="Script" path="res://Systems/Life Support/life_support_system.gd" id="1_gfff3"]
+
+[sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_3pqfb"]
+normal = Vector2(-1.98682e-08, -1)
+
+[sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_sjraf"]
+normal = Vector2(1, 0)
+
+[sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_434fa"]
+normal = Vector2(0, 1)
+
+[sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_mynuh"]
+normal = Vector2(-1, 0)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_2cn4y"]
+size = Vector2(96, 64)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_2s487"]
+size = Vector2(24, 32)
 
 [node name="Life Support System" type="Node2D"]
 script = ExtResource("1_gfff3")
 
 [node name="Sprite" type="Sprite2D" parent="."]
 texture = ExtResource("1_cp3fi")
+
+[node name="Collisions" type="StaticBody2D" parent="."]
+
+[node name="Basin Collision" type="CollisionPolygon2D" parent="Collisions"]
+position = Vector2(-108, 24)
+polygon = PackedVector2Array(-60, -32, -56, 28, -24, 40, 24, 40, 40, 36, 60, 20, 56, -36, 52, -36, 56, 20, 40, 32, 24, 36, -24, 36, -52, 24, -56, -32)
+
+[node name="Container Top Collision" type="CollisionPolygon2D" parent="Collisions"]
+position = Vector2(76, 4)
+polygon = PackedVector2Array(-92, 0, -92, -48, 60, -48, 60, -56, 64, -56, 64, -44, -88, -44, -88, 0)
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Collisions"]
+position = Vector2(76, -4)
+polygon = PackedVector2Array(-60, 8, -60, -8, -48, -8, -52, 56, 44, 56, 44, -12, 84, -8, 84, -48, 88, -48, 88, -4, 48, -8, 48, 60, -56, 60, -52, -4, -56, -4, -56, 8)
+
+[node name="Boundary" type="StaticBody2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Boundary"]
+position = Vector2(0, 64)
+shape = SubResource("WorldBoundaryShape2D_3pqfb")
+
+[node name="CollisionShape2D2" type="CollisionShape2D" parent="Boundary"]
+position = Vector2(-168, -16)
+shape = SubResource("WorldBoundaryShape2D_sjraf")
+
+[node name="CollisionShape2D3" type="CollisionShape2D" parent="Boundary"]
+position = Vector2(-8, -52)
+shape = SubResource("WorldBoundaryShape2D_434fa")
+
+[node name="CollisionShape2D4" type="CollisionShape2D" parent="Boundary"]
+position = Vector2(164, 0)
+shape = SubResource("WorldBoundaryShape2D_mynuh")
+
+[node name="Algae Container" type="Node" parent="."]
+
+[node name="Camera2D" type="Camera2D" parent="."]
+
+[node name="Cooker Area" type="Area2D" parent="."]
+position = Vector2(72, 20)
+
+[node name="Shape" type="CollisionShape2D" parent="Cooker Area"]
+shape = SubResource("RectangleShape2D_2cn4y")
+
+[node name="Dispose Area" type="Area2D" parent="."]
+position = Vector2(148, -28)
+
+[node name="Shape" type="CollisionShape2D" parent="Dispose Area"]
+shape = SubResource("RectangleShape2D_2s487")
+
+[connection signal="body_entered" from="Cooker Area" to="." method="_on_cooker_area_body_entered"]
+[connection signal="body_entered" from="Dispose Area" to="." method="_on_dispose_area_body_entered"]
