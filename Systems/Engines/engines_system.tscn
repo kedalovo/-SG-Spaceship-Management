@@ -1,10 +1,155 @@
-[gd_scene load_steps=3 format=3 uid="uid://ncafby3f1swm"]
+[gd_scene load_steps=6 format=3 uid="uid://ncafby3f1swm"]
 
 [ext_resource type="Script" path="res://Systems/Engines/engines_system.gd" id="1_c6exo"]
 [ext_resource type="Texture2D" uid="uid://b42266pnmnnde" path="res://Systems/Engines/Assets/Engines Outside.png" id="2_kh3pv"]
+[ext_resource type="Script" path="res://Systems/Engines/Slot/slot.gd" id="3_q8nis"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_lps4s"]
+size = Vector2(52, 48)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_41o6x"]
+size = Vector2(50, 28)
 
 [node name="Engines System" type="Node2D"]
 script = ExtResource("1_c6exo")
 
 [node name="Sprite" type="Sprite2D" parent="."]
 texture = ExtResource("2_kh3pv")
+
+[node name="Fuel Area" type="Area2D" parent="."]
+position = Vector2(-86, -24)
+
+[node name="Shape" type="CollisionShape2D" parent="Fuel Area"]
+shape = SubResource("RectangleShape2D_lps4s")
+
+[node name="Coolant Area" type="Area2D" parent="."]
+position = Vector2(-85, 34)
+
+[node name="Shape" type="CollisionShape2D" parent="Coolant Area"]
+shape = SubResource("RectangleShape2D_41o6x")
+
+[node name="Cell Slots" type="Node" parent="."]
+
+[node name="Slot 1" type="Area2D" parent="Cell Slots"]
+position = Vector2(-12, -22)
+script = ExtResource("3_q8nis")
+
+[node name="Polygon" type="CollisionPolygon2D" parent="Cell Slots/Slot 1"]
+polygon = PackedVector2Array(-3, -25, 12, -23, 5, 22, -16, 20)
+
+[node name="Slot 2" type="Area2D" parent="Cell Slots"]
+position = Vector2(13, -19)
+script = ExtResource("3_q8nis")
+index = 1
+
+[node name="Polygon" type="CollisionPolygon2D" parent="Cell Slots/Slot 2"]
+polygon = PackedVector2Array(-7, -25, 11, -24, 8, 22, -13, 21)
+
+[node name="Slot 3" type="Area2D" parent="Cell Slots"]
+position = Vector2(40, -16)
+script = ExtResource("3_q8nis")
+index = 2
+
+[node name="Polygon" type="CollisionPolygon2D" parent="Cell Slots/Slot 3"]
+polygon = PackedVector2Array(-6, -27, 11, -26, 8, 23, -15, 23)
+
+[node name="Slot 4" type="Area2D" parent="Cell Slots"]
+position = Vector2(66, -15)
+script = ExtResource("3_q8nis")
+index = 3
+
+[node name="Polygon" type="CollisionPolygon2D" parent="Cell Slots/Slot 4"]
+polygon = PackedVector2Array(-8, -26, 11, -24, 10, 24, -10, 23)
+
+[node name="Slot 5" type="Area2D" parent="Cell Slots"]
+position = Vector2(93, -13)
+script = ExtResource("3_q8nis")
+index = 4
+
+[node name="Polygon" type="CollisionPolygon2D" parent="Cell Slots/Slot 5"]
+polygon = PackedVector2Array(-10, -25, 4, -26, 13, 23, -9, 24)
+
+[node name="Slot 6" type="Area2D" parent="Cell Slots"]
+position = Vector2(-21, 28)
+script = ExtResource("3_q8nis")
+index = 5
+
+[node name="Polygon" type="CollisionPolygon2D" parent="Cell Slots/Slot 6"]
+polygon = PackedVector2Array(-7, -24, 13, -22, 7, 24, -16, 24)
+
+[node name="Slot 7" type="Area2D" parent="Cell Slots"]
+position = Vector2(8, 29)
+script = ExtResource("3_q8nis")
+index = 6
+
+[node name="Polygon" type="CollisionPolygon2D" parent="Cell Slots/Slot 7"]
+polygon = PackedVector2Array(-8, -21, 12, -19, 7, 22, -13, 22)
+
+[node name="Slot 8" type="Area2D" parent="Cell Slots"]
+position = Vector2(35, 30)
+script = ExtResource("3_q8nis")
+index = 7
+
+[node name="Polygon" type="CollisionPolygon2D" parent="Cell Slots/Slot 8"]
+polygon = PackedVector2Array(-9, -19, 12, -19, 8, 22, -14, 21)
+
+[node name="Slot 9" type="Area2D" parent="Cell Slots"]
+position = Vector2(64, 32)
+script = ExtResource("3_q8nis")
+index = 8
+
+[node name="Polygon" type="CollisionPolygon2D" parent="Cell Slots/Slot 9"]
+polygon = PackedVector2Array(-11, -18, 12, -17, 11, 21, -14, 19)
+
+[node name="Slot 10" type="Area2D" parent="Cell Slots"]
+position = Vector2(97, 34)
+script = ExtResource("3_q8nis")
+index = 9
+
+[node name="Polygon" type="CollisionPolygon2D" parent="Cell Slots/Slot 10"]
+polygon = PackedVector2Array(-12, -18, 9, -19, 16, 19, -11, 20)
+
+[connection signal="mouse_entered" from="Fuel Area" to="." method="_on_fuel_area_mouse_entered"]
+[connection signal="mouse_exited" from="Fuel Area" to="." method="_on_fuel_area_mouse_exited"]
+[connection signal="mouse_entered" from="Coolant Area" to="." method="_on_coolant_area_mouse_entered"]
+[connection signal="mouse_exited" from="Coolant Area" to="." method="_on_coolant_area_mouse_exited"]
+[connection signal="cell_inserted" from="Cell Slots/Slot 1" to="." method="_on_slot_cell_inserted"]
+[connection signal="input_event" from="Cell Slots/Slot 1" to="Cell Slots/Slot 1" method="_on_input_event"]
+[connection signal="mouse_entered" from="Cell Slots/Slot 1" to="Cell Slots/Slot 1" method="_on_mouse_entered"]
+[connection signal="mouse_exited" from="Cell Slots/Slot 1" to="Cell Slots/Slot 1" method="_on_mouse_exited"]
+[connection signal="cell_inserted" from="Cell Slots/Slot 2" to="." method="_on_slot_cell_inserted"]
+[connection signal="input_event" from="Cell Slots/Slot 2" to="Cell Slots/Slot 2" method="_on_input_event"]
+[connection signal="mouse_entered" from="Cell Slots/Slot 2" to="Cell Slots/Slot 2" method="_on_mouse_entered"]
+[connection signal="mouse_exited" from="Cell Slots/Slot 2" to="Cell Slots/Slot 2" method="_on_mouse_exited"]
+[connection signal="cell_inserted" from="Cell Slots/Slot 3" to="." method="_on_slot_cell_inserted"]
+[connection signal="input_event" from="Cell Slots/Slot 3" to="Cell Slots/Slot 3" method="_on_input_event"]
+[connection signal="mouse_entered" from="Cell Slots/Slot 3" to="Cell Slots/Slot 3" method="_on_mouse_entered"]
+[connection signal="mouse_exited" from="Cell Slots/Slot 3" to="Cell Slots/Slot 3" method="_on_mouse_exited"]
+[connection signal="cell_inserted" from="Cell Slots/Slot 4" to="." method="_on_slot_cell_inserted"]
+[connection signal="input_event" from="Cell Slots/Slot 4" to="Cell Slots/Slot 4" method="_on_input_event"]
+[connection signal="mouse_entered" from="Cell Slots/Slot 4" to="Cell Slots/Slot 4" method="_on_mouse_entered"]
+[connection signal="mouse_exited" from="Cell Slots/Slot 4" to="Cell Slots/Slot 4" method="_on_mouse_exited"]
+[connection signal="cell_inserted" from="Cell Slots/Slot 5" to="." method="_on_slot_cell_inserted"]
+[connection signal="input_event" from="Cell Slots/Slot 5" to="Cell Slots/Slot 5" method="_on_input_event"]
+[connection signal="mouse_entered" from="Cell Slots/Slot 5" to="Cell Slots/Slot 5" method="_on_mouse_entered"]
+[connection signal="mouse_exited" from="Cell Slots/Slot 5" to="Cell Slots/Slot 5" method="_on_mouse_exited"]
+[connection signal="cell_inserted" from="Cell Slots/Slot 6" to="." method="_on_slot_cell_inserted"]
+[connection signal="input_event" from="Cell Slots/Slot 6" to="Cell Slots/Slot 6" method="_on_input_event"]
+[connection signal="mouse_entered" from="Cell Slots/Slot 6" to="Cell Slots/Slot 6" method="_on_mouse_entered"]
+[connection signal="mouse_exited" from="Cell Slots/Slot 6" to="Cell Slots/Slot 6" method="_on_mouse_exited"]
+[connection signal="cell_inserted" from="Cell Slots/Slot 7" to="." method="_on_slot_cell_inserted"]
+[connection signal="input_event" from="Cell Slots/Slot 7" to="Cell Slots/Slot 7" method="_on_input_event"]
+[connection signal="mouse_entered" from="Cell Slots/Slot 7" to="Cell Slots/Slot 7" method="_on_mouse_entered"]
+[connection signal="mouse_exited" from="Cell Slots/Slot 7" to="Cell Slots/Slot 7" method="_on_mouse_exited"]
+[connection signal="cell_inserted" from="Cell Slots/Slot 8" to="." method="_on_slot_cell_inserted"]
+[connection signal="input_event" from="Cell Slots/Slot 8" to="Cell Slots/Slot 8" method="_on_input_event"]
+[connection signal="mouse_entered" from="Cell Slots/Slot 8" to="Cell Slots/Slot 8" method="_on_mouse_entered"]
+[connection signal="mouse_exited" from="Cell Slots/Slot 8" to="Cell Slots/Slot 8" method="_on_mouse_exited"]
+[connection signal="cell_inserted" from="Cell Slots/Slot 9" to="." method="_on_slot_cell_inserted"]
+[connection signal="input_event" from="Cell Slots/Slot 9" to="Cell Slots/Slot 9" method="_on_input_event"]
+[connection signal="mouse_entered" from="Cell Slots/Slot 9" to="Cell Slots/Slot 9" method="_on_mouse_entered"]
+[connection signal="mouse_exited" from="Cell Slots/Slot 9" to="Cell Slots/Slot 9" method="_on_mouse_exited"]
+[connection signal="cell_inserted" from="Cell Slots/Slot 10" to="." method="_on_slot_cell_inserted"]
+[connection signal="input_event" from="Cell Slots/Slot 10" to="Cell Slots/Slot 10" method="_on_input_event"]
+[connection signal="mouse_entered" from="Cell Slots/Slot 10" to="Cell Slots/Slot 10" method="_on_mouse_entered"]
+[connection signal="mouse_exited" from="Cell Slots/Slot 10" to="Cell Slots/Slot 10" method="_on_mouse_exited"]

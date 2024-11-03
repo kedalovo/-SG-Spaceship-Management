@@ -1,11 +1,21 @@
 extends system
 
 
-# Called when the node enters the scene tree for the first time.
-func _ready() -> void:
-	pass # Replace with function body.
+func _on_slot_cell_inserted(slot_idx: int, cell_type: game_manager.engine_cell_types) -> void:
+	prints(slot_idx, str(cell_type))
 
 
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(_delta: float) -> void:
-	pass
+func _on_fuel_area_mouse_entered() -> void:
+	print("Fuel entered")
+
+
+func _on_fuel_area_mouse_exited() -> void:
+	print("Fuel exited")
+
+
+func _on_coolant_area_mouse_entered() -> void:
+	print("Coolant entered")
+
+
+func _on_coolant_area_mouse_exited() -> void:
+	print("Coolant exited")

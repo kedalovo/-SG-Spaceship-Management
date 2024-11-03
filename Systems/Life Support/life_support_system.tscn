@@ -62,6 +62,7 @@ shape = SubResource("WorldBoundaryShape2D_mynuh")
 [node name="Algae Container" type="Node" parent="."]
 
 [node name="Camera2D" type="Camera2D" parent="."]
+enabled = false
 
 [node name="Cooker Area" type="Area2D" parent="."]
 position = Vector2(72, 20)
@@ -75,5 +76,17 @@ position = Vector2(148, -28)
 [node name="Shape" type="CollisionShape2D" parent="Dispose Area"]
 shape = SubResource("RectangleShape2D_2s487")
 
+[node name="CookTimer" type="Timer" parent="."]
+process_callback = 0
+wait_time = 0.1
+autostart = true
+
+[node name="DamageTimer" type="Timer" parent="."]
+process_callback = 0
+one_shot = true
+
 [connection signal="body_entered" from="Cooker Area" to="." method="_on_cooker_area_body_entered"]
+[connection signal="body_exited" from="Cooker Area" to="." method="_on_cooker_area_body_exited"]
 [connection signal="body_entered" from="Dispose Area" to="." method="_on_dispose_area_body_entered"]
+[connection signal="timeout" from="CookTimer" to="." method="_on_cook_timer_timeout"]
+[connection signal="timeout" from="DamageTimer" to="." method="_on_damage_timer_timeout"]

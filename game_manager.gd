@@ -11,3 +11,8 @@ enum damage_types {
 	HEAT,
 	ELECTRICITY
 }
+
+enum engine_cell_types {
+	FUEL,
+	COOLANT
+}
