@@ -25,7 +25,7 @@ func get_health() -> int:
 	return total_hp
 
 
-func add_fuel():
+func add_fuel() -> void:
 	var new_algae = ALGAE_SCENE.instantiate()
 	algae_container.add_child(new_algae)
 	new_algae.position = Vector2(randi_range(-152, -72), -36)

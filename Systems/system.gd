@@ -18,13 +18,13 @@ func _damage(_strength: int, _type: game_manager.damage_types):
 	pass
 
 
-func fix():
+func fix() -> void:
 	pass
 
 
-func open():
+func open() -> void:
 	show()
 
 
-func close():
+func close() -> void:
 	hide()

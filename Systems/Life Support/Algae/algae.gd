@@ -14,7 +14,7 @@ var is_cooking: bool = false
 var is_held: bool = false
 
 
-func cook(damage: int):
+func cook(damage: int) -> void:
 	is_cooking = true
 	if !is_cooked:
 		health -= damage

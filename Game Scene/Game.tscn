@@ -312,7 +312,7 @@ offset_left = 304.0
 offset_top = 56.0
 offset_right = 920.0
 offset_bottom = 488.0
-mouse_filter = 1
+mouse_filter = 2
 
 [node name="ActiveArea" type="Area2D" parent="SystemCloseUpMarker"]
 position = Vector2(308, 216)
@@ -321,14 +321,7 @@ monitorable = false
 
 [node name="Shape" type="CollisionShape2D" parent="SystemCloseUpMarker/ActiveArea"]
 shape = SubResource("RectangleShape2D_672kh")
-
-[node name="InputStopper" type="Control" parent="SystemCloseUpMarker"]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
+debug_color = Color(0, 0.6, 0.7, 0.42)
 
 [node name="Systems" type="Node2D" parent="."]
 position = Vector2(608, 280)

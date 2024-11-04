@@ -2,7 +2,7 @@ extends Node2D
 
 
 @onready var life_support_system: system = $"Systems/Life Support System"
-@onready var engines_system: system = $"Systems/Engines System"
+@onready var engines_system: engines = $"Systems/Engines System"
 @onready var hull_system: system = $"Systems/Hull System"
 @onready var electrical_system: system = $"Systems/Electrical System"
 @onready var external_system: system = $"Systems/External System"
@@ -17,6 +17,15 @@ extends Node2D
 var current_system_idx: int = -1
 
 var is_mouse_inside: bool
+
+
+func _ready() -> void:
+	engines_system.add_fuel()
+	engines_system.add_fuel()
+	engines_system.add_fuel()
+	engines_system.add_coolant()
+	engines_system.add_coolant()
+	engines_system.add_coolant()
 
 
 func _input(event: InputEvent) -> void:

@@ -28,11 +28,13 @@ position = Vector2(-85, 34)
 [node name="Shape" type="CollisionShape2D" parent="Coolant Area"]
 shape = SubResource("RectangleShape2D_41o6x")
 
-[node name="Cell Slots" type="Node" parent="."]
+[node name="Cell Slots" type="Node2D" parent="."]
 
 [node name="Slot 1" type="Area2D" parent="Cell Slots"]
 position = Vector2(-12, -22)
 script = ExtResource("3_q8nis")
+cell_angle = 75
+metadata/_edit_group_ = true
 
 [node name="Polygon" type="CollisionPolygon2D" parent="Cell Slots/Slot 1"]
 polygon = PackedVector2Array(-3, -25, 12, -23, 5, 22, -16, 20)
@@ -41,6 +43,8 @@ polygon = PackedVector2Array(-3, -25, 12, -23, 5, 22, -16, 20)
 position = Vector2(13, -19)
 script = ExtResource("3_q8nis")
 index = 1
+cell_angle = 85
+metadata/_edit_group_ = true
 
 [node name="Polygon" type="CollisionPolygon2D" parent="Cell Slots/Slot 2"]
 polygon = PackedVector2Array(-7, -25, 11, -24, 8, 22, -13, 21)
@@ -49,6 +53,8 @@ polygon = PackedVector2Array(-7, -25, 11, -24, 8, 22, -13, 21)
 position = Vector2(40, -16)
 script = ExtResource("3_q8nis")
 index = 2
+cell_angle = 83
+metadata/_edit_group_ = true
 
 [node name="Polygon" type="CollisionPolygon2D" parent="Cell Slots/Slot 3"]
 polygon = PackedVector2Array(-6, -27, 11, -26, 8, 23, -15, 23)
@@ -57,6 +63,8 @@ polygon = PackedVector2Array(-6, -27, 11, -26, 8, 23, -15, 23)
 position = Vector2(66, -15)
 script = ExtResource("3_q8nis")
 index = 3
+cell_angle = 88
+metadata/_edit_group_ = true
 
 [node name="Polygon" type="CollisionPolygon2D" parent="Cell Slots/Slot 4"]
 polygon = PackedVector2Array(-8, -26, 11, -24, 10, 24, -10, 23)
@@ -65,6 +73,8 @@ polygon = PackedVector2Array(-8, -26, 11, -24, 10, 24, -10, 23)
 position = Vector2(93, -13)
 script = ExtResource("3_q8nis")
 index = 4
+cell_angle = 97
+metadata/_edit_group_ = true
 
 [node name="Polygon" type="CollisionPolygon2D" parent="Cell Slots/Slot 5"]
 polygon = PackedVector2Array(-10, -25, 4, -26, 13, 23, -9, 24)
@@ -73,6 +83,8 @@ polygon = PackedVector2Array(-10, -25, 4, -26, 13, 23, -9, 24)
 position = Vector2(-21, 28)
 script = ExtResource("3_q8nis")
 index = 5
+cell_angle = 80
+metadata/_edit_group_ = true
 
 [node name="Polygon" type="CollisionPolygon2D" parent="Cell Slots/Slot 6"]
 polygon = PackedVector2Array(-7, -24, 13, -22, 7, 24, -16, 24)
@@ -81,6 +93,8 @@ polygon = PackedVector2Array(-7, -24, 13, -22, 7, 24, -16, 24)
 position = Vector2(8, 29)
 script = ExtResource("3_q8nis")
 index = 6
+cell_angle = 82
+metadata/_edit_group_ = true
 
 [node name="Polygon" type="CollisionPolygon2D" parent="Cell Slots/Slot 7"]
 polygon = PackedVector2Array(-8, -21, 12, -19, 7, 22, -13, 22)
@@ -89,6 +103,8 @@ polygon = PackedVector2Array(-8, -21, 12, -19, 7, 22, -13, 22)
 position = Vector2(35, 30)
 script = ExtResource("3_q8nis")
 index = 7
+cell_angle = 83
+metadata/_edit_group_ = true
 
 [node name="Polygon" type="CollisionPolygon2D" parent="Cell Slots/Slot 8"]
 polygon = PackedVector2Array(-9, -19, 12, -19, 8, 22, -14, 21)
@@ -97,6 +113,8 @@ polygon = PackedVector2Array(-9, -19, 12, -19, 8, 22, -14, 21)
 position = Vector2(64, 32)
 script = ExtResource("3_q8nis")
 index = 8
+cell_angle = 87
+metadata/_edit_group_ = true
 
 [node name="Polygon" type="CollisionPolygon2D" parent="Cell Slots/Slot 9"]
 polygon = PackedVector2Array(-11, -18, 12, -17, 11, 21, -14, 19)
@@ -105,9 +123,19 @@ polygon = PackedVector2Array(-11, -18, 12, -17, 11, 21, -14, 19)
 position = Vector2(97, 34)
 script = ExtResource("3_q8nis")
 index = 9
+cell_angle = 98
+metadata/_edit_group_ = true
 
 [node name="Polygon" type="CollisionPolygon2D" parent="Cell Slots/Slot 10"]
 polygon = PackedVector2Array(-12, -18, 9, -19, 16, 19, -11, 20)
+
+[node name="FuelTimer" type="Timer" parent="."]
+wait_time = 0.3
+
+[node name="CoolantTimer" type="Timer" parent="."]
+wait_time = 0.2
+
+[node name="Cells" type="Node2D" parent="."]
 
 [connection signal="mouse_entered" from="Fuel Area" to="." method="_on_fuel_area_mouse_entered"]
 [connection signal="mouse_exited" from="Fuel Area" to="." method="_on_fuel_area_mouse_exited"]
@@ -153,3 +181,5 @@ polygon = PackedVector2Array(-12, -18, 9, -19, 16, 19, -11, 20)
 [connection signal="input_event" from="Cell Slots/Slot 10" to="Cell Slots/Slot 10" method="_on_input_event"]
 [connection signal="mouse_entered" from="Cell Slots/Slot 10" to="Cell Slots/Slot 10" method="_on_mouse_entered"]
 [connection signal="mouse_exited" from="Cell Slots/Slot 10" to="Cell Slots/Slot 10" method="_on_mouse_exited"]
+[connection signal="timeout" from="FuelTimer" to="." method="_on_fuel_timer_timeout"]
+[connection signal="timeout" from="CoolantTimer" to="." method="_on_coolant_timer_timeout"]

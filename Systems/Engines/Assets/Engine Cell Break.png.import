@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://cb5mic45udd5l"
-path="res://.godot/imported/Coolant Cell.png-4f288c14590f512ec1d8db7e902e1889.ctex"
+uid="uid://cfwuu5avini0b"
+path="res://.godot/imported/Engine Cell Break.png-953fafb46d83bc622b3c021e60f29c79.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Systems/Engines/Assets/Coolant Cell.png"
-dest_files=["res://.godot/imported/Coolant Cell.png-4f288c14590f512ec1d8db7e902e1889.ctex"]
+source_file="res://Systems/Engines/Assets/Engine Cell Break.png"
+dest_files=["res://.godot/imported/Engine Cell Break.png-953fafb46d83bc622b3c021e60f29c79.ctex"]
 
 [params]
 
