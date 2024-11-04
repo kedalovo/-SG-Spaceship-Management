@@ -8,7 +8,7 @@ extends Node2D
 @onready var external_system: system = $"Systems/External System"
 @onready var computer_system: system = $"Systems/Computer System"
 
-@onready var system_close_up_marker: Panel = $SystemCloseUpMarker
+@onready var system_container: Control = $"System Container"
 
 @onready var systems: Array[system] = [
 	life_support_system, engines_system, hull_system,
@@ -29,21 +29,8 @@ func _ready() -> void:
 
 
 func _input(event: InputEvent) -> void:
-	if event is InputEventMouseButton and event.is_pressed() and GameManager.is_in_system and !is_mouse_inside:
-		systems[current_system_idx].close()
-		system_close_up_marker.hide()
-		GameManager.is_in_system = false
-		current_system_idx = -1
 	if event.is_action_pressed("esc"):
 		get_tree().quit()
-
-
-func _on_active_area_mouse_entered() -> void:
-	is_mouse_inside = true
-
-
-func _on_active_area_mouse_exited() -> void:
-	is_mouse_inside = false
 
 
 func _on_system_sprite_pressed(system_index: int) -> void:
@@ -51,4 +38,12 @@ func _on_system_sprite_pressed(system_index: int) -> void:
 		systems[system_index].open()
 		current_system_idx = system_index
 		GameManager.is_in_system = true
-		system_close_up_marker.show()
+		system_container.show()
+
+
+func _on_system_container_gui_input(event: InputEvent) -> void:
+	if event is InputEventMouseButton and event.is_pressed() and Input.is_mouse_button_pressed(MOUSE_BUTTON_LEFT) and GameManager.is_in_system:
+		systems[current_system_idx].close()
+		system_container.hide()
+		GameManager.is_in_system = false
+		current_system_idx = -1

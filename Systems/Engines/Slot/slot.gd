@@ -1,7 +1,9 @@
 extends Area2D
 
 
-signal cell_inserted(slot_idx: int, cell_type: game_manager.engine_cell_types)
+signal cell_entered(slot_index: int)
+signal cell_exited(slot_index: int)
+
 
 @export var index: int
 @export var cell_angle: int
@@ -9,13 +11,11 @@ signal cell_inserted(slot_idx: int, cell_type: game_manager.engine_cell_types)
 var slot_type: game_manager.engine_cell_types
 
 
-func _on_input_event(_viewport: Node, _event: InputEvent, _shape_idx: int) -> void:
-	pass # Replace with function body.
+func _on_body_entered(body: Node2D) -> void:
+	if body.name == "Cell Body":
+		cell_entered.emit(index)
 
 
-func _on_mouse_entered() -> void:
-	pass
-
-
-func _on_mouse_exited() -> void:
-	pass
+func _on_body_exited(body: Node2D) -> void:
+	if body.name == "Cell Body":
+		cell_exited.emit(index)

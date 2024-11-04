@@ -3,9 +3,13 @@ extends Node2D
 class_name Cell
 
 
+signal cell_released(cell: Cell)
+
+
 @onready var outline: Sprite2D = $Outline
 @onready var break_sprite: Sprite2D = $Break
 @onready var progress: TextureProgressBar = $Progress
+@onready var cell_body: CharacterBody2D = $"Cell Body"
 
 
 var type: game_manager.engine_cell_types
@@ -32,7 +36,7 @@ func use(amount: int) -> void:
 
 func place_into_slot(slot_pos: Vector2, slot_rot: int) -> void:
 	position = slot_pos
-	rotation_degrees = slot_rot
+	rotation_degrees = -slot_rot + 90
 	is_depleting = true
 	is_held = false
 	outline.hide()
@@ -58,16 +62,25 @@ func _physics_process(_delta: float) -> void:
 		global_position = get_global_mouse_position()
 
 
-func _on_area_input_event(_viewport: Node, event: InputEvent, _shape_idx: int) -> void:
-	if event is InputEventMouseButton and event.is_pressed() and Input.is_mouse_button_pressed(MOUSE_BUTTON_LEFT):
-		is_held = true
-
-
-func _on_area_mouse_entered() -> void:
+func _on_button_mouse_entered() -> void:
 	if !is_depleting:
 		outline.show()
 
 
-func _on_area_mouse_exited() -> void:
-	if !is_depleting and !is_held:
+func _on_button_mouse_exited() -> void:
+	if !is_held:
 		outline.hide()
+
+
+func _on_button_button_down() -> void:
+	if !is_depleting:
+		is_held = true
+	if is_depleted:
+		queue_free()
+
+
+func _on_button_button_up() -> void:
+	if !is_depleting:
+		is_held = false
+		outline.hide()
+		cell_released.emit(self)

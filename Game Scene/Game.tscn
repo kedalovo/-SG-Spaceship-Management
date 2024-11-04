@@ -1,4 +1,4 @@
-[gd_scene load_steps=23 format=3 uid="uid://dr0fafp1u36yj"]
+[gd_scene load_steps=21 format=3 uid="uid://dr0fafp1u36yj"]
 
 [ext_resource type="Script" path="res://Game Scene/game.gd" id="1_t00el"]
 [ext_resource type="Texture2D" uid="uid://dmcht1gqpy4v3" path="res://Systems/Life Support/Assets/Life Support.png" id="2_3bjf3"]
@@ -20,12 +20,6 @@
 [ext_resource type="PackedScene" uid="uid://ccemslh3u213h" path="res://Systems/Electrical/electrical_system.tscn" id="18_p0hwu"]
 [ext_resource type="PackedScene" uid="uid://c22b6p4rrgv5p" path="res://Systems/External/external_system.tscn" id="19_kf2ef"]
 [ext_resource type="PackedScene" uid="uid://cn0fv0fedt2ig" path="res://Systems/Computer/computer_system.tscn" id="20_1h5sm"]
-
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_q5hu0"]
-size = Vector2(168, 144)
-
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_672kh"]
-size = Vector2(616, 432)
 
 [node name="Game" type="Node2D"]
 script = ExtResource("1_t00el")
@@ -75,148 +69,166 @@ offset_left = 256.0
 offset_right = 260.0
 offset_bottom = 544.0
 
-[node name="SystemsSprites" type="Node2D" parent="."]
+[node name="Systems Sprites" type="Node2D" parent="."]
 position = Vector2(608, 280)
 
-[node name="LifeSupportSprite" type="Sprite2D" parent="SystemsSprites"]
+[node name="LifeSupportSprite" type="Sprite2D" parent="Systems Sprites"]
 position = Vector2(-216, -112)
 texture = ExtResource("2_3bjf3")
 script = ExtResource("3_kjvah")
 
-[node name="WarningLight" type="ColorRect" parent="SystemsSprites/LifeSupportSprite"]
+[node name="WarningLight" type="ColorRect" parent="Systems Sprites/LifeSupportSprite"]
 offset_left = -8.0
 offset_top = -96.0
 offset_right = 8.0
 offset_bottom = -80.0
 color = Color(0.460938, 0.00720215, 0.00720215, 1)
 
-[node name="Outline" type="Sprite2D" parent="SystemsSprites/LifeSupportSprite"]
+[node name="Outline" type="Sprite2D" parent="Systems Sprites/LifeSupportSprite"]
 visible = false
 texture = ExtResource("3_hjlia")
 
-[node name="MouseArea" type="Area2D" parent="SystemsSprites/LifeSupportSprite"]
+[node name="Button" type="Button" parent="Systems Sprites/LifeSupportSprite"]
+offset_left = -84.0
+offset_top = -72.0
+offset_right = 84.0
+offset_bottom = 72.0
+focus_mode = 0
+flat = true
 
-[node name="Shape" type="CollisionShape2D" parent="SystemsSprites/LifeSupportSprite/MouseArea"]
-shape = SubResource("RectangleShape2D_q5hu0")
-
-[node name="EnginesSprite" type="Sprite2D" parent="SystemsSprites"]
+[node name="EnginesSprite" type="Sprite2D" parent="Systems Sprites"]
 position = Vector2(0, -112)
 texture = ExtResource("4_jxdcm")
 script = ExtResource("3_kjvah")
 system_index = 1
 
-[node name="WarningLight" type="ColorRect" parent="SystemsSprites/EnginesSprite"]
+[node name="WarningLight" type="ColorRect" parent="Systems Sprites/EnginesSprite"]
 offset_left = -8.0
 offset_top = -96.0
 offset_right = 8.0
 offset_bottom = -80.0
 color = Color(0.460938, 0.00720215, 0.00720215, 1)
 
-[node name="Outline" type="Sprite2D" parent="SystemsSprites/EnginesSprite"]
+[node name="Outline" type="Sprite2D" parent="Systems Sprites/EnginesSprite"]
 visible = false
 texture = ExtResource("5_6eb6w")
 
-[node name="MouseArea" type="Area2D" parent="SystemsSprites/EnginesSprite"]
+[node name="Button" type="Button" parent="Systems Sprites/EnginesSprite"]
+offset_left = -84.0
+offset_top = -72.0
+offset_right = 84.0
+offset_bottom = 72.0
+focus_mode = 0
+flat = true
 
-[node name="Shape" type="CollisionShape2D" parent="SystemsSprites/EnginesSprite/MouseArea"]
-shape = SubResource("RectangleShape2D_q5hu0")
-
-[node name="HullSprite" type="Sprite2D" parent="SystemsSprites"]
+[node name="HullSprite" type="Sprite2D" parent="Systems Sprites"]
 position = Vector2(216, -112)
 texture = ExtResource("6_a3iyu")
 script = ExtResource("3_kjvah")
 system_index = 2
 
-[node name="WarningLight" type="ColorRect" parent="SystemsSprites/HullSprite"]
+[node name="WarningLight" type="ColorRect" parent="Systems Sprites/HullSprite"]
 offset_left = -8.0
 offset_top = -96.0
 offset_right = 8.0
 offset_bottom = -80.0
 color = Color(0.460938, 0.00720215, 0.00720215, 1)
 
-[node name="Outline" type="Sprite2D" parent="SystemsSprites/HullSprite"]
+[node name="Outline" type="Sprite2D" parent="Systems Sprites/HullSprite"]
 visible = false
 texture = ExtResource("7_meg7b")
 
-[node name="MouseArea" type="Area2D" parent="SystemsSprites/HullSprite"]
+[node name="Button" type="Button" parent="Systems Sprites/HullSprite"]
+offset_left = -84.0
+offset_top = -72.0
+offset_right = 84.0
+offset_bottom = 72.0
+focus_mode = 0
+flat = true
 
-[node name="Shape" type="CollisionShape2D" parent="SystemsSprites/HullSprite/MouseArea"]
-shape = SubResource("RectangleShape2D_q5hu0")
-
-[node name="ElectricalSprite" type="Sprite2D" parent="SystemsSprites"]
+[node name="ElectricalSprite" type="Sprite2D" parent="Systems Sprites"]
 position = Vector2(-216, 104)
 texture = ExtResource("8_qtinh")
 script = ExtResource("3_kjvah")
 system_index = 3
 
-[node name="WarningLight" type="ColorRect" parent="SystemsSprites/ElectricalSprite"]
+[node name="WarningLight" type="ColorRect" parent="Systems Sprites/ElectricalSprite"]
 offset_left = -8.0
 offset_top = -96.0
 offset_right = 8.0
 offset_bottom = -80.0
 color = Color(0.460938, 0.00720215, 0.00720215, 1)
 
-[node name="Outline" type="Sprite2D" parent="SystemsSprites/ElectricalSprite"]
+[node name="Outline" type="Sprite2D" parent="Systems Sprites/ElectricalSprite"]
 visible = false
 texture = ExtResource("9_xw2r2")
 
-[node name="MouseArea" type="Area2D" parent="SystemsSprites/ElectricalSprite"]
+[node name="Button" type="Button" parent="Systems Sprites/ElectricalSprite"]
+offset_left = -84.0
+offset_top = -72.0
+offset_right = 84.0
+offset_bottom = 72.0
+focus_mode = 0
+flat = true
 
-[node name="Shape" type="CollisionShape2D" parent="SystemsSprites/ElectricalSprite/MouseArea"]
-shape = SubResource("RectangleShape2D_q5hu0")
-
-[node name="ExternalSprite" type="Sprite2D" parent="SystemsSprites"]
+[node name="ExternalSprite" type="Sprite2D" parent="Systems Sprites"]
 position = Vector2(0, 104)
 texture = ExtResource("10_50i1v")
 script = ExtResource("3_kjvah")
 system_index = 4
 
-[node name="WarningLight" type="ColorRect" parent="SystemsSprites/ExternalSprite"]
+[node name="WarningLight" type="ColorRect" parent="Systems Sprites/ExternalSprite"]
 offset_left = -8.0
 offset_top = -96.0
 offset_right = 8.0
 offset_bottom = -80.0
 color = Color(0.460938, 0.00720215, 0.00720215, 1)
 
-[node name="Outline" type="Sprite2D" parent="SystemsSprites/ExternalSprite"]
+[node name="Outline" type="Sprite2D" parent="Systems Sprites/ExternalSprite"]
 visible = false
 texture = ExtResource("11_0dyms")
 
-[node name="MouseArea" type="Area2D" parent="SystemsSprites/ExternalSprite"]
+[node name="Button" type="Button" parent="Systems Sprites/ExternalSprite"]
+offset_left = -84.0
+offset_top = -72.0
+offset_right = 84.0
+offset_bottom = 72.0
+focus_mode = 0
+flat = true
 
-[node name="Shape" type="CollisionShape2D" parent="SystemsSprites/ExternalSprite/MouseArea"]
-shape = SubResource("RectangleShape2D_q5hu0")
-
-[node name="ComputerSprite" type="Sprite2D" parent="SystemsSprites"]
+[node name="ComputerSprite" type="Sprite2D" parent="Systems Sprites"]
 position = Vector2(216, 104)
 texture = ExtResource("12_dg67k")
 script = ExtResource("3_kjvah")
 system_index = 5
 
-[node name="WarningLight" type="ColorRect" parent="SystemsSprites/ComputerSprite"]
+[node name="WarningLight" type="ColorRect" parent="Systems Sprites/ComputerSprite"]
 offset_left = -8.0
 offset_top = -96.0
 offset_right = 8.0
 offset_bottom = -80.0
 color = Color(0.460938, 0.00720215, 0.00720215, 1)
 
-[node name="Outline" type="Sprite2D" parent="SystemsSprites/ComputerSprite"]
+[node name="Outline" type="Sprite2D" parent="Systems Sprites/ComputerSprite"]
 visible = false
 texture = ExtResource("13_3ucug")
 
-[node name="MouseArea" type="Area2D" parent="SystemsSprites/ComputerSprite"]
+[node name="Button" type="Button" parent="Systems Sprites/ComputerSprite"]
+offset_left = -84.0
+offset_top = -72.0
+offset_right = 84.0
+offset_bottom = 72.0
+focus_mode = 0
+flat = true
 
-[node name="Shape" type="CollisionShape2D" parent="SystemsSprites/ComputerSprite/MouseArea"]
-shape = SubResource("RectangleShape2D_q5hu0")
-
-[node name="BalanceColorRect" type="ColorRect" parent="."]
+[node name="Balance ColorRect" type="ColorRect" parent="."]
 offset_left = 784.0
 offset_top = 8.0
 offset_right = 952.0
 offset_bottom = 48.0
 color = Color(0.101563, 0.101563, 0.101563, 1)
 
-[node name="ColorRect" type="ColorRect" parent="BalanceColorRect"]
+[node name="ColorRect" type="ColorRect" parent="Balance ColorRect"]
 custom_minimum_size = Vector2(8, 0)
 layout_mode = 2
 offset_left = 8.0
@@ -225,7 +237,7 @@ offset_right = 16.0
 offset_bottom = 32.0
 color = Color(0, 1, 0.0390625, 1)
 
-[node name="ColorRect2" type="ColorRect" parent="BalanceColorRect"]
+[node name="ColorRect2" type="ColorRect" parent="Balance ColorRect"]
 custom_minimum_size = Vector2(8, 0)
 layout_mode = 2
 offset_left = 24.0
@@ -234,7 +246,7 @@ offset_right = 32.0
 offset_bottom = 32.0
 color = Color(0, 1, 0.0390625, 1)
 
-[node name="ColorRect3" type="ColorRect" parent="BalanceColorRect"]
+[node name="ColorRect3" type="ColorRect" parent="Balance ColorRect"]
 custom_minimum_size = Vector2(8, 0)
 layout_mode = 2
 offset_left = 40.0
@@ -243,7 +255,7 @@ offset_right = 48.0
 offset_bottom = 32.0
 color = Color(0, 1, 0.0390625, 1)
 
-[node name="ColorRect4" type="ColorRect" parent="BalanceColorRect"]
+[node name="ColorRect4" type="ColorRect" parent="Balance ColorRect"]
 custom_minimum_size = Vector2(8, 0)
 layout_mode = 2
 offset_left = 56.0
@@ -252,7 +264,7 @@ offset_right = 64.0
 offset_bottom = 32.0
 color = Color(0, 1, 0.0390625, 1)
 
-[node name="ColorRect5" type="ColorRect" parent="BalanceColorRect"]
+[node name="ColorRect5" type="ColorRect" parent="Balance ColorRect"]
 custom_minimum_size = Vector2(8, 0)
 layout_mode = 2
 offset_left = 72.0
@@ -261,7 +273,7 @@ offset_right = 80.0
 offset_bottom = 32.0
 color = Color(0, 1, 0.0390625, 1)
 
-[node name="ColorRect6" type="ColorRect" parent="BalanceColorRect"]
+[node name="ColorRect6" type="ColorRect" parent="Balance ColorRect"]
 custom_minimum_size = Vector2(8, 0)
 layout_mode = 2
 offset_left = 88.0
@@ -270,7 +282,7 @@ offset_right = 96.0
 offset_bottom = 32.0
 color = Color(0, 1, 0.0390625, 1)
 
-[node name="ColorRect7" type="ColorRect" parent="BalanceColorRect"]
+[node name="ColorRect7" type="ColorRect" parent="Balance ColorRect"]
 custom_minimum_size = Vector2(8, 0)
 layout_mode = 2
 offset_left = 104.0
@@ -279,7 +291,7 @@ offset_right = 112.0
 offset_bottom = 32.0
 color = Color(0.0458984, 0.25, 0.0538712, 1)
 
-[node name="ColorRect8" type="ColorRect" parent="BalanceColorRect"]
+[node name="ColorRect8" type="ColorRect" parent="Balance ColorRect"]
 custom_minimum_size = Vector2(8, 0)
 layout_mode = 2
 offset_left = 120.0
@@ -288,7 +300,7 @@ offset_right = 128.0
 offset_bottom = 32.0
 color = Color(0.0458984, 0.25, 0.0538712, 1)
 
-[node name="ColorRect9" type="ColorRect" parent="BalanceColorRect"]
+[node name="ColorRect9" type="ColorRect" parent="Balance ColorRect"]
 custom_minimum_size = Vector2(8, 0)
 layout_mode = 2
 offset_left = 136.0
@@ -297,7 +309,7 @@ offset_right = 144.0
 offset_bottom = 32.0
 color = Color(0.0458984, 0.25, 0.0538712, 1)
 
-[node name="ColorRect10" type="ColorRect" parent="BalanceColorRect"]
+[node name="ColorRect10" type="ColorRect" parent="Balance ColorRect"]
 custom_minimum_size = Vector2(8, 0)
 layout_mode = 2
 offset_left = 152.0
@@ -306,22 +318,19 @@ offset_right = 160.0
 offset_bottom = 32.0
 color = Color(0.0458984, 0.25, 0.0538712, 1)
 
-[node name="SystemCloseUpMarker" type="Panel" parent="."]
+[node name="System Container" type="Control" parent="."]
 visible = false
+layout_mode = 3
+anchors_preset = 0
+offset_right = 960.0
+offset_bottom = 540.0
+
+[node name="System Close-up Marker" type="Panel" parent="System Container"]
+layout_mode = 0
 offset_left = 304.0
 offset_top = 56.0
 offset_right = 920.0
 offset_bottom = 488.0
-mouse_filter = 2
-
-[node name="ActiveArea" type="Area2D" parent="SystemCloseUpMarker"]
-position = Vector2(308, 216)
-monitoring = false
-monitorable = false
-
-[node name="Shape" type="CollisionShape2D" parent="SystemCloseUpMarker/ActiveArea"]
-shape = SubResource("RectangleShape2D_672kh")
-debug_color = Color(0, 0.6, 0.7, 0.42)
 
 [node name="Systems" type="Node2D" parent="."]
 position = Vector2(608, 280)
@@ -350,29 +359,28 @@ scale = Vector2(1.75, 1.75)
 visible = false
 scale = Vector2(1.75, 1.75)
 
-[connection signal="system_pressed" from="SystemsSprites/LifeSupportSprite" to="." method="_on_system_sprite_pressed"]
-[connection signal="input_event" from="SystemsSprites/LifeSupportSprite/MouseArea" to="SystemsSprites/LifeSupportSprite" method="_on_mouse_area_input_event"]
-[connection signal="mouse_entered" from="SystemsSprites/LifeSupportSprite/MouseArea" to="SystemsSprites/LifeSupportSprite" method="_on_mouse_area_mouse_entered"]
-[connection signal="mouse_exited" from="SystemsSprites/LifeSupportSprite/MouseArea" to="SystemsSprites/LifeSupportSprite" method="_on_mouse_area_mouse_exited"]
-[connection signal="system_pressed" from="SystemsSprites/EnginesSprite" to="." method="_on_system_sprite_pressed"]
-[connection signal="input_event" from="SystemsSprites/EnginesSprite/MouseArea" to="SystemsSprites/EnginesSprite" method="_on_mouse_area_input_event"]
-[connection signal="mouse_entered" from="SystemsSprites/EnginesSprite/MouseArea" to="SystemsSprites/EnginesSprite" method="_on_mouse_area_mouse_entered"]
-[connection signal="mouse_exited" from="SystemsSprites/EnginesSprite/MouseArea" to="SystemsSprites/EnginesSprite" method="_on_mouse_area_mouse_exited"]
-[connection signal="system_pressed" from="SystemsSprites/HullSprite" to="." method="_on_system_sprite_pressed"]
-[connection signal="input_event" from="SystemsSprites/HullSprite/MouseArea" to="SystemsSprites/HullSprite" method="_on_mouse_area_input_event"]
-[connection signal="mouse_entered" from="SystemsSprites/HullSprite/MouseArea" to="SystemsSprites/HullSprite" method="_on_mouse_area_mouse_entered"]
-[connection signal="mouse_exited" from="SystemsSprites/HullSprite/MouseArea" to="SystemsSprites/HullSprite" method="_on_mouse_area_mouse_exited"]
-[connection signal="system_pressed" from="SystemsSprites/ElectricalSprite" to="." method="_on_system_sprite_pressed"]
-[connection signal="input_event" from="SystemsSprites/ElectricalSprite/MouseArea" to="SystemsSprites/ElectricalSprite" method="_on_mouse_area_input_event"]
-[connection signal="mouse_entered" from="SystemsSprites/ElectricalSprite/MouseArea" to="SystemsSprites/ElectricalSprite" method="_on_mouse_area_mouse_entered"]
-[connection signal="mouse_exited" from="SystemsSprites/ElectricalSprite/MouseArea" to="SystemsSprites/ElectricalSprite" method="_on_mouse_area_mouse_exited"]
-[connection signal="system_pressed" from="SystemsSprites/ExternalSprite" to="." method="_on_system_sprite_pressed"]
-[connection signal="input_event" from="SystemsSprites/ExternalSprite/MouseArea" to="SystemsSprites/ExternalSprite" method="_on_mouse_area_input_event"]
-[connection signal="mouse_entered" from="SystemsSprites/ExternalSprite/MouseArea" to="SystemsSprites/ExternalSprite" method="_on_mouse_area_mouse_entered"]
-[connection signal="mouse_exited" from="SystemsSprites/ExternalSprite/MouseArea" to="SystemsSprites/ExternalSprite" method="_on_mouse_area_mouse_exited"]
-[connection signal="system_pressed" from="SystemsSprites/ComputerSprite" to="." method="_on_system_sprite_pressed"]
-[connection signal="input_event" from="SystemsSprites/ComputerSprite/MouseArea" to="SystemsSprites/ComputerSprite" method="_on_mouse_area_input_event"]
-[connection signal="mouse_entered" from="SystemsSprites/ComputerSprite/MouseArea" to="SystemsSprites/ComputerSprite" method="_on_mouse_area_mouse_entered"]
-[connection signal="mouse_exited" from="SystemsSprites/ComputerSprite/MouseArea" to="SystemsSprites/ComputerSprite" method="_on_mouse_area_mouse_exited"]
-[connection signal="mouse_entered" from="SystemCloseUpMarker/ActiveArea" to="." method="_on_active_area_mouse_entered"]
-[connection signal="mouse_exited" from="SystemCloseUpMarker/ActiveArea" to="." method="_on_active_area_mouse_exited"]
+[connection signal="system_pressed" from="Systems Sprites/LifeSupportSprite" to="." method="_on_system_sprite_pressed"]
+[connection signal="mouse_entered" from="Systems Sprites/LifeSupportSprite/Button" to="Systems Sprites/LifeSupportSprite" method="_on_button_mouse_entered"]
+[connection signal="mouse_exited" from="Systems Sprites/LifeSupportSprite/Button" to="Systems Sprites/LifeSupportSprite" method="_on_button_mouse_exited"]
+[connection signal="pressed" from="Systems Sprites/LifeSupportSprite/Button" to="Systems Sprites/LifeSupportSprite" method="_on_button_pressed"]
+[connection signal="system_pressed" from="Systems Sprites/EnginesSprite" to="." method="_on_system_sprite_pressed"]
+[connection signal="mouse_entered" from="Systems Sprites/EnginesSprite/Button" to="Systems Sprites/EnginesSprite" method="_on_button_mouse_entered"]
+[connection signal="mouse_exited" from="Systems Sprites/EnginesSprite/Button" to="Systems Sprites/EnginesSprite" method="_on_button_mouse_exited"]
+[connection signal="pressed" from="Systems Sprites/EnginesSprite/Button" to="Systems Sprites/EnginesSprite" method="_on_button_pressed"]
+[connection signal="system_pressed" from="Systems Sprites/HullSprite" to="." method="_on_system_sprite_pressed"]
+[connection signal="mouse_entered" from="Systems Sprites/HullSprite/Button" to="Systems Sprites/HullSprite" method="_on_button_mouse_entered"]
+[connection signal="mouse_exited" from="Systems Sprites/HullSprite/Button" to="Systems Sprites/HullSprite" method="_on_button_mouse_exited"]
+[connection signal="pressed" from="Systems Sprites/HullSprite/Button" to="Systems Sprites/HullSprite" method="_on_button_pressed"]
+[connection signal="system_pressed" from="Systems Sprites/ElectricalSprite" to="." method="_on_system_sprite_pressed"]
+[connection signal="mouse_entered" from="Systems Sprites/ElectricalSprite/Button" to="Systems Sprites/ElectricalSprite" method="_on_button_mouse_entered"]
+[connection signal="mouse_exited" from="Systems Sprites/ElectricalSprite/Button" to="Systems Sprites/ElectricalSprite" method="_on_button_mouse_exited"]
+[connection signal="pressed" from="Systems Sprites/ElectricalSprite/Button" to="Systems Sprites/ElectricalSprite" method="_on_button_pressed"]
+[connection signal="system_pressed" from="Systems Sprites/ExternalSprite" to="." method="_on_system_sprite_pressed"]
+[connection signal="mouse_entered" from="Systems Sprites/ExternalSprite/Button" to="Systems Sprites/ExternalSprite" method="_on_button_mouse_entered"]
+[connection signal="mouse_exited" from="Systems Sprites/ExternalSprite/Button" to="Systems Sprites/ExternalSprite" method="_on_button_mouse_exited"]
+[connection signal="pressed" from="Systems Sprites/ExternalSprite/Button" to="Systems Sprites/ExternalSprite" method="_on_button_pressed"]
+[connection signal="system_pressed" from="Systems Sprites/ComputerSprite" to="." method="_on_system_sprite_pressed"]
+[connection signal="mouse_entered" from="Systems Sprites/ComputerSprite/Button" to="Systems Sprites/ComputerSprite" method="_on_button_mouse_entered"]
+[connection signal="mouse_exited" from="Systems Sprites/ComputerSprite/Button" to="Systems Sprites/ComputerSprite" method="_on_button_mouse_exited"]
+[connection signal="pressed" from="Systems Sprites/ComputerSprite/Button" to="Systems Sprites/ComputerSprite" method="_on_button_pressed"]
+[connection signal="gui_input" from="System Container" to="." method="_on_system_container_gui_input"]
