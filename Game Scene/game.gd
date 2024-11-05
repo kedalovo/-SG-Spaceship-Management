@@ -20,12 +20,7 @@ var is_mouse_inside: bool
 
 
 func _ready() -> void:
-	engines_system.add_fuel()
-	engines_system.add_fuel()
-	engines_system.add_fuel()
-	engines_system.add_coolant()
-	engines_system.add_coolant()
-	engines_system.add_coolant()
+	pass
 
 
 func _input(event: InputEvent) -> void:

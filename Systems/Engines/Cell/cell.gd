@@ -4,6 +4,7 @@ class_name Cell
 
 
 signal cell_released(cell: Cell)
+signal being_deleted(cell: Cell)
 
 
 @onready var outline: Sprite2D = $Outline
@@ -75,8 +76,8 @@ func _on_button_mouse_exited() -> void:
 func _on_button_button_down() -> void:
 	if !is_depleting:
 		is_held = true
-	if is_depleted:
-		queue_free()
+	if is_depleted or is_destroyed:
+		being_deleted.emit(self)
 
 
 func _on_button_button_up() -> void:

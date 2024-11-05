@@ -8,22 +8,68 @@ const CELL_SCENE = preload("res://Systems/Engines/Cell/cell.tscn")
 
 @onready var cells_container: Node2D = $Cells
 @onready var cell_slots: Node2D = $"Cell Slots"
+@onready var fuel_timer: Timer = $FuelTimer
+@onready var coolant_timer: Timer = $CoolantTimer
+
+@onready var slots_fuel: Array[int] = []
+@onready var slots_coolant: Array[int] = []
+
+@onready var cells_fuel: Array[Cell] = []
+@onready var cells_coolant: Array[Cell] = []
 
 @onready var hovered_slot: int = -1
 
 
-func add_fuel() -> void:
+func _ready() -> void:
+	setup_slots()
+	setup_cells()
+	fuel_timer.start()
+	coolant_timer.start()
+
+
+func setup_slots() -> void:
+	slots_fuel = []
+	slots_coolant = []
+	var _slots := cell_slots.get_children()
+	for i in 5:
+		var idx := randi()%_slots.size()
+		_slots[idx].set_slot_type(game_manager.engine_cell_types.FUEL)
+		slots_fuel.append(_slots[idx].index)
+		_slots.remove_at(idx)
+	for slot in _slots:
+		slot.set_slot_type(game_manager.engine_cell_types.COOLANT)
+		slots_coolant.append(slot.index)
+
+
+func setup_cells() -> void:
+	for i in 3:
+		var slot = cell_slots.get_children()[slots_fuel[i]]
+		var new_cell := add_fuel()
+		new_cell.place_into_slot(slot.position, slot.cell_angle)
+		cells_fuel.append(new_cell)
+		cells_fuel.append(add_fuel())
+	for i in 3:
+		var slot = cell_slots.get_children()[slots_coolant[i]]
+		var new_cell = add_coolant()
+		new_cell.place_into_slot(slot.position, slot.cell_angle)
+		cells_coolant.append(new_cell)
+		cells_coolant.append(add_coolant())
+
+
+func add_fuel() -> Cell:
 	var new_cell := create_cell(game_manager.engine_cell_types.FUEL)
 	new_cell.position = Vector2(randf_range(-100.0, -70.0), randf_range(-40.0, -10.0))
 	new_cell.start_pos = new_cell.position
 	new_cell.rotation_degrees = randf() * 360
+	return new_cell
 
 
-func add_coolant() -> void:
+func add_coolant() -> Cell:
 	var new_cell := create_cell(game_manager.engine_cell_types.COOLANT)
 	new_cell.position = Vector2(randf_range(-95.0, -70.0), randf_range(26.0, 42.0))
 	new_cell.start_pos = new_cell.position
 	new_cell.rotation_degrees = randf() * 360
+	return new_cell
 
 
 func create_cell(new_type: game_manager.engine_cell_types) -> Cell:
@@ -31,24 +77,47 @@ func create_cell(new_type: game_manager.engine_cell_types) -> Cell:
 	cells_container.add_child(new_cell)
 	new_cell.set_type(new_type)
 	new_cell.cell_released.connect(_on_cell_released)
+	new_cell.being_deleted.connect(_on_cell_being_deleted)
 	return new_cell
 
 
-func _on_cell_released(cell: Cell):
-	#print_debug("Cell was released")
+func _on_cell_released(cell: Cell) -> void:
 	if hovered_slot >= 0:
 		var slot: Area2D = cell_slots.get_child(hovered_slot)
-		cell.place_into_slot(slot.position, slot.cell_angle)
+		hovered_slot = -1
+		if slot.slot_type == cell.type:
+			cell.place_into_slot(slot.position, slot.cell_angle)
+		else:
+			cell.position = cell.start_pos
 	else:
 		cell.position = cell.start_pos
 
 
+func _on_cell_being_deleted(cell: Cell) -> void:
+	if cell.type == game_manager.engine_cell_types.FUEL:
+		cells_fuel.erase(cell)
+	else:
+		if cell.type == game_manager.engine_cell_types.COOLANT:
+			cells_coolant.erase(cell)
+	cell.queue_free()
+
+
 func _on_fuel_timer_timeout() -> void:
-	pass
+	var active_cells: Array[Cell] = []
+	for cell in cells_fuel:
+		if cell.is_depleting and !cell.is_depleted and !cell.is_destroyed and !cell.is_held:
+			active_cells.append(cell)
+	if active_cells.size() > 0:
+		active_cells.pick_random().use(1)
 
 
 func _on_coolant_timer_timeout() -> void:
-	pass
+	var active_cells: Array[Cell] = []
+	for cell in cells_coolant:
+		if cell.is_depleting and !cell.is_depleted and !cell.is_destroyed and !cell.is_held:
+			active_cells.append(cell)
+	if active_cells.size() > 0:
+		active_cells.pick_random().use(1)
 
 
 func _on_slot_cell_entered(slot_index: int) -> void:
