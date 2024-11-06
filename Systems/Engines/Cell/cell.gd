@@ -18,6 +18,7 @@ var type: game_manager.engine_cell_types
 var start_pos: Vector2
 
 var health: int = 100
+var in_slot: int = -1
 
 var is_held: bool = false
 var is_depleting: bool = false
@@ -35,9 +36,11 @@ func use(amount: int) -> void:
 		progress.value = health / 5.55556
 
 
-func place_into_slot(slot_pos: Vector2, slot_rot: int) -> void:
-	position = slot_pos
-	rotation_degrees = -slot_rot + 90
+func place_into_slot(slot: Node) -> void:
+	in_slot = slot.index
+	slot.is_busy = true
+	position = slot.position
+	rotation_degrees = -slot.cell_angle + 90
 	is_depleting = true
 	is_held = false
 	outline.hide()

@@ -10,8 +10,11 @@ signal cell_exited(slot_index: int)
 
 var slot_type: game_manager.engine_cell_types = -1
 
+var is_busy: bool = false
+
 
 func set_slot_type(new_type: game_manager.engine_cell_types):
+	is_busy = false
 	slot_type = new_type
 	if get_child_count() == 2:
 		get_child(1).queue_free()
