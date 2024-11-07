@@ -1,0 +1,148 @@
+[gd_scene load_steps=16 format=3 uid="uid://cea3wb3hnskjg"]
+
+[ext_resource type="Script" path="res://Systems/Hull/Patch/patch.gd" id="1_778nv"]
+[ext_resource type="Texture2D" uid="uid://6xtels7glrj0" path="res://Systems/Hull/Assets/Patch.png" id="2_k3n6e"]
+[ext_resource type="Texture2D" uid="uid://dhnact3wyhj03" path="res://Systems/Hull/Assets/Screw Mark.png" id="3_qmtdr"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_6efpx"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_gyrwl"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_ww4ej"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_xlacf"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_2gfda"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_7kdne"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_pp0v8"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_qwuaf"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_lxmce"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_j5ifh"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_yfa8s"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_kil1t"]
+size = Vector2(18, 18)
+
+[node name="Patch" type="Node2D"]
+script = ExtResource("1_778nv")
+
+[node name="Sprite" type="Sprite2D" parent="."]
+texture = ExtResource("2_k3n6e")
+region_enabled = true
+region_rect = Rect2(15, 15, 18, 18)
+
+[node name="Screw Marks" type="Node2D" parent="."]
+
+[node name="Mark 1" type="Sprite2D" parent="Screw Marks"]
+visible = false
+modulate = Color(0, 0, 0, 0.356863)
+position = Vector2(0, -13)
+texture = ExtResource("3_qmtdr")
+
+[node name="Button" type="Button" parent="Screw Marks/Mark 1"]
+offset_left = -0.5
+offset_top = -0.5
+offset_right = 0.5
+offset_bottom = 0.5
+theme_override_styles/focus = SubResource("StyleBoxEmpty_6efpx")
+theme_override_styles/disabled_mirrored = SubResource("StyleBoxEmpty_gyrwl")
+theme_override_styles/disabled = SubResource("StyleBoxEmpty_ww4ej")
+theme_override_styles/hover_pressed_mirrored = SubResource("StyleBoxEmpty_xlacf")
+theme_override_styles/hover_pressed = SubResource("StyleBoxEmpty_2gfda")
+theme_override_styles/hover_mirrored = SubResource("StyleBoxEmpty_7kdne")
+theme_override_styles/hover = SubResource("StyleBoxEmpty_pp0v8")
+theme_override_styles/pressed_mirrored = SubResource("StyleBoxEmpty_qwuaf")
+theme_override_styles/pressed = SubResource("StyleBoxEmpty_lxmce")
+theme_override_styles/normal_mirrored = SubResource("StyleBoxEmpty_j5ifh")
+theme_override_styles/normal = SubResource("StyleBoxEmpty_yfa8s")
+flat = true
+
+[node name="Mark 2" type="Sprite2D" parent="Screw Marks"]
+visible = false
+modulate = Color(0, 0, 0, 0.356863)
+position = Vector2(13, 0)
+texture = ExtResource("3_qmtdr")
+
+[node name="Button" type="Button" parent="Screw Marks/Mark 2"]
+offset_left = -0.5
+offset_top = -0.5
+offset_right = 0.5
+offset_bottom = 0.5
+theme_override_styles/focus = SubResource("StyleBoxEmpty_6efpx")
+theme_override_styles/disabled_mirrored = SubResource("StyleBoxEmpty_gyrwl")
+theme_override_styles/disabled = SubResource("StyleBoxEmpty_ww4ej")
+theme_override_styles/hover_pressed_mirrored = SubResource("StyleBoxEmpty_xlacf")
+theme_override_styles/hover_pressed = SubResource("StyleBoxEmpty_2gfda")
+theme_override_styles/hover_mirrored = SubResource("StyleBoxEmpty_7kdne")
+theme_override_styles/hover = SubResource("StyleBoxEmpty_pp0v8")
+theme_override_styles/pressed_mirrored = SubResource("StyleBoxEmpty_qwuaf")
+theme_override_styles/pressed = SubResource("StyleBoxEmpty_lxmce")
+theme_override_styles/normal_mirrored = SubResource("StyleBoxEmpty_j5ifh")
+theme_override_styles/normal = SubResource("StyleBoxEmpty_yfa8s")
+flat = true
+
+[node name="Mark 3" type="Sprite2D" parent="Screw Marks"]
+visible = false
+modulate = Color(0, 0, 0, 0.356863)
+position = Vector2(0, 13)
+texture = ExtResource("3_qmtdr")
+
+[node name="Button" type="Button" parent="Screw Marks/Mark 3"]
+offset_left = -0.5
+offset_top = -0.5
+offset_right = 0.5
+offset_bottom = 0.5
+theme_override_styles/focus = SubResource("StyleBoxEmpty_6efpx")
+theme_override_styles/disabled_mirrored = SubResource("StyleBoxEmpty_gyrwl")
+theme_override_styles/disabled = SubResource("StyleBoxEmpty_ww4ej")
+theme_override_styles/hover_pressed_mirrored = SubResource("StyleBoxEmpty_xlacf")
+theme_override_styles/hover_pressed = SubResource("StyleBoxEmpty_2gfda")
+theme_override_styles/hover_mirrored = SubResource("StyleBoxEmpty_7kdne")
+theme_override_styles/hover = SubResource("StyleBoxEmpty_pp0v8")
+theme_override_styles/pressed_mirrored = SubResource("StyleBoxEmpty_qwuaf")
+theme_override_styles/pressed = SubResource("StyleBoxEmpty_lxmce")
+theme_override_styles/normal_mirrored = SubResource("StyleBoxEmpty_j5ifh")
+theme_override_styles/normal = SubResource("StyleBoxEmpty_yfa8s")
+flat = true
+
+[node name="Mark 4" type="Sprite2D" parent="Screw Marks"]
+visible = false
+modulate = Color(0, 0, 0, 0.356863)
+position = Vector2(-13, 0)
+texture = ExtResource("3_qmtdr")
+
+[node name="Button" type="Button" parent="Screw Marks/Mark 4"]
+offset_left = -0.5
+offset_top = -0.5
+offset_right = 0.5
+offset_bottom = 0.5
+theme_override_styles/focus = SubResource("StyleBoxEmpty_6efpx")
+theme_override_styles/disabled_mirrored = SubResource("StyleBoxEmpty_gyrwl")
+theme_override_styles/disabled = SubResource("StyleBoxEmpty_ww4ej")
+theme_override_styles/hover_pressed_mirrored = SubResource("StyleBoxEmpty_xlacf")
+theme_override_styles/hover_pressed = SubResource("StyleBoxEmpty_2gfda")
+theme_override_styles/hover_mirrored = SubResource("StyleBoxEmpty_7kdne")
+theme_override_styles/hover = SubResource("StyleBoxEmpty_pp0v8")
+theme_override_styles/pressed_mirrored = SubResource("StyleBoxEmpty_qwuaf")
+theme_override_styles/pressed = SubResource("StyleBoxEmpty_lxmce")
+theme_override_styles/normal_mirrored = SubResource("StyleBoxEmpty_j5ifh")
+theme_override_styles/normal = SubResource("StyleBoxEmpty_yfa8s")
+flat = true
+
+[node name="Patch Body" type="CharacterBody2D" parent="."]
+collision_layer = 4
+collision_mask = 0
+
+[node name="Shape" type="CollisionShape2D" parent="Patch Body"]
+shape = SubResource("RectangleShape2D_kil1t")
+
+[connection signal="pressed" from="Screw Marks/Mark 1/Button" to="." method="_on_mark_1_pressed"]
+[connection signal="pressed" from="Screw Marks/Mark 2/Button" to="." method="_on_mark_2_pressed"]
+[connection signal="pressed" from="Screw Marks/Mark 3/Button" to="." method="_on_mark_3_pressed"]
+[connection signal="pressed" from="Screw Marks/Mark 4/Button" to="." method="_on_mark_4_pressed"]

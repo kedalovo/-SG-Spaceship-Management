@@ -1,0 +1,23 @@
+[gd_scene load_steps=4 format=3 uid="uid://ckchknl5r0nlk"]
+
+[ext_resource type="Texture2D" uid="uid://cj6rppvvdhj53" path="res://Systems/Hull/Assets/Hole.png" id="1_no26n"]
+[ext_resource type="Script" path="res://Systems/Hull/Hole/hole.gd" id="1_r85no"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_pptxf"]
+size = Vector2(16, 16)
+
+[node name="Hole" type="Node2D"]
+script = ExtResource("1_r85no")
+
+[node name="Sprite" type="Sprite2D" parent="."]
+texture = ExtResource("1_no26n")
+
+[node name="Area" type="Area2D" parent="."]
+collision_layer = 0
+collision_mask = 4
+
+[node name="Shape" type="CollisionShape2D" parent="Area"]
+shape = SubResource("RectangleShape2D_pptxf")
+
+[connection signal="body_entered" from="Area" to="." method="_on_area_body_entered"]
+[connection signal="body_exited" from="Area" to="." method="_on_area_body_exited"]
