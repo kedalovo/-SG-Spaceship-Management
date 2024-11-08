@@ -20,7 +20,8 @@ var is_mouse_inside: bool
 
 
 func _ready() -> void:
-	pass
+	hull_system.add_patch()
+	hull_system.add_hole(generate_hole_position())
 
 
 func _input(event: InputEvent) -> void:
@@ -31,6 +32,10 @@ func _input(event: InputEvent) -> void:
 	if event.is_action_pressed("test"):
 		#print("Coolant health: ", engines_system.get_coolant_health())
 		engines_system._damage(2, game_manager.damage_types.PHYSICAL)
+
+
+func generate_hole_position() -> Vector2:
+	return Vector2(randi_range(-272, 272), randi_range(-184, 128))
 
 
 func _on_system_sprite_pressed(system_index: int) -> void:

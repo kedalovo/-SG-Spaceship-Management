@@ -8,3 +8,118 @@ script = ExtResource("1_4hw2b")
 
 [node name="Sprite" type="Sprite2D" parent="."]
 texture = ExtResource("1_e17vu")
+
+[node name="Balance ColorRect" type="ColorRect" parent="."]
+offset_left = -232.0
+offset_top = 156.0
+offset_right = 16.0
+offset_bottom = 196.0
+mouse_filter = 1
+color = Color(0.101563, 0.101563, 0.101563, 1)
+
+[node name="HBoxContainer" type="HBoxContainer" parent="Balance ColorRect"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 8.0
+offset_top = 8.0
+offset_right = -8.0
+offset_bottom = -8.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 8
+
+[node name="ColorRect" type="ColorRect" parent="Balance ColorRect/HBoxContainer"]
+custom_minimum_size = Vector2(8, 0)
+layout_mode = 2
+mouse_filter = 1
+color = Color(0, 1, 0.0390625, 1)
+
+[node name="ColorRect2" type="ColorRect" parent="Balance ColorRect/HBoxContainer"]
+custom_minimum_size = Vector2(8, 0)
+layout_mode = 2
+mouse_filter = 1
+color = Color(0, 1, 0.0390625, 1)
+
+[node name="ColorRect3" type="ColorRect" parent="Balance ColorRect/HBoxContainer"]
+custom_minimum_size = Vector2(8, 0)
+layout_mode = 2
+mouse_filter = 1
+color = Color(0, 1, 0.0390625, 1)
+
+[node name="ColorRect4" type="ColorRect" parent="Balance ColorRect/HBoxContainer"]
+custom_minimum_size = Vector2(8, 0)
+layout_mode = 2
+mouse_filter = 1
+color = Color(0, 1, 0.0390625, 1)
+
+[node name="ColorRect5" type="ColorRect" parent="Balance ColorRect/HBoxContainer"]
+custom_minimum_size = Vector2(8, 0)
+layout_mode = 2
+mouse_filter = 1
+color = Color(0, 1, 0.0390625, 1)
+
+[node name="ColorRect6" type="ColorRect" parent="Balance ColorRect/HBoxContainer"]
+custom_minimum_size = Vector2(8, 0)
+layout_mode = 2
+mouse_filter = 1
+color = Color(0, 1, 0.0390625, 1)
+
+[node name="ColorRect7" type="ColorRect" parent="Balance ColorRect/HBoxContainer"]
+custom_minimum_size = Vector2(8, 0)
+layout_mode = 2
+mouse_filter = 1
+color = Color(0.0458984, 0.25, 0.0538712, 1)
+
+[node name="ColorRect8" type="ColorRect" parent="Balance ColorRect/HBoxContainer"]
+custom_minimum_size = Vector2(8, 0)
+layout_mode = 2
+mouse_filter = 1
+color = Color(0.0458984, 0.25, 0.0538712, 1)
+
+[node name="ColorRect9" type="ColorRect" parent="Balance ColorRect/HBoxContainer"]
+custom_minimum_size = Vector2(8, 0)
+layout_mode = 2
+mouse_filter = 1
+color = Color(0.0458984, 0.25, 0.0538712, 1)
+
+[node name="ColorRect10" type="ColorRect" parent="Balance ColorRect/HBoxContainer"]
+custom_minimum_size = Vector2(8, 0)
+layout_mode = 2
+mouse_filter = 1
+color = Color(0.0458984, 0.25, 0.0538712, 1)
+
+[node name="ColorRect11" type="ColorRect" parent="Balance ColorRect/HBoxContainer"]
+custom_minimum_size = Vector2(8, 0)
+layout_mode = 2
+mouse_filter = 1
+color = Color(0.0458984, 0.25, 0.0538712, 1)
+
+[node name="ColorRect12" type="ColorRect" parent="Balance ColorRect/HBoxContainer"]
+custom_minimum_size = Vector2(8, 0)
+layout_mode = 2
+mouse_filter = 1
+color = Color(0.0458984, 0.25, 0.0538712, 1)
+
+[node name="ColorRect13" type="ColorRect" parent="Balance ColorRect/HBoxContainer"]
+custom_minimum_size = Vector2(8, 0)
+layout_mode = 2
+mouse_filter = 1
+color = Color(0.0458984, 0.25, 0.0538712, 1)
+
+[node name="ColorRect14" type="ColorRect" parent="Balance ColorRect/HBoxContainer"]
+custom_minimum_size = Vector2(8, 0)
+layout_mode = 2
+mouse_filter = 1
+color = Color(0.0458984, 0.25, 0.0538712, 1)
+
+[node name="ColorRect15" type="ColorRect" parent="Balance ColorRect/HBoxContainer"]
+custom_minimum_size = Vector2(8, 0)
+layout_mode = 2
+mouse_filter = 1
+color = Color(0.0458984, 0.25, 0.0538712, 1)
+
+[node name="Holes" type="Node2D" parent="."]
+
+[node name="Patches" type="Node2D" parent="."]
