@@ -46,7 +46,7 @@ scale = Vector2(2, 2)
 visible = false
 modulate = Color(0, 0, 0, 0.356863)
 position = Vector2(0, -13)
-scale = Vector2(1.5, 1.5)
+scale = Vector2(1.7, 1.7)
 texture = ExtResource("3_qmtdr")
 
 [node name="Button" type="Button" parent="Screw Marks/Mark 1"]
@@ -71,7 +71,7 @@ flat = true
 visible = false
 modulate = Color(0, 0, 0, 0.356863)
 position = Vector2(13, 0)
-scale = Vector2(1.5, 1.5)
+scale = Vector2(1.7, 1.7)
 texture = ExtResource("3_qmtdr")
 
 [node name="Button" type="Button" parent="Screw Marks/Mark 2"]
@@ -96,7 +96,7 @@ flat = true
 visible = false
 modulate = Color(0, 0, 0, 0.356863)
 position = Vector2(0, 13)
-scale = Vector2(1.5, 1.5)
+scale = Vector2(1.7, 1.7)
 texture = ExtResource("3_qmtdr")
 
 [node name="Button" type="Button" parent="Screw Marks/Mark 3"]
@@ -121,7 +121,7 @@ flat = true
 visible = false
 modulate = Color(0, 0, 0, 0.356863)
 position = Vector2(-13, 0)
-scale = Vector2(1.5, 1.5)
+scale = Vector2(1.7, 1.7)
 texture = ExtResource("3_qmtdr")
 
 [node name="Button" type="Button" parent="Screw Marks/Mark 4"]

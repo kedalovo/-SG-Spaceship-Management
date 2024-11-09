@@ -26,3 +26,7 @@ enum engine_cell_types {
 static func get_random_cell_type() -> engine_cell_types:
 	var types: Array[engine_cell_types] = [engine_cell_types.FUEL, engine_cell_types.COOLANT]
 	return types[randi()%2]
+
+
+static func get_random_hole_position() -> Vector2:
+	return Vector2(randi_range(-272, 272), randi_range(-184, 128))

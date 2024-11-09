@@ -12,8 +12,26 @@ const HOLE = preload("res://Systems/Hull/Hole/hole.tscn")
 var patch_number: int = 5
 var max_patch_number: int = 15
 
-var counter_patch: int = 0
-var counter_hole: int = 0
+
+func _ready() -> void:
+	for i in patch_number:
+		add_patch()
+		add_hole(game_manager.get_random_hole_position())
+
+
+func open() -> void:
+	for hole in holes.get_children():
+		hole.position = game_manager.get_random_hole_position()
+	super.open()
+
+
+func close() -> void:
+	for patch in patches.get_children():
+		if patch.is_completed:
+			patch.queue_free()
+		else:
+			patch.reset()
+	super.close()
 
 
 func add_patch() -> void:
@@ -21,7 +39,6 @@ func add_patch() -> void:
 	new_patch.patch_installed.connect(_on_patch_installed)
 	new_patch.patch_completed.connect(_on_patch_completed)
 	patches.add_child(new_patch)
-	#new_patch.index = set_patch_counter()
 	new_patch.initial_pos = Vector2(-264, 176)
 	new_patch.position = Vector2(-264, 176)
 
@@ -29,18 +46,7 @@ func add_patch() -> void:
 func add_hole(hole_position: Vector2) -> void:
 	var new_hole := HOLE.instantiate()
 	holes.add_child(new_hole)
-	#new_hole.index = set_hole_counter()
 	new_hole.position = hole_position
-
-
-func set_patch_counter() -> int:
-	counter_patch += 1
-	return counter_patch - 1
-
-
-func set_hole_counter() -> int:
-	counter_hole += 1
-	return counter_hole - 1
 
 
 func _on_patch_installed(patch: Patch, hole: Hole) -> void:
@@ -48,5 +54,5 @@ func _on_patch_installed(patch: Patch, hole: Hole) -> void:
 	patch.set_marks()
 
 
-func _on_patch_completed(patch: Patch, hole: Hole) -> void:
-	pass
+func _on_patch_completed(_patch: Patch, hole: Hole) -> void:
+	hole.queue_free()

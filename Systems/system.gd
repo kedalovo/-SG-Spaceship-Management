@@ -10,11 +10,11 @@ var current_tier: int
 var is_damaged: bool
 
 
-func upgrade(to_tier: int):
+func upgrade(to_tier: int) -> void:
 	to_tier = clampi(to_tier, current_tier, upgrade_tiers)
 
 
-func _damage(_strength: int, _type: game_manager.damage_types):
+func _damage(_strength: int, _type: game_manager.damage_types) -> void:
 	pass
 
 

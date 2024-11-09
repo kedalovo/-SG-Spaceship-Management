@@ -28,6 +28,7 @@ var is_3_set: bool = false
 var is_4_set: bool = false
 var is_halved: bool = false
 var is_hovering_hole: bool = false
+var is_completed: bool = false
 
 
 func set_marks() -> void:
@@ -43,13 +44,43 @@ func set_marks() -> void:
 		sprite.region_rect = Rect2(Vector2.ZERO, Vector2(48, 48))
 
 
+func reset() -> void:
+	mark_1.hide()
+	mark_2.hide()
+	mark_3.hide()
+	mark_4.hide()
+	mark_1.modulate = Color("0000005b")
+	mark_2.modulate = Color("0000005b")
+	mark_3.modulate = Color("0000005b")
+	mark_4.modulate = Color("0000005b")
+	is_1_set = false
+	is_2_set = false
+	is_3_set = false
+	is_4_set = false
+	is_hovering_hole = false
+	sprite.region_rect = Rect2(Vector2(15, 15), Vector2(18, 18))
+	button.show()
+	position = initial_pos
+
+
 func check_completion() -> void:
 	if is_halved:
 		if is_2_set and is_4_set:
 			patch_completed.emit(self, mounted_on_hole)
+			complete()
 	else:
 		if is_1_set and is_2_set and is_3_set and is_4_set:
 			patch_completed.emit(self, mounted_on_hole)
+			complete()
+
+
+func complete() -> void:
+	is_completed = true
+	sprite.region_rect = Rect2(Vector2(15, 15), Vector2(18, 18))
+	mark_1.hide()
+	mark_2.hide()
+	mark_3.hide()
+	mark_4.hide()
 
 
 func _physics_process(_delta: float) -> void:

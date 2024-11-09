@@ -13,7 +13,7 @@ var slot_type: game_manager.engine_cell_types = -1
 var is_busy: bool = false
 
 
-func set_slot_type(new_type: game_manager.engine_cell_types):
+func set_slot_type(new_type: game_manager.engine_cell_types) -> void:
 	is_busy = false
 	slot_type = new_type
 	if get_child_count() == 2:
