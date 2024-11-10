@@ -7,6 +7,8 @@ class_name game_manager
 const COOLANT_ICON = preload("res://Systems/Engines/Assets/Coolant Icon.png")
 const FUEL_ICON = preload("res://Systems/Engines/Assets/Fuel Icon.png")
 
+const WIRE_COLORS: Array[Color] = [Color.RED, Color.BLUE, Color.YELLOW, Color.GREEN, Color.MAGENTA]
+
 var is_in_system: bool = false
 
 

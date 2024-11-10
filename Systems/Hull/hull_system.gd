@@ -16,7 +16,6 @@ var max_patch_number: int = 15
 func _ready() -> void:
 	for i in patch_number:
 		add_patch()
-		add_hole(game_manager.get_random_hole_position())
 
 
 func open() -> void:

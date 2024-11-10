@@ -15,11 +15,11 @@ func upgrade(to_tier: int) -> void:
 
 
 func _damage(_strength: int, _type: game_manager.damage_types) -> void:
-	pass
+	print(name, ": damage is not implemented")
 
 
 func fix() -> void:
-	pass
+	print(name, ": fixing is not implemented")
 
 
 func open() -> void:

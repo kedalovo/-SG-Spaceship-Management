@@ -8,7 +8,7 @@ signal cell_exited(slot_index: int)
 @export var index: int
 @export var cell_angle: int
 
-var slot_type: game_manager.engine_cell_types = -1
+var slot_type: game_manager.engine_cell_types = game_manager.engine_cell_types.NONE
 
 var is_busy: bool = false
 

@@ -27,10 +27,9 @@ func _input(event: InputEvent) -> void:
 	if event.is_action_pressed("esc"):
 		get_tree().quit()
 	if event.is_action_pressed("test1"):
-		print("Fuel health: ", engines_system.get_fuel_health())
+		electrical_system._damage(2, game_manager.damage_types.PHYSICAL)
 	if event.is_action_pressed("test"):
-		#print("Coolant health: ", engines_system.get_coolant_health())
-		engines_system._damage(2, game_manager.damage_types.PHYSICAL)
+		pass
 
 
 func _on_system_sprite_pressed(system_index: int) -> void:
