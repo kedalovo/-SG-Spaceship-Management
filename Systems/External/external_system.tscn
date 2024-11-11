@@ -8,3 +8,45 @@ script = ExtResource("1_n8fqa")
 
 [node name="Sprite" type="Sprite2D" parent="."]
 texture = ExtResource("1_5k4kb")
+
+[node name="Module Places" type="Node2D" parent="."]
+
+[node name="Module 1" type="Node2D" parent="Module Places"]
+position = Vector2(-88, -24)
+
+[node name="Module 2" type="Node2D" parent="Module Places"]
+position = Vector2(-88, 24)
+
+[node name="Module 3" type="Node2D" parent="Module Places"]
+position = Vector2(88, 24)
+
+[node name="Module 4" type="Node2D" parent="Module Places"]
+position = Vector2(88, -24)
+
+[node name="Modules" type="Node2D" parent="."]
+
+[node name="Module Blueprints" type="Node2D" parent="."]
+
+[node name="HBox" type="HBoxContainer" parent="."]
+offset_left = -56.0
+offset_top = -24.0
+offset_right = 56.0
+offset_bottom = 24.0
+theme_override_constants/separation = 30
+alignment = 1
+
+[node name="Control" type="Control" parent="HBox"]
+layout_mode = 2
+size_flags_vertical = 4
+
+[node name="Control2" type="Control" parent="HBox"]
+layout_mode = 2
+size_flags_vertical = 4
+
+[node name="Control3" type="Control" parent="HBox"]
+layout_mode = 2
+size_flags_vertical = 4
+
+[node name="Control4" type="Control" parent="HBox"]
+layout_mode = 2
+size_flags_vertical = 4

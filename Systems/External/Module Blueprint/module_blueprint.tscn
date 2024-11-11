@@ -1,0 +1,21 @@
+[gd_scene load_steps=3 format=3 uid="uid://dnsuew0kuofe4"]
+
+[ext_resource type="Script" path="res://Systems/External/Module Blueprint/module_blueprint.gd" id="1_pbmvj"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_k4v8e"]
+size = Vector2(8, 8)
+
+[node name="Module Blueprint" type="Node2D"]
+script = ExtResource("1_pbmvj")
+
+[node name="Sprite" type="Sprite2D" parent="."]
+
+[node name="Area" type="Area2D" parent="."]
+collision_layer = 0
+collision_mask = 16
+
+[node name="Shape" type="CollisionShape2D" parent="Area"]
+shape = SubResource("RectangleShape2D_k4v8e")
+
+[connection signal="body_entered" from="Area" to="." method="_on_area_body_entered"]
+[connection signal="body_exited" from="Area" to="." method="_on_area_body_exited"]

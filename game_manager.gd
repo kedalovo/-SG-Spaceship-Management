@@ -7,6 +7,11 @@ class_name game_manager
 const COOLANT_ICON = preload("res://Systems/Engines/Assets/Coolant Icon.png")
 const FUEL_ICON = preload("res://Systems/Engines/Assets/Fuel Icon.png")
 
+const PATCH_MODULE = preload("res://Systems/External/Assets/Patch module.png")
+const SATELLITE_MODULE = preload("res://Systems/External/Assets/Sattelite module.png")
+const WIRE_MODULE = preload("res://Systems/External/Assets/Wire module.png")
+const HEATER_MODULE = preload("res://Systems/External/Assets/Heater module.png")
+
 const WIRE_COLORS: Array[Color] = [Color.RED, Color.BLUE, Color.YELLOW, Color.GREEN, Color.MAGENTA]
 
 var is_in_system: bool = false
@@ -23,6 +28,27 @@ enum engine_cell_types {
 	FUEL,
 	COOLANT
 }
+
+enum module_types {
+	PATCH,
+	SATELLITE,
+	WIRE,
+	HEATER
+}
+
+
+static func get_module_texture(module_type: module_types) -> Texture2D:
+	match module_type:
+		module_types.PATCH:
+			return PATCH_MODULE
+		module_types.SATELLITE:
+			return SATELLITE_MODULE
+		module_types.WIRE:
+			return WIRE_MODULE
+		module_types.HEATER:
+			return HEATER_MODULE
+	push_error("Could not find requested texture for a module")
+	return Texture2D.new()
 
 
 static func get_random_cell_type() -> engine_cell_types:
