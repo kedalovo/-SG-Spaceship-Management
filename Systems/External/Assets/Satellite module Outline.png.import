@@ -3,15 +3,15 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://dyasbmwp8uq0w"
-path="res://.godot/imported/Sattelite module Outline.png-63c59f7408c542ee9baf6dfd2e2b6fd8.ctex"
+path="res://.godot/imported/Satellite module Outline.png-3de69998c2b15a09a8cc2271ea8b5c1d.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Systems/External/Assets/Sattelite module Outline.png"
-dest_files=["res://.godot/imported/Sattelite module Outline.png-63c59f7408c542ee9baf6dfd2e2b6fd8.ctex"]
+source_file="res://Systems/External/Assets/Satellite module Outline.png"
+dest_files=["res://.godot/imported/Satellite module Outline.png-3de69998c2b15a09a8cc2271ea8b5c1d.ctex"]
 
 [params]
 

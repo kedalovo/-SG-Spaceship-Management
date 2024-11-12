@@ -8,9 +8,14 @@ const COOLANT_ICON = preload("res://Systems/Engines/Assets/Coolant Icon.png")
 const FUEL_ICON = preload("res://Systems/Engines/Assets/Fuel Icon.png")
 
 const PATCH_MODULE = preload("res://Systems/External/Assets/Patch module.png")
-const SATELLITE_MODULE = preload("res://Systems/External/Assets/Sattelite module.png")
+const SATELLITE_MODULE = preload("res://Systems/External/Assets/Satellite module.png")
 const WIRE_MODULE = preload("res://Systems/External/Assets/Wire module.png")
 const HEATER_MODULE = preload("res://Systems/External/Assets/Heater module.png")
+
+const PATCH_MODULE_BLUEPRINT = preload("res://Systems/External/Assets/Patch module Blueprint.png")
+const SATELLITE_MODULE_BLUEPRINT = preload("res://Systems/External/Assets/Satellite module Blueprint.png")
+const WIRE_MODULE_BLUEPRINT = preload("res://Systems/External/Assets/Wire module Blueprint.png")
+const HEATER_MODULE_BLUEPRINT = preload("res://Systems/External/Assets/Heater module Blueprint.png")
 
 const WIRE_COLORS: Array[Color] = [Color.RED, Color.BLUE, Color.YELLOW, Color.GREEN, Color.MAGENTA]
 
@@ -37,7 +42,7 @@ enum module_types {
 }
 
 
-static func get_module_texture(module_type: module_types) -> Texture2D:
+static func get_module_texture(module_type: module_types) -> CompressedTexture2D:
 	match module_type:
 		module_types.PATCH:
 			return PATCH_MODULE
@@ -47,6 +52,20 @@ static func get_module_texture(module_type: module_types) -> Texture2D:
 			return WIRE_MODULE
 		module_types.HEATER:
 			return HEATER_MODULE
+	push_error("Could not find requested texture for a module")
+	return Texture2D.new()
+
+
+static func get_blueprint_texture(blueprint_type: module_types) -> CompressedTexture2D:
+	match blueprint_type:
+		module_types.PATCH:
+			return PATCH_MODULE_BLUEPRINT
+		module_types.SATELLITE:
+			return SATELLITE_MODULE_BLUEPRINT
+		module_types.WIRE:
+			return WIRE_MODULE_BLUEPRINT
+		module_types.HEATER:
+			return HEATER_MODULE_BLUEPRINT
 	push_error("Could not find requested texture for a module")
 	return Texture2D.new()
 
