@@ -27,7 +27,7 @@ func _input(event: InputEvent) -> void:
 	if event.is_action_pressed("esc"):
 		get_tree().quit()
 	if event.is_action_pressed("test1"):
-		electrical_system._damage(2, game_manager.damage_types.PHYSICAL)
+		external_system._damage(2, game_manager.damage_types.PHYSICAL)
 	if event.is_action_pressed("test"):
 		pass
 

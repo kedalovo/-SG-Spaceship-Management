@@ -36,17 +36,21 @@ theme_override_constants/separation = 30
 alignment = 1
 
 [node name="Control" type="Control" parent="HBox"]
+visible = false
 layout_mode = 2
 size_flags_vertical = 4
 
 [node name="Control2" type="Control" parent="HBox"]
+visible = false
 layout_mode = 2
 size_flags_vertical = 4
 
 [node name="Control3" type="Control" parent="HBox"]
+visible = false
 layout_mode = 2
 size_flags_vertical = 4
 
 [node name="Control4" type="Control" parent="HBox"]
+visible = false
 layout_mode = 2
 size_flags_vertical = 4

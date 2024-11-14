@@ -12,6 +12,11 @@ const SATELLITE_MODULE = preload("res://Systems/External/Assets/Satellite module
 const WIRE_MODULE = preload("res://Systems/External/Assets/Wire module.png")
 const HEATER_MODULE = preload("res://Systems/External/Assets/Heater module.png")
 
+const PATCH_MODULE_OUTLINE = preload("res://Systems/External/Assets/Patch module Outline.png")
+const SATELLITE_MODULE_OUTLINE = preload("res://Systems/External/Assets/Satellite module Outline.png")
+const WIRE_MODULE_OUTLINE = preload("res://Systems/External/Assets/Wire module Outline.png")
+const HEATER_MODULE_OUTLINE = preload("res://Systems/External/Assets/Heater module Outline.png")
+
 const PATCH_MODULE_BLUEPRINT = preload("res://Systems/External/Assets/Patch module Blueprint.png")
 const SATELLITE_MODULE_BLUEPRINT = preload("res://Systems/External/Assets/Satellite module Blueprint.png")
 const WIRE_MODULE_BLUEPRINT = preload("res://Systems/External/Assets/Wire module Blueprint.png")
@@ -52,6 +57,20 @@ static func get_module_texture(module_type: module_types) -> CompressedTexture2D
 			return WIRE_MODULE
 		module_types.HEATER:
 			return HEATER_MODULE
+	push_error("Could not find requested texture for a module")
+	return Texture2D.new()
+
+
+static func get_module_outline_texture(module_type: module_types) -> CompressedTexture2D:
+	match module_type:
+		module_types.PATCH:
+			return PATCH_MODULE_OUTLINE
+		module_types.SATELLITE:
+			return SATELLITE_MODULE_OUTLINE
+		module_types.WIRE:
+			return WIRE_MODULE_OUTLINE
+		module_types.HEATER:
+			return HEATER_MODULE_OUTLINE
 	push_error("Could not find requested texture for a module")
 	return Texture2D.new()
 
