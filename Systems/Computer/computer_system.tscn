@@ -1,10 +1,218 @@
-[gd_scene load_steps=3 format=3 uid="uid://cn0fv0fedt2ig"]
+[gd_scene load_steps=5 format=3 uid="uid://cn0fv0fedt2ig"]
 
 [ext_resource type="Script" path="res://Systems/Computer/computer_system.gd" id="1_3i7g7"]
 [ext_resource type="Texture2D" uid="uid://c2wnmae3lkpre" path="res://Systems/Computer/Assets/Computer outside.png" id="2_4nu0v"]
+[ext_resource type="Theme" uid="uid://deues2s64t2hh" path="res://Systems/Computer/Assets/Theme/computer_theme.tres" id="3_wrsqg"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_y43cm"]
+size = Vector2(64, 16)
 
 [node name="Computer System" type="Node2D"]
 script = ExtResource("1_3i7g7")
 
 [node name="Sprite" type="Sprite2D" parent="."]
 texture = ExtResource("2_4nu0v")
+
+[node name="UI" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 0
+offset_left = -80.0
+offset_top = -48.0
+offset_right = 80.0
+offset_bottom = 48.0
+theme = ExtResource("3_wrsqg")
+
+[node name="Margin" type="MarginContainer" parent="UI"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="HBox" type="HBoxContainer" parent="UI/Margin"]
+layout_mode = 2
+
+[node name="PuzzleVBox" type="VBoxContainer" parent="UI/Margin/HBox"]
+layout_mode = 2
+size_flags_horizontal = 3
+alignment = 1
+
+[node name="Label" type="Label" parent="UI/Margin/HBox/PuzzleVBox"]
+layout_mode = 2
+text = "test"
+
+[node name="Label2" type="Label" parent="UI/Margin/HBox/PuzzleVBox"]
+layout_mode = 2
+text = "test"
+
+[node name="Label3" type="Label" parent="UI/Margin/HBox/PuzzleVBox"]
+layout_mode = 2
+text = "test"
+
+[node name="Label4" type="Label" parent="UI/Margin/HBox/PuzzleVBox"]
+layout_mode = 2
+text = "test"
+
+[node name="Label5" type="Label" parent="UI/Margin/HBox/PuzzleVBox"]
+layout_mode = 2
+text = "test"
+
+[node name="Label6" type="Label" parent="UI/Margin/HBox/PuzzleVBox"]
+layout_mode = 2
+text = "test"
+
+[node name="PiecesVBox" type="VBoxContainer" parent="UI/Margin/HBox"]
+layout_mode = 2
+size_flags_horizontal = 3
+alignment = 1
+
+[node name="Control" type="Control" parent="UI/Margin/HBox/PiecesVBox"]
+custom_minimum_size = Vector2(74, 12)
+layout_mode = 2
+
+[node name="Node2D" type="Node2D" parent="UI/Margin/HBox/PiecesVBox/Control"]
+
+[node name="Label" type="Label" parent="UI/Margin/HBox/PiecesVBox/Control/Node2D"]
+offset_right = 74.0
+offset_bottom = 12.0
+theme = ExtResource("3_wrsqg")
+text = "test"
+horizontal_alignment = 2
+
+[node name="Button" type="Button" parent="UI/Margin/HBox/PiecesVBox/Control/Node2D"]
+custom_minimum_size = Vector2(74, 12)
+offset_right = 8.0
+offset_bottom = 8.0
+flat = true
+
+[node name="CharacterBody2D" type="CharacterBody2D" parent="UI/Margin/HBox/PiecesVBox/Control/Node2D"]
+position = Vector2(46, 6)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="UI/Margin/HBox/PiecesVBox/Control/Node2D/CharacterBody2D"]
+shape = SubResource("RectangleShape2D_y43cm")
+
+[node name="Control2" type="Control" parent="UI/Margin/HBox/PiecesVBox"]
+custom_minimum_size = Vector2(74, 12)
+layout_mode = 2
+
+[node name="Node2D" type="Node2D" parent="UI/Margin/HBox/PiecesVBox/Control2"]
+
+[node name="Label" type="Label" parent="UI/Margin/HBox/PiecesVBox/Control2/Node2D"]
+offset_right = 74.0
+offset_bottom = 12.0
+theme = ExtResource("3_wrsqg")
+text = "test"
+horizontal_alignment = 2
+
+[node name="Button" type="Button" parent="UI/Margin/HBox/PiecesVBox/Control2/Node2D"]
+custom_minimum_size = Vector2(74, 12)
+offset_right = 8.0
+offset_bottom = 8.0
+flat = true
+
+[node name="CharacterBody2D" type="CharacterBody2D" parent="UI/Margin/HBox/PiecesVBox/Control2/Node2D"]
+position = Vector2(46, 6)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="UI/Margin/HBox/PiecesVBox/Control2/Node2D/CharacterBody2D"]
+shape = SubResource("RectangleShape2D_y43cm")
+
+[node name="Control3" type="Control" parent="UI/Margin/HBox/PiecesVBox"]
+custom_minimum_size = Vector2(74, 12)
+layout_mode = 2
+
+[node name="Node2D" type="Node2D" parent="UI/Margin/HBox/PiecesVBox/Control3"]
+
+[node name="Label" type="Label" parent="UI/Margin/HBox/PiecesVBox/Control3/Node2D"]
+offset_right = 74.0
+offset_bottom = 12.0
+theme = ExtResource("3_wrsqg")
+text = "test"
+horizontal_alignment = 2
+
+[node name="Button" type="Button" parent="UI/Margin/HBox/PiecesVBox/Control3/Node2D"]
+custom_minimum_size = Vector2(74, 12)
+offset_right = 8.0
+offset_bottom = 8.0
+flat = true
+
+[node name="CharacterBody2D" type="CharacterBody2D" parent="UI/Margin/HBox/PiecesVBox/Control3/Node2D"]
+position = Vector2(46, 6)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="UI/Margin/HBox/PiecesVBox/Control3/Node2D/CharacterBody2D"]
+shape = SubResource("RectangleShape2D_y43cm")
+
+[node name="Control4" type="Control" parent="UI/Margin/HBox/PiecesVBox"]
+custom_minimum_size = Vector2(74, 12)
+layout_mode = 2
+
+[node name="Node2D" type="Node2D" parent="UI/Margin/HBox/PiecesVBox/Control4"]
+
+[node name="Label" type="Label" parent="UI/Margin/HBox/PiecesVBox/Control4/Node2D"]
+offset_right = 74.0
+offset_bottom = 12.0
+theme = ExtResource("3_wrsqg")
+text = "test"
+horizontal_alignment = 2
+
+[node name="Button" type="Button" parent="UI/Margin/HBox/PiecesVBox/Control4/Node2D"]
+custom_minimum_size = Vector2(74, 12)
+offset_right = 8.0
+offset_bottom = 8.0
+flat = true
+
+[node name="CharacterBody2D" type="CharacterBody2D" parent="UI/Margin/HBox/PiecesVBox/Control4/Node2D"]
+position = Vector2(46, 6)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="UI/Margin/HBox/PiecesVBox/Control4/Node2D/CharacterBody2D"]
+shape = SubResource("RectangleShape2D_y43cm")
+
+[node name="Control5" type="Control" parent="UI/Margin/HBox/PiecesVBox"]
+custom_minimum_size = Vector2(74, 12)
+layout_mode = 2
+
+[node name="Node2D" type="Node2D" parent="UI/Margin/HBox/PiecesVBox/Control5"]
+
+[node name="Label" type="Label" parent="UI/Margin/HBox/PiecesVBox/Control5/Node2D"]
+offset_right = 74.0
+offset_bottom = 12.0
+theme = ExtResource("3_wrsqg")
+text = "test"
+horizontal_alignment = 2
+
+[node name="Button" type="Button" parent="UI/Margin/HBox/PiecesVBox/Control5/Node2D"]
+custom_minimum_size = Vector2(74, 12)
+offset_right = 8.0
+offset_bottom = 8.0
+flat = true
+
+[node name="CharacterBody2D" type="CharacterBody2D" parent="UI/Margin/HBox/PiecesVBox/Control5/Node2D"]
+position = Vector2(46, 6)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="UI/Margin/HBox/PiecesVBox/Control5/Node2D/CharacterBody2D"]
+shape = SubResource("RectangleShape2D_y43cm")
+
+[node name="Control6" type="Control" parent="UI/Margin/HBox/PiecesVBox"]
+custom_minimum_size = Vector2(74, 12)
+layout_mode = 2
+
+[node name="Node2D" type="Node2D" parent="UI/Margin/HBox/PiecesVBox/Control6"]
+
+[node name="Label" type="Label" parent="UI/Margin/HBox/PiecesVBox/Control6/Node2D"]
+offset_right = 74.0
+offset_bottom = 12.0
+theme = ExtResource("3_wrsqg")
+text = "test"
+horizontal_alignment = 2
+
+[node name="Button" type="Button" parent="UI/Margin/HBox/PiecesVBox/Control6/Node2D"]
+custom_minimum_size = Vector2(74, 12)
+offset_right = 8.0
+offset_bottom = 8.0
+flat = true
+
+[node name="CharacterBody2D" type="CharacterBody2D" parent="UI/Margin/HBox/PiecesVBox/Control6/Node2D"]
+position = Vector2(46, 6)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="UI/Margin/HBox/PiecesVBox/Control6/Node2D/CharacterBody2D"]
+shape = SubResource("RectangleShape2D_y43cm")

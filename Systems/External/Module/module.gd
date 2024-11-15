@@ -24,6 +24,8 @@ var is_installed: bool = false
 func _physics_process(_delta: float) -> void:
 	if is_held:
 		global_position = get_global_mouse_position()
+	if is_installed:
+		global_position = installed_on.global_position
 
 
 func set_type(new_type: game_manager.module_types) -> void:

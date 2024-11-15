@@ -41,8 +41,16 @@ func setup_blueprints() -> void:
 
 func _damage(_strength: int, _type: game_manager.damage_types) -> void:
 	_strength = clamp(_strength, 1, busy_blueprint_spots.count(false))
-	for i in _strength:
-		add_blueprint(randi()%4)
+	match _type:
+		game_manager.damage_types.PHYSICAL:
+			for i in _strength:
+				add_blueprint(game_manager.module_types.PATCH)
+		game_manager.damage_types.HEAT:
+			for i in _strength:
+				add_blueprint(game_manager.module_types.HEATER)
+		game_manager.damage_types.ELECTRICITY:
+			for i in _strength:
+				add_blueprint(randi_range(1, 2))
 
 
 func open() -> void:
@@ -67,11 +75,6 @@ func add_blueprint(type: game_manager.module_types) -> void:
 			blueprint.enable_area()
 			blueprint.position.y = blueprint.y_offset
 			break
-	for module in modules.get_children():
-		if module.is_installed:
-			print("Moved from: ", module.global_position)
-			module.global_position = module.installed_on.global_position
-			print("\t To: ", module.global_position)
 
 
 func add_module(type: game_manager.module_types) -> void:
@@ -98,6 +101,6 @@ func check_completion() -> void:
 		installed_blueprint_spots = [false, false, false, false]
 
 
-func _on_module_installed(blueprint: Blueprint, module: Module) -> void:
+func _on_module_installed(blueprint: Blueprint, _module: Module) -> void:
 	installed_blueprint_spots[blueprint.get_parent().get_index()] = true
 	check_completion()
