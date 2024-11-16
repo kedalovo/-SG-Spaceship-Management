@@ -1,0 +1,51 @@
+[gd_scene load_steps=5 format=3 uid="uid://bn7ahmp0irdpe"]
+
+[ext_resource type="Theme" uid="uid://deues2s64t2hh" path="res://Systems/Computer/Assets/Theme/computer_theme.tres" id="1_5811d"]
+[ext_resource type="Script" path="res://Systems/Computer/Code Line/code_line.gd" id="1_rpf78"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_516us"]
+size = Vector2(48, 10)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_atmr7"]
+size = Vector2(16, 16)
+
+[node name="Code Line" type="Node2D"]
+script = ExtResource("1_rpf78")
+
+[node name="Label" type="Label" parent="."]
+custom_minimum_size = Vector2(74, 12)
+offset_right = 74.0
+offset_bottom = 12.0
+theme = ExtResource("1_5811d")
+text = "test"
+
+[node name="Button" type="Button" parent="."]
+visible = false
+custom_minimum_size = Vector2(74, 12)
+offset_right = 74.0
+offset_bottom = 12.0
+focus_mode = 0
+flat = true
+
+[node name="Body" type="CharacterBody2D" parent="."]
+visible = false
+position = Vector2(46, 6)
+collision_layer = 32
+collision_mask = 0
+
+[node name="Shape" type="CollisionShape2D" parent="Body"]
+shape = SubResource("RectangleShape2D_516us")
+
+[node name="Area" type="Area2D" parent="."]
+visible = false
+position = Vector2(12, 6)
+collision_layer = 0
+collision_mask = 32
+
+[node name="Shape" type="CollisionShape2D" parent="Area"]
+shape = SubResource("RectangleShape2D_atmr7")
+
+[connection signal="button_down" from="Button" to="." method="_on_button_button_down"]
+[connection signal="button_up" from="Button" to="." method="_on_button_button_up"]
+[connection signal="body_entered" from="Area" to="." method="_on_area_body_entered"]
+[connection signal="body_exited" from="Area" to="." method="_on_area_body_exited"]

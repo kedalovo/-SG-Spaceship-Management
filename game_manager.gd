@@ -96,3 +96,13 @@ static func get_random_cell_type() -> engine_cell_types:
 
 static func get_random_hole_position() -> Vector2:
 	return Vector2(randi_range(-272, 272), randi_range(-184, 128))
+
+
+static func get_random_text(length: int) -> String:
+	var result: String = ""
+	for i in length:
+		var random_num: int = (randf() * 127) as int
+		if random_num < 33:
+			random_num += 33
+		result += String.chr(random_num)
+	return result

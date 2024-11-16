@@ -19,10 +19,6 @@ var current_system_idx: int = -1
 var is_mouse_inside: bool
 
 
-func _ready() -> void:
-	pass
-
-
 func _input(event: InputEvent) -> void:
 	if event.is_action_pressed("esc"):
 		get_tree().quit()
