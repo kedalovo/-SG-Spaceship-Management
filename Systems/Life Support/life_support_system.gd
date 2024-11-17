@@ -4,17 +4,20 @@ const ALGAE_SCENE = preload("res://Systems/Life Support/Algae/algae.tscn")
 @onready var algae_container: Node = $"Algae Container"
 @onready var cooker_area: Area2D = $"Cooker Area"
 @onready var damage_timer: Timer = $DamageTimer
+@onready var camera: Camera2D = $Camera2D
+@onready var animator: AnimationPlayer = $Animator
 
 var algae_in_cooker: Array[Algae] = []
 
 var constant_damage: int = 1
 
 
-#func _input(event: InputEvent) -> void:
-	#if event.is_action_pressed("test"):
-		#add_fuel()
-	#if event.is_action_pressed("test1"):
-		#print("Health is: ", get_health(), "\n")
+func _input(event: InputEvent) -> void:
+	if event.is_action_pressed("test"):
+		add_fuel()
+	if event.is_action_pressed("test1"):
+		var zoom := randf_range(0.5, 2.0)
+		camera.zoom = Vector2(zoom, zoom)
 
 
 func get_health() -> int:
@@ -27,8 +30,14 @@ func get_health() -> int:
 
 func add_fuel() -> void:
 	var new_algae = ALGAE_SCENE.instantiate()
-	algae_container.add_child(new_algae)
 	new_algae.position = Vector2(randi_range(-152, -72), -36)
+	algae_container.add_child(new_algae)
+
+
+func open() -> void:
+	super.open()
+	camera.enabled = true
+	animator.play("open")
 
 
 func _damage(strength: int, type: game_manager.damage_types):

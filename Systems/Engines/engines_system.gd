@@ -10,6 +10,7 @@ const CELL_SCENE = preload("res://Systems/Engines/Cell/cell.tscn")
 @onready var cell_slots: Node2D = $"Cell Slots"
 @onready var fuel_timer: Timer = $FuelTimer
 @onready var coolant_timer: Timer = $CoolantTimer
+@onready var camera: Camera2D = $Camera2D
 
 @onready var slots_fuel: Array[int] = []
 @onready var slots_coolant: Array[int] = []

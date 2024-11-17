@@ -10,6 +10,7 @@ const TRANCEIVER_POSITIONS: Array[Vector2] = [
 
 
 @onready var wires: Node2D = $Wires
+@onready var camera: Camera2D = $Camera2D
 
 var receiver_states: Array[bool] = [false, false, false, false, false]
 var tranceiver_states: Array[bool] = [false, false, false, false, false]

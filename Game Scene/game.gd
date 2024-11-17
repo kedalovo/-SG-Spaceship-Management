@@ -1,12 +1,12 @@
 extends Node2D
 
 
-@onready var life_support_system: system = $"Systems/Life Support System"
-@onready var engines_system: engines = $"Systems/Engines System"
-@onready var hull_system: system = $"Systems/Hull System"
-@onready var electrical_system: system = $"Systems/Electrical System"
-@onready var external_system: system = $"Systems/External System"
-@onready var computer_system: system = $"Systems/Computer System"
+@onready var life_support_system: system = $"SubViewportContainer/SubViewport/Life Support System"
+@onready var engines_system: engines = $"SubViewportContainer/SubViewport/Engines System"
+@onready var hull_system: system = $"SubViewportContainer/SubViewport/Hull System"
+@onready var electrical_system: system = $"SubViewportContainer/SubViewport/Electrical System"
+@onready var external_system: system = $"SubViewportContainer/SubViewport/External System"
+@onready var computer_system: system = $"SubViewportContainer/SubViewport/Computer System"
 
 @onready var system_container: Control = $"System Container"
 

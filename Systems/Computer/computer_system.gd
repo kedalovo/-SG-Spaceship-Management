@@ -6,6 +6,7 @@ const CODE_LINE = preload("res://Systems/Computer/Code Line/code_line.tscn")
 
 @onready var puzzle_v_box: VBoxContainer = $UI/Margin/HBox/PuzzleVBox
 @onready var pieces_v_box: VBoxContainer = $UI/Margin/HBox/PiecesVBox
+@onready var camera: Camera2D = $Camera2D
 
 var busy_puzzle_slots: Array[bool] = [false, false, false, false, false, false]
 var busy_pieces_slots: Array[bool] = [false, false, false, false, false, false]

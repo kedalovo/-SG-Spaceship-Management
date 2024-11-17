@@ -7,6 +7,10 @@
 [node name="Engines System" type="Node2D"]
 script = ExtResource("1_c6exo")
 
+[node name="Camera2D" type="Camera2D" parent="."]
+enabled = false
+zoom = Vector2(1.75, 1.75)
+
 [node name="Sprite" type="Sprite2D" parent="."]
 texture = ExtResource("2_kh3pv")
 

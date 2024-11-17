@@ -7,6 +7,7 @@ const HOLE = preload("res://Systems/Hull/Hole/hole.tscn")
 
 @onready var holes: Node2D = $Holes
 @onready var patches: Node2D = $Patches
+@onready var camera: Camera2D = $Camera2D
 
 
 var patch_number: int = 5

@@ -11,6 +11,7 @@ const MODULE_BLUEPRINT = preload("res://Systems/External/Module Blueprint/module
 @onready var modules: Node2D = $Modules
 @onready var module_blueprints: Node2D = $"Module Blueprints"
 @onready var pos_h_box: HBoxContainer = $HBox
+@onready var camera: Camera2D = $Camera2D
 
 @onready var module_spaces: Array[Node2D] = [module_1, module_2, module_3, module_4]
 
