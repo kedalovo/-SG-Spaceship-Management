@@ -15,6 +15,7 @@ var max_patch_number: int = 15
 
 
 func _ready() -> void:
+	super._ready()
 	for i in patch_number:
 		add_patch()
 

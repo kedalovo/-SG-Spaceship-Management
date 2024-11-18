@@ -20,6 +20,7 @@ var installed_blueprint_spots: Array[bool] = [false, false, false, false]
 
 
 func _ready() -> void:
+	super._ready()
 	setup_blueprints()
 	for i in game_manager.module_types.values():
 		add_module(i)

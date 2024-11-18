@@ -4,10 +4,21 @@ extends Node2D
 class_name system
 
 
+signal finished_animation(is_open: bool)
+
+
+var animator: AnimationPlayer
+
 var upgrade_tiers: int
 var current_tier: int
 
 var is_damaged: bool
+var is_animation_backwards: bool
+
+
+func _ready() -> void:
+	animator = get_node("Animator")
+	animator.animation_finished.connect(_on_animation_finished)
 
 
 func upgrade(to_tier: int) -> void:
@@ -24,7 +35,18 @@ func fix() -> void:
 
 func open() -> void:
 	show()
+	animator.play(&"open")
 
 
 func close() -> void:
-	hide()
+	is_animation_backwards = true
+	animator.play_backwards(&"open")
+
+
+func _on_animation_finished(anim_name: StringName) -> void:
+	if anim_name == &"open" and !is_animation_backwards:
+		finished_animation.emit(true)
+	if anim_name == &"open" and is_animation_backwards:
+		is_animation_backwards = false
+		hide()
+		finished_animation.emit(false)

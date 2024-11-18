@@ -1,13 +1,57 @@
-[gd_scene load_steps=3 format=3 uid="uid://c22b6p4rrgv5p"]
+[gd_scene load_steps=5 format=3 uid="uid://c22b6p4rrgv5p"]
 
 [ext_resource type="Texture2D" uid="uid://t6km4te1uuup" path="res://Systems/External/Assets/External Outside.png" id="1_5k4kb"]
 [ext_resource type="Script" path="res://Systems/External/external_system.gd" id="1_n8fqa"]
+
+[sub_resource type="Animation" id="Animation_tpfct"]
+resource_name = "open"
+length = 0.3
+tracks/0/type = "bezier"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Camera2D:zoom:x")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"handle_modes": PackedInt32Array(0, 0),
+"points": PackedFloat32Array(2, 0, 0, 0.15, 0, 2.5, -0.1, 0, 0, 0),
+"times": PackedFloat32Array(0, 0.3)
+}
+tracks/1/type = "bezier"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Camera2D:zoom:y")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"handle_modes": PackedInt32Array(0, 0),
+"points": PackedFloat32Array(2, 0, 0, 0.15, 0, 2.5, -0.1, 0, 0, 0),
+"times": PackedFloat32Array(0, 0.3)
+}
+tracks/2/type = "method"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Camera2D")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": [],
+"method": &"make_current"
+}]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_vj4gp"]
+_data = {
+"open": SubResource("Animation_tpfct")
+}
 
 [node name="External System" type="Node2D"]
 script = ExtResource("1_n8fqa")
 
 [node name="Camera2D" type="Camera2D" parent="."]
-enabled = false
 zoom = Vector2(2.5, 2.5)
 
 [node name="Sprite" type="Sprite2D" parent="."]
@@ -58,3 +102,8 @@ size_flags_vertical = 4
 visible = false
 layout_mode = 2
 size_flags_vertical = 4
+
+[node name="Animator" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_vj4gp")
+}

@@ -336,12 +336,12 @@ offset_right = 920.0
 offset_bottom = 488.0
 
 [node name="SubViewportContainer" type="SubViewportContainer" parent="."]
+visible = false
 offset_left = 304.0
 offset_top = 56.0
 offset_right = 920.0
 offset_bottom = 488.0
 focus_mode = 0
-mouse_filter = 2
 
 [node name="SubViewport" type="SubViewport" parent="SubViewportContainer"]
 transparent_bg = true
@@ -351,7 +351,7 @@ physics_object_picking = true
 physics_object_picking_sort = true
 physics_object_picking_first_only = true
 size = Vector2i(616, 432)
-render_target_update_mode = 4
+render_target_update_mode = 0
 
 [node name="Life Support System" parent="SubViewportContainer/SubViewport" instance=ExtResource("15_8do5x")]
 visible = false
@@ -401,3 +401,9 @@ visible = false
 [connection signal="mouse_exited" from="Systems Sprites/ComputerSprite/Button" to="Systems Sprites/ComputerSprite" method="_on_button_mouse_exited"]
 [connection signal="pressed" from="Systems Sprites/ComputerSprite/Button" to="Systems Sprites/ComputerSprite" method="_on_button_pressed"]
 [connection signal="gui_input" from="System Container" to="." method="_on_system_container_gui_input"]
+[connection signal="finished_animation" from="SubViewportContainer/SubViewport/Life Support System" to="." method="_on_system_animation_finished"]
+[connection signal="finished_animation" from="SubViewportContainer/SubViewport/Engines System" to="." method="_on_system_animation_finished"]
+[connection signal="finished_animation" from="SubViewportContainer/SubViewport/Hull System" to="." method="_on_system_animation_finished"]
+[connection signal="finished_animation" from="SubViewportContainer/SubViewport/Electrical System" to="." method="_on_system_animation_finished"]
+[connection signal="finished_animation" from="SubViewportContainer/SubViewport/External System" to="." method="_on_system_animation_finished"]
+[connection signal="finished_animation" from="SubViewportContainer/SubViewport/Computer System" to="." method="_on_system_animation_finished"]

@@ -21,7 +21,7 @@ size = Vector2(96, 64)
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_2s487"]
 size = Vector2(24, 32)
 
-[sub_resource type="Animation" id="Animation_ixe2j"]
+[sub_resource type="Animation" id="Animation_mtvvi"]
 resource_name = "open"
 length = 0.3
 tracks/0/type = "bezier"
@@ -46,8 +46,22 @@ tracks/1/keys = {
 "points": PackedFloat32Array(1.2, 0, 0, 0.15, 0, 1.5, -0.1, 0, 0, 0),
 "times": PackedFloat32Array(0, 0.3)
 }
+tracks/2/type = "method"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Camera2D")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": [],
+"method": &"make_current"
+}]
+}
 
-[sub_resource type="Animation" id="Animation_unyc1"]
+[sub_resource type="Animation" id="Animation_8sdl2"]
 length = 0.001
 tracks/0/type = "bezier"
 tracks/0/imported = false
@@ -57,7 +71,7 @@ tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
 "handle_modes": PackedInt32Array(0),
-"points": PackedFloat32Array(1.2, -0.15, 0, 0.15, 0),
+"points": PackedFloat32Array(1.2, -0.25, 0, 0.25, 0),
 "times": PackedFloat32Array(0)
 }
 tracks/1/type = "bezier"
@@ -68,21 +82,20 @@ tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/keys = {
 "handle_modes": PackedInt32Array(0),
-"points": PackedFloat32Array(1.2, -0.15, 0, 0.15, 0),
+"points": PackedFloat32Array(1.2, -0.25, 0, 0.25, 0),
 "times": PackedFloat32Array(0)
 }
 
-[sub_resource type="AnimationLibrary" id="AnimationLibrary_70l52"]
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_cnbki"]
 _data = {
-"RESET": SubResource("Animation_unyc1"),
-"open": SubResource("Animation_ixe2j")
+"RESET": SubResource("Animation_8sdl2"),
+"open": SubResource("Animation_mtvvi")
 }
 
 [node name="Life Support System" type="Node2D"]
 script = ExtResource("1_gfff3")
 
 [node name="Camera2D" type="Camera2D" parent="."]
-enabled = false
 zoom = Vector2(1.2, 1.2)
 process_callback = 0
 
@@ -121,7 +134,7 @@ shape = SubResource("WorldBoundaryShape2D_434fa")
 position = Vector2(164, 0)
 shape = SubResource("WorldBoundaryShape2D_mynuh")
 
-[node name="Algae Container" type="Node" parent="."]
+[node name="Algae Container" type="Node2D" parent="."]
 
 [node name="Cooker Area" type="Area2D" parent="."]
 position = Vector2(72, 20)
@@ -148,7 +161,7 @@ one_shot = true
 
 [node name="Animator" type="AnimationPlayer" parent="."]
 libraries = {
-"": SubResource("AnimationLibrary_70l52")
+"": SubResource("AnimationLibrary_cnbki")
 }
 
 [connection signal="body_entered" from="Cooker Area" to="." method="_on_cooker_area_body_entered"]

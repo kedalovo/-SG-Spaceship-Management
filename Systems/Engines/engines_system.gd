@@ -1,9 +1,6 @@
 extends system
 
 
-class_name engines
-
-
 const CELL_SCENE = preload("res://Systems/Engines/Cell/cell.tscn")
 
 @onready var cells_container: Node2D = $Cells
@@ -22,6 +19,7 @@ const CELL_SCENE = preload("res://Systems/Engines/Cell/cell.tscn")
 
 
 func _ready() -> void:
+	super._ready()
 	setup_slots()
 	setup_cells()
 	fuel_timer.start()
@@ -56,7 +54,7 @@ func setup_cells() -> void:
 
 
 func reset_cells() -> void:
-	print_debug("Fuel cells: ", cells_fuel.size())
+	#print_debug("Fuel cells: ", cells_fuel.size())
 	for cell_idx in cells_fuel.size():
 		var cell: Cell = cells_fuel[cell_idx]
 		if cell.is_depleted or cell.is_depleting or cell.is_destroyed:
