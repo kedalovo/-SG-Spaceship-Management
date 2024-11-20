@@ -1,12 +1,15 @@
-[gd_scene load_steps=21 format=3 uid="uid://dr0fafp1u36yj"]
+[gd_scene load_steps=40 format=3 uid="uid://dr0fafp1u36yj"]
 
 [ext_resource type="Script" path="res://Game Scene/game.gd" id="1_t00el"]
 [ext_resource type="Texture2D" uid="uid://dmcht1gqpy4v3" path="res://Systems/Life Support/Assets/Life Support.png" id="2_3bjf3"]
+[ext_resource type="Texture2D" uid="uid://c6wdksyljuwx5" path="res://Systems/Systems Background.png" id="2_idqil"]
 [ext_resource type="Texture2D" uid="uid://crc0xix75leon" path="res://Systems/Life Support/Assets/Life Support outline.png" id="3_hjlia"]
 [ext_resource type="Script" path="res://Systems/system_visual.gd" id="3_kjvah"]
 [ext_resource type="Texture2D" uid="uid://ssmcw3sgvd41" path="res://Systems/Engines/Assets/Engines.png" id="4_jxdcm"]
+[ext_resource type="Texture2D" uid="uid://cmrd1b8glluvk" path="res://Systems/Warning light spritesheet.png" id="4_lunap"]
 [ext_resource type="Texture2D" uid="uid://brae5e5l23kpa" path="res://Systems/Engines/Assets/Engines Outline.png" id="5_6eb6w"]
 [ext_resource type="Texture2D" uid="uid://cnclshu285y1g" path="res://Systems/Hull/Assets/Hull.png" id="6_a3iyu"]
+[ext_resource type="Texture2D" uid="uid://bfnmgqj2tq8wu" path="res://Systems/Light.png" id="6_glmdj"]
 [ext_resource type="Texture2D" uid="uid://bcklxi8t78ysf" path="res://Systems/Hull/Assets/Hull Outline.png" id="7_meg7b"]
 [ext_resource type="Texture2D" uid="uid://dcnklmox7xujm" path="res://Systems/Electrical/Assets/Electrical.png" id="8_qtinh"]
 [ext_resource type="Texture2D" uid="uid://dyveh6205nwoq" path="res://Systems/Electrical/Assets/Electrical Outline.png" id="9_xw2r2"]
@@ -21,11 +24,148 @@
 [ext_resource type="PackedScene" uid="uid://c22b6p4rrgv5p" path="res://Systems/External/external_system.tscn" id="19_kf2ef"]
 [ext_resource type="PackedScene" uid="uid://cn0fv0fedt2ig" path="res://Systems/Computer/computer_system.tscn" id="20_1h5sm"]
 
+[sub_resource type="AtlasTexture" id="AtlasTexture_kost8"]
+atlas = ExtResource("4_lunap")
+region = Rect2(0, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_mqpji"]
+atlas = ExtResource("4_lunap")
+region = Rect2(0, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_577oo"]
+atlas = ExtResource("4_lunap")
+region = Rect2(16, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_41emw"]
+atlas = ExtResource("4_lunap")
+region = Rect2(32, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_pbdgm"]
+atlas = ExtResource("4_lunap")
+region = Rect2(48, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_qxx78"]
+atlas = ExtResource("4_lunap")
+region = Rect2(64, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_0ftny"]
+atlas = ExtResource("4_lunap")
+region = Rect2(80, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_m60do"]
+atlas = ExtResource("4_lunap")
+region = Rect2(96, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_k2qao"]
+atlas = ExtResource("4_lunap")
+region = Rect2(112, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ruvoc"]
+atlas = ExtResource("4_lunap")
+region = Rect2(128, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_e1frc"]
+atlas = ExtResource("4_lunap")
+region = Rect2(144, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ihln6"]
+atlas = ExtResource("4_lunap")
+region = Rect2(160, 0, 16, 16)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_ilhr1"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_kost8")
+}],
+"loop": false,
+"name": &"default",
+"speed": 1.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_mqpji")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_577oo")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_41emw")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_pbdgm")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_qxx78")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_0ftny")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_m60do")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_k2qao")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ruvoc")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_e1frc")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ihln6")
+}],
+"loop": true,
+"name": &"warning",
+"speed": 11.0
+}]
+
+[sub_resource type="Animation" id="Animation_xrol2"]
+resource_name = "idle"
+loop_mode = 1
+step = 0.05
+tracks/0/type = "bezier"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:energy")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"handle_modes": PackedInt32Array(0, 0, 0),
+"points": PackedFloat32Array(1, 0, 0, 0.1, 0, 5, -0.1, 0, 0.1, 0, 1, -0.1, 0, 0, 0),
+"times": PackedFloat32Array(0, 0.5, 1)
+}
+
+[sub_resource type="Animation" id="Animation_5t5ek"]
+length = 0.001
+tracks/0/type = "bezier"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:energy")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"handle_modes": PackedInt32Array(0),
+"points": PackedFloat32Array(3, -0.25, 0, 0.25, 0),
+"times": PackedFloat32Array(0)
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_gutu4"]
+_data = {
+"RESET": SubResource("Animation_5t5ek"),
+"idle": SubResource("Animation_xrol2")
+}
+
 [node name="Game" type="Node2D"]
 script = ExtResource("1_t00el")
 
 [node name="Camera2D" type="Camera2D" parent="."]
 anchor_mode = 0
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+position = Vector2(608, 270)
+texture = ExtResource("2_idqil")
 
 [node name="CabinColorRect" type="ColorRect" parent="."]
 offset_left = 16.0
@@ -80,12 +220,26 @@ position = Vector2(-216, -112)
 texture = ExtResource("2_3bjf3")
 script = ExtResource("3_kjvah")
 
-[node name="WarningLight" type="ColorRect" parent="Systems Sprites/LifeSupportSprite"]
-offset_left = -8.0
-offset_top = -96.0
-offset_right = 8.0
-offset_bottom = -80.0
-color = Color(0.460938, 0.00720215, 0.00720215, 1)
+[node name="Warning Light" type="AnimatedSprite2D" parent="Systems Sprites/LifeSupportSprite"]
+light_mask = 2
+visibility_layer = 2
+position = Vector2(0, -72)
+sprite_frames = SubResource("SpriteFrames_ilhr1")
+animation = &"warning"
+autoplay = "warning"
+
+[node name="PointLight2D" type="PointLight2D" parent="Systems Sprites/LifeSupportSprite/Warning Light"]
+visible = false
+color = Color(1, 0, 0, 1)
+energy = 3.0
+blend_mode = 2
+texture = ExtResource("6_glmdj")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="Systems Sprites/LifeSupportSprite/Warning Light/PointLight2D"]
+libraries = {
+"": SubResource("AnimationLibrary_gutu4")
+}
+autoplay = "idle"
 
 [node name="Outline" type="Sprite2D" parent="Systems Sprites/LifeSupportSprite"]
 visible = false
@@ -105,12 +259,12 @@ texture = ExtResource("4_jxdcm")
 script = ExtResource("3_kjvah")
 system_index = 1
 
-[node name="WarningLight" type="ColorRect" parent="Systems Sprites/EnginesSprite"]
-offset_left = -8.0
-offset_top = -96.0
-offset_right = 8.0
-offset_bottom = -80.0
-color = Color(0.460938, 0.00720215, 0.00720215, 1)
+[node name="Warning Light" type="AnimatedSprite2D" parent="Systems Sprites/EnginesSprite"]
+light_mask = 2
+visibility_layer = 2
+position = Vector2(0, -72)
+sprite_frames = SubResource("SpriteFrames_ilhr1")
+autoplay = "default"
 
 [node name="Outline" type="Sprite2D" parent="Systems Sprites/EnginesSprite"]
 visible = false
@@ -130,12 +284,12 @@ texture = ExtResource("6_a3iyu")
 script = ExtResource("3_kjvah")
 system_index = 2
 
-[node name="WarningLight" type="ColorRect" parent="Systems Sprites/HullSprite"]
-offset_left = -8.0
-offset_top = -96.0
-offset_right = 8.0
-offset_bottom = -80.0
-color = Color(0.460938, 0.00720215, 0.00720215, 1)
+[node name="Warning Light" type="AnimatedSprite2D" parent="Systems Sprites/HullSprite"]
+light_mask = 2
+visibility_layer = 2
+position = Vector2(0, -72)
+sprite_frames = SubResource("SpriteFrames_ilhr1")
+autoplay = "default"
 
 [node name="Outline" type="Sprite2D" parent="Systems Sprites/HullSprite"]
 visible = false
@@ -150,17 +304,17 @@ focus_mode = 0
 flat = true
 
 [node name="ElectricalSprite" type="Sprite2D" parent="Systems Sprites"]
-position = Vector2(-216, 104)
+position = Vector2(-216, 65)
 texture = ExtResource("8_qtinh")
 script = ExtResource("3_kjvah")
 system_index = 3
 
-[node name="WarningLight" type="ColorRect" parent="Systems Sprites/ElectricalSprite"]
-offset_left = -8.0
-offset_top = -96.0
-offset_right = 8.0
-offset_bottom = -80.0
-color = Color(0.460938, 0.00720215, 0.00720215, 1)
+[node name="Warning Light" type="AnimatedSprite2D" parent="Systems Sprites/ElectricalSprite"]
+light_mask = 2
+visibility_layer = 2
+position = Vector2(0, -72)
+sprite_frames = SubResource("SpriteFrames_ilhr1")
+autoplay = "default"
 
 [node name="Outline" type="Sprite2D" parent="Systems Sprites/ElectricalSprite"]
 visible = false
@@ -180,12 +334,12 @@ texture = ExtResource("10_50i1v")
 script = ExtResource("3_kjvah")
 system_index = 4
 
-[node name="WarningLight" type="ColorRect" parent="Systems Sprites/ExternalSprite"]
-offset_left = -8.0
-offset_top = -96.0
-offset_right = 8.0
-offset_bottom = -80.0
-color = Color(0.460938, 0.00720215, 0.00720215, 1)
+[node name="Warning Light" type="AnimatedSprite2D" parent="Systems Sprites/ExternalSprite"]
+light_mask = 2
+visibility_layer = 2
+position = Vector2(0, -72)
+sprite_frames = SubResource("SpriteFrames_ilhr1")
+autoplay = "default"
 
 [node name="Outline" type="Sprite2D" parent="Systems Sprites/ExternalSprite"]
 visible = false
@@ -205,12 +359,12 @@ texture = ExtResource("12_dg67k")
 script = ExtResource("3_kjvah")
 system_index = 5
 
-[node name="WarningLight" type="ColorRect" parent="Systems Sprites/ComputerSprite"]
-offset_left = -8.0
-offset_top = -96.0
-offset_right = 8.0
-offset_bottom = -80.0
-color = Color(0.460938, 0.00720215, 0.00720215, 1)
+[node name="Warning Light" type="AnimatedSprite2D" parent="Systems Sprites/ComputerSprite"]
+light_mask = 2
+visibility_layer = 2
+position = Vector2(0, -72)
+sprite_frames = SubResource("SpriteFrames_ilhr1")
+autoplay = "default"
 
 [node name="Outline" type="Sprite2D" parent="Systems Sprites/ComputerSprite"]
 visible = false
