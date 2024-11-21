@@ -1,4 +1,4 @@
-[gd_scene load_steps=40 format=3 uid="uid://dr0fafp1u36yj"]
+[gd_scene load_steps=41 format=3 uid="uid://dr0fafp1u36yj"]
 
 [ext_resource type="Script" path="res://Game Scene/game.gd" id="1_t00el"]
 [ext_resource type="Texture2D" uid="uid://dmcht1gqpy4v3" path="res://Systems/Life Support/Assets/Life Support.png" id="2_3bjf3"]
@@ -23,6 +23,7 @@
 [ext_resource type="PackedScene" uid="uid://ccemslh3u213h" path="res://Systems/Electrical/electrical_system.tscn" id="18_p0hwu"]
 [ext_resource type="PackedScene" uid="uid://c22b6p4rrgv5p" path="res://Systems/External/external_system.tscn" id="19_kf2ef"]
 [ext_resource type="PackedScene" uid="uid://cn0fv0fedt2ig" path="res://Systems/Computer/computer_system.tscn" id="20_1h5sm"]
+[ext_resource type="PackedScene" uid="uid://c1lkqnbuafwie" path="res://Space/space.tscn" id="24_qmju5"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_kost8"]
 atlas = ExtResource("4_lunap")
@@ -121,6 +122,20 @@ animations = [{
 "speed": 11.0
 }]
 
+[sub_resource type="Animation" id="Animation_5t5ek"]
+length = 0.001
+tracks/0/type = "bezier"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:energy")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"handle_modes": PackedInt32Array(0),
+"points": PackedFloat32Array(3, -0.25, 0, 0.25, 0),
+"times": PackedFloat32Array(0)
+}
+
 [sub_resource type="Animation" id="Animation_xrol2"]
 resource_name = "idle"
 loop_mode = 1
@@ -135,20 +150,6 @@ tracks/0/keys = {
 "handle_modes": PackedInt32Array(0, 0, 0),
 "points": PackedFloat32Array(1, 0, 0, 0.1, 0, 5, -0.1, 0, 0.1, 0, 1, -0.1, 0, 0, 0),
 "times": PackedFloat32Array(0, 0.5, 1)
-}
-
-[sub_resource type="Animation" id="Animation_5t5ek"]
-length = 0.001
-tracks/0/type = "bezier"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath(".:energy")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"handle_modes": PackedInt32Array(0),
-"points": PackedFloat32Array(3, -0.25, 0, 0.25, 0),
-"times": PackedFloat32Array(0)
 }
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_gutu4"]
@@ -207,11 +208,6 @@ rotation = -1.57079
 color = Color(1, 0.838562, 0.101563, 1)
 polygon = PackedVector2Array(-8, 0, -8, -16, -16, -16, 0, -32, 16, -16, 8, -16, 8, 0)
 
-[node name="Separator" type="VSeparator" parent="."]
-offset_left = 256.0
-offset_right = 260.0
-offset_bottom = 544.0
-
 [node name="Systems Sprites" type="Node2D" parent="."]
 position = Vector2(608, 280)
 
@@ -225,8 +221,7 @@ light_mask = 2
 visibility_layer = 2
 position = Vector2(0, -72)
 sprite_frames = SubResource("SpriteFrames_ilhr1")
-animation = &"warning"
-autoplay = "warning"
+autoplay = "default"
 
 [node name="PointLight2D" type="PointLight2D" parent="Systems Sprites/LifeSupportSprite/Warning Light"]
 visible = false
@@ -529,6 +524,17 @@ position = Vector2(308, 216)
 
 [node name="Computer System" parent="SubViewportContainer/SubViewport" instance=ExtResource("20_1h5sm")]
 visible = false
+
+[node name="SubViewportContainer2" type="SubViewportContainer" parent="."]
+offset_right = 256.0
+offset_bottom = 384.0
+
+[node name="SubViewport" type="SubViewport" parent="SubViewportContainer2"]
+handle_input_locally = false
+size = Vector2i(256, 368)
+render_target_update_mode = 4
+
+[node name="Space" parent="SubViewportContainer2/SubViewport" instance=ExtResource("24_qmju5")]
 
 [connection signal="system_pressed" from="Systems Sprites/LifeSupportSprite" to="." method="_on_system_sprite_pressed"]
 [connection signal="mouse_entered" from="Systems Sprites/LifeSupportSprite/Button" to="Systems Sprites/LifeSupportSprite" method="_on_button_mouse_entered"]

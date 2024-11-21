@@ -11,6 +11,8 @@ extends Node2D
 @onready var system_container: Control = $"System Container"
 @onready var sub_viewport_container: SubViewportContainer = $SubViewportContainer
 
+@onready var space: Node2D = $SubViewportContainer2/SubViewport/Space
+
 @onready var systems: Array[system] = [
 	life_support_system, engines_system, hull_system,
 	electrical_system, external_system, computer_system]
@@ -27,6 +29,14 @@ func _input(event: InputEvent) -> void:
 		pass
 	if event.is_action_pressed(&"test"):
 		pass
+	if event.is_action_pressed(&"left"):
+		space.move(Vector2.LEFT)
+	if event.is_action_pressed(&"right"):
+		space.move(Vector2.RIGHT)
+	if event.is_action_pressed(&"up"):
+		space.move(Vector2.UP)
+	if event.is_action_pressed(&"down"):
+		space.move(Vector2.DOWN)
 
 
 func _on_system_sprite_pressed(system_index: int) -> void:
