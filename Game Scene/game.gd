@@ -11,7 +11,8 @@ extends Node2D
 @onready var system_container: Control = $"System Container"
 @onready var sub_viewport_container: SubViewportContainer = $SubViewportContainer
 
-@onready var space: Node2D = $SubViewportContainer2/SubViewport/Space
+@onready var cabin: Node2D = $Cabin
+@onready var space: Node2D = $Cabin/SubViewportContainer2/SubViewport/Space
 
 @onready var systems: Array[system] = [
 	life_support_system, engines_system, hull_system,

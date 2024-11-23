@@ -1,10 +1,12 @@
-[gd_scene load_steps=41 format=3 uid="uid://dr0fafp1u36yj"]
+[gd_scene load_steps=43 format=3 uid="uid://dr0fafp1u36yj"]
 
 [ext_resource type="Script" path="res://Game Scene/game.gd" id="1_t00el"]
 [ext_resource type="Texture2D" uid="uid://dmcht1gqpy4v3" path="res://Systems/Life Support/Assets/Life Support.png" id="2_3bjf3"]
+[ext_resource type="Script" path="res://Cabin/cabin.gd" id="2_esnsn"]
 [ext_resource type="Texture2D" uid="uid://c6wdksyljuwx5" path="res://Systems/Systems Background.png" id="2_idqil"]
 [ext_resource type="Texture2D" uid="uid://crc0xix75leon" path="res://Systems/Life Support/Assets/Life Support outline.png" id="3_hjlia"]
 [ext_resource type="Script" path="res://Systems/system_visual.gd" id="3_kjvah"]
+[ext_resource type="Texture2D" uid="uid://di126eprnvoei" path="res://Cabin/Cabin controls.png" id="4_ev5uv"]
 [ext_resource type="Texture2D" uid="uid://ssmcw3sgvd41" path="res://Systems/Engines/Assets/Engines.png" id="4_jxdcm"]
 [ext_resource type="Texture2D" uid="uid://cmrd1b8glluvk" path="res://Systems/Warning light spritesheet.png" id="4_lunap"]
 [ext_resource type="Texture2D" uid="uid://brae5e5l23kpa" path="res://Systems/Engines/Assets/Engines Outline.png" id="5_6eb6w"]
@@ -164,49 +166,30 @@ script = ExtResource("1_t00el")
 [node name="Camera2D" type="Camera2D" parent="."]
 anchor_mode = 0
 
-[node name="Sprite2D" type="Sprite2D" parent="."]
+[node name="Cabin" type="Node2D" parent="."]
+script = ExtResource("2_esnsn")
+
+[node name="SubViewportContainer2" type="SubViewportContainer" parent="Cabin"]
+offset_right = 256.0
+offset_bottom = 384.0
+
+[node name="SubViewport" type="SubViewport" parent="Cabin/SubViewportContainer2"]
+handle_input_locally = false
+size = Vector2i(256, 384)
+render_target_update_mode = 4
+
+[node name="Space" parent="Cabin/SubViewportContainer2/SubViewport" instance=ExtResource("24_qmju5")]
+
+[node name="Controls" type="Node2D" parent="Cabin"]
+position = Vector2(0, 384)
+
+[node name="Sprite2D" type="Sprite2D" parent="Cabin/Controls"]
+texture = ExtResource("4_ev5uv")
+centered = false
+
+[node name="Systems Background" type="Sprite2D" parent="."]
 position = Vector2(608, 270)
 texture = ExtResource("2_idqil")
-
-[node name="CabinColorRect" type="ColorRect" parent="."]
-offset_left = 16.0
-offset_top = 16.0
-offset_right = 240.0
-offset_bottom = 368.0
-color = Color(0.0107422, 0.0170364, 0.171875, 1)
-
-[node name="ShipControlsColorRect" type="ColorRect" parent="."]
-offset_left = 16.0
-offset_top = 384.0
-offset_right = 240.0
-offset_bottom = 528.0
-color = Color(0.0976563, 0.0953674, 0.0953674, 1)
-
-[node name="Arrows" type="Node2D" parent="ShipControlsColorRect"]
-position = Vector2(112, 72)
-
-[node name="Arrow" type="Polygon2D" parent="ShipControlsColorRect/Arrows"]
-position = Vector2(0, -16)
-color = Color(1, 0.838562, 0.101563, 1)
-polygon = PackedVector2Array(-8, 0, -8, -16, -16, -16, 0, -32, 16, -16, 8, -16, 8, 0)
-
-[node name="Arrow2" type="Polygon2D" parent="ShipControlsColorRect/Arrows"]
-position = Vector2(16, 0)
-rotation = 1.57079
-color = Color(1, 0.838562, 0.101563, 1)
-polygon = PackedVector2Array(-8, 0, -8, -16, -16, -16, 0, -32, 16, -16, 8, -16, 8, 0)
-
-[node name="Arrow3" type="Polygon2D" parent="ShipControlsColorRect/Arrows"]
-position = Vector2(0, 16)
-rotation = -3.14159
-color = Color(1, 0.838562, 0.101563, 1)
-polygon = PackedVector2Array(-8, 0, -8, -16, -16, -16, 0, -32, 16, -16, 8, -16, 8, 0)
-
-[node name="Arrow4" type="Polygon2D" parent="ShipControlsColorRect/Arrows"]
-position = Vector2(-16, 0)
-rotation = -1.57079
-color = Color(1, 0.838562, 0.101563, 1)
-polygon = PackedVector2Array(-8, 0, -8, -16, -16, -16, 0, -32, 16, -16, 8, -16, 8, 0)
 
 [node name="Systems Sprites" type="Node2D" parent="."]
 position = Vector2(608, 280)
@@ -524,17 +507,6 @@ position = Vector2(308, 216)
 
 [node name="Computer System" parent="SubViewportContainer/SubViewport" instance=ExtResource("20_1h5sm")]
 visible = false
-
-[node name="SubViewportContainer2" type="SubViewportContainer" parent="."]
-offset_right = 256.0
-offset_bottom = 384.0
-
-[node name="SubViewport" type="SubViewport" parent="SubViewportContainer2"]
-handle_input_locally = false
-size = Vector2i(256, 368)
-render_target_update_mode = 4
-
-[node name="Space" parent="SubViewportContainer2/SubViewport" instance=ExtResource("24_qmju5")]
 
 [connection signal="system_pressed" from="Systems Sprites/LifeSupportSprite" to="." method="_on_system_sprite_pressed"]
 [connection signal="mouse_entered" from="Systems Sprites/LifeSupportSprite/Button" to="Systems Sprites/LifeSupportSprite" method="_on_button_mouse_entered"]

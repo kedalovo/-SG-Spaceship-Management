@@ -138,6 +138,7 @@ local_coords = true
 position = Vector2(128, 192)
 
 [node name="Grid" type="Node2D" parent="."]
+modulate = Color(1, 1, 1, 0.27451)
 position = Vector2(128, 192)
 
 [node name="HSeparator" type="HSeparator" parent="Grid"]
@@ -163,9 +164,3 @@ offset_left = 16.0
 offset_top = -96.0
 offset_right = 48.0
 offset_bottom = 96.0
-
-[node name="PosLabel" type="Label" parent="."]
-offset_left = 112.0
-offset_top = 176.0
-offset_right = 152.0
-offset_bottom = 199.0
