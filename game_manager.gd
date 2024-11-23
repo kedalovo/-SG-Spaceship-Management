@@ -24,7 +24,7 @@ const HEATER_MODULE_BLUEPRINT = preload("res://Systems/External/Assets/Heater mo
 
 const WIRE_COLORS: Array[Color] = [Color.RED, Color.BLUE, Color.YELLOW, Color.GREEN, Color.MAGENTA]
 
-var is_in_system: bool = false
+static var is_in_system: bool = false
 
 
 enum damage_types {

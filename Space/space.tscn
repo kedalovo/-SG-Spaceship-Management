@@ -105,9 +105,9 @@ color = Color(0, 0, 0, 1)
 position = Vector2(128, 192)
 
 [node name="Far Particles" type="GPUParticles2D" parent="Particles"]
-amount = 100
+amount = 120
 process_material = SubResource("ParticleProcessMaterial_iqwf5")
-lifetime = 25.0
+lifetime = 30.0
 preprocess = 60.0
 fixed_fps = 60
 interpolate = false
@@ -115,9 +115,9 @@ fract_delta = false
 local_coords = true
 
 [node name="Middle Particles" type="GPUParticles2D" parent="Particles"]
-amount = 100
+amount = 125
 process_material = SubResource("ParticleProcessMaterial_sxsfi")
-lifetime = 12.0
+lifetime = 15.0
 preprocess = 60.0
 fixed_fps = 60
 interpolate = false
@@ -125,9 +125,9 @@ fract_delta = false
 local_coords = true
 
 [node name="Close Particles" type="GPUParticles2D" parent="Particles"]
-amount = 50
+amount = 100
 process_material = SubResource("ParticleProcessMaterial_oteyy")
-lifetime = 2.0
+lifetime = 4.0
 preprocess = 60.0
 fixed_fps = 60
 interpolate = false
