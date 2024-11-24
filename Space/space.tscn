@@ -164,3 +164,6 @@ offset_left = 16.0
 offset_top = -96.0
 offset_right = 48.0
 offset_bottom = 96.0
+
+[node name="Incoming Hazards" type="Node2D" parent="."]
+position = Vector2(128, 192)

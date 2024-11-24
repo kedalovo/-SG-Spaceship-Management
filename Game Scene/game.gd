@@ -85,3 +85,16 @@ func _on_right_button_pressed() -> void:
 
 func _on_up_button_pressed() -> void:
 	space.move(Vector2.DOWN)
+
+
+func _on_damaged(strength: int, type: game_manager.damage_types) -> void:
+	var damage_variants: Array[system] = []
+	match type:
+		game_manager.damage_types.PHYSICAL:
+			damage_variants = [hull_system, engines_system, electrical_system, external_system]
+		game_manager.damage_types.HEAT:
+			damage_variants = [life_support_system, engines_system, external_system]
+		game_manager.damage_types.ELECTRICITY:
+			damage_variants = [electrical_system, computer_system, external_system]
+	for i in strength:
+		damage_variants.pick_random()._damage(1, type)

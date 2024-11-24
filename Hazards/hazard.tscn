@@ -1,0 +1,21 @@
+[gd_scene load_steps=2 format=3 uid="uid://bhegifuej00am"]
+
+[ext_resource type="Script" path="res://Hazards/hazard.gd" id="1_gbao2"]
+
+[node name="Hazard" type="Node2D"]
+script = ExtResource("1_gbao2")
+
+[node name="Sprite" type="Sprite2D" parent="."]
+
+[node name="ColorRect" type="ColorRect" parent="Sprite"]
+offset_left = -8.0
+offset_top = -8.0
+offset_right = 8.0
+offset_bottom = 8.0
+
+[node name="Timer" type="Timer" parent="."]
+process_callback = 0
+one_shot = true
+autostart = true
+
+[connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]
