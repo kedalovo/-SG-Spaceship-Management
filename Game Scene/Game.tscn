@@ -1,4 +1,4 @@
-[gd_scene load_steps=43 format=3 uid="uid://dr0fafp1u36yj"]
+[gd_scene load_steps=59 format=3 uid="uid://dr0fafp1u36yj"]
 
 [ext_resource type="Script" path="res://Game Scene/game.gd" id="1_t00el"]
 [ext_resource type="Texture2D" uid="uid://dmcht1gqpy4v3" path="res://Systems/Life Support/Assets/Life Support.png" id="2_3bjf3"]
@@ -6,25 +6,41 @@
 [ext_resource type="Texture2D" uid="uid://c6wdksyljuwx5" path="res://Systems/Systems Background.png" id="2_idqil"]
 [ext_resource type="Texture2D" uid="uid://crc0xix75leon" path="res://Systems/Life Support/Assets/Life Support outline.png" id="3_hjlia"]
 [ext_resource type="Script" path="res://Systems/system_visual.gd" id="3_kjvah"]
-[ext_resource type="Texture2D" uid="uid://di126eprnvoei" path="res://Cabin/Cabin controls.png" id="4_ev5uv"]
+[ext_resource type="Texture2D" uid="uid://di126eprnvoei" path="res://Cabin/Assets/Cabin controls.png" id="4_ev5uv"]
 [ext_resource type="Texture2D" uid="uid://ssmcw3sgvd41" path="res://Systems/Engines/Assets/Engines.png" id="4_jxdcm"]
 [ext_resource type="Texture2D" uid="uid://cmrd1b8glluvk" path="res://Systems/Warning light spritesheet.png" id="4_lunap"]
 [ext_resource type="Texture2D" uid="uid://brae5e5l23kpa" path="res://Systems/Engines/Assets/Engines Outline.png" id="5_6eb6w"]
+[ext_resource type="Texture2D" uid="uid://cpmqyf1b7gymd" path="res://Cabin/Assets/Left Button normal.png" id="5_wtfky"]
+[ext_resource type="Texture2D" uid="uid://b6g1li45ghsv5" path="res://Cabin/Assets/Left Button pressed.png" id="6_673gh"]
 [ext_resource type="Texture2D" uid="uid://cnclshu285y1g" path="res://Systems/Hull/Assets/Hull.png" id="6_a3iyu"]
 [ext_resource type="Texture2D" uid="uid://bfnmgqj2tq8wu" path="res://Systems/Light.png" id="6_glmdj"]
 [ext_resource type="Texture2D" uid="uid://bcklxi8t78ysf" path="res://Systems/Hull/Assets/Hull Outline.png" id="7_meg7b"]
+[ext_resource type="Texture2D" uid="uid://7hck1y2m5x6m" path="res://Cabin/Assets/Left Button hover.png" id="7_riorj"]
+[ext_resource type="BitMap" uid="uid://ccxtj5rtp0ssb" path="res://Cabin/Assets/Left Button bitmask.png" id="8_2ulpr"]
 [ext_resource type="Texture2D" uid="uid://dcnklmox7xujm" path="res://Systems/Electrical/Assets/Electrical.png" id="8_qtinh"]
+[ext_resource type="Texture2D" uid="uid://t2xdbg7drsu7" path="res://Cabin/Assets/Down Button normal.png" id="9_iu3k7"]
 [ext_resource type="Texture2D" uid="uid://dyveh6205nwoq" path="res://Systems/Electrical/Assets/Electrical Outline.png" id="9_xw2r2"]
+[ext_resource type="Texture2D" uid="uid://dkshmn4qweail" path="res://Cabin/Assets/Down Button pressed.png" id="10_6gvbp"]
 [ext_resource type="Texture2D" uid="uid://bxiggfy5n5u5t" path="res://Systems/External/Assets/External.png" id="10_50i1v"]
 [ext_resource type="Texture2D" uid="uid://bldg33ymu5far" path="res://Systems/External/Assets/External Outline.png" id="11_0dyms"]
+[ext_resource type="Texture2D" uid="uid://bdht7oxcycyoi" path="res://Cabin/Assets/Down Button hover.png" id="11_nk282"]
+[ext_resource type="BitMap" uid="uid://tu18j8btvnwa" path="res://Cabin/Assets/Down Button bitmask.png" id="12_8h7ro"]
 [ext_resource type="Texture2D" uid="uid://b1cawx0a3unrq" path="res://Systems/Computer/Assets/Computer.png" id="12_dg67k"]
 [ext_resource type="Texture2D" uid="uid://d3un7bfac0jb6" path="res://Systems/Computer/Assets/Computer Outline.png" id="13_3ucug"]
+[ext_resource type="Texture2D" uid="uid://ccxnlgvbmhyh0" path="res://Cabin/Assets/Right Button normal.png" id="13_pdyli"]
+[ext_resource type="Texture2D" uid="uid://kqxovoij3k8a" path="res://Cabin/Assets/Right Button pressed.png" id="14_g5vwh"]
+[ext_resource type="Texture2D" uid="uid://du65wrrdv5boc" path="res://Cabin/Assets/Right Button hover.png" id="15_6iv40"]
 [ext_resource type="PackedScene" uid="uid://vofuvgwwjlr5" path="res://Systems/Life Support/life_support_system.tscn" id="15_8do5x"]
+[ext_resource type="BitMap" uid="uid://d038aupxmw832" path="res://Cabin/Assets/Right Button bitmask.png" id="16_651qh"]
 [ext_resource type="PackedScene" uid="uid://ncafby3f1swm" path="res://Systems/Engines/engines_system.tscn" id="16_trc1u"]
+[ext_resource type="Texture2D" uid="uid://dxw2l70ibfc0w" path="res://Cabin/Assets/Up Button normal.png" id="17_aga0h"]
 [ext_resource type="PackedScene" uid="uid://bwc0fqgxuabpd" path="res://Systems/Hull/hull_system.tscn" id="17_unxvt"]
+[ext_resource type="Texture2D" uid="uid://cabhc7scndwa1" path="res://Cabin/Assets/Up Button pressed.png" id="18_6souy"]
 [ext_resource type="PackedScene" uid="uid://ccemslh3u213h" path="res://Systems/Electrical/electrical_system.tscn" id="18_p0hwu"]
+[ext_resource type="Texture2D" uid="uid://c8c2ggsbhwgws" path="res://Cabin/Assets/Up Button hover.png" id="19_j6524"]
 [ext_resource type="PackedScene" uid="uid://c22b6p4rrgv5p" path="res://Systems/External/external_system.tscn" id="19_kf2ef"]
 [ext_resource type="PackedScene" uid="uid://cn0fv0fedt2ig" path="res://Systems/Computer/computer_system.tscn" id="20_1h5sm"]
+[ext_resource type="BitMap" uid="uid://csmaqmv7np4t4" path="res://Cabin/Assets/Up Button bitmask.png" id="20_aibmr"]
 [ext_resource type="PackedScene" uid="uid://c1lkqnbuafwie" path="res://Space/space.tscn" id="24_qmju5"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_kost8"]
@@ -183,9 +199,69 @@ render_target_update_mode = 4
 [node name="Controls" type="Node2D" parent="Cabin"]
 position = Vector2(0, 384)
 
-[node name="Sprite2D" type="Sprite2D" parent="Cabin/Controls"]
+[node name="Sprite" type="Sprite2D" parent="Cabin/Controls"]
 texture = ExtResource("4_ev5uv")
 centered = false
+
+[node name="Left Button" type="TextureButton" parent="Cabin/Controls"]
+offset_left = 44.0
+offset_top = 21.0
+offset_right = 98.0
+offset_bottom = 111.0
+focus_mode = 0
+mouse_default_cursor_shape = 2
+action_mode = 0
+shortcut_feedback = false
+shortcut_in_tooltip = false
+texture_normal = ExtResource("5_wtfky")
+texture_pressed = ExtResource("6_673gh")
+texture_hover = ExtResource("7_riorj")
+texture_click_mask = ExtResource("8_2ulpr")
+
+[node name="Down Button" type="TextureButton" parent="Cabin/Controls"]
+offset_left = 74.0
+offset_top = 86.0
+offset_right = 182.0
+offset_bottom = 126.0
+focus_mode = 0
+mouse_default_cursor_shape = 2
+action_mode = 0
+shortcut_feedback = false
+shortcut_in_tooltip = false
+texture_normal = ExtResource("9_iu3k7")
+texture_pressed = ExtResource("10_6gvbp")
+texture_hover = ExtResource("11_nk282")
+texture_click_mask = ExtResource("12_8h7ro")
+
+[node name="Right Button" type="TextureButton" parent="Cabin/Controls"]
+offset_left = 158.0
+offset_top = 21.0
+offset_right = 212.0
+offset_bottom = 111.0
+focus_mode = 0
+mouse_default_cursor_shape = 2
+action_mode = 0
+shortcut_feedback = false
+shortcut_in_tooltip = false
+texture_normal = ExtResource("13_pdyli")
+texture_pressed = ExtResource("14_g5vwh")
+texture_hover = ExtResource("15_6iv40")
+texture_click_mask = ExtResource("16_651qh")
+
+[node name="Up Button" type="TextureButton" parent="Cabin/Controls"]
+offset_left = 93.0
+offset_top = 30.0
+offset_right = 163.0
+offset_bottom = 70.0
+focus_mode = 0
+mouse_default_cursor_shape = 2
+action_mode = 0
+shortcut_feedback = false
+shortcut_in_tooltip = false
+texture_normal = ExtResource("17_aga0h")
+texture_pressed = ExtResource("18_6souy")
+texture_hover = ExtResource("19_j6524")
+texture_click_mask = ExtResource("20_aibmr")
 
 [node name="Systems Background" type="Sprite2D" parent="."]
 position = Vector2(608, 270)
@@ -229,6 +305,7 @@ offset_top = -72.0
 offset_right = 84.0
 offset_bottom = 72.0
 focus_mode = 0
+mouse_default_cursor_shape = 2
 flat = true
 
 [node name="EnginesSprite" type="Sprite2D" parent="Systems Sprites"]
@@ -254,6 +331,7 @@ offset_top = -72.0
 offset_right = 84.0
 offset_bottom = 72.0
 focus_mode = 0
+mouse_default_cursor_shape = 2
 flat = true
 
 [node name="HullSprite" type="Sprite2D" parent="Systems Sprites"]
@@ -279,6 +357,7 @@ offset_top = -72.0
 offset_right = 84.0
 offset_bottom = 72.0
 focus_mode = 0
+mouse_default_cursor_shape = 2
 flat = true
 
 [node name="ElectricalSprite" type="Sprite2D" parent="Systems Sprites"]
@@ -304,6 +383,7 @@ offset_top = -72.0
 offset_right = 84.0
 offset_bottom = 72.0
 focus_mode = 0
+mouse_default_cursor_shape = 2
 flat = true
 
 [node name="ExternalSprite" type="Sprite2D" parent="Systems Sprites"]
@@ -329,6 +409,7 @@ offset_top = -72.0
 offset_right = 84.0
 offset_bottom = 72.0
 focus_mode = 0
+mouse_default_cursor_shape = 2
 flat = true
 
 [node name="ComputerSprite" type="Sprite2D" parent="Systems Sprites"]
@@ -354,6 +435,7 @@ offset_top = -72.0
 offset_right = 84.0
 offset_bottom = 72.0
 focus_mode = 0
+mouse_default_cursor_shape = 2
 flat = true
 
 [node name="Balance ColorRect" type="ColorRect" parent="."]
@@ -508,6 +590,10 @@ position = Vector2(308, 216)
 [node name="Computer System" parent="SubViewportContainer/SubViewport" instance=ExtResource("20_1h5sm")]
 visible = false
 
+[connection signal="pressed" from="Cabin/Controls/Left Button" to="." method="_on_left_button_pressed"]
+[connection signal="pressed" from="Cabin/Controls/Down Button" to="." method="_on_down_button_pressed"]
+[connection signal="pressed" from="Cabin/Controls/Right Button" to="." method="_on_right_button_pressed"]
+[connection signal="pressed" from="Cabin/Controls/Up Button" to="." method="_on_up_button_pressed"]
 [connection signal="system_pressed" from="Systems Sprites/LifeSupportSprite" to="." method="_on_system_sprite_pressed"]
 [connection signal="mouse_entered" from="Systems Sprites/LifeSupportSprite/Button" to="Systems Sprites/LifeSupportSprite" method="_on_button_mouse_entered"]
 [connection signal="mouse_exited" from="Systems Sprites/LifeSupportSprite/Button" to="Systems Sprites/LifeSupportSprite" method="_on_button_mouse_exited"]

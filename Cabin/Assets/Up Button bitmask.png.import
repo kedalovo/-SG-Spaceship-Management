@@ -1,0 +1,16 @@
+[remap]
+
+importer="bitmap"
+type="BitMap"
+uid="uid://csmaqmv7np4t4"
+path="res://.godot/imported/Up Button bitmask.png-14da81e5204db4c3c2e86d51cf2241b4.res"
+
+[deps]
+
+source_file="res://Cabin/Assets/Up Button bitmask.png"
+dest_files=["res://.godot/imported/Up Button bitmask.png-14da81e5204db4c3c2e86d51cf2241b4.res"]
+
+[params]
+
+create_from=0
+threshold=0.5

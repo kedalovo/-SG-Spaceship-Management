@@ -1,0 +1,16 @@
+[remap]
+
+importer="bitmap"
+type="BitMap"
+uid="uid://d038aupxmw832"
+path="res://.godot/imported/Right Button bitmask.png-051f8ad92d4db2bba8306b09c2b85254.res"
+
+[deps]
+
+source_file="res://Cabin/Assets/Right Button bitmask.png"
+dest_files=["res://.godot/imported/Right Button bitmask.png-051f8ad92d4db2bba8306b09c2b85254.res"]
+
+[params]
+
+create_from=0
+threshold=0.5

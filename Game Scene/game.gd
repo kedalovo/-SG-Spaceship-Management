@@ -1,6 +1,10 @@
 extends Node2D
 
 
+const CURSOR_NORMAL = preload("res://UI/Cursor normal.png")
+const CURSOR_POINTER = preload("res://UI/Cursor pointer.png")
+
+
 @onready var life_support_system: system = $"SubViewportContainer/SubViewport/Life Support System"
 @onready var engines_system: system = $"SubViewportContainer/SubViewport/Engines System"
 @onready var hull_system: system = $"SubViewportContainer/SubViewport/Hull System"
@@ -21,6 +25,11 @@ extends Node2D
 var current_system_idx: int = -1
 
 var is_mouse_inside: bool
+
+
+func _ready() -> void:
+	Input.set_custom_mouse_cursor(CURSOR_NORMAL, Input.CURSOR_ARROW)
+	Input.set_custom_mouse_cursor(CURSOR_POINTER, Input.CURSOR_POINTING_HAND)
 
 
 func _input(event: InputEvent) -> void:
@@ -60,3 +69,19 @@ func _on_system_animation_finished(is_open: bool) -> void:
 	if !is_open:
 		system_container.hide()
 		sub_viewport_container.hide()
+
+
+func _on_left_button_pressed() -> void:
+	space.move(Vector2.RIGHT)
+
+
+func _on_down_button_pressed() -> void:
+	space.move(Vector2.UP)
+
+
+func _on_right_button_pressed() -> void:
+	space.move(Vector2.LEFT)
+
+
+func _on_up_button_pressed() -> void:
+	space.move(Vector2.DOWN)

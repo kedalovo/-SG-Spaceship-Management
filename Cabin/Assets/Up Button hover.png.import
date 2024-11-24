@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://di126eprnvoei"
-path="res://.godot/imported/Cabin controls.png-0ab37531cc0b3b3716e0c4e5629cfab9.ctex"
+uid="uid://c8c2ggsbhwgws"
+path="res://.godot/imported/Up Button hover.png-fc5956c7a9407dd4d1e82dbb7ccfbc7a.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Cabin/Cabin controls.png"
-dest_files=["res://.godot/imported/Cabin controls.png-0ab37531cc0b3b3716e0c4e5629cfab9.ctex"]
+source_file="res://Cabin/Assets/Up Button hover.png"
+dest_files=["res://.godot/imported/Up Button hover.png-fc5956c7a9407dd4d1e82dbb7ccfbc7a.ctex"]
 
 [params]
 

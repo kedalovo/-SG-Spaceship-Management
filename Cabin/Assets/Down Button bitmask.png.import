@@ -1,0 +1,16 @@
+[remap]
+
+importer="bitmap"
+type="BitMap"
+uid="uid://tu18j8btvnwa"
+path="res://.godot/imported/Down Button bitmask.png-6fde564b265bae620903409c2132b89d.res"
+
+[deps]
+
+source_file="res://Cabin/Assets/Down Button bitmask.png"
+dest_files=["res://.godot/imported/Down Button bitmask.png-6fde564b265bae620903409c2132b89d.res"]
+
+[params]
+
+create_from=0
+threshold=0.5
