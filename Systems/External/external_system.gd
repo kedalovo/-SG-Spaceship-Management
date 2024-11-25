@@ -46,12 +46,15 @@ func _damage(_strength: int, _type: game_manager.damage_types) -> void:
 	match _type:
 		game_manager.damage_types.PHYSICAL:
 			for i in _strength:
+				print("External system: damaged")
 				add_blueprint(game_manager.module_types.PATCH)
 		game_manager.damage_types.HEAT:
 			for i in _strength:
+				print("External system: damaged")
 				add_blueprint(game_manager.module_types.HEATER)
 		game_manager.damage_types.ELECTRICITY:
 			for i in _strength:
+				print("External system: damaged")
 				add_blueprint(randi_range(1, 2))
 
 

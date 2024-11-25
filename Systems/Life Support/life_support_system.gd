@@ -28,6 +28,7 @@ func add_fuel() -> void:
 
 func _damage(strength: int, type: game_manager.damage_types):
 	if type == game_manager.damage_types.HEAT:
+		print("Life support system: damaged")
 		is_damaged = true
 		constant_damage = 1 + strength
 		damage_timer.start(10 + strength * 5)

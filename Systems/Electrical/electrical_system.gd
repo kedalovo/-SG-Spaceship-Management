@@ -31,6 +31,7 @@ func _damage(_strength: int, _type: game_manager.damage_types) -> void:
 				free_tranceiver_slots.append(idx)
 		if free_receiver_slots.size() > 0:
 			for i in clamp(_strength, 0, free_receiver_slots.size()):
+				print("Electrical system: damaged")
 				add_receiver_wire(free_receiver_slots.pop_at(randi()%free_receiver_slots.size()))
 				add_tranceiver_wire(free_tranceiver_slots.pop_at(randi()%free_tranceiver_slots.size()))
 

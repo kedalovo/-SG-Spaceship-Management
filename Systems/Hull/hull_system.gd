@@ -35,6 +35,13 @@ func close() -> void:
 	super.close()
 
 
+func _damage(_strength: int, _type: game_manager.damage_types) -> void:
+	if _type == game_manager.damage_types.PHYSICAL:
+		for i in _strength:
+			print("Hull system: damaged")
+			add_hole(game_manager.get_random_hole_position())
+
+
 func add_patch() -> void:
 	var new_patch := PATCH.instantiate()
 	new_patch.patch_installed.connect(_on_patch_installed)

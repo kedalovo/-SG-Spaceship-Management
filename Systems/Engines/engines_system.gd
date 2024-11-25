@@ -107,6 +107,7 @@ func _damage(_strength: int, _type: game_manager.damage_types):
 			if cell.is_depleting or cell.is_depleted:
 				_cells.append(cell)
 		for i in _strength * 2:
+			print("Engines system: damaged [", i+1, "]/[", _strength * 2, "]")
 			_cells.pop_at(randi()%_cells.size()).destroy()
 
 

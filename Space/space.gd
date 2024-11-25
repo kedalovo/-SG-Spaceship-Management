@@ -23,8 +23,8 @@ var current_pos: Vector2 = Vector2.ZERO
 var is_moving: bool = false
 
 
-func _ready() -> void:
-	create_hazard(Vector2.UP, 1.0, 2, [game_manager.damage_types.PHYSICAL, game_manager.damage_types.HEAT])
+#func _ready() -> void:
+	#create_hazard(Vector2.UP, 1.0, 2, [game_manager.damage_types.PHYSICAL, game_manager.damage_types.HEAT])
 
 
 func create_hazard(spot: Vector2, time: float, strength: int, types: Array[game_manager.damage_types]) -> void:
@@ -39,13 +39,12 @@ func create_hazard(spot: Vector2, time: float, strength: int, types: Array[game_
 	hazard_spots[spot] = hazard
 	hazard.set_time(time)
 	incoming_hazards.add_child(hazard)
-	hazard.position = spot * 64
+	hazard.position = Vector2(spot.x * 64, -spot.y * 64)
 
 
 func hit(spot: Vector2, strength: int, type: game_manager.damage_types) -> void:
 	if spot == current_pos:
 		damaged.emit(strength, type)
-		print_debug("Damaged!")
 	hazard_spots.erase(spot)
 
 

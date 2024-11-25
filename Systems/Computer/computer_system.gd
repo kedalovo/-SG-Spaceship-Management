@@ -16,6 +16,7 @@ var slots: Array[CodeLine] = []
 
 func _damage(_strength: int, _type: game_manager.damage_types) -> void:
 	if _type == game_manager.damage_types.ELECTRICITY:
+		print("Computer system: damaged")
 		create_random_pattern(_strength)
 
 

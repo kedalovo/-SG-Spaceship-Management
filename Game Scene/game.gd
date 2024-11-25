@@ -49,6 +49,13 @@ func _input(event: InputEvent) -> void:
 		space.move(Vector2.UP)
 
 
+func _notification(what: int) -> void:
+	# Gets rid of the annoying errors and warnings about leaking two textures when closing game (the cursor textures)
+	if what == NOTIFICATION_WM_CLOSE_REQUEST:
+		Input.set_custom_mouse_cursor(null, Input.CURSOR_ARROW)
+		Input.set_custom_mouse_cursor(null, Input.CURSOR_POINTING_HAND)
+
+
 func _on_system_sprite_pressed(system_index: int) -> void:
 	if current_system_idx == -1:
 		systems[system_index].open()
