@@ -3,15 +3,15 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://cxn7n8bvtouj5"
-path="res://.godot/imported/Medium asteroid.png-c5226f252eb8466cce5a90c245a0c26c.ctex"
+path="res://.godot/imported/Medium asteroid.png-8d6cd2c5b4f387227b333ef2b48a44ad.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Cabin/Assets/Medium asteroid.png"
-dest_files=["res://.godot/imported/Medium asteroid.png-c5226f252eb8466cce5a90c245a0c26c.ctex"]
+source_file="res://Hazards/Asteroid/Assets/Medium asteroid.png"
+dest_files=["res://.godot/imported/Medium asteroid.png-8d6cd2c5b4f387227b333ef2b48a44ad.ctex"]
 
 [params]
 

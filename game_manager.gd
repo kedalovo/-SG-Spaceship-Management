@@ -22,6 +22,10 @@ const SATELLITE_MODULE_BLUEPRINT = preload("res://Systems/External/Assets/Satell
 const WIRE_MODULE_BLUEPRINT = preload("res://Systems/External/Assets/Wire module Blueprint.png")
 const HEATER_MODULE_BLUEPRINT = preload("res://Systems/External/Assets/Heater module Blueprint.png")
 
+const LARGE_ASTEROID = preload("res://Hazards/Asteroid/Assets/Large asteroid.png")
+const MEDIUM_ASTEROID = preload("res://Hazards/Asteroid/Assets/Medium asteroid.png")
+const SMALL_ASTEROID = preload("res://Hazards/Asteroid/Assets/Small asteroid.png")
+
 const WIRE_COLORS: Array[Color] = [Color.RED, Color.BLUE, Color.YELLOW, Color.GREEN, Color.MAGENTA]
 
 static var is_in_system: bool = false
@@ -44,6 +48,12 @@ enum module_types {
 	SATELLITE,
 	WIRE,
 	HEATER
+}
+
+enum asteroid_types {
+	SMALL,
+	MEDIUM,
+	LARGE
 }
 
 
@@ -87,6 +97,30 @@ static func get_blueprint_texture(blueprint_type: module_types) -> CompressedTex
 			return HEATER_MODULE_BLUEPRINT
 	push_error("Could not find requested texture for a module")
 	return Texture2D.new()
+
+
+static func get_asteroid_texture(size: asteroid_types) -> CompressedTexture2D:
+	match size:
+		asteroid_types.SMALL:
+			return SMALL_ASTEROID
+		asteroid_types.MEDIUM:
+			return MEDIUM_ASTEROID
+		asteroid_types.LARGE:
+			return LARGE_ASTEROID
+	push_error("Could not find type ", size, " in asteroid types")
+	return CompressedTexture2D.new()
+
+
+static func get_asteroid_offset(size: asteroid_types) -> Vector2:
+	match size:
+		asteroid_types.SMALL:
+			return Vector2.ZERO
+		asteroid_types.MEDIUM:
+			return Vector2(64, 0)
+		asteroid_types.LARGE:
+			return Vector2(64, 32)
+	push_error("Could not find type ", size, " in asteroid types")
+	return Vector2.ZERO
 
 
 static func get_random_cell_type() -> engine_cell_types:

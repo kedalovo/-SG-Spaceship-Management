@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://bknngsj1sjq4"
-path="res://.godot/imported/Small asteroid.png-93e443b9d7d3061011209cd46bd28eda.ctex"
+uid="uid://b18yn5n7prjlw"
+path="res://.godot/imported/Large asteroid.png-3e1f5da1657caa395e4eaa4b2d1364dc.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Cabin/Assets/Small asteroid.png"
-dest_files=["res://.godot/imported/Small asteroid.png-93e443b9d7d3061011209cd46bd28eda.ctex"]
+source_file="res://Hazards/Asteroid/Assets/Large asteroid.png"
+dest_files=["res://.godot/imported/Large asteroid.png-3e1f5da1657caa395e4eaa4b2d1364dc.ctex"]
 
 [params]
 

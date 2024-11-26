@@ -138,32 +138,36 @@ local_coords = true
 position = Vector2(128, 192)
 
 [node name="Grid" type="Node2D" parent="."]
-modulate = Color(1, 1, 1, 0.27451)
 position = Vector2(128, 192)
 
-[node name="HSeparator" type="HSeparator" parent="Grid"]
+[node name="Separators" type="Node2D" parent="Grid"]
+modulate = Color(1, 1, 1, 0.27451)
+
+[node name="HSeparator" type="HSeparator" parent="Grid/Separators"]
 offset_left = -96.0
 offset_top = 16.0
 offset_right = 96.0
 offset_bottom = 48.0
 
-[node name="HSeparator2" type="HSeparator" parent="Grid"]
+[node name="HSeparator2" type="HSeparator" parent="Grid/Separators"]
 offset_left = -96.0
 offset_top = -48.0
 offset_right = 96.0
 offset_bottom = -16.0
 
-[node name="VSeparator" type="VSeparator" parent="Grid"]
+[node name="VSeparator" type="VSeparator" parent="Grid/Separators"]
 offset_left = -48.0
 offset_top = -96.0
 offset_right = -16.0
 offset_bottom = 96.0
 
-[node name="VSeparator2" type="VSeparator" parent="Grid"]
+[node name="VSeparator2" type="VSeparator" parent="Grid/Separators"]
 offset_left = 16.0
 offset_top = -96.0
 offset_right = 48.0
 offset_bottom = 96.0
+
+[node name="Hazard visuals" type="Node2D" parent="Grid"]
 
 [node name="Incoming Hazards" type="Node2D" parent="."]
 position = Vector2(128, 192)

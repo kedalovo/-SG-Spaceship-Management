@@ -5,6 +5,7 @@ signal damaged(strength: int, type: game_manager.damage_types)
 
 
 const HAZARD = preload("res://Hazards/hazard.tscn")
+const ASTEROID = preload("res://Hazards/Asteroid/asteroid.tscn")
 
 @onready var particles: Node2D = $Particles
 @onready var far_particles: GPUParticles2D = $"Particles/Far Particles"
@@ -12,7 +13,11 @@ const HAZARD = preload("res://Hazards/hazard.tscn")
 @onready var close_particles: GPUParticles2D = $"Particles/Close Particles"
 @onready var grid: Node2D = $Grid
 @onready var incoming_hazards: Node2D = $"Incoming Hazards"
+@onready var hazard_visuals: Node2D = $"Grid/Hazard visuals"
 
+const RANDOM_ROTATION: Array[float] = [0.0, 90.0, 180.0, 270.0]
+const RANDOM_HORIZONTAL_ROTATION: Array[float] = [0.0, 180.0]
+const RANDOM_VERTICAL_ROTATION: Array[float] = [90.0, 270.0]
 const MIDDLE_POSITION: Vector2 = Vector2(128, 192)
 const TWEEN_TIME: float = 0.3
 
@@ -23,8 +28,28 @@ var current_pos: Vector2 = Vector2.ZERO
 var is_moving: bool = false
 
 
-#func _ready() -> void:
-	#create_hazard(Vector2.UP, 1.0, 2, [game_manager.damage_types.PHYSICAL, game_manager.damage_types.HEAT])
+func _ready() -> void:
+	create_asteroid(game_manager.asteroid_types.SMALL, Vector2.UP + Vector2.RIGHT, 3.0)
+
+
+func create_asteroid(size: game_manager.asteroid_types, spot: Vector2, time: float, is_vertical: bool = false, types: Array[game_manager.damage_types] = [game_manager.damage_types.PHYSICAL]) -> void:
+	var asteroid := ASTEROID.instantiate()
+	match size:
+		game_manager.asteroid_types.SMALL:
+			if spot in hazard_spots:
+				print_debug("Tried creating a small asteroid in ", spot, ", which is busy")
+				return
+			asteroid.rotation_degrees = RANDOM_ROTATION.pick_random()
+			asteroid.set_types(types)
+			asteroid.set_time(time)
+			asteroid.set_texture(size)
+			hazard_visuals.add_child(asteroid)
+			asteroid.position = Vector2(spot.x * 64, -spot.y * 64)
+			create_hazard(spot, time, 1, types)
+		game_manager.asteroid_types.MEDIUM:
+			pass
+		game_manager.asteroid_types.LARGE:
+			pass
 
 
 func create_hazard(spot: Vector2, time: float, strength: int, types: Array[game_manager.damage_types]) -> void:
