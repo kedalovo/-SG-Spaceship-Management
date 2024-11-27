@@ -16,8 +16,6 @@ const ASTEROID = preload("res://Hazards/Asteroid/asteroid.tscn")
 @onready var hazard_visuals: Node2D = $"Grid/Hazard visuals"
 
 const RANDOM_ROTATION: Array[float] = [0.0, 90.0, 180.0, 270.0]
-const RANDOM_HORIZONTAL_ROTATION: Array[float] = [0.0, 180.0]
-const RANDOM_VERTICAL_ROTATION: Array[float] = [90.0, 270.0]
 const MIDDLE_POSITION: Vector2 = Vector2(128, 192)
 const TWEEN_TIME: float = 0.3
 
@@ -29,27 +27,59 @@ var is_moving: bool = false
 
 
 func _ready() -> void:
-	create_asteroid(game_manager.asteroid_types.SMALL, Vector2.UP + Vector2.RIGHT, 3.0)
+	create_asteroid(game_manager.asteroid_types.MEDIUM, Vector2.LEFT + Vector2.UP, 3.0, true)
 
 
 func create_asteroid(size: game_manager.asteroid_types, spot: Vector2, time: float, is_vertical: bool = false, types: Array[game_manager.damage_types] = [game_manager.damage_types.PHYSICAL]) -> void:
+	spot = clamp(spot, -Vector2.ONE, Vector2.ONE)
 	var asteroid := ASTEROID.instantiate()
 	match size:
 		game_manager.asteroid_types.SMALL:
 			if spot in hazard_spots:
 				print_debug("Tried creating a small asteroid in ", spot, ", which is busy")
 				return
-			asteroid.rotation_degrees = RANDOM_ROTATION.pick_random()
 			asteroid.set_types(types)
 			asteroid.set_time(time)
-			asteroid.set_texture(size)
+			asteroid.set_visuals(size, false)
 			hazard_visuals.add_child(asteroid)
-			asteroid.position = Vector2(spot.x * 64, -spot.y * 64)
+			asteroid.position = Vector2(spot.x * 64, spot.y * 64)
 			create_hazard(spot, time, 1, types)
 		game_manager.asteroid_types.MEDIUM:
-			pass
+			if is_vertical:
+				for i in 3:
+					if Vector2(spot.x, spot.y + i) in hazard_spots or spot.y + i > 1:
+						print_debug("Tried creating a medium asteroid in ", spot, ", which is busy or out of bounds at ", spot.y + i, ", vertical: ", is_vertical)
+						return
+			else:
+				for i in 3:
+					if Vector2(spot.x + i, spot.y) in hazard_spots or spot.x + i > 1:
+						print_debug("Tried creating a medium asteroid in ", spot, ", which is busy or out of bounds at ", spot.x + i, ", vertical: ", is_vertical)
+						return
+			asteroid.set_types(types)
+			asteroid.set_time(time)
+			asteroid.set_visuals(size, is_vertical)
+			hazard_visuals.add_child(asteroid)
+			asteroid.position = Vector2(spot.x * 64, spot.y * 64)
+			create_hazard(spot, time, 2, types)
 		game_manager.asteroid_types.LARGE:
-			pass
+			if is_vertical:
+				for i in 3:
+					for j in 2:
+						if Vector2(spot.x - j, spot.y + i) in hazard_spots or spot.y + i > 1 or spot.x - j < -1:
+							print_debug("Tried creating a large asteroid in ", spot, ", which is busy or out of bounds at ", Vector2(spot.x - j, spot.y + i), ", vertical: ", is_vertical)
+							return
+			else:
+				for i in 3:
+					for j in 2:
+						if Vector2(spot.x + i, spot.y + j) in hazard_spots or spot.y + j > 1 or spot.x + i > 1:
+							print_debug("Tried creating a large asteroid in ", spot, ", which is busy or out of bounds at ", Vector2(spot.x + i, spot.y + j), ", vertical: ", is_vertical)
+							return
+			asteroid.set_types(types)
+			asteroid.set_time(time)
+			asteroid.set_visuals(size, is_vertical)
+			hazard_visuals.add_child(asteroid)
+			asteroid.position = Vector2(spot.x * 64, spot.y * 64)
+			create_hazard(spot, time, 3, types)
 
 
 func create_hazard(spot: Vector2, time: float, strength: int, types: Array[game_manager.damage_types]) -> void:
