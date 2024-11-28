@@ -17,6 +17,7 @@ var tranceiver_states: Array[bool] = [false, false, false, false, false]
 var color_states: Array[bool] = [false, false, false, false, false]
 
 var last_color: int = -1
+var wires_to_connect: int = 0
 
 
 func _damage(_strength: int, _type: game_manager.damage_types) -> void:
@@ -66,6 +67,8 @@ func add_receiver_wire(slot: int) -> void:
 	new_wire.modulate = game_manager.WIRE_COLORS[last_color]
 	new_wire.rotation_degrees = 180
 	color_states[last_color] = true
+	wires_to_connect += 1
+	is_damaged = true
 
 
 func add_tranceiver_wire(slot: int) -> void:
@@ -78,5 +81,12 @@ func add_tranceiver_wire(slot: int) -> void:
 	new_wire.position = TRANCEIVER_POSITIONS[slot]
 	tranceiver_states[slot] = true
 	new_wire.modulate = game_manager.WIRE_COLORS[last_color]
+	new_wire.connected_to_wire.connect(_on_wire_connected)
 	color_states[last_color] = true
 	last_color = -1
+
+
+func _on_wire_connected(_from: Wire, _to: Wire) -> void:
+	wires_to_connect -= 1
+	if wires_to_connect == 0:
+		fix()

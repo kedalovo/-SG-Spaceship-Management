@@ -5,6 +5,7 @@ class_name system
 
 
 signal finished_animation(is_open: bool)
+signal fixed(fixed_system: system)
 
 
 var animator: AnimationPlayer
@@ -30,7 +31,8 @@ func _damage(_strength: int, _type: game_manager.damage_types) -> void:
 
 
 func fix() -> void:
-	print(name, ": fixing is not implemented")
+	is_damaged = false
+	fixed.emit(self)
 
 
 func open() -> void:

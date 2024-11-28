@@ -64,3 +64,5 @@ func _on_patch_installed(patch: Patch, hole: Hole) -> void:
 
 func _on_patch_completed(_patch: Patch, hole: Hole) -> void:
 	hole.queue_free()
+	if holes.get_child_count() == 1:
+		fix()

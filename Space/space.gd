@@ -27,7 +27,7 @@ var is_moving: bool = false
 
 
 func _ready() -> void:
-	create_asteroid(game_manager.asteroid_types.MEDIUM, Vector2.LEFT + Vector2.UP, 3.0, true)
+	create_asteroid(game_manager.asteroid_types.MEDIUM, Vector2.LEFT + Vector2.UP, 3.0, true, [game_manager.damage_types.ELECTRICITY])
 
 
 func create_asteroid(size: game_manager.asteroid_types, spot: Vector2, time: float, is_vertical: bool = false, types: Array[game_manager.damage_types] = [game_manager.damage_types.PHYSICAL]) -> void:
@@ -36,7 +36,7 @@ func create_asteroid(size: game_manager.asteroid_types, spot: Vector2, time: flo
 	match size:
 		game_manager.asteroid_types.SMALL:
 			if spot in hazard_spots:
-				print_debug("Tried creating a small asteroid in ", spot, ", which is busy")
+				push_warning("Tried creating a small asteroid in ", spot, ", which is busy")
 				return
 			asteroid.set_types(types)
 			asteroid.set_time(time)
@@ -48,43 +48,55 @@ func create_asteroid(size: game_manager.asteroid_types, spot: Vector2, time: flo
 			if is_vertical:
 				for i in 3:
 					if Vector2(spot.x, spot.y + i) in hazard_spots or spot.y + i > 1:
-						print_debug("Tried creating a medium asteroid in ", spot, ", which is busy or out of bounds at ", spot.y + i, ", vertical: ", is_vertical)
+						push_warning("Tried creating a medium asteroid in ", spot, ", which is busy or out of bounds at ", spot.y + i, ", vertical: ", is_vertical)
 						return
 			else:
 				for i in 3:
 					if Vector2(spot.x + i, spot.y) in hazard_spots or spot.x + i > 1:
-						print_debug("Tried creating a medium asteroid in ", spot, ", which is busy or out of bounds at ", spot.x + i, ", vertical: ", is_vertical)
+						push_warning("Tried creating a medium asteroid in ", spot, ", which is busy or out of bounds at ", spot.x + i, ", vertical: ", is_vertical)
 						return
 			asteroid.set_types(types)
 			asteroid.set_time(time)
 			asteroid.set_visuals(size, is_vertical)
 			hazard_visuals.add_child(asteroid)
 			asteroid.position = Vector2(spot.x * 64, spot.y * 64)
-			create_hazard(spot, time, 2, types)
+			if is_vertical:
+				for i in 3:
+					create_hazard(Vector2(spot.x, spot.y + i), time, 2, types)
+			else:
+				for i in 3:
+					create_hazard(Vector2(spot.x + i, spot.y), time, 2, types)
 		game_manager.asteroid_types.LARGE:
 			if is_vertical:
 				for i in 3:
 					for j in 2:
 						if Vector2(spot.x - j, spot.y + i) in hazard_spots or spot.y + i > 1 or spot.x - j < -1:
-							print_debug("Tried creating a large asteroid in ", spot, ", which is busy or out of bounds at ", Vector2(spot.x - j, spot.y + i), ", vertical: ", is_vertical)
+							push_warning("Tried creating a large asteroid in ", spot, ", which is busy or out of bounds at ", Vector2(spot.x - j, spot.y + i), ", vertical: ", is_vertical)
 							return
 			else:
 				for i in 3:
 					for j in 2:
 						if Vector2(spot.x + i, spot.y + j) in hazard_spots or spot.y + j > 1 or spot.x + i > 1:
-							print_debug("Tried creating a large asteroid in ", spot, ", which is busy or out of bounds at ", Vector2(spot.x + i, spot.y + j), ", vertical: ", is_vertical)
+							push_warning("Tried creating a large asteroid in ", spot, ", which is busy or out of bounds at ", Vector2(spot.x + i, spot.y + j), ", vertical: ", is_vertical)
 							return
 			asteroid.set_types(types)
 			asteroid.set_time(time)
 			asteroid.set_visuals(size, is_vertical)
 			hazard_visuals.add_child(asteroid)
 			asteroid.position = Vector2(spot.x * 64, spot.y * 64)
-			create_hazard(spot, time, 3, types)
+			if is_vertical:
+				for i in 3:
+					for j in 2:
+						create_hazard(Vector2(spot.x - j, spot.y + i), time, 3, types)
+			else:
+				for i in 3:
+					for j in 2:
+						create_hazard(Vector2(spot.x + i, spot.y + j), time, 3, types)
 
 
 func create_hazard(spot: Vector2, time: float, strength: int, types: Array[game_manager.damage_types]) -> void:
 	if spot in hazard_spots:
-		print_debug("Tried creating a hazard in ", spot, ", which is busy")
+		push_warning("Tried creating a hazard in ", spot, ", which is busy")
 		return
 	var hazard := HAZARD.instantiate()
 	hazard.strength = strength
@@ -98,7 +110,7 @@ func create_hazard(spot: Vector2, time: float, strength: int, types: Array[game_
 
 
 func hit(spot: Vector2, strength: int, type: game_manager.damage_types) -> void:
-	if spot == current_pos:
+	if spot == -current_pos:
 		damaged.emit(strength, type)
 	hazard_spots.erase(spot)
 

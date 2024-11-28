@@ -12,6 +12,13 @@ const CURSOR_POINTER = preload("res://UI/Cursor pointer.png")
 @onready var external_system: system = $"SubViewportContainer/SubViewport/External System"
 @onready var computer_system: system = $"SubViewportContainer/SubViewport/Computer System"
 
+@onready var life_support_sprite: Sprite2D = $"Systems Sprites/LifeSupportSprite"
+@onready var engines_sprite: Sprite2D = $"Systems Sprites/EnginesSprite"
+@onready var hull_sprite: Sprite2D = $"Systems Sprites/HullSprite"
+@onready var electrical_sprite: Sprite2D = $"Systems Sprites/ElectricalSprite"
+@onready var external_sprite: Sprite2D = $"Systems Sprites/ExternalSprite"
+@onready var computer_sprite: Sprite2D = $"Systems Sprites/ComputerSprite"
+
 @onready var system_container: Control = $"System Container"
 @onready var sub_viewport_container: SubViewportContainer = $SubViewportContainer
 
@@ -21,6 +28,9 @@ const CURSOR_POINTER = preload("res://UI/Cursor pointer.png")
 @onready var systems: Array[system] = [
 	life_support_system, engines_system, hull_system,
 	electrical_system, external_system, computer_system]
+@onready var systems_visuals: Array[Sprite2D] = [
+	life_support_sprite, engines_sprite, hull_sprite,
+	electrical_sprite, external_sprite, computer_sprite]
 
 var current_system_idx: int = -1
 
@@ -104,4 +114,10 @@ func _on_damaged(strength: int, type: game_manager.damage_types) -> void:
 		game_manager.damage_types.ELECTRICITY:
 			damage_variants = [electrical_system, computer_system, external_system]
 	for i in strength:
-		damage_variants.pick_random()._damage(1, type)
+		var picked_system_idx: int = randi()% damage_variants.size()
+		damage_variants[picked_system_idx]._damage(1, type)
+		systems_visuals[systems.find(damage_variants[picked_system_idx])].damage()
+
+
+func _on_system_fixed(fixed_system: system) -> void:
+	systems_visuals[systems.find(fixed_system)].fix()

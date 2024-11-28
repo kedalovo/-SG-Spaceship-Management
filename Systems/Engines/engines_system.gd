@@ -17,6 +17,8 @@ const CELL_SCENE = preload("res://Systems/Engines/Cell/cell.tscn")
 
 @onready var hovered_slot: int = -1
 
+var destroyed_cells: int = 0
+
 
 func _ready() -> void:
 	super._ready()
@@ -54,7 +56,6 @@ func setup_cells() -> void:
 
 
 func reset_cells() -> void:
-	#print_debug("Fuel cells: ", cells_fuel.size())
 	for cell_idx in cells_fuel.size():
 		var cell: Cell = cells_fuel[cell_idx]
 		if cell.is_depleted or cell.is_depleting or cell.is_destroyed:
@@ -109,6 +110,8 @@ func _damage(_strength: int, _type: game_manager.damage_types):
 		for i in _strength * 2:
 			print("Engines system: damaged [", i+1, "]/[", _strength * 2, "]")
 			_cells.pop_at(randi()%_cells.size()).destroy()
+			is_damaged = true
+			destroyed_cells += 1
 
 
 func get_fuel_health() -> int:
@@ -146,6 +149,10 @@ func _on_cell_being_deleted(cell: Cell) -> void:
 	else:
 		if cell.type == game_manager.engine_cell_types.COOLANT:
 			cells_coolant.erase(cell)
+	if cell.is_destroyed:
+		destroyed_cells -= 1
+	if destroyed_cells == 0 and is_damaged:
+		fix()
 	cell.queue_free()
 
 

@@ -280,18 +280,18 @@ position = Vector2(0, -72)
 sprite_frames = SubResource("SpriteFrames_ilhr1")
 autoplay = "default"
 
-[node name="PointLight2D" type="PointLight2D" parent="Systems Sprites/LifeSupportSprite/Warning Light"]
+[node name="Light" type="PointLight2D" parent="Systems Sprites/LifeSupportSprite/Warning Light"]
 visible = false
 color = Color(1, 0, 0, 1)
 energy = 3.0
 blend_mode = 2
+range_z_max = 1
 texture = ExtResource("6_glmdj")
 
-[node name="AnimationPlayer" type="AnimationPlayer" parent="Systems Sprites/LifeSupportSprite/Warning Light/PointLight2D"]
+[node name="Animator" type="AnimationPlayer" parent="Systems Sprites/LifeSupportSprite/Warning Light/Light"]
 libraries = {
 "": SubResource("AnimationLibrary_gutu4")
 }
-autoplay = "idle"
 
 [node name="Outline" type="Sprite2D" parent="Systems Sprites/LifeSupportSprite"]
 visible = false
@@ -319,6 +319,19 @@ position = Vector2(0, -72)
 sprite_frames = SubResource("SpriteFrames_ilhr1")
 autoplay = "default"
 
+[node name="Light" type="PointLight2D" parent="Systems Sprites/EnginesSprite/Warning Light"]
+visible = false
+color = Color(1, 0, 0, 1)
+energy = 3.0
+blend_mode = 2
+range_z_max = 1
+texture = ExtResource("6_glmdj")
+
+[node name="Animator" type="AnimationPlayer" parent="Systems Sprites/EnginesSprite/Warning Light/Light"]
+libraries = {
+"": SubResource("AnimationLibrary_gutu4")
+}
+
 [node name="Outline" type="Sprite2D" parent="Systems Sprites/EnginesSprite"]
 visible = false
 texture = ExtResource("5_6eb6w")
@@ -344,6 +357,19 @@ visibility_layer = 2
 position = Vector2(0, -72)
 sprite_frames = SubResource("SpriteFrames_ilhr1")
 autoplay = "default"
+
+[node name="Light" type="PointLight2D" parent="Systems Sprites/HullSprite/Warning Light"]
+visible = false
+color = Color(1, 0, 0, 1)
+energy = 3.0
+blend_mode = 2
+range_z_max = 1
+texture = ExtResource("6_glmdj")
+
+[node name="Animator" type="AnimationPlayer" parent="Systems Sprites/HullSprite/Warning Light/Light"]
+libraries = {
+"": SubResource("AnimationLibrary_gutu4")
+}
 
 [node name="Outline" type="Sprite2D" parent="Systems Sprites/HullSprite"]
 visible = false
@@ -371,6 +397,19 @@ position = Vector2(0, -72)
 sprite_frames = SubResource("SpriteFrames_ilhr1")
 autoplay = "default"
 
+[node name="Light" type="PointLight2D" parent="Systems Sprites/ElectricalSprite/Warning Light"]
+visible = false
+color = Color(1, 0, 0, 1)
+energy = 3.0
+blend_mode = 2
+range_z_max = 1
+texture = ExtResource("6_glmdj")
+
+[node name="Animator" type="AnimationPlayer" parent="Systems Sprites/ElectricalSprite/Warning Light/Light"]
+libraries = {
+"": SubResource("AnimationLibrary_gutu4")
+}
+
 [node name="Outline" type="Sprite2D" parent="Systems Sprites/ElectricalSprite"]
 visible = false
 texture = ExtResource("9_xw2r2")
@@ -397,6 +436,19 @@ position = Vector2(0, -72)
 sprite_frames = SubResource("SpriteFrames_ilhr1")
 autoplay = "default"
 
+[node name="Light" type="PointLight2D" parent="Systems Sprites/ExternalSprite/Warning Light"]
+visible = false
+color = Color(1, 0, 0, 1)
+energy = 3.0
+blend_mode = 2
+range_z_max = 1
+texture = ExtResource("6_glmdj")
+
+[node name="Animator" type="AnimationPlayer" parent="Systems Sprites/ExternalSprite/Warning Light/Light"]
+libraries = {
+"": SubResource("AnimationLibrary_gutu4")
+}
+
 [node name="Outline" type="Sprite2D" parent="Systems Sprites/ExternalSprite"]
 visible = false
 texture = ExtResource("11_0dyms")
@@ -422,6 +474,19 @@ visibility_layer = 2
 position = Vector2(0, -72)
 sprite_frames = SubResource("SpriteFrames_ilhr1")
 autoplay = "default"
+
+[node name="Light" type="PointLight2D" parent="Systems Sprites/ComputerSprite/Warning Light"]
+visible = false
+color = Color(1, 0, 0, 1)
+energy = 3.0
+blend_mode = 2
+range_z_max = 1
+texture = ExtResource("6_glmdj")
+
+[node name="Animator" type="AnimationPlayer" parent="Systems Sprites/ComputerSprite/Warning Light/Light"]
+libraries = {
+"": SubResource("AnimationLibrary_gutu4")
+}
 
 [node name="Outline" type="Sprite2D" parent="Systems Sprites/ComputerSprite"]
 visible = false
@@ -549,6 +614,7 @@ offset_bottom = 488.0
 
 [node name="SubViewportContainer" type="SubViewportContainer" parent="."]
 visible = false
+z_index = 2
 offset_left = 304.0
 offset_top = 56.0
 offset_right = 920.0
@@ -619,8 +685,14 @@ visible = false
 [connection signal="pressed" from="Systems Sprites/ComputerSprite/Button" to="Systems Sprites/ComputerSprite" method="_on_button_pressed"]
 [connection signal="gui_input" from="System Container" to="." method="_on_system_container_gui_input"]
 [connection signal="finished_animation" from="SubViewportContainer/SubViewport/Life Support System" to="." method="_on_system_animation_finished"]
+[connection signal="fixed" from="SubViewportContainer/SubViewport/Life Support System" to="." method="_on_system_fixed"]
 [connection signal="finished_animation" from="SubViewportContainer/SubViewport/Engines System" to="." method="_on_system_animation_finished"]
+[connection signal="fixed" from="SubViewportContainer/SubViewport/Engines System" to="." method="_on_system_fixed"]
 [connection signal="finished_animation" from="SubViewportContainer/SubViewport/Hull System" to="." method="_on_system_animation_finished"]
+[connection signal="fixed" from="SubViewportContainer/SubViewport/Hull System" to="." method="_on_system_fixed"]
 [connection signal="finished_animation" from="SubViewportContainer/SubViewport/Electrical System" to="." method="_on_system_animation_finished"]
+[connection signal="fixed" from="SubViewportContainer/SubViewport/Electrical System" to="." method="_on_system_fixed"]
 [connection signal="finished_animation" from="SubViewportContainer/SubViewport/External System" to="." method="_on_system_animation_finished"]
+[connection signal="fixed" from="SubViewportContainer/SubViewport/External System" to="." method="_on_system_fixed"]
 [connection signal="finished_animation" from="SubViewportContainer/SubViewport/Computer System" to="." method="_on_system_animation_finished"]
+[connection signal="fixed" from="SubViewportContainer/SubViewport/Computer System" to="." method="_on_system_fixed"]

@@ -46,15 +46,15 @@ func _damage(_strength: int, _type: game_manager.damage_types) -> void:
 	match _type:
 		game_manager.damage_types.PHYSICAL:
 			for i in _strength:
-				print("External system: damaged")
+				print("📡External system: damaged")
 				add_blueprint(game_manager.module_types.PATCH)
 		game_manager.damage_types.HEAT:
 			for i in _strength:
-				print("External system: damaged")
+				print("📡External system: damaged")
 				add_blueprint(game_manager.module_types.HEATER)
 		game_manager.damage_types.ELECTRICITY:
 			for i in _strength:
-				print("External system: damaged")
+				print("📡External system: damaged")
 				add_blueprint(randi_range(1, 2))
 
 
@@ -79,6 +79,7 @@ func add_blueprint(type: game_manager.module_types) -> void:
 			pos.add_child(blueprint)
 			blueprint.enable_area()
 			blueprint.position.y = blueprint.y_offset
+			is_damaged = true
 			break
 
 
@@ -104,6 +105,7 @@ func check_completion() -> void:
 				child.queue_free()
 		busy_blueprint_spots = [false, false, false, false]
 		installed_blueprint_spots = [false, false, false, false]
+		fix()
 
 
 func _on_module_installed(blueprint: Blueprint, _module: Module) -> void:

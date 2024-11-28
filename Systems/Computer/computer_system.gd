@@ -16,7 +16,10 @@ var slots: Array[CodeLine] = []
 
 func _damage(_strength: int, _type: game_manager.damage_types) -> void:
 	if _type == game_manager.damage_types.ELECTRICITY:
-		print("Computer system: damaged")
+		if is_damaged:
+			return
+		print("🖥️Computer system: damaged")
+		is_damaged = true
 		create_random_pattern(_strength)
 
 
@@ -24,7 +27,6 @@ func create_random_pattern(size: int) -> void:
 	size = clampi(size, 3, 6)
 	match randi()%4:
 		0:
-			print("Generating flat scenario...")
 			var length: int = randi()%4 + 4
 			var array: Array[int] = []
 			for i in size:
@@ -44,7 +46,6 @@ func create_random_pattern(size: int) -> void:
 				else:
 					add_code_line(true, game_manager.get_random_text(length - ([-2, -1, 1, 2].pick_random())))
 		1:
-			print("Generating mountain scenario...")
 			var length: int = randi()%3 + 6
 			var array: Array[int] = []
 			for i in size:
@@ -65,7 +66,6 @@ func create_random_pattern(size: int) -> void:
 				else:
 					add_code_line(true, game_manager.get_random_text(length - ([-2, -1, 1, 2].pick_random())))
 		2:
-			print("Generating dip scenario...")
 			var length: int = randi()%4 + 2
 			var array: Array[int] = []
 			for i in size:
@@ -86,7 +86,6 @@ func create_random_pattern(size: int) -> void:
 				else:
 					add_code_line(true, game_manager.get_random_text(length - ([-2, -1, 1, 2].pick_random())))
 		3:
-			print("Generating rise scenario...")
 			var length: int = randi()%3 + 6
 			var array: Array[int] = []
 			for i in size:
@@ -151,5 +150,11 @@ func add_code_line(is_right: bool, text: String) -> void:
 		code_line.queue_free()
 
 
-func _on_installed_correct_line(line: CodeLine, slot: CodeLine) -> void:
-	print("Installed correctly!")
+func _on_installed_correct_line(_line: CodeLine, _slot: CodeLine) -> void:
+	for pos in pieces_v_box.get_children():
+		for child in pos.get_children():
+			child.queue_free()
+	for pos in puzzle_v_box.get_children():
+		for child in pos.get_children():
+			child.queue_free()
+	fix()

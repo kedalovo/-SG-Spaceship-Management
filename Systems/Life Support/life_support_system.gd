@@ -61,3 +61,4 @@ func _on_cook_timer_timeout() -> void:
 func _on_damage_timer_timeout() -> void:
 	constant_damage = 1
 	is_damaged = false
+	fix()
