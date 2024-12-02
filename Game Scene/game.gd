@@ -44,26 +44,31 @@ func _ready() -> void:
 
 func _input(event: InputEvent) -> void:
 	if event.is_action_pressed(&"esc"):
-		get_tree().quit()
+		quit_game()
 	if event.is_action_pressed(&"test1"):
 		pass
 	if event.is_action_pressed(&"test"):
 		pass
 	if event.is_action_pressed(&"left"):
-		space.move(Vector2.RIGHT)
-	if event.is_action_pressed(&"right"):
 		space.move(Vector2.LEFT)
+	if event.is_action_pressed(&"right"):
+		space.move(Vector2.RIGHT)
 	if event.is_action_pressed(&"up"):
-		space.move(Vector2.DOWN)
-	if event.is_action_pressed(&"down"):
 		space.move(Vector2.UP)
+	if event.is_action_pressed(&"down"):
+		space.move(Vector2.DOWN)
 
 
 func _notification(what: int) -> void:
 	# Gets rid of the annoying errors and warnings about leaking two textures when closing game (the cursor textures)
 	if what == NOTIFICATION_WM_CLOSE_REQUEST:
-		Input.set_custom_mouse_cursor(null, Input.CURSOR_ARROW)
-		Input.set_custom_mouse_cursor(null, Input.CURSOR_POINTING_HAND)
+		quit_game()
+
+
+func quit_game() -> void:
+	Input.set_custom_mouse_cursor(null, Input.CURSOR_ARROW)
+	Input.set_custom_mouse_cursor(null, Input.CURSOR_POINTING_HAND)
+	get_tree().quit()
 
 
 func _on_system_sprite_pressed(system_index: int) -> void:

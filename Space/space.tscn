@@ -141,7 +141,7 @@ position = Vector2(128, 192)
 position = Vector2(128, 192)
 
 [node name="Separators" type="Node2D" parent="Grid"]
-modulate = Color(1, 1, 1, 0.27451)
+modulate = Color(1, 1, 1, 0)
 
 [node name="HSeparator" type="HSeparator" parent="Grid/Separators"]
 offset_left = -96.0

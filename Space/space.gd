@@ -21,13 +21,14 @@ const TWEEN_TIME: float = 0.3
 
 var hazard_spots: Dictionary
 
+var current_grid_pos: Vector2 = Vector2.ZERO
 var current_pos: Vector2 = Vector2.ZERO
 
 var is_moving: bool = false
 
 
 func _ready() -> void:
-	create_asteroid(game_manager.asteroid_types.MEDIUM, Vector2.LEFT + Vector2.UP, 3.0, true, [game_manager.damage_types.ELECTRICITY])
+	create_asteroid(game_manager.asteroid_types.LARGE, Vector2.LEFT, 3.0, false, [game_manager.damage_types.ELECTRICITY])
 
 
 func create_asteroid(size: game_manager.asteroid_types, spot: Vector2, time: float, is_vertical: bool = false, types: Array[game_manager.damage_types] = [game_manager.damage_types.PHYSICAL]) -> void:
@@ -50,16 +51,17 @@ func create_asteroid(size: game_manager.asteroid_types, spot: Vector2, time: flo
 					if Vector2(spot.x, spot.y + i) in hazard_spots or spot.y + i > 1:
 						push_warning("Tried creating a medium asteroid in ", spot, ", which is busy or out of bounds at ", spot.y + i, ", vertical: ", is_vertical)
 						return
+				asteroid.position = Vector2(spot.x * 64, (spot.y + 1) * 64)
 			else:
 				for i in 3:
 					if Vector2(spot.x + i, spot.y) in hazard_spots or spot.x + i > 1:
 						push_warning("Tried creating a medium asteroid in ", spot, ", which is busy or out of bounds at ", spot.x + i, ", vertical: ", is_vertical)
 						return
+				asteroid.position = Vector2((spot.x + 1) * 64, spot.y * 64)
 			asteroid.set_types(types)
 			asteroid.set_time(time)
 			asteroid.set_visuals(size, is_vertical)
 			hazard_visuals.add_child(asteroid)
-			asteroid.position = Vector2(spot.x * 64, spot.y * 64)
 			if is_vertical:
 				for i in 3:
 					create_hazard(Vector2(spot.x, spot.y + i), time, 2, types)
@@ -73,17 +75,18 @@ func create_asteroid(size: game_manager.asteroid_types, spot: Vector2, time: flo
 						if Vector2(spot.x - j, spot.y + i) in hazard_spots or spot.y + i > 1 or spot.x - j < -1:
 							push_warning("Tried creating a large asteroid in ", spot, ", which is busy or out of bounds at ", Vector2(spot.x - j, spot.y + i), ", vertical: ", is_vertical)
 							return
+				asteroid.position = Vector2((spot.x - 0.5) * 64, (spot.y + 1) * 64)
 			else:
 				for i in 3:
 					for j in 2:
 						if Vector2(spot.x + i, spot.y + j) in hazard_spots or spot.y + j > 1 or spot.x + i > 1:
 							push_warning("Tried creating a large asteroid in ", spot, ", which is busy or out of bounds at ", Vector2(spot.x + i, spot.y + j), ", vertical: ", is_vertical)
 							return
+				asteroid.position = Vector2((spot.x + 1) * 64, (spot.y + 0.5) * 64)
 			asteroid.set_types(types)
 			asteroid.set_time(time)
 			asteroid.set_visuals(size, is_vertical)
 			hazard_visuals.add_child(asteroid)
-			asteroid.position = Vector2(spot.x * 64, spot.y * 64)
 			if is_vertical:
 				for i in 3:
 					for j in 2:
@@ -106,11 +109,11 @@ func create_hazard(spot: Vector2, time: float, strength: int, types: Array[game_
 	hazard_spots[spot] = hazard
 	hazard.set_time(time)
 	incoming_hazards.add_child(hazard)
-	hazard.position = Vector2(spot.x * 64, -spot.y * 64)
+	hazard.position = Vector2(spot.x * 64, spot.y * 64)
 
 
 func hit(spot: Vector2, strength: int, type: game_manager.damage_types) -> void:
-	if spot == -current_pos:
+	if spot == -current_grid_pos:
 		damaged.emit(strength, type)
 	hazard_spots.erase(spot)
 
@@ -124,10 +127,11 @@ func move(to: Vector2) -> void:
 		Vector2.UP:
 			if current_pos.y >= 0:
 				current_pos.y -= 1
-				var new_pos := current_pos.y * 64
-				var new_pos_mid := current_pos.y * 48
-				var new_pos_close := current_pos.y * 32
-				var hazard_pos := current_pos.y * 56
+				current_grid_pos.y += 1
+				var new_pos := current_grid_pos.y * 64
+				var new_pos_mid := current_grid_pos.y * 48
+				var new_pos_close := current_grid_pos.y * 32
+				var hazard_pos := current_grid_pos.y * 56
 				tween.set_parallel()
 				tween.tween_property(far_particles, "position:y", new_pos, TWEEN_TIME).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
 				tween.tween_property(middle_particles, "position:y", new_pos_mid, TWEEN_TIME).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
@@ -138,10 +142,11 @@ func move(to: Vector2) -> void:
 		Vector2.DOWN:
 			if current_pos.y <= 0:
 				current_pos.y += 1
-				var new_pos := current_pos.y * 64
-				var new_pos_mid := current_pos.y * 48
-				var new_pos_close := current_pos.y * 32
-				var hazard_pos := current_pos.y * 56
+				current_grid_pos.y -= 1
+				var new_pos := current_grid_pos.y * 64
+				var new_pos_mid := current_grid_pos.y * 48
+				var new_pos_close := current_grid_pos.y * 32
+				var hazard_pos := current_grid_pos.y * 56
 				tween.set_parallel()
 				tween.tween_property(far_particles, "position:y", new_pos, TWEEN_TIME).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
 				tween.tween_property(middle_particles, "position:y", new_pos_mid, TWEEN_TIME).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
@@ -152,10 +157,11 @@ func move(to: Vector2) -> void:
 		Vector2.LEFT:
 			if current_pos.x >= 0:
 				current_pos.x -= 1
-				var new_pos := current_pos.x * 64
-				var new_pos_mid := current_pos.x * 48
-				var new_pos_close := current_pos.x * 32
-				var hazard_pos := current_pos.x * 56
+				current_grid_pos.x += 1
+				var new_pos := current_grid_pos.x * 64
+				var new_pos_mid := current_grid_pos.x * 48
+				var new_pos_close := current_grid_pos.x * 32
+				var hazard_pos := current_grid_pos.x * 56
 				tween.set_parallel()
 				tween.tween_property(far_particles, "position:x", new_pos, TWEEN_TIME).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
 				tween.tween_property(middle_particles, "position:x", new_pos_mid, TWEEN_TIME).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
@@ -166,10 +172,11 @@ func move(to: Vector2) -> void:
 		Vector2.RIGHT:
 			if current_pos.x <= 0:
 				current_pos.x += 1
-				var new_pos := current_pos.x * 64
-				var new_pos_mid := current_pos.x * 48
-				var new_pos_close := current_pos.x * 32
-				var hazard_pos := current_pos.x * 56
+				current_grid_pos.x -= 1
+				var new_pos := current_grid_pos.x * 64
+				var new_pos_mid := current_grid_pos.x * 48
+				var new_pos_close := current_grid_pos.x * 32
+				var hazard_pos := current_grid_pos.x * 56
 				tween.set_parallel()
 				tween.tween_property(far_particles, "position:x", new_pos, TWEEN_TIME).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
 				tween.tween_property(middle_particles, "position:x", new_pos_mid, TWEEN_TIME).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
