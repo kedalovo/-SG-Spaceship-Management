@@ -1,7 +1,9 @@
 extends system
 
 
+const LIFE_SUPPORT_UPGRADE = preload("res://Systems/Life Support/Assets/Life Support upgrade.png")
 const ALGAE_SCENE = preload("res://Systems/Life Support/Algae/algae.tscn")
+
 @onready var algae_container: Node2D = $"Algae Container"
 @onready var cooker_area: Area2D = $"Cooker Area"
 @onready var damage_timer: Timer = $DamageTimer
@@ -24,6 +26,24 @@ func add_fuel() -> void:
 	var new_algae = ALGAE_SCENE.instantiate()
 	new_algae.position = Vector2(randi_range(-152, -72), -36)
 	algae_container.add_child(new_algae)
+
+
+func upgrade(to_tier: int) -> void:
+	if current_tier == 0 and to_tier == 1:
+		super.upgrade(to_tier)
+		$Sprite.texture = LIFE_SUPPORT_UPGRADE
+		for child in $Collisions.get_children():
+			child.disabled = true
+		for child in $"Collisions Upgraded".get_children():
+			child.disabled = false
+		for child in $Boundary.get_children():
+			child.disabled = true
+		for child in $"Boundary Upgraded".get_children():
+			child.disabled = false
+		cooker_area.monitoring = false
+		$"Upgraded Cooker Area".monitoring = true
+		$"Dispose Area".monitoring = false
+		$"Upgraded Dispose Area".monitoring = true
 
 
 func _damage(strength: int, type: game_manager.damage_types):

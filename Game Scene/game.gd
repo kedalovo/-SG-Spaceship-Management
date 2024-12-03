@@ -46,9 +46,9 @@ func _input(event: InputEvent) -> void:
 	if event.is_action_pressed(&"esc"):
 		quit_game()
 	if event.is_action_pressed(&"test1"):
-		pass
+		life_support_system.add_fuel()
 	if event.is_action_pressed(&"test"):
-		pass
+		life_support_system.upgrade(1)
 	if event.is_action_pressed(&"left"):
 		space.move(Vector2.LEFT)
 	if event.is_action_pressed(&"right"):

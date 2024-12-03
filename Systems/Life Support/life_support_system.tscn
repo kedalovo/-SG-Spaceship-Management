@@ -1,7 +1,13 @@
-[gd_scene load_steps=12 format=3 uid="uid://vofuvgwwjlr5"]
+[gd_scene load_steps=20 format=3 uid="uid://vofuvgwwjlr5"]
 
 [ext_resource type="Texture2D" uid="uid://c6kiybletgsd" path="res://Systems/Life Support/Assets/Life Support Outside.png" id="1_cp3fi"]
 [ext_resource type="Script" path="res://Systems/Life Support/life_support_system.gd" id="1_gfff3"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_x2ggp"]
+size = Vector2(146, 9)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_kuil2"]
+size = Vector2(172, 9)
 
 [sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_3pqfb"]
 normal = Vector2(-1.98682e-08, -1)
@@ -15,11 +21,28 @@ normal = Vector2(0, 1)
 [sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_mynuh"]
 normal = Vector2(-1, 0)
 
+[sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_q612o"]
+
+[sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_l6s62"]
+normal = Vector2(1, 0)
+
+[sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_ceyii"]
+normal = Vector2(0, 1)
+
+[sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_qdq17"]
+normal = Vector2(-1, 0)
+
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_2cn4y"]
 size = Vector2(96, 64)
 
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_blfqs"]
+size = Vector2(132, 160)
+
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_2s487"]
 size = Vector2(24, 32)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_a3g0x"]
+size = Vector2(32, 32)
 
 [sub_resource type="Animation" id="Animation_8sdl2"]
 length = 0.001
@@ -116,6 +139,30 @@ polygon = PackedVector2Array(-92, 0, -92, -48, 60, -48, 60, -56, 64, -56, 64, -4
 position = Vector2(76, -4)
 polygon = PackedVector2Array(-60, 8, -60, -8, -48, -8, -52, 56, 44, 56, 44, -12, 84, -8, 84, -48, 88, -48, 88, -4, 48, -8, 48, 60, -56, 60, -52, -4, -56, -4, -56, 8)
 
+[node name="Collisions Upgraded" type="StaticBody2D" parent="."]
+
+[node name="Container" type="CollisionPolygon2D" parent="Collisions Upgraded"]
+polygon = PackedVector2Array(-40, -57, -99, -117, -159, -57, -159, 98, -100, 116, -39, 99, -47, 92, -99, 107, -152, 93, -152, -55, -100, -106, -47, -54)
+disabled = true
+
+[node name="Cooker" type="CollisionPolygon2D" parent="Collisions Upgraded"]
+polygon = PackedVector2Array(-10, -70, -10, -82, 102, -82, 102, -114, 155, -114, 155, 114, -10, 114, -10, 102, -1, 102, -1, 106, 146, 106, 146, -106, 111, -106, 111, -74, -1, -74, -1, -70)
+disabled = true
+
+[node name="Container Wall" type="CollisionShape2D" parent="Collisions Upgraded"]
+position = Vector2(-43.5, 19)
+rotation = -4.71238
+shape = SubResource("RectangleShape2D_x2ggp")
+disabled = true
+one_way_collision = true
+
+[node name="Cooker Wall" type="CollisionShape2D" parent="Collisions Upgraded"]
+position = Vector2(-6, 16)
+rotation = 1.57079
+shape = SubResource("RectangleShape2D_kuil2")
+disabled = true
+one_way_collision = true
+
 [node name="Boundary" type="StaticBody2D" parent="."]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Boundary"]
@@ -134,21 +181,61 @@ shape = SubResource("WorldBoundaryShape2D_434fa")
 position = Vector2(164, 0)
 shape = SubResource("WorldBoundaryShape2D_mynuh")
 
+[node name="Boundary Upgraded" type="StaticBody2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Boundary Upgraded"]
+position = Vector2(0, 114)
+shape = SubResource("WorldBoundaryShape2D_q612o")
+disabled = true
+
+[node name="CollisionShape2D2" type="CollisionShape2D" parent="Boundary Upgraded"]
+position = Vector2(-158, 0)
+shape = SubResource("WorldBoundaryShape2D_l6s62")
+disabled = true
+
+[node name="CollisionShape2D3" type="CollisionShape2D" parent="Boundary Upgraded"]
+position = Vector2(0, -110)
+shape = SubResource("WorldBoundaryShape2D_ceyii")
+disabled = true
+
+[node name="CollisionShape2D4" type="CollisionShape2D" parent="Boundary Upgraded"]
+position = Vector2(153, 0)
+shape = SubResource("WorldBoundaryShape2D_qdq17")
+disabled = true
+
 [node name="Algae Container" type="Node2D" parent="."]
 
 [node name="Cooker Area" type="Area2D" parent="."]
+visible = false
 position = Vector2(72, 20)
 input_pickable = false
 
 [node name="Shape" type="CollisionShape2D" parent="Cooker Area"]
 shape = SubResource("RectangleShape2D_2cn4y")
 
+[node name="Upgraded Cooker Area" type="Area2D" parent="."]
+visible = false
+position = Vector2(82, 28)
+monitoring = false
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Upgraded Cooker Area"]
+shape = SubResource("RectangleShape2D_blfqs")
+
 [node name="Dispose Area" type="Area2D" parent="."]
+visible = false
 position = Vector2(148, -28)
 input_pickable = false
 
 [node name="Shape" type="CollisionShape2D" parent="Dispose Area"]
 shape = SubResource("RectangleShape2D_2s487")
+
+[node name="Upgraded Dispose Area" type="Area2D" parent="."]
+visible = false
+position = Vector2(128, -88)
+monitoring = false
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Upgraded Dispose Area"]
+shape = SubResource("RectangleShape2D_a3g0x")
 
 [node name="CookTimer" type="Timer" parent="."]
 process_callback = 0
@@ -166,6 +253,9 @@ libraries = {
 
 [connection signal="body_entered" from="Cooker Area" to="." method="_on_cooker_area_body_entered"]
 [connection signal="body_exited" from="Cooker Area" to="." method="_on_cooker_area_body_exited"]
+[connection signal="body_entered" from="Upgraded Cooker Area" to="." method="_on_cooker_area_body_entered"]
+[connection signal="body_exited" from="Upgraded Cooker Area" to="." method="_on_cooker_area_body_exited"]
 [connection signal="body_entered" from="Dispose Area" to="." method="_on_dispose_area_body_entered"]
+[connection signal="body_entered" from="Upgraded Dispose Area" to="." method="_on_dispose_area_body_entered"]
 [connection signal="timeout" from="CookTimer" to="." method="_on_cook_timer_timeout"]
 [connection signal="timeout" from="DamageTimer" to="." method="_on_damage_timer_timeout"]

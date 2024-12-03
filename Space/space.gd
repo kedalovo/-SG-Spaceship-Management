@@ -27,10 +27,6 @@ var current_pos: Vector2 = Vector2.ZERO
 var is_moving: bool = false
 
 
-func _ready() -> void:
-	create_asteroid(game_manager.asteroid_types.LARGE, Vector2.LEFT, 3.0, false, [game_manager.damage_types.ELECTRICITY])
-
-
 func create_asteroid(size: game_manager.asteroid_types, spot: Vector2, time: float, is_vertical: bool = false, types: Array[game_manager.damage_types] = [game_manager.damage_types.PHYSICAL]) -> void:
 	spot = clamp(spot, -Vector2.ONE, Vector2.ONE)
 	var asteroid := ASTEROID.instantiate()
