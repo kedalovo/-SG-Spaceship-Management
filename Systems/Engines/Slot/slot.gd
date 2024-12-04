@@ -16,8 +16,8 @@ var is_busy: bool = false
 func set_slot_type(new_type: game_manager.engine_cell_types) -> void:
 	is_busy = false
 	slot_type = new_type
-	if get_child_count() == 2:
-		get_child(1).queue_free()
+	if get_child_count() == 3:
+		get_child(2).queue_free()
 	var icon: Sprite2D = Sprite2D.new()
 	add_child(icon)
 	if new_type == game_manager.engine_cell_types.FUEL:
@@ -28,9 +28,11 @@ func set_slot_type(new_type: game_manager.engine_cell_types) -> void:
 
 func _on_body_entered(body: Node2D) -> void:
 	if body.name == "Cell Body":
+		#print(index, ": ✔️")
 		cell_entered.emit(index)
 
 
 func _on_body_exited(body: Node2D) -> void:
 	if body.name == "Cell Body":
+		#print(index, ": ❌")
 		cell_exited.emit(index)

@@ -6,7 +6,7 @@
 [ext_resource type="Texture2D" uid="uid://cfwuu5avini0b" path="res://Systems/Engines/Assets/Engine Cell Break.png" id="3_t8uae"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_xicvs"]
-size = Vector2(1, 1)
+size = Vector2(4, 4)
 
 [sub_resource type="Gradient" id="Gradient_dtpwg"]
 colors = PackedColorArray(0.53125, 0.53125, 0.53125, 1, 1, 1, 1, 1)

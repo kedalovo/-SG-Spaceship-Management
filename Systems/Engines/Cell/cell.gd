@@ -5,6 +5,7 @@ class_name Cell
 
 signal cell_released(cell: Cell)
 signal being_deleted(cell: Cell)
+signal held(type: game_manager.engine_cell_types)
 
 
 @onready var outline: Sprite2D = $Outline
@@ -79,6 +80,7 @@ func _on_button_mouse_exited() -> void:
 func _on_button_button_down() -> void:
 	if !is_depleting:
 		is_held = true
+		held.emit(type)
 	if is_depleted or is_destroyed:
 		being_deleted.emit(self)
 

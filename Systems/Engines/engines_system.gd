@@ -16,6 +16,7 @@ const CELL_SCENE = preload("res://Systems/Engines/Cell/cell.tscn")
 @onready var cells_coolant: Array[Cell] = []
 
 @onready var hovered_slot: int = -1
+@onready var label: Label = $Label
 
 var destroyed_cells: int = 0
 
@@ -26,6 +27,11 @@ func _ready() -> void:
 	setup_cells()
 	fuel_timer.start()
 	coolant_timer.start()
+	hovered_slot = -1
+
+
+func _physics_process(_delta: float) -> void:
+	label.text = str(hovered_slot)
 
 
 func setup_slots() -> void:
@@ -35,10 +41,12 @@ func setup_slots() -> void:
 	for i in 5:
 		var idx := randi()%_slots.size()
 		_slots[idx].set_slot_type(game_manager.engine_cell_types.FUEL)
+		_slots[idx].get_node("Line2D").default_color = Color("ffdd00")
 		slots_fuel.append(_slots[idx].index)
 		_slots.remove_at(idx)
 	for slot in _slots:
 		slot.set_slot_type(game_manager.engine_cell_types.COOLANT)
+		slot.get_node("Line2D").default_color = Color("0081ff")
 		slots_coolant.append(slot.index)
 
 
@@ -92,6 +100,7 @@ func create_cell(new_type: game_manager.engine_cell_types) -> Cell:
 	new_cell.set_type(new_type)
 	new_cell.cell_released.connect(_on_cell_released)
 	new_cell.being_deleted.connect(_on_cell_being_deleted)
+	new_cell.held.connect(_on_cell_held)
 	return new_cell
 
 
@@ -130,11 +139,21 @@ func get_coolant_health() -> int:
 	return health
 
 
+func _on_cell_held(type: game_manager.engine_cell_types) -> void:
+	if current_tier == 1:
+		for i in cell_slots.get_children():
+			if i.slot_type == type:
+				i.get_node("Line2D").show()
+
+
 func _on_cell_released(cell: Cell) -> void:
+	if current_tier == 1:
+		for i in cell_slots.get_children():
+			i.get_node("Line2D").hide()
 	if hovered_slot >= 0:
 		var slot: Area2D = cell_slots.get_child(hovered_slot)
 		hovered_slot = -1
-		if slot.slot_type == cell.type:
+		if slot.slot_type == cell.type and !slot.is_busy:
 			cell.place_into_slot(slot)
 		else:
 			cell.position = cell.start_pos
@@ -175,10 +194,8 @@ func _on_coolant_timer_timeout() -> void:
 
 
 func _on_slot_cell_entered(slot_index: int) -> void:
-	if hovered_slot == -1:
-		hovered_slot = slot_index
+	hovered_slot = slot_index
 
 
-func _on_slot_cell_exited(slot_index: int) -> void:
-	if hovered_slot == slot_index:
-		hovered_slot = -1
+func _on_slot_cell_exited(_slot_index: int) -> void:
+	pass
