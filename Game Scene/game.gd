@@ -24,6 +24,9 @@ const CURSOR_POINTER = preload("res://UI/Cursor pointer.png")
 
 @onready var cabin: Node2D = $Cabin
 @onready var space: Node2D = $Cabin/SubViewportContainer2/SubViewport/Space
+@onready var cabin_view: Sprite2D = $"Cabin/Cabin View"
+
+const CABIN_ZOOM_LEVEL: float = 1.1
 
 @onready var systems: Array[system] = [
 	life_support_system, engines_system, hull_system,
@@ -50,22 +53,39 @@ func _input(event: InputEvent) -> void:
 	if event.is_action_pressed(&"test"):
 		life_support_system.upgrade(1)
 	if event.is_action_pressed(&"left"):
-		space.move(Vector2.LEFT)
+		var moved: bool = space.move(Vector2.LEFT)
+		if moved:
+			cabin_view.scale = Vector2(CABIN_ZOOM_LEVEL, CABIN_ZOOM_LEVEL)
 	if event.is_action_pressed(&"right"):
-		space.move(Vector2.RIGHT)
+		var moved: bool = space.move(Vector2.RIGHT)
+		if moved:
+			cabin_view.scale = Vector2(CABIN_ZOOM_LEVEL, CABIN_ZOOM_LEVEL)
 	if event.is_action_pressed(&"up"):
-		space.move(Vector2.UP)
+		var moved: bool = space.move(Vector2.UP)
+		if moved:
+			cabin_view.scale = Vector2(CABIN_ZOOM_LEVEL, CABIN_ZOOM_LEVEL)
 	if event.is_action_pressed(&"down"):
-		space.move(Vector2.DOWN)
+		var moved: bool = space.move(Vector2.DOWN)
+		if moved:
+			cabin_view.scale = Vector2(CABIN_ZOOM_LEVEL, CABIN_ZOOM_LEVEL)
+	if event.is_action_pressed(&"fullscreen"):
+		if DisplayServer.window_get_mode() == DisplayServer.WindowMode.WINDOW_MODE_WINDOWED:
+			DisplayServer.window_set_mode(DisplayServer.WINDOW_MODE_EXCLUSIVE_FULLSCREEN)
+		elif DisplayServer.window_get_mode() == DisplayServer.WindowMode.WINDOW_MODE_EXCLUSIVE_FULLSCREEN:
+			DisplayServer.window_set_mode(DisplayServer.WINDOW_MODE_WINDOWED)
 
 
 func _notification(what: int) -> void:
-	# Gets rid of the annoying errors and warnings about leaking two textures when closing game (the cursor textures)
 	if what == NOTIFICATION_WM_CLOSE_REQUEST:
 		quit_game()
 
 
+func _physics_process(_delta: float) -> void:
+	cabin_view.scale = lerp(cabin_view.scale, Vector2.ONE, 0.1)
+
+
 func quit_game() -> void:
+	# Gets rid of the annoying errors and warnings about leaking two textures when closing game (the cursor textures)
 	Input.set_custom_mouse_cursor(null, Input.CURSOR_ARROW)
 	Input.set_custom_mouse_cursor(null, Input.CURSOR_POINTING_HAND)
 	get_tree().quit()
@@ -94,19 +114,19 @@ func _on_system_animation_finished(is_open: bool) -> void:
 
 
 func _on_left_button_pressed() -> void:
-	space.move(Vector2.RIGHT)
-
-
-func _on_down_button_pressed() -> void:
-	space.move(Vector2.UP)
-
-
-func _on_right_button_pressed() -> void:
 	space.move(Vector2.LEFT)
 
 
-func _on_up_button_pressed() -> void:
+func _on_down_button_pressed() -> void:
 	space.move(Vector2.DOWN)
+
+
+func _on_right_button_pressed() -> void:
+	space.move(Vector2.RIGHT)
+
+
+func _on_up_button_pressed() -> void:
+	space.move(Vector2.UP)
 
 
 func _on_damaged(strength: int, type: game_manager.damage_types) -> void:

@@ -27,11 +27,17 @@ var is_2_set: bool = false
 var is_3_set: bool = false
 var is_4_set: bool = false
 var is_halved: bool = false
+var is_bigger: bool = false
 var is_hovering_hole: bool = false
 var is_completed: bool = false
 
 
 func set_marks() -> void:
+	if is_bigger:
+		mark_1.scale = Vector2(2.5, 2.5)
+		mark_2.scale = Vector2(2.5, 2.5)
+		mark_3.scale = Vector2(2.5, 2.5)
+		mark_4.scale = Vector2(2.5, 2.5)
 	if is_halved:
 		mark_2.show()
 		mark_4.show()

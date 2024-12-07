@@ -114,9 +114,9 @@ func hit(spot: Vector2, strength: int, type: game_manager.damage_types) -> void:
 	hazard_spots.erase(spot)
 
 
-func move(to: Vector2) -> void:
+func move(to: Vector2) -> bool:
 	if is_moving:
-		return
+		return false
 	var is_set: bool = false
 	var tween: Tween = get_tree().create_tween()
 	match to:
@@ -183,5 +183,7 @@ func move(to: Vector2) -> void:
 	if is_set:
 		tween.tween_callback(func(): is_moving = false).set_delay(TWEEN_TIME-0.1)
 		is_moving = true
+		return true
 	else:
 		tween.kill()
+		return false

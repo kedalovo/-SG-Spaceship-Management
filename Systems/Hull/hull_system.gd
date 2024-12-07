@@ -47,6 +47,10 @@ func add_patch() -> void:
 	new_patch.patch_installed.connect(_on_patch_installed)
 	new_patch.patch_completed.connect(_on_patch_completed)
 	patches.add_child(new_patch)
+	if current_tier > 0:
+		new_patch.is_bigger = true
+	if current_tier > 1:
+		new_patch.is_halved = true
 	new_patch.initial_pos = Vector2(-264, 176)
 	new_patch.position = Vector2(-264, 176)
 
