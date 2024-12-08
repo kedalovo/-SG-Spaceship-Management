@@ -33,6 +33,16 @@ window/stretch/mode="viewport"
 
 project/assembly_name="[SG] Spaceship Management"
 
+[file_customization]
+
+folder_colors={
+"res://Game Scene/": "red",
+"res://Hazards/": "orange",
+"res://Map/": "gray",
+"res://Systems/": "yellow",
+"res://UI/": "green"
+}
+
 [input]
 
 esc={

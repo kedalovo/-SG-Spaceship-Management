@@ -196,8 +196,9 @@ render_target_update_mode = 4
 [node name="Space" parent="Cabin/SubViewportContainer2/SubViewport" instance=ExtResource("24_qmju5")]
 
 [node name="Cabin View" type="Sprite2D" parent="Cabin"]
-position = Vector2(128, 192)
+position = Vector2(128, 368)
 texture = ExtResource("3_e6bxd")
+offset = Vector2(0, -176)
 
 [node name="Controls" type="Node2D" parent="Cabin"]
 position = Vector2(0, 384)
