@@ -48,13 +48,6 @@ func generate_map() -> void:
 		grid.append(level)
 		dummy_grid[i] = [0, 1, 2, 3, 4, 5]
 	
-	# Creating default connections
-	for i in 9:
-		grid[i][0].connected_to_nodes = [grid[i+1][0], grid[i+1][1]]
-		for j in range(1, 5):
-			grid[i][j].connected_to_nodes = [grid[i+1][j-1], grid[i+1][j], grid[i+1][j+1]]
-		grid[i][5].connected_to_nodes = [grid[i+1][4], grid[i+1][5]]
-	
 	# Deleting random nodes
 	for i in 18:
 		var num: int = dummy_grid.keys().pick_random()
@@ -63,6 +56,39 @@ func generate_map() -> void:
 		dummy_grid[num].erase(deleting)
 		if dummy_grid[num].size() == 0:
 			dummy_grid.erase(num)
+	
+	# Setting up first line
+	for i in grid[dummy_grid.keys().min()]:
+		if !i.disabled:
+			i.is_continuation = true
+	
+	# Creating default connections
+	var sorted_order: Array = dummy_grid.keys().duplicate()
+	sorted_order.sort()
+	sorted_order.pop_back()
+	for i in sorted_order:
+		grid[i][0].add_connections([grid[i+1][0], grid[i+1][1]])
+		for j in range(1, 5):
+			grid[i][j].add_connections([grid[i+1][j-1], grid[i+1][j], grid[i+1][j+1]])
+		grid[i][5].add_connections([grid[i+1][4], grid[i+1][5]])
+	
+	# Disabling nodes in first line without connections
+	for i in grid[dummy_grid.keys().min()]:
+		if !i.disabled and i.connected_to_nodes.size() == 0:
+			i.disabled = true
+			i.reason = 2
+	
+	# Enabling connectivity in first enabled line
+	for i in grid[dummy_grid.keys().min()]:
+		if !i.disabled:
+			i.is_continuation = true
+	
+	# Disabling nodes without previous connections
+	for i in dummy_grid.keys():
+		for j in grid[i]:
+			if !j.disabled and !j.is_continuation:
+				j.disabled = true
+				j.reason = 1
 	
 	# Visualising result
 	for i in grid:
@@ -76,13 +102,17 @@ func generate_map() -> void:
 			h_box.add_child(color_rect)
 			color_rect.size_flags_horizontal = Control.SIZE_SHRINK_CENTER + Control.SIZE_EXPAND
 			color_rect.custom_minimum_size = Vector2(10, 10)
+			var text := Label.new()
+			text.text = str(i[j].reason)
 			i[j].reparent(color_rect)
+			color_rect.add_child(text)
 			i[j].position = Vector2.ZERO
 			color_rect.add_to_group(&"visual_map_nodes")
 			var s: String = "[V] "
 			if i[j].disabled:
+				#color_rect.hide()
 				s = "[X] "
-				color_rect.color = Color("ff0000")
+				color_rect.color = Color("ff00001e")
 			else:
 				color_rect.color = Color("00ff00")
 			line += s
