@@ -6,6 +6,10 @@ const MAP_NODE = preload("res://Map/Map Node/map_node.tscn")
 @onready var map_nodes: Node2D = $"Map Nodes"
 @onready var v_box: VBoxContainer = $Scroll/VBox
 
+const NUM_OF_DELETIONS: int = 20
+const LINE_NUM: int = 12
+const LINE_LENGTH: int = 5
+
 var grid: Array[Array] = []
 var dummy_grid: Dictionary
 
@@ -39,23 +43,35 @@ func refresh_tooltips() -> void:
 
 func generate_map() -> void:
 	# Generating empty grid
-	for i in 10:
+	for i in LINE_NUM:
 		var level: Array[map_node] = []
-		for j in 6:
+		var dummy_line: Array[int] = []
+		for j in LINE_LENGTH:
 			var new_map_node := MAP_NODE.instantiate()
 			map_nodes.add_child(new_map_node)
 			level.append(new_map_node)
+			dummy_line.append(j)
 		grid.append(level)
-		dummy_grid[i] = [0, 1, 2, 3, 4, 5]
+		dummy_grid[i] = dummy_line
 	
 	# Deleting random nodes
-	for i in 18:
+	for i in NUM_OF_DELETIONS:
 		var num: int = dummy_grid.keys().pick_random()
 		var deleting: int = dummy_grid[num].pick_random()
 		grid[num][deleting].disabled = true
 		dummy_grid[num].erase(deleting)
-		if dummy_grid[num].size() == 0:
-			dummy_grid.erase(num)
+	
+	# Filling empty lines
+	for i in grid:
+		var are_all_disabled: bool = true
+		for j in i:
+			if !j.disabled:
+				are_all_disabled = false
+		if are_all_disabled:
+			#print_debug("Filling line...")
+			i.pick_random().disabled = false
+			i.pick_random().disabled = false
+			i.pick_random().disabled = false
 	
 	# Setting up first line
 	for i in grid[dummy_grid.keys().min()]:
@@ -68,9 +84,9 @@ func generate_map() -> void:
 	sorted_order.pop_back()
 	for i in sorted_order:
 		grid[i][0].add_connections([grid[i+1][0], grid[i+1][1]])
-		for j in range(1, 5):
+		for j in range(1, LINE_LENGTH - 1):
 			grid[i][j].add_connections([grid[i+1][j-1], grid[i+1][j], grid[i+1][j+1]])
-		grid[i][5].add_connections([grid[i+1][4], grid[i+1][5]])
+		grid[i][LINE_LENGTH - 1].add_connections([grid[i+1][LINE_LENGTH - 2], grid[i+1][LINE_LENGTH - 1]])
 	
 	# Disabling nodes in first line without connections
 	for i in grid[dummy_grid.keys().min()]:
@@ -83,6 +99,28 @@ func generate_map() -> void:
 		if !i.disabled:
 			i.is_continuation = true
 	
+	# Enabling connectivity in separated levels
+	for i in sorted_order:
+		var no_con: bool = true
+		for j in grid[i]:
+			if !j.connected_to_nodes.is_empty():
+				no_con = false
+		if no_con:
+			#print_debug("Line ", i, " was connected, all lines: ", str(sorted_order))
+			#var c = 0
+			for j in grid[i+1]:
+				if !j.disabled:
+					j.is_continuation = true
+					#prints(i, c)
+				#c += 1
+	
+	# Recreating deleted connections
+	for i in sorted_order:
+		grid[i][0].add_connections([grid[i+1][0], grid[i+1][1]])
+		for j in range(1, LINE_LENGTH - 1):
+			grid[i][j].add_connections([grid[i+1][j-1], grid[i+1][j], grid[i+1][j+1]])
+		grid[i][LINE_LENGTH - 1].add_connections([grid[i+1][LINE_LENGTH - 2], grid[i+1][LINE_LENGTH - 1]])
+	
 	# Disabling nodes without previous connections
 	for i in dummy_grid.keys():
 		for j in grid[i]:
@@ -91,29 +129,29 @@ func generate_map() -> void:
 				j.reason = 1
 	
 	# Visualising result
-	for i in grid:
+	for i in range(grid.size() - 1, -1, -1):
+		var line: Array = grid[i]
 		var h_box: HBoxContainer = HBoxContainer.new()
 		v_box.add_child(h_box)
-		v_box.move_child(h_box, 0)
 		h_box.size_flags_vertical = Control.SIZE_SHRINK_CENTER + Control.SIZE_EXPAND
-		var line: String = ""
-		for j in 6:
+		var console_line: String = ""
+		for j in LINE_LENGTH:
 			var color_rect: ColorRect = ColorRect.new()
 			h_box.add_child(color_rect)
 			color_rect.size_flags_horizontal = Control.SIZE_SHRINK_CENTER + Control.SIZE_EXPAND
 			color_rect.custom_minimum_size = Vector2(10, 10)
-			var text := Label.new()
-			text.text = str(i[j].reason)
-			i[j].reparent(color_rect)
-			color_rect.add_child(text)
-			i[j].position = Vector2.ZERO
+			#var text := Label.new()
+			#text.text = str(line[j].reason)
+			line[j].reparent(color_rect)
+			#color_rect.add_child(text)
+			line[j].position = Vector2.ZERO
 			color_rect.add_to_group(&"visual_map_nodes")
-			var s: String = "[V] "
-			if i[j].disabled:
+			var s: String = "[1] "
+			if line[j].disabled:
 				#color_rect.hide()
-				s = "[X] "
+				s = "[0] "
 				color_rect.color = Color("ff00001e")
 			else:
 				color_rect.color = Color("00ff00")
-			line += s
-		print(line)
+			console_line += s
+		print(console_line)

@@ -15,6 +15,6 @@ var is_continuation: bool = false
 func add_connections(new_connections: Array) -> void:
 	if is_continuation:
 		for i in new_connections:
-			if !i.disabled:
+			if !i.disabled and i not in connected_to_nodes:
 				connected_to_nodes.append(i)
 				i.is_continuation = true
