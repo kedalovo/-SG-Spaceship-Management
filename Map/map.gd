@@ -4,11 +4,15 @@ extends Node2D
 const MAP_NODE = preload("res://Map/Map Node/map_node.tscn")
 
 @onready var map_nodes: Node2D = $"Map Nodes"
-@onready var v_box: VBoxContainer = $Scroll/VBox
+#@onready var v_box: VBoxContainer = $Scroll/VBox
+@onready var map_container: Control = $"Scroll/Map Container"
+@onready var scroll: ScrollContainer = $Scroll
 
 const NUM_OF_DELETIONS: int = 20
-const LINE_NUM: int = 12
+const LINE_NUM: int = 15
 const LINE_LENGTH: int = 5
+const POS_X_SPREAD: int = 32
+const POS_Y_SPREAD: int = 32
 
 var grid: Array[Array] = []
 var dummy_grid: Dictionary
@@ -16,6 +20,7 @@ var dummy_grid: Dictionary
 
 func _ready() -> void:
 	generate_map()
+	scroll.set_deferred(&"scroll_vertical", 1504)
 
 
 func _physics_process(_delta: float) -> void:
@@ -57,6 +62,8 @@ func generate_map() -> void:
 	# Deleting random nodes
 	for i in NUM_OF_DELETIONS:
 		var num: int = dummy_grid.keys().pick_random()
+		if dummy_grid[num].is_empty():
+			continue
 		var deleting: int = dummy_grid[num].pick_random()
 		grid[num][deleting].disabled = true
 		dummy_grid[num].erase(deleting)
@@ -131,27 +138,29 @@ func generate_map() -> void:
 	# Visualising result
 	for i in range(grid.size() - 1, -1, -1):
 		var line: Array = grid[i]
-		var h_box: HBoxContainer = HBoxContainer.new()
-		v_box.add_child(h_box)
-		h_box.size_flags_vertical = Control.SIZE_SHRINK_CENTER + Control.SIZE_EXPAND
-		var console_line: String = ""
+		#var h_box: HBoxContainer = HBoxContainer.new()
+		#v_box.add_child(h_box)
+		#h_box.size_flags_vertical = Control.SIZE_SHRINK_CENTER + Control.SIZE_EXPAND
+		#var console_line: String = ""
 		for j in LINE_LENGTH:
 			var color_rect: ColorRect = ColorRect.new()
-			h_box.add_child(color_rect)
+			#h_box.add_child(color_rect)
+			map_container.add_child(color_rect)
 			color_rect.size_flags_horizontal = Control.SIZE_SHRINK_CENTER + Control.SIZE_EXPAND
 			color_rect.custom_minimum_size = Vector2(10, 10)
+			color_rect.position = Vector2(j * 128 + 224 + randi_range(-POS_X_SPREAD, POS_X_SPREAD), i * 128 + 128 + randi_range(-POS_Y_SPREAD, POS_Y_SPREAD))
 			#var text := Label.new()
 			#text.text = str(line[j].reason)
 			line[j].reparent(color_rect)
 			#color_rect.add_child(text)
 			line[j].position = Vector2.ZERO
 			color_rect.add_to_group(&"visual_map_nodes")
-			var s: String = "[1] "
+			#var s: String = "[1] "
 			if line[j].disabled:
-				#color_rect.hide()
-				s = "[0] "
+				color_rect.hide()
+				#s = "[0] "
 				color_rect.color = Color("ff00001e")
 			else:
 				color_rect.color = Color("00ff00")
-			console_line += s
-		print(console_line)
+			#console_line += s
+		#print(console_line)

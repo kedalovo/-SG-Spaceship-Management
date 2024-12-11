@@ -12,11 +12,11 @@ offset_bottom = 540.0
 color = Color(0.367188, 0.367188, 0.367188, 1)
 
 [node name="Scroll" type="ScrollContainer" parent="."]
-offset_left = 192.0
-offset_right = 768.0
+offset_right = 960.0
 offset_bottom = 544.0
 
-[node name="VBox" type="VBoxContainer" parent="Scroll"]
+[node name="Map Container" type="Control" parent="Scroll"]
+custom_minimum_size = Vector2(576, 2048)
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
