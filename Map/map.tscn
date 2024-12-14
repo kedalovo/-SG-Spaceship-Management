@@ -1,6 +1,23 @@
-[gd_scene load_steps=2 format=3 uid="uid://dh1g8tgwww50"]
+[gd_scene load_steps=7 format=3 uid="uid://dh1g8tgwww50"]
 
 [ext_resource type="Script" path="res://Map/map.gd" id="1_jlmf0"]
+[ext_resource type="Texture2D" uid="uid://b6mmbj44xpsa0" path="res://Map/Assets/Map panel.png" id="2_8rhpx"]
+[ext_resource type="Texture2D" uid="uid://b5bocgmqxnpov" path="res://UI/Map cursor.png" id="3_2quoa"]
+[ext_resource type="Texture2D" uid="uid://dx4uuw4w0mcbb" path="res://Map/Assets/Map marker.png" id="4_1ecxj"]
+
+[sub_resource type="Gradient" id="Gradient_7uqp6"]
+offsets = PackedFloat32Array(0, 0.2, 0.8, 1)
+colors = PackedColorArray(1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0)
+metadata/_snap_enabled = true
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_kq32t"]
+texture = ExtResource("2_8rhpx")
+texture_margin_left = 32.0
+texture_margin_top = 32.0
+texture_margin_right = 32.0
+texture_margin_bottom = 32.0
+axis_stretch_horizontal = 1
+axis_stretch_vertical = 1
 
 [node name="Map" type="Node2D"]
 script = ExtResource("1_jlmf0")
@@ -12,8 +29,10 @@ offset_bottom = 540.0
 color = Color(0.367188, 0.367188, 0.367188, 1)
 
 [node name="Scroll" type="ScrollContainer" parent="."]
+z_index = -1
 offset_right = 960.0
-offset_bottom = 544.0
+offset_bottom = 540.0
+vertical_scroll_mode = 3
 
 [node name="Map Container" type="Control" parent="Scroll"]
 custom_minimum_size = Vector2(576, 2048)
@@ -21,4 +40,65 @@ layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
+[node name="ColorRect" type="ColorRect" parent="Scroll/Map Container"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 1)
+
+[node name="Space Particles" type="CPUParticles2D" parent="Scroll/Map Container"]
+position = Vector2(480, 1024)
+amount = 1000
+lifetime = 20.0
+preprocess = 50.0
+local_coords = true
+emission_shape = 3
+emission_rect_extents = Vector2(480, 1024)
+spread = 180.0
+gravity = Vector2(0, 0)
+initial_velocity_min = 1.0
+initial_velocity_max = 1.0
+scale_amount_max = 2.0
+color_ramp = SubResource("Gradient_7uqp6")
+
+[node name="Panel" type="Panel" parent="Scroll/Map Container"]
+z_index = 10
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxTexture_kq32t")
+
+[node name="Comet Particles" type="CPUParticles2D" parent="Scroll/Map Container"]
+position = Vector2(480, 1024)
+amount = 50
+lifetime = 5.0
+preprocess = 50.0
+local_coords = true
+emission_shape = 3
+emission_rect_extents = Vector2(480, 1024)
+spread = 180.0
+gravity = Vector2(0, 0)
+initial_velocity_min = 15.0
+initial_velocity_max = 50.0
+scale_amount_min = 2.0
+scale_amount_max = 3.0
+color = Color(0.780392, 1, 0.984314, 0.388235)
+color_ramp = SubResource("Gradient_7uqp6")
+hue_variation_min = 1.0
+hue_variation_max = 1.0
+
 [node name="Map Nodes" type="Node2D" parent="."]
+
+[node name="Cursor" type="Sprite2D" parent="."]
+z_index = 10
+texture = ExtResource("3_2quoa")
+
+[node name="Marker" type="Sprite2D" parent="."]
+visible = false
+texture = ExtResource("4_1ecxj")

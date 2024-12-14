@@ -7,6 +7,8 @@ const MAP_NODE = preload("res://Map/Map Node/map_node.tscn")
 #@onready var v_box: VBoxContainer = $Scroll/VBox
 @onready var map_container: Control = $"Scroll/Map Container"
 @onready var scroll: ScrollContainer = $Scroll
+@onready var cursor: Sprite2D = $Cursor
+@onready var marker: Sprite2D = $Marker
 
 const NUM_OF_DELETIONS: int = 20
 const LINE_NUM: int = 15
@@ -21,11 +23,16 @@ var dummy_grid: Dictionary
 func _ready() -> void:
 	generate_map()
 	scroll.set_deferred(&"scroll_vertical", 1504)
+	Input.mouse_mode = Input.MOUSE_MODE_HIDDEN
 
 
 func _physics_process(_delta: float) -> void:
 	queue_redraw()
 	refresh_tooltips()
+
+
+func _process(_delta: float) -> void:
+	cursor.position = get_global_mouse_position()
 
 
 func _draw() -> void:
@@ -146,6 +153,7 @@ func generate_map() -> void:
 			var color_rect: ColorRect = ColorRect.new()
 			#h_box.add_child(color_rect)
 			map_container.add_child(color_rect)
+			color_rect.z_index = 1
 			color_rect.size_flags_horizontal = Control.SIZE_SHRINK_CENTER + Control.SIZE_EXPAND
 			color_rect.custom_minimum_size = Vector2(10, 10)
 			color_rect.position = Vector2(j * 128 + 224 + randi_range(-POS_X_SPREAD, POS_X_SPREAD), i * 128 + 128 + randi_range(-POS_Y_SPREAD, POS_Y_SPREAD))
@@ -155,6 +163,8 @@ func generate_map() -> void:
 			#color_rect.add_child(text)
 			line[j].position = Vector2.ZERO
 			color_rect.add_to_group(&"visual_map_nodes")
+			color_rect.mouse_entered.connect(_on_rect_enter.bind(color_rect))
+			color_rect.mouse_exited.connect(_on_rect_exit.bind(color_rect))
 			#var s: String = "[1] "
 			if line[j].disabled:
 				color_rect.hide()
@@ -164,3 +174,14 @@ func generate_map() -> void:
 				color_rect.color = Color("00ff00")
 			#console_line += s
 		#print(console_line)
+
+
+func _on_rect_enter(rect: ColorRect) -> void:
+	marker.position = rect.global_position + Vector2(5,5)
+	marker.show()
+	cursor.hide()
+
+
+func _on_rect_exit(rect: ColorRect) -> void:
+	marker.hide()
+	cursor.show()
