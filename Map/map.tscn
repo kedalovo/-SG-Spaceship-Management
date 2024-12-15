@@ -93,6 +93,21 @@ color_ramp = SubResource("Gradient_7uqp6")
 hue_variation_min = 1.0
 hue_variation_max = 1.0
 
+[node name="MarginContainer" type="MarginContainer" parent="Scroll/Map Container"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 32
+theme_override_constants/margin_top = 32
+theme_override_constants/margin_right = 32
+theme_override_constants/margin_bottom = 32
+
+[node name="Contents" type="Control" parent="Scroll/Map Container/MarginContainer"]
+layout_mode = 2
+
 [node name="Map Nodes" type="Node2D" parent="."]
 
 [node name="Cursor" type="Sprite2D" parent="."]

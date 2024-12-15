@@ -3,12 +3,19 @@ extends Node2D
 
 const MAP_NODE = preload("res://Map/Map Node/map_node.tscn")
 
+const ASTEROID_ICON = preload("res://Map/Map Node/Icons/Asteroid Icon.png")
+const MISSILE_ICON = preload("res://Map/Map Node/Icons/Missile Icon.png")
+const NEBULA_ICON = preload("res://Map/Map Node/Icons/Nebula Icon.png")
+const SNOWFLAKE_ICON = preload("res://Map/Map Node/Icons/Snowflake Icon.png")
+const STAR_ICON = preload("res://Map/Map Node/Icons/Star Icon.png")
+const QUESTION_ICON = preload("res://Map/Map Node/Icons/Question Icon.png")
+
 @onready var map_nodes: Node2D = $"Map Nodes"
-#@onready var v_box: VBoxContainer = $Scroll/VBox
 @onready var map_container: Control = $"Scroll/Map Container"
 @onready var scroll: ScrollContainer = $Scroll
 @onready var cursor: Sprite2D = $Cursor
 @onready var marker: Sprite2D = $Marker
+@onready var contents: Control = $"Scroll/Map Container/MarginContainer/Contents"
 
 const NUM_OF_DELETIONS: int = 20
 const LINE_NUM: int = 15
@@ -36,6 +43,11 @@ func _process(_delta: float) -> void:
 
 
 func _draw() -> void:
+	# Trying to figure out how to draw moving puncture lines
+	var p1 = Vector2(384, 256)
+	var p2 = Vector2(780, 284)
+	draw_line(p1, p2, Color.WHITE, 4)
+	
 	for i in grid:
 		for j in i:
 			for target in j.connected_to_nodes:
@@ -143,45 +155,41 @@ func generate_map() -> void:
 				j.reason = 1
 	
 	# Visualising result
+	return
 	for i in range(grid.size() - 1, -1, -1):
 		var line: Array = grid[i]
-		#var h_box: HBoxContainer = HBoxContainer.new()
-		#v_box.add_child(h_box)
-		#h_box.size_flags_vertical = Control.SIZE_SHRINK_CENTER + Control.SIZE_EXPAND
-		#var console_line: String = ""
 		for j in LINE_LENGTH:
-			var color_rect: ColorRect = ColorRect.new()
-			#h_box.add_child(color_rect)
-			map_container.add_child(color_rect)
-			color_rect.z_index = 1
-			color_rect.size_flags_horizontal = Control.SIZE_SHRINK_CENTER + Control.SIZE_EXPAND
-			color_rect.custom_minimum_size = Vector2(10, 10)
-			color_rect.position = Vector2(j * 128 + 224 + randi_range(-POS_X_SPREAD, POS_X_SPREAD), i * 128 + 128 + randi_range(-POS_Y_SPREAD, POS_Y_SPREAD))
-			#var text := Label.new()
-			#text.text = str(line[j].reason)
-			line[j].reparent(color_rect)
-			#color_rect.add_child(text)
-			line[j].position = Vector2.ZERO
-			color_rect.add_to_group(&"visual_map_nodes")
-			color_rect.mouse_entered.connect(_on_rect_enter.bind(color_rect))
-			color_rect.mouse_exited.connect(_on_rect_exit.bind(color_rect))
-			#var s: String = "[1] "
+			line[j].reparent(contents)
+			line[j].position = Vector2(j * 128 + 224 + randi_range(-POS_X_SPREAD, POS_X_SPREAD), i * 128 + 128 + randi_range(-POS_Y_SPREAD, POS_Y_SPREAD))
+			line[j].set_texture(QUESTION_ICON)
+			line[j].z_index = 1
+			line[j].mouse_entered.connect(_on_rect_enter)
+			line[j].mouse_exited.connect(_on_rect_exit)
+			#var color_rect: ColorRect = ColorRect.new()
+			#map_container.add_child(color_rect)
+			#color_rect.z_index = 1
+			#color_rect.size_flags_horizontal = Control.SIZE_SHRINK_CENTER + Control.SIZE_EXPAND
+			#color_rect.custom_minimum_size = Vector2(10, 10)
+			#color_rect.position = Vector2(j * 128 + 224 + randi_range(-POS_X_SPREAD, POS_X_SPREAD), i * 128 + 128 + randi_range(-POS_Y_SPREAD, POS_Y_SPREAD))
+			#line[j].reparent(color_rect)
+			#line[j].position = Vector2.ZERO
+			#color_rect.add_to_group(&"visual_map_nodes")
+			#color_rect.mouse_entered.connect(_on_rect_enter.bind(color_rect))
+			#color_rect.mouse_exited.connect(_on_rect_exit.bind(color_rect))
 			if line[j].disabled:
-				color_rect.hide()
-				#s = "[0] "
-				color_rect.color = Color("ff00001e")
-			else:
-				color_rect.color = Color("00ff00")
-			#console_line += s
-		#print(console_line)
+				line[j].hide()
+				#color_rect.hide()
+				#color_rect.color = Color("ff00001e")
+			#else:
+				#color_rect.color = Color("00ff00")
 
 
-func _on_rect_enter(rect: ColorRect) -> void:
-	marker.position = rect.global_position + Vector2(5,5)
+func _on_rect_enter(rect: Node2D) -> void:
+	marker.position = rect.global_position
 	marker.show()
 	cursor.hide()
 
 
-func _on_rect_exit(rect: ColorRect) -> void:
+func _on_rect_exit(_rect: Node2D) -> void:
 	marker.hide()
 	cursor.show()
