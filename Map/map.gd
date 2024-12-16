@@ -26,6 +26,8 @@ const POS_Y_SPREAD: int = 32
 var grid: Array[Array] = []
 var dummy_grid: Dictionary
 
+var line_offset: float = 0.0
+
 
 func _ready() -> void:
 	generate_map()
@@ -36,6 +38,9 @@ func _ready() -> void:
 func _physics_process(_delta: float) -> void:
 	queue_redraw()
 	refresh_tooltips()
+	line_offset += _delta / 10
+	if line_offset >= 1.0:
+		line_offset = 0
 
 
 func _process(_delta: float) -> void:
@@ -44,9 +49,30 @@ func _process(_delta: float) -> void:
 
 func _draw() -> void:
 	# Trying to figure out how to draw moving puncture lines
-	var p1 = Vector2(384, 256)
-	var p2 = Vector2(780, 284)
-	draw_line(p1, p2, Color.WHITE, 4)
+	var p1 := Vector2(384, 256)
+	var p2 := Vector2(780, 284)
+	var diff := p2 - p1
+	var norm := diff.normalized()
+	var gap := norm * 2
+	draw_line(p1, p2, Color.WHITE, 1)
+	var points: Array = []
+	var segment_num: int = 20
+	var start_pos: Vector2 = p1.lerp(p2, line_offset)
+	for i in segment_num:
+		var current_segment := diff / segment_num
+		var pp1 := start_pos + (current_segment * i + gap)
+		var pp2 := start_pos + (current_segment * (i + 1) - gap)
+		var pp3 := start_pos - (current_segment * (segment_num - i) + gap)
+		var pp4 := start_pos - (current_segment * (segment_num - i + 1) - gap)
+		if pp1 >= p2:
+			break
+		if pp2 >= p2:
+			pp2 = p2
+		points.append([pp1, pp2])
+		points.append([pp3, pp4])
+	for i in points:
+		draw_line(i[0], i[1], Color.RED, 4)
+	draw_circle(start_pos, 3, Color.GREEN)
 	
 	for i in grid:
 		for j in i:
