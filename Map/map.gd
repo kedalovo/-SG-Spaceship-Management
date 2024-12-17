@@ -48,37 +48,56 @@ func _process(_delta: float) -> void:
 
 
 func _draw() -> void:
-	# Trying to figure out how to draw moving puncture lines
-	var p1 := Vector2(384, 256)
-	var p2 := Vector2(780, 284)
-	var diff := p2 - p1
-	var norm := diff.normalized()
-	var gap := norm * 2
-	draw_line(p1, p2, Color.WHITE, 1)
-	var points: Array = []
-	var segment_num: int = 20
-	var start_pos: Vector2 = p1.lerp(p2, line_offset)
-	for i in segment_num:
-		var current_segment := diff / segment_num
-		var pp1 := start_pos + (current_segment * i + gap)
-		var pp2 := start_pos + (current_segment * (i + 1) - gap)
-		var pp3 := start_pos - (current_segment * (segment_num - i) + gap)
-		var pp4 := start_pos - (current_segment * (segment_num - i + 1) - gap)
-		if pp1 >= p2:
-			break
-		if pp2 >= p2:
-			pp2 = p2
-		points.append([pp1, pp2])
-		points.append([pp3, pp4])
-	for i in points:
-		draw_line(i[0], i[1], Color.RED, 4)
-	draw_circle(start_pos, 3, Color.GREEN)
-	
 	for i in grid:
 		for j in i:
 			for target in j.connected_to_nodes:
 				if !target.disabled and !j.disabled:
-					draw_line(j.global_position, target.global_position, Color.DARK_BLUE, 2)
+					draw_default_punctured_line(target.global_position, j.global_position)
+
+
+func draw_default_punctured_line(from: Vector2, to: Vector2) -> void:
+	draw_punctured_line(from, to, 4, 30, Color.BLUE, 2)
+
+
+func draw_punctured_line(from: Vector2, to: Vector2, gap_size: int, segment_length: int, line_color: Color, line_width: int) -> void:
+	var diff := to - from
+	var is_x_pos: bool = false
+	if to.x > from.x:
+		is_x_pos = true
+	if to.x == from.x:
+		to.x -= 0.1
+		diff = to - from
+	var norm := diff.normalized()
+	var gap := norm * gap_size
+	var points: Array = []
+	var segment_num: int = floori((diff / (norm * segment_length)).length())
+	var start_pos: Vector2 = from.lerp(to, line_offset)
+	for i in segment_num:
+		var current_segment := diff / segment_num
+		var pp1 := start_pos + (current_segment * i + gap)
+		var pp2 := start_pos + (current_segment * (i + 1) - gap)
+		var pp3 := start_pos - (current_segment * i + gap)
+		var pp4 := start_pos - (current_segment * (i + 1) - gap)
+		if is_x_pos:
+			if pp2 >= to:
+				pp2 = to
+			if pp4 <= from and pp3 > from:
+				pp4 = from
+			if pp1 <= to:
+				points.append([pp1, pp2])
+			if pp4 >= from:
+				points.append([pp3, pp4])
+		else:
+			if pp2 <= to:
+				pp2 = to
+			if pp4 >= from and pp3 < from:
+				pp4 = from
+			if pp1 >= to:
+				points.append([pp1, pp2])
+			if pp4 <= from:
+				points.append([pp3, pp4])
+	for i in points:
+		draw_line(i[0], i[1], line_color, line_width)
 
 
 func refresh_tooltips() -> void:
@@ -181,7 +200,6 @@ func generate_map() -> void:
 				j.reason = 1
 	
 	# Visualising result
-	return
 	for i in range(grid.size() - 1, -1, -1):
 		var line: Array = grid[i]
 		for j in LINE_LENGTH:
