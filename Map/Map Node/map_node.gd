@@ -6,6 +6,7 @@ class_name map_node
 
 signal mouse_entered(node: map_node)
 signal mouse_exited(node: map_node)
+signal button_pressed(node: map_node)
 
 
 @onready var icon: Sprite2D = $Icon
@@ -36,3 +37,7 @@ func _on_mouse_grab_mouse_entered() -> void:
 
 func _on_mouse_grab_mouse_exited() -> void:
 	mouse_exited.emit(self)
+
+
+func _on_button_pressed() -> void:
+	button_pressed.emit(self)

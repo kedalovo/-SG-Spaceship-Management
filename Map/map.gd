@@ -15,13 +15,18 @@ const QUESTION_ICON = preload("res://Map/Map Node/Icons/Question Icon.png")
 @onready var scroll: ScrollContainer = $Scroll
 @onready var cursor: Sprite2D = $Cursor
 @onready var marker: Sprite2D = $Marker
+@onready var marker_animator: AnimationPlayer = $"Marker/Marker Animator"
 @onready var contents: Control = $"Scroll/Map Container/MarginContainer/Contents"
+
+@export var line_color_global: Color
 
 const NUM_OF_DELETIONS: int = 20
 const LINE_NUM: int = 15
 const LINE_LENGTH: int = 5
 const POS_X_SPREAD: int = 32
 const POS_Y_SPREAD: int = 32
+
+var current_location: map_node = null
 
 var grid: Array[Array] = []
 var dummy_grid: Dictionary
@@ -50,9 +55,14 @@ func _process(_delta: float) -> void:
 func _draw() -> void:
 	for i in grid:
 		for j in i:
-			for target in j.connected_to_nodes:
-				if !target.disabled and !j.disabled:
-					draw_default_punctured_line(target.global_position, j.global_position)
+			if j == current_location:
+				for target in j.connected_to_nodes:
+					if !target.disabled and !j.disabled:
+						draw_default_punctured_line(j.global_position, target.global_position)
+			else:
+				for target in j.connected_to_nodes:
+					if !target.disabled and !j.disabled:
+						draw_line(target.global_position, j.global_position, line_color_global, 2)
 
 
 func draw_default_punctured_line(from: Vector2, to: Vector2) -> void:
@@ -200,15 +210,16 @@ func generate_map() -> void:
 				j.reason = 1
 	
 	# Visualising result
-	for i in range(grid.size() - 1, -1, -1):
+	for i in range(0, grid.size()):
 		var line: Array = grid[i]
 		for j in LINE_LENGTH:
 			line[j].reparent(contents)
-			line[j].position = Vector2(j * 128 + 224 + randi_range(-POS_X_SPREAD, POS_X_SPREAD), i * 128 + 128 + randi_range(-POS_Y_SPREAD, POS_Y_SPREAD))
+			line[j].position = Vector2(j * 128 + 224 + randi_range(-POS_X_SPREAD, POS_X_SPREAD), i * -128 + 1884 + randi_range(-POS_Y_SPREAD, POS_Y_SPREAD))
 			line[j].set_texture(QUESTION_ICON)
 			line[j].z_index = 1
-			line[j].mouse_entered.connect(_on_rect_enter)
-			line[j].mouse_exited.connect(_on_rect_exit)
+			line[j].mouse_entered.connect(_on_map_node_mouse_enter)
+			line[j].mouse_exited.connect(_on_map_node_mouse_exit)
+			line[j].button_pressed.connect(_on_map_node_pressed)
 			#var color_rect: ColorRect = ColorRect.new()
 			#map_container.add_child(color_rect)
 			#color_rect.z_index = 1
@@ -218,8 +229,8 @@ func generate_map() -> void:
 			#line[j].reparent(color_rect)
 			#line[j].position = Vector2.ZERO
 			#color_rect.add_to_group(&"visual_map_nodes")
-			#color_rect.mouse_entered.connect(_on_rect_enter.bind(color_rect))
-			#color_rect.mouse_exited.connect(_on_rect_exit.bind(color_rect))
+			#color_rect.mouse_entered.connect(_on_map_node_mouse_enter.bind(color_rect))
+			#color_rect.mouse_exited.connect(_on_map_node_mouse_exit.bind(color_rect))
 			if line[j].disabled:
 				line[j].hide()
 				#color_rect.hide()
@@ -228,12 +239,16 @@ func generate_map() -> void:
 				#color_rect.color = Color("00ff00")
 
 
-func _on_rect_enter(rect: Node2D) -> void:
-	marker.position = rect.global_position
-	marker.show()
+func _on_map_node_mouse_enter(node: Node2D) -> void:
+	marker.position = node.global_position
+	marker_animator.play(&"show")
 	cursor.hide()
 
 
-func _on_rect_exit(_rect: Node2D) -> void:
-	marker.hide()
+func _on_map_node_mouse_exit(_node: Node2D) -> void:
+	marker_animator.play_backwards(&"show")
 	cursor.show()
+
+
+func _on_map_node_pressed(node: map_node) -> void:
+	current_location = node
