@@ -56,6 +56,13 @@ enum asteroid_types {
 	LARGE
 }
 
+enum hazard_types {
+	ASTEROID_FIELD,
+	WARZONE,
+	NEBULA,
+	ICE_FIELD,
+	STAR_PROXIMITY
+}
 
 static func get_module_texture(module_type: module_types) -> CompressedTexture2D:
 	match module_type:

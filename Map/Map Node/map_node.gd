@@ -13,7 +13,11 @@ signal button_pressed(node: map_node)
 
 var connected_to_nodes: Array = []
 
+var hazards: Array = []
+var hazards_intensity: Array = []
+
 var reason: int = 0
+var difficulty: int = 0
 
 var disabled: bool = false
 var is_continuation: bool = false
@@ -29,6 +33,18 @@ func add_connections(new_connections: Array) -> void:
 
 func set_texture(new_texture: Texture2D) -> void:
 	icon.texture = new_texture
+
+
+func set_difficulty(new_difficulty: int) -> void:
+	if difficulty == 0 and new_difficulty > difficulty:
+		difficulty = new_difficulty
+		match new_difficulty:
+			1:
+				icon.modulate = Color("00cb00")
+			2:
+				icon.modulate = Color("cbc800")
+			3:
+				icon.modulate = Color("cb0000")
 
 
 func _on_mouse_grab_mouse_entered() -> void:

@@ -209,6 +209,8 @@ func generate_map() -> void:
 				j.disabled = true
 				j.reason = 1
 	
+	var hazards: Array = game_manager.hazard_types.keys()
+	var hazard_buffer: Array = hazards.duplicate()
 	# Visualising result
 	for i in range(0, grid.size()):
 		var line: Array = grid[i]
@@ -220,6 +222,7 @@ func generate_map() -> void:
 			line[j].mouse_entered.connect(_on_map_node_mouse_enter)
 			line[j].mouse_exited.connect(_on_map_node_mouse_exit)
 			line[j].button_pressed.connect(_on_map_node_pressed)
+			line[j].set_difficulty(i / (grid.size() / 3) + 1)
 			#var color_rect: ColorRect = ColorRect.new()
 			#map_container.add_child(color_rect)
 			#color_rect.z_index = 1
