@@ -11,6 +11,8 @@ signal button_pressed(node: map_node)
 
 @onready var icon: Sprite2D = $Icon
 
+var true_texture: Texture2D
+
 var connected_to_nodes: Array = []
 
 var hazards: Array = []
@@ -21,6 +23,7 @@ var difficulty: int = 0
 
 var disabled: bool = false
 var is_continuation: bool = false
+var is_secret: bool = true
 
 
 func add_connections(new_connections: Array) -> void:
@@ -31,8 +34,17 @@ func add_connections(new_connections: Array) -> void:
 				i.is_continuation = true
 
 
-func set_texture(new_texture: Texture2D) -> void:
+func update_icon() -> void:
+	if !is_secret:
+		icon.texture = true_texture
+
+
+func set_default_texture(new_texture: Texture2D) -> void:
 	icon.texture = new_texture
+
+
+func set_texture(new_texture: Texture2D) -> void:
+	true_texture = new_texture
 
 
 func set_difficulty(new_difficulty: int) -> void:

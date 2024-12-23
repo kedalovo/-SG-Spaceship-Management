@@ -28,8 +28,10 @@ const SMALL_ASTEROID = preload("res://Hazards/Asteroid/Assets/Small asteroid.png
 
 const WIRE_COLORS: Array[Color] = [Color.RED, Color.BLUE, Color.YELLOW, Color.GREEN, Color.MAGENTA]
 
-static var is_in_system: bool = false
 
+var current_hazards: Array = []
+
+static var is_in_system: bool = false
 
 enum damage_types {
 	PHYSICAL,

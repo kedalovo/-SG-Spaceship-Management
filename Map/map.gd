@@ -10,6 +10,8 @@ const SNOWFLAKE_ICON = preload("res://Map/Map Node/Icons/Snowflake Icon.png")
 const STAR_ICON = preload("res://Map/Map Node/Icons/Star Icon.png")
 const QUESTION_ICON = preload("res://Map/Map Node/Icons/Question Icon.png")
 
+const ICONS: Array = [ASTEROID_ICON, MISSILE_ICON, NEBULA_ICON, SNOWFLAKE_ICON, STAR_ICON]
+
 @onready var map_nodes: Node2D = $"Map Nodes"
 @onready var map_container: Control = $"Scroll/Map Container"
 @onready var scroll: ScrollContainer = $Scroll
@@ -37,7 +39,6 @@ var line_offset: float = 0.0
 func _ready() -> void:
 	generate_map()
 	scroll.set_deferred(&"scroll_vertical", 1504)
-	Input.mouse_mode = Input.MOUSE_MODE_HIDDEN
 
 
 func _physics_process(_delta: float) -> void:
@@ -211,35 +212,47 @@ func generate_map() -> void:
 	
 	var hazards: Array = game_manager.hazard_types.keys()
 	var hazard_buffer: Array = hazards.duplicate()
+	var hazard_bin: Array = []
 	# Visualising result
 	for i in range(0, grid.size()):
 		var line: Array = grid[i]
 		for j in LINE_LENGTH:
+			var difficulty := i / (grid.size() / 3) + 1
 			line[j].reparent(contents)
 			line[j].position = Vector2(j * 128 + 224 + randi_range(-POS_X_SPREAD, POS_X_SPREAD), i * -128 + 1884 + randi_range(-POS_Y_SPREAD, POS_Y_SPREAD))
-			line[j].set_texture(QUESTION_ICON)
 			line[j].z_index = 1
 			line[j].mouse_entered.connect(_on_map_node_mouse_enter)
 			line[j].mouse_exited.connect(_on_map_node_mouse_exit)
 			line[j].button_pressed.connect(_on_map_node_pressed)
-			line[j].set_difficulty(i / (grid.size() / 3) + 1)
-			#var color_rect: ColorRect = ColorRect.new()
-			#map_container.add_child(color_rect)
-			#color_rect.z_index = 1
-			#color_rect.size_flags_horizontal = Control.SIZE_SHRINK_CENTER + Control.SIZE_EXPAND
-			#color_rect.custom_minimum_size = Vector2(10, 10)
-			#color_rect.position = Vector2(j * 128 + 224 + randi_range(-POS_X_SPREAD, POS_X_SPREAD), i * 128 + 128 + randi_range(-POS_Y_SPREAD, POS_Y_SPREAD))
-			#line[j].reparent(color_rect)
-			#line[j].position = Vector2.ZERO
-			#color_rect.add_to_group(&"visual_map_nodes")
-			#color_rect.mouse_entered.connect(_on_map_node_mouse_enter.bind(color_rect))
-			#color_rect.mouse_exited.connect(_on_map_node_mouse_exit.bind(color_rect))
+			line[j].set_default_texture(QUESTION_ICON)
+			if difficulty == 1:
+				hazard_buffer.shuffle()
+				var picked_hazard: String = hazard_buffer.pop_front()
+				hazard_bin.append(picked_hazard)
+				line[j].hazards.append(picked_hazard)
+				line[j].set_texture(ICONS[hazards.find(picked_hazard)])
+			elif difficulty > 1:
+				hazard_buffer.shuffle()
+				var picked_hazard: String = hazard_buffer.pop_front()
+				hazard_bin.append(picked_hazard)
+				line[j].hazards.append(picked_hazard)
+				line[j].set_texture(ICONS[hazards.find(picked_hazard)])
+				picked_hazard = hazard_buffer.pop_front()
+				hazard_bin.append(picked_hazard)
+				line[j].hazards.append(picked_hazard)
+			while hazard_bin.size() > 2:
+				hazard_buffer.append(hazard_bin.pop_front())
+			line[j].set_difficulty(difficulty)
 			if line[j].disabled:
 				line[j].hide()
-				#color_rect.hide()
-				#color_rect.color = Color("ff00001e")
-			#else:
-				#color_rect.color = Color("00ff00")
+	
+	# Showing types of first two lines of locations
+	for i in grid[0]:
+		i.is_secret = false
+		i.update_icon()
+	for i in grid[1]:
+		i.is_secret = false
+		i.update_icon()
 
 
 func _on_map_node_mouse_enter(node: Node2D) -> void:

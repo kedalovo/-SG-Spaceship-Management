@@ -26,6 +26,11 @@ const CURSOR_POINTER = preload("res://UI/Cursor pointer.png")
 @onready var space: Node2D = $Cabin/SubViewportContainer2/SubViewport/Space
 @onready var cabin_view: Sprite2D = $"Cabin/Cabin View"
 
+@onready var map: Node2D = $Map
+@onready var map_animator: AnimationPlayer = $Map/Animator
+
+@onready var round_timer: Timer = $RoundTimer
+
 const CABIN_ZOOM_LEVEL: float = 1.1
 
 @onready var systems: Array[system] = [
@@ -49,9 +54,15 @@ func _input(event: InputEvent) -> void:
 	if event.is_action_pressed(&"esc"):
 		quit_game()
 	if event.is_action_pressed(&"test1"):
-		life_support_system.add_fuel()
+		#life_support_system.add_fuel()
+		map_animator.play(&"open")
+		Input.mouse_mode = Input.MOUSE_MODE_HIDDEN
+		map.cursor.show()
 	if event.is_action_pressed(&"test"):
-		life_support_system.upgrade(1)
+		#life_support_system.upgrade(1)
+		map_animator.play_backwards(&"open")
+		Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
+		map.cursor.hide()
 	if event.is_action_pressed(&"left"):
 		var moved: bool = space.move(Vector2.LEFT)
 		if moved:
@@ -82,6 +93,14 @@ func _notification(what: int) -> void:
 
 func _physics_process(_delta: float) -> void:
 	cabin_view.scale = lerp(cabin_view.scale, Vector2.ONE, 0.1)
+
+
+func start_round() -> void:
+	round_timer.start()
+
+
+func game_over() -> void:
+	pass
 
 
 func quit_game() -> void:
@@ -146,3 +165,7 @@ func _on_damaged(strength: int, type: game_manager.damage_types) -> void:
 
 func _on_system_fixed(fixed_system: system) -> void:
 	systems_visuals[systems.find(fixed_system)].fix()
+
+
+func _on_round_timer_timeout() -> void:
+	game_over()
