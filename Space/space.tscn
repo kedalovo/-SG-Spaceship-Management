@@ -97,6 +97,7 @@ alpha_curve = SubResource("CurveTexture_y6ken")
 script = ExtResource("1_pnek6")
 
 [node name="ColorRect" type="ColorRect" parent="."]
+offset_top = -128.0
 offset_right = 256.0
 offset_bottom = 384.0
 color = Color(0, 0, 0, 1)
@@ -136,6 +137,7 @@ local_coords = true
 
 [node name="Camera2D" type="Camera2D" parent="."]
 position = Vector2(128, 192)
+offset = Vector2(0, -64)
 
 [node name="Grid" type="Node2D" parent="."]
 position = Vector2(128, 192)

@@ -213,8 +213,12 @@ func generate_map() -> void:
 	var hazards: Array = game_manager.hazard_types.keys()
 	var hazard_buffer: Array = hazards.duplicate()
 	var hazard_bin: Array = []
+	var intensity: int = 0
 	# Visualising result
 	for i in range(0, grid.size()):
+		intensity += 1
+		if intensity > 5:
+			intensity = 1
 		var line: Array = grid[i]
 		for j in LINE_LENGTH:
 			var difficulty := i / (grid.size() / 3) + 1
@@ -230,6 +234,7 @@ func generate_map() -> void:
 				var picked_hazard: String = hazard_buffer.pop_front()
 				hazard_bin.append(picked_hazard)
 				line[j].hazards.append(picked_hazard)
+				line[j].hazards_intensity.append(intensity)
 				line[j].set_texture(ICONS[hazards.find(picked_hazard)])
 			elif difficulty > 1:
 				hazard_buffer.shuffle()
@@ -240,6 +245,12 @@ func generate_map() -> void:
 				picked_hazard = hazard_buffer.pop_front()
 				hazard_bin.append(picked_hazard)
 				line[j].hazards.append(picked_hazard)
+				if difficulty == 2:
+					line[j].hazards_intensity.append(intensity + 2)
+					line[j].hazards_intensity.append(intensity + 2)
+				else:
+					line[j].hazards_intensity.append(8)
+					line[j].hazards_intensity.append(8)
 			while hazard_bin.size() > 2:
 				hazard_buffer.append(hazard_bin.pop_front())
 			line[j].set_difficulty(difficulty)

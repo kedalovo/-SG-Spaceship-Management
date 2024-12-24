@@ -26,6 +26,10 @@ const LARGE_ASTEROID = preload("res://Hazards/Asteroid/Assets/Large asteroid.png
 const MEDIUM_ASTEROID = preload("res://Hazards/Asteroid/Assets/Medium asteroid.png")
 const SMALL_ASTEROID = preload("res://Hazards/Asteroid/Assets/Small asteroid.png")
 
+const LARGE_NEBULA = preload("res://Hazards/Nebula/Assets/Nebula 3x2.png")
+const MEDIUM_NEBULA = preload("res://Hazards/Nebula/Assets/Nebula 2x2.png")
+const SMALL_NEBULA = preload("res://Hazards/Nebula/Assets/Nebula 1x1.png")
+
 const WIRE_COLORS: Array[Color] = [Color.RED, Color.BLUE, Color.YELLOW, Color.GREEN, Color.MAGENTA]
 
 
@@ -58,6 +62,12 @@ enum asteroid_types {
 	LARGE
 }
 
+enum nebula_types {
+	SMALL,
+	MEDIUM,
+	LARGE
+}
+
 enum hazard_types {
 	ASTEROID_FIELD,
 	WARZONE,
@@ -66,7 +76,7 @@ enum hazard_types {
 	STAR_PROXIMITY
 }
 
-static func get_module_texture(module_type: module_types) -> CompressedTexture2D:
+static func get_module_texture(module_type: module_types) -> Texture2D:
 	match module_type:
 		module_types.PATCH:
 			return PATCH_MODULE
@@ -80,7 +90,7 @@ static func get_module_texture(module_type: module_types) -> CompressedTexture2D
 	return Texture2D.new()
 
 
-static func get_module_outline_texture(module_type: module_types) -> CompressedTexture2D:
+static func get_module_outline_texture(module_type: module_types) -> Texture2D:
 	match module_type:
 		module_types.PATCH:
 			return PATCH_MODULE_OUTLINE
@@ -94,7 +104,7 @@ static func get_module_outline_texture(module_type: module_types) -> CompressedT
 	return Texture2D.new()
 
 
-static func get_blueprint_texture(blueprint_type: module_types) -> CompressedTexture2D:
+static func get_blueprint_texture(blueprint_type: module_types) -> Texture2D:
 	match blueprint_type:
 		module_types.PATCH:
 			return PATCH_MODULE_BLUEPRINT
@@ -108,7 +118,7 @@ static func get_blueprint_texture(blueprint_type: module_types) -> CompressedTex
 	return Texture2D.new()
 
 
-static func get_asteroid_texture(size: asteroid_types) -> CompressedTexture2D:
+static func get_asteroid_texture(size: asteroid_types) -> Texture2D:
 	match size:
 		asteroid_types.SMALL:
 			return SMALL_ASTEROID
@@ -116,8 +126,8 @@ static func get_asteroid_texture(size: asteroid_types) -> CompressedTexture2D:
 			return MEDIUM_ASTEROID
 		asteroid_types.LARGE:
 			return LARGE_ASTEROID
-	push_error("Could not find type ", size, " in asteroid types")
-	return CompressedTexture2D.new()
+	push_error("Could not find type ", str(size), " in asteroid types")
+	return Texture2D.new()
 
 
 static func get_asteroid_offset(size: asteroid_types) -> Vector2:
@@ -128,8 +138,20 @@ static func get_asteroid_offset(size: asteroid_types) -> Vector2:
 			return Vector2(64, 0)
 		asteroid_types.LARGE:
 			return Vector2(64, 32)
-	push_error("Could not find type ", size, " in asteroid types")
+	push_error("Could not find type ", str(size), " in asteroid types")
 	return Vector2.ZERO
+
+
+static func get_nebula_texture(size: nebula_types) -> Texture2D:
+	match size:
+		nebula_types.SMALL:
+			return SMALL_NEBULA
+		nebula_types.MEDIUM:
+			return MEDIUM_NEBULA
+		nebula_types.LARGE:
+			return LARGE_NEBULA
+	push_error("Could not find type ", str(size), " in nebula types")
+	return Texture2D.new()
 
 
 static func get_random_cell_type() -> engine_cell_types:

@@ -6,6 +6,7 @@ signal damaged(strength: int, type: game_manager.damage_types)
 
 const HAZARD = preload("res://Hazards/hazard.tscn")
 const ASTEROID = preload("res://Hazards/Asteroid/asteroid.tscn")
+const NEBULA = preload("res://Hazards/Nebula/nebula.tscn")
 
 @onready var particles: Node2D = $Particles
 @onready var far_particles: GPUParticles2D = $"Particles/Far Particles"
@@ -14,6 +15,8 @@ const ASTEROID = preload("res://Hazards/Asteroid/asteroid.tscn")
 @onready var grid: Node2D = $Grid
 @onready var incoming_hazards: Node2D = $"Incoming Hazards"
 @onready var hazard_visuals: Node2D = $"Grid/Hazard visuals"
+
+@onready var separators: Node2D = $Grid/Separators
 
 const RANDOM_ROTATION: Array[float] = [0.0, 90.0, 180.0, 270.0]
 const MIDDLE_POSITION: Vector2 = Vector2(128, 192)
@@ -25,6 +28,11 @@ var current_grid_pos: Vector2 = Vector2.ZERO
 var current_pos: Vector2 = Vector2.ZERO
 
 var is_moving: bool = false
+
+
+func _ready() -> void:
+	separators.modulate = Color.WHITE
+	create_nebula(game_manager.nebula_types.LARGE, Vector2.UP, 10)
 
 
 func create_asteroid(size: game_manager.asteroid_types, spot: Vector2, time: float, is_vertical: bool = false, types: Array[game_manager.damage_types] = [game_manager.damage_types.PHYSICAL]) -> void:
@@ -83,6 +91,63 @@ func create_asteroid(size: game_manager.asteroid_types, spot: Vector2, time: flo
 			asteroid.set_time(time)
 			asteroid.set_visuals(size, is_vertical)
 			hazard_visuals.add_child(asteroid)
+			if is_vertical:
+				for i in 3:
+					for j in 2:
+						create_hazard(Vector2(spot.x - j, spot.y + i), time, 3, types)
+			else:
+				for i in 3:
+					for j in 2:
+						create_hazard(Vector2(spot.x + i, spot.y + j), time, 3, types)
+
+
+func create_nebula(size: game_manager.nebula_types, spot: Vector2, time: float, is_vertical: bool = false, types: Array[game_manager.damage_types] = [game_manager.damage_types.ELECTRICITY]) -> void:
+	spot = clamp(spot, -Vector2.ONE, Vector2.ONE)
+	var nebula := NEBULA.instantiate()
+	match size:
+		game_manager.nebula_types.SMALL:
+			if spot in hazard_spots:
+				push_warning("Tried creating a small nebula in ", spot, ", which is busy")
+				return
+			nebula.set_types(types)
+			nebula.set_time(time)
+			nebula.set_visuals(size, false)
+			hazard_visuals.add_child(nebula)
+			nebula.position = Vector2(spot.x * 64, spot.y * 64)
+			create_hazard(spot, time, 1, types)
+		game_manager.nebula_types.MEDIUM:
+			for i in 2:
+				for j in 2:
+					if Vector2(spot.x + i, spot.y + j) in hazard_spots or spot.y + j > 1 or spot.x + i > 1:
+						push_warning("Tried creating a medium nebula in ", spot, ", which is busy or out of bounds at ", spot.x + i, ", vertical: ", is_vertical)
+						return
+			nebula.position = Vector2((spot.x + 0.5) * 64, (spot.y + 0.5) * 64)
+			nebula.set_types(types)
+			nebula.set_time(time)
+			nebula.set_visuals(size, is_vertical)
+			hazard_visuals.add_child(nebula)
+			for i in 2:
+				for j in 2:
+					create_hazard(Vector2(spot.x + i, spot.y + j), time, 2, types)
+		game_manager.nebula_types.LARGE:
+			if is_vertical:
+				for i in 3:
+					for j in 2:
+						if Vector2(spot.x - j, spot.y + i) in hazard_spots or spot.y + i > 1 or spot.x - j < -1:
+							push_warning("Tried creating a large nebula in ", spot, ", which is busy or out of bounds at ", Vector2(spot.x - j, spot.y + i), ", vertical: ", is_vertical)
+							return
+				nebula.position = Vector2((spot.x - 0.5) * 64, (spot.y + 1) * 64)
+			else:
+				for i in 3:
+					for j in 2:
+						if Vector2(spot.x + i, spot.y + j) in hazard_spots or spot.y + j > 1 or spot.x + i > 1:
+							push_warning("Tried creating a large nebula in ", spot, ", which is busy or out of bounds at ", Vector2(spot.x + i, spot.y + j), ", vertical: ", is_vertical)
+							return
+				nebula.position = Vector2((spot.x + 1) * 64, (spot.y + 0.5) * 64)
+			nebula.set_types(types)
+			nebula.set_time(time)
+			nebula.set_visuals(size, is_vertical)
+			hazard_visuals.add_child(nebula)
 			if is_vertical:
 				for i in 3:
 					for j in 2:
