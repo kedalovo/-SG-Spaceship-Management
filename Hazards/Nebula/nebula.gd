@@ -13,8 +13,11 @@ func set_types(types: Array[game_manager.damage_types]) -> void:
 
 func set_time(time: float) -> void:
 	$Timer.wait_time = time
-	$Pivot/Sprite/Animator.speed_scale = 10.0 / time
 
 
 func _on_timer_timeout() -> void:
 	queue_free()
+
+
+func _on_appear_timer_timeout() -> void:
+	$Timer.start()

@@ -7,6 +7,7 @@ signal damaged(strength: int, type: game_manager.damage_types)
 const HAZARD = preload("res://Hazards/hazard.tscn")
 const ASTEROID = preload("res://Hazards/Asteroid/asteroid.tscn")
 const NEBULA = preload("res://Hazards/Nebula/nebula.tscn")
+const ROCKET = preload("res://Hazards/Rocket/rocket.tscn")
 
 @onready var particles: Node2D = $Particles
 @onready var far_particles: GPUParticles2D = $"Particles/Far Particles"
@@ -15,6 +16,7 @@ const NEBULA = preload("res://Hazards/Nebula/nebula.tscn")
 @onready var grid: Node2D = $Grid
 @onready var incoming_hazards: Node2D = $"Incoming Hazards"
 @onready var hazard_visuals: Node2D = $"Grid/Hazard visuals"
+@onready var camera: Camera2D = $Camera
 
 @onready var separators: Node2D = $Grid/Separators
 
@@ -32,7 +34,8 @@ var is_moving: bool = false
 
 func _ready() -> void:
 	separators.modulate = Color.WHITE
-	create_nebula(game_manager.nebula_types.LARGE, Vector2.UP, 10)
+	#create_nebula(game_manager.nebula_types.LARGE, -Vector2.ONE, 10, false)
+	create_rocket(0.8)
 
 
 func create_asteroid(size: game_manager.asteroid_types, spot: Vector2, time: float, is_vertical: bool = false, types: Array[game_manager.damage_types] = [game_manager.damage_types.PHYSICAL]) -> void:
@@ -101,7 +104,7 @@ func create_asteroid(size: game_manager.asteroid_types, spot: Vector2, time: flo
 						create_hazard(Vector2(spot.x + i, spot.y + j), time, 3, types)
 
 
-func create_nebula(size: game_manager.nebula_types, spot: Vector2, time: float, is_vertical: bool = false, types: Array[game_manager.damage_types] = [game_manager.damage_types.ELECTRICITY]) -> void:
+func create_nebula(size: game_manager.nebula_types, spot: Vector2, time: float, is_instant: bool = true, is_vertical: bool = false, types: Array[game_manager.damage_types] = [game_manager.damage_types.ELECTRICITY]) -> void:
 	spot = clamp(spot, -Vector2.ONE, Vector2.ONE)
 	var nebula := NEBULA.instantiate()
 	match size:
@@ -114,7 +117,7 @@ func create_nebula(size: game_manager.nebula_types, spot: Vector2, time: float, 
 			nebula.set_visuals(size, false)
 			hazard_visuals.add_child(nebula)
 			nebula.position = Vector2(spot.x * 64, spot.y * 64)
-			create_hazard(spot, time, 1, types)
+			create_hazard(spot, time + 1.0, 1, types, is_instant)
 		game_manager.nebula_types.MEDIUM:
 			for i in 2:
 				for j in 2:
@@ -128,7 +131,7 @@ func create_nebula(size: game_manager.nebula_types, spot: Vector2, time: float, 
 			hazard_visuals.add_child(nebula)
 			for i in 2:
 				for j in 2:
-					create_hazard(Vector2(spot.x + i, spot.y + j), time, 2, types)
+					create_hazard(Vector2(spot.x + i, spot.y + j), time + 1.0, 2, types, is_instant)
 		game_manager.nebula_types.LARGE:
 			if is_vertical:
 				for i in 3:
@@ -151,14 +154,22 @@ func create_nebula(size: game_manager.nebula_types, spot: Vector2, time: float, 
 			if is_vertical:
 				for i in 3:
 					for j in 2:
-						create_hazard(Vector2(spot.x - j, spot.y + i), time, 3, types)
+						create_hazard(Vector2(spot.x - j, spot.y + i), time + 1.0, 3, types, is_instant)
 			else:
 				for i in 3:
 					for j in 2:
-						create_hazard(Vector2(spot.x + i, spot.y + j), time, 3, types)
+						create_hazard(Vector2(spot.x + i, spot.y + j), time + 1.0, 3, types, is_instant)
 
 
-func create_hazard(spot: Vector2, time: float, strength: int, types: Array[game_manager.damage_types]) -> void:
+func create_rocket(speed: float) -> void:
+	var rocket := ROCKET.instantiate()
+	rocket.target = camera
+	rocket.speed = speed
+	hazard_visuals.add_child(rocket)
+	rocket.position = Vector2(64, 64)
+
+
+func create_hazard(spot: Vector2, time: float, strength: int, types: Array[game_manager.damage_types], is_instant: bool = true) -> void:
 	if spot in hazard_spots:
 		push_warning("Tried creating a hazard in ", spot, ", which is busy")
 		return
@@ -166,6 +177,7 @@ func create_hazard(spot: Vector2, time: float, strength: int, types: Array[game_
 	hazard.strength = strength
 	hazard.types = types
 	hazard.spot = spot
+	hazard.is_instant = is_instant
 	hazard.finished.connect(hit)
 	hazard_spots[spot] = hazard
 	hazard.set_time(time)

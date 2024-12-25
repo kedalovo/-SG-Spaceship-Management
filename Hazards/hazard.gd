@@ -13,12 +13,21 @@ var spot: Vector2 = Vector2.ZERO
 
 var strength: int = 0
 
+var is_instant: bool = true
+
 
 func set_time(time: float) -> void:
 	$Timer.wait_time = time
 
 
 func _on_timer_timeout() -> void:
-	for i in types:
-		finished.emit(spot, strength, i)
+	if is_instant:
+		for i in types:
+			finished.emit(spot, strength, i)
 	queue_free()
+
+
+func _on_hurt_timer_timeout() -> void:
+	if !is_instant:
+		for i in types:
+			finished.emit(spot, strength, i)

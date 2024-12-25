@@ -135,7 +135,7 @@ interpolate = false
 fract_delta = false
 local_coords = true
 
-[node name="Camera2D" type="Camera2D" parent="."]
+[node name="Camera" type="Camera2D" parent="."]
 position = Vector2(128, 192)
 offset = Vector2(0, -64)
 
