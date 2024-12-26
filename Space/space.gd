@@ -8,6 +8,7 @@ const HAZARD = preload("res://Hazards/hazard.tscn")
 const ASTEROID = preload("res://Hazards/Asteroid/asteroid.tscn")
 const NEBULA = preload("res://Hazards/Nebula/nebula.tscn")
 const ROCKET = preload("res://Hazards/Rocket/rocket.tscn")
+const STAR = preload("res://Hazards/Star Proximity/star.tscn")
 
 @onready var particles: Node2D = $Particles
 @onready var far_particles: GPUParticles2D = $"Particles/Far Particles"
@@ -33,9 +34,10 @@ var is_moving: bool = false
 
 
 func _ready() -> void:
-	separators.modulate = Color.WHITE
-	#create_nebula(game_manager.nebula_types.LARGE, -Vector2.ONE, 10, false)
-	create_rocket(0.8)
+	#separators.modulate = Color.WHITE
+	#create_rocket(0.5, 5.0, 1)
+	#create_star(10.0, 1)
+	pass
 
 
 func create_asteroid(size: game_manager.asteroid_types, spot: Vector2, time: float, is_vertical: bool = false, types: Array[game_manager.damage_types] = [game_manager.damage_types.PHYSICAL]) -> void:
@@ -161,12 +163,23 @@ func create_nebula(size: game_manager.nebula_types, spot: Vector2, time: float, 
 						create_hazard(Vector2(spot.x + i, spot.y + j), time + 1.0, 3, types, is_instant)
 
 
-func create_rocket(speed: float) -> void:
-	var rocket := ROCKET.instantiate()
-	rocket.target = camera
-	rocket.speed = speed
-	hazard_visuals.add_child(rocket)
-	rocket.position = Vector2(64, 64)
+func create_rocket(speed: float, time: float, damage: int) -> void:
+	var new_rocket := ROCKET.instantiate()
+	new_rocket.set_time(time)
+	new_rocket.target = camera
+	new_rocket.speed = speed
+	new_rocket.damage = clampi(damage, 1, 5)
+	new_rocket.finished.connect(_on_rocket_hit)
+	hazard_visuals.add_child(new_rocket)
+	new_rocket.position = Vector2(64, 64)
+
+
+func create_star(period: float, damage: int) -> void:
+	var star := STAR.instantiate()
+	star.damage = damage
+	star.hit.connect(_on_star_flare_hit)
+	star.set_time(period)
+	hazard_visuals.add_child(star)
 
 
 func create_hazard(spot: Vector2, time: float, strength: int, types: Array[game_manager.damage_types], is_instant: bool = true) -> void:
@@ -185,8 +198,12 @@ func create_hazard(spot: Vector2, time: float, strength: int, types: Array[game_
 	hazard.position = Vector2(spot.x * 64, spot.y * 64)
 
 
+func direct_hit(strength: int, type: game_manager.damage_types) -> void:
+	damaged.emit(strength, type)
+
+
 func hit(spot: Vector2, strength: int, type: game_manager.damage_types) -> void:
-	if spot == -current_grid_pos:
+	if spot == current_pos:
 		damaged.emit(strength, type)
 	hazard_spots.erase(spot)
 
@@ -264,3 +281,14 @@ func move(to: Vector2) -> bool:
 	else:
 		tween.kill()
 		return false
+
+
+func _on_rocket_hit(hit_rocket: rocket) -> void:
+	var spot: Vector2 = Vector2.ZERO
+	spot.x = floori((hit_rocket.position.x - 96) / 64) + 2
+	spot.y = floori((hit_rocket.position.y - 96) / 64) + 2
+	hit(spot, hit_rocket.damage, game_manager.damage_types.PHYSICAL)
+
+
+func _on_star_flare_hit(damage: int) -> void:
+	direct_hit(damage, game_manager.damage_types.HEAT)
