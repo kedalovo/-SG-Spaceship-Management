@@ -33,7 +33,7 @@ const SMALL_NEBULA = preload("res://Hazards/Nebula/Assets/Nebula 1x1.png")
 const WIRE_COLORS: Array[Color] = [Color.RED, Color.BLUE, Color.YELLOW, Color.GREEN, Color.MAGENTA]
 
 
-var current_hazards: Array = []
+static var wear_modifier: float = 1.0
 
 static var is_in_system: bool = false
 

@@ -21,6 +21,8 @@ const STAR = preload("res://Hazards/Star Proximity/star.tscn")
 
 @onready var separators: Node2D = $Grid/Separators
 
+var current_location: map_node
+
 const RANDOM_ROTATION: Array[float] = [0.0, 90.0, 180.0, 270.0]
 const MIDDLE_POSITION: Vector2 = Vector2(128, 192)
 const TWEEN_TIME: float = 0.3
@@ -38,6 +40,22 @@ func _ready() -> void:
 	#create_rocket(0.5, 5.0, 1)
 	#create_star(10.0, 1)
 	pass
+
+
+func start() -> void:
+	for idx in current_location.hazards.size():
+		var hazard: String = current_location.hazards[idx]
+		match hazard:
+			&"ASTEROID_FIELD":
+				pass
+			&"WARZONE":
+				pass
+			&"NEBULA":
+				pass
+			&"ICE_FIELD":
+				pass
+			&"STAR_PROXIMITY":
+				pass
 
 
 func create_asteroid(size: game_manager.asteroid_types, spot: Vector2, time: float, is_vertical: bool = false, types: Array[game_manager.damage_types] = [game_manager.damage_types.PHYSICAL]) -> void:
@@ -182,6 +200,10 @@ func create_star(period: float, damage: int) -> void:
 	hazard_visuals.add_child(star)
 
 
+func create_ice_world(modifier: float) -> void:
+	game_manager.wear_modifier = modifier
+
+
 func create_hazard(spot: Vector2, time: float, strength: int, types: Array[game_manager.damage_types], is_instant: bool = true) -> void:
 	if spot in hazard_spots:
 		push_warning("Tried creating a hazard in ", spot, ", which is busy")
@@ -292,3 +314,7 @@ func _on_rocket_hit(hit_rocket: rocket) -> void:
 
 func _on_star_flare_hit(damage: int) -> void:
 	direct_hit(damage, game_manager.damage_types.HEAT)
+
+
+func _on_map_location_changed(new_location: map_node) -> void:
+	current_location = new_location

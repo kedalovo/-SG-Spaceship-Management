@@ -776,4 +776,5 @@ one_shot = true
 [connection signal="fixed" from="SubViewportContainer/SubViewport/External System" to="." method="_on_system_fixed"]
 [connection signal="finished_animation" from="SubViewportContainer/SubViewport/Computer System" to="." method="_on_system_animation_finished"]
 [connection signal="fixed" from="SubViewportContainer/SubViewport/Computer System" to="." method="_on_system_fixed"]
+[connection signal="location_changed" from="Map" to="Cabin/SubViewportContainer2/SubViewport/Space" method="_on_map_location_changed"]
 [connection signal="timeout" from="RoundTimer" to="." method="_on_round_timer_timeout"]

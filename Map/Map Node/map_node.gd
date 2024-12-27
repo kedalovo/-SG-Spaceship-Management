@@ -24,6 +24,7 @@ var difficulty: int = 0
 var disabled: bool = false
 var is_continuation: bool = false
 var is_secret: bool = true
+var is_available: bool = false
 
 
 func add_connections(new_connections: Array) -> void:
@@ -68,4 +69,5 @@ func _on_mouse_grab_mouse_exited() -> void:
 
 
 func _on_button_pressed() -> void:
-	button_pressed.emit(self)
+	if is_available:
+		button_pressed.emit(self)

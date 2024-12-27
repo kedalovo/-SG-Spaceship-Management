@@ -17,7 +17,7 @@ var is_held: bool = false
 func cook(damage: int) -> void:
 	is_cooking = true
 	if !is_cooked:
-		health -= damage
+		health -= ceili(damage * game_manager.wear_modifier)
 		if health <= 0:
 			health = 0
 			is_cooked = true

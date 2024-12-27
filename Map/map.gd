@@ -1,6 +1,9 @@
 extends Node2D
 
 
+signal location_changed(new_location: map_node)
+
+
 const MAP_NODE = preload("res://Map/Map Node/map_node.tscn")
 
 const ASTEROID_ICON = preload("res://Map/Map Node/Icons/Asteroid Icon.png")
@@ -34,6 +37,8 @@ var grid: Array[Array] = []
 var dummy_grid: Dictionary
 
 var line_offset: float = 0.0
+
+var current_level: int = -1
 
 
 func _ready() -> void:
@@ -260,6 +265,7 @@ func generate_map() -> void:
 	# Showing types of first two lines of locations
 	for i in grid[0]:
 		i.is_secret = false
+		i.is_available = true
 		i.update_icon()
 	for i in grid[1]:
 		i.is_secret = false
@@ -279,3 +285,9 @@ func _on_map_node_mouse_exit(_node: Node2D) -> void:
 
 func _on_map_node_pressed(node: map_node) -> void:
 	current_location = node
+	current_level += 1
+	for i in grid[current_level]:
+		i.is_available = false
+	for i in current_location.connected_to_nodes:
+		i.is_available = true
+	location_changed.emit(node)
