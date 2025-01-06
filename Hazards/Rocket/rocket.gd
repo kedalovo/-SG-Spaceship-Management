@@ -18,6 +18,10 @@ var speed: float = 0.0
 var damage: int = 0
 
 
+func _ready() -> void:
+	set_physics_process(false)
+
+
 func _physics_process(delta: float) -> void:
 	global_position = global_position.lerp(target.global_position, delta * speed * exp(animator.current_animation_position))
 	sprite.look_at(target.global_position)
@@ -28,7 +32,16 @@ func set_time(time: float) -> void:
 	$Sprite/Animator.speed_scale = 1.0 / time
 
 
+func set_start_time(time: float) -> void:
+	$"Start Timer".wait_time = time
+
+
 func _on_animator_animation_finished(anim_name: StringName) -> void:
 	if anim_name == &"start":
 		finished.emit(self)
 		queue_free()
+
+
+func _on_start_timer_timeout() -> void:
+	$Sprite/Animator.play(&"start")
+	set_physics_process(true)

@@ -2,6 +2,7 @@ extends Node2D
 
 
 signal damaged(strength: int, type: game_manager.damage_types)
+signal new_location_set_up
 
 
 const HAZARD = preload("res://Hazards/hazard.tscn")
@@ -18,6 +19,7 @@ const STAR = preload("res://Hazards/Star Proximity/star.tscn")
 @onready var incoming_hazards: Node2D = $"Incoming Hazards"
 @onready var hazard_visuals: Node2D = $"Grid/Hazard visuals"
 @onready var camera: Camera2D = $Camera
+@onready var hazard_timer: Timer = $"Hazard Timer"
 
 @onready var separators: Node2D = $Grid/Separators
 
@@ -28,6 +30,7 @@ const MIDDLE_POSITION: Vector2 = Vector2(128, 192)
 const TWEEN_TIME: float = 0.3
 
 var hazard_spots: Dictionary
+var hazard_nebula_spots: Dictionary
 
 var current_grid_pos: Vector2 = Vector2.ZERO
 var current_pos: Vector2 = Vector2.ZERO
@@ -37,7 +40,7 @@ var is_moving: bool = false
 
 func _ready() -> void:
 	#separators.modulate = Color.WHITE
-	#create_rocket(0.5, 5.0, 1)
+	#create_rocket(2.0, 3.5, 1)
 	#create_star(10.0, 1)
 	pass
 
@@ -45,17 +48,183 @@ func _ready() -> void:
 func start() -> void:
 	for idx in current_location.hazards.size():
 		var hazard: String = current_location.hazards[idx]
+		var intensity: int = current_location.hazards_intensity[idx]
 		match hazard:
 			&"ASTEROID_FIELD":
-				pass
+				@warning_ignore("integer_division")
+				hazard_timer.wait_time = 30.0 - (intensity / 2) * 5.0 + idx * 2.0
+				hazard_timer.start()
 			&"WARZONE":
-				pass
+				@warning_ignore("integer_division")
+				hazard_timer.wait_time = 30.0 - (intensity / 2) * 5.0 + idx * 2.0
+				hazard_timer.start()
 			&"NEBULA":
-				pass
+				@warning_ignore("integer_division")
+				hazard_timer.wait_time = 30.0 - (intensity / 2) * 5.0 + idx * 2.0
+				hazard_timer.start()
 			&"ICE_FIELD":
-				pass
+				create_ice_world(floorf(0.6 + 0.5 * intensity))
 			&"STAR_PROXIMITY":
-				pass
+				match intensity:
+					1:
+						create_star(30, 1)
+					2:
+						create_star(20, 1)
+					3:
+						create_star(20, 2)
+					4:
+						create_star(25, 2)
+					5:
+						create_star(20, 2)
+					6:
+						create_star(15, 2)
+					7:
+						create_star(15, 3)
+					8:
+						create_star(10, 3)
+
+
+func propagate_hazard() -> void:
+	for idx in current_location.hazards.size():
+		var hazard: String = current_location.hazards[idx]
+		var intensity: int = current_location.hazards_intensity[idx]
+		match hazard:
+			&"ASTEROID_FIELD":
+				var picked_option: int = 0
+				if randi() == 0:
+					picked_option = intensity
+				elif intensity != 1:
+					picked_option = randi_range(1, intensity - 1)
+				else:
+					picked_option = 1
+				match picked_option:
+					1:
+						create_asteroid(game_manager.asteroid_types.SMALL, get_free_spot(), 10.0)
+					2:
+						create_asteroid(game_manager.asteroid_types.SMALL, get_free_spot(), 9.0)
+						create_asteroid(game_manager.asteroid_types.SMALL, get_free_spot(), 9.0)
+					3:
+						create_asteroid(game_manager.asteroid_types.SMALL, get_free_spot(), 8.0)
+						create_asteroid(game_manager.asteroid_types.SMALL, get_free_spot(), 8.0)
+						create_asteroid(game_manager.asteroid_types.SMALL, get_free_spot(), 8.0)
+					4:
+						if randi() == 0:
+							create_asteroid(game_manager.asteroid_types.MEDIUM, [-Vector2.ONE, Vector2.LEFT, Vector2.LEFT + Vector2.DOWN].pick_random(), 7.0)
+						else:
+							create_asteroid(game_manager.asteroid_types.MEDIUM, [-Vector2.ONE, Vector2.UP, Vector2.UP + Vector2.RIGHT].pick_random(), 7.0, true)
+					5:
+						if randi() == 0:
+							var list: Array = [-Vector2.ONE, Vector2.LEFT, Vector2.LEFT + Vector2.DOWN]
+							var picked_spot: Vector2 = list.pick_random()
+							list.erase(picked_spot)
+							create_asteroid(game_manager.asteroid_types.MEDIUM, picked_spot, 6.0)
+							create_asteroid(game_manager.asteroid_types.MEDIUM, list.pick_random(), 6.0)
+						else:
+							var list: Array = [-Vector2.ONE, Vector2.UP, Vector2.UP + Vector2.RIGHT]
+							var picked_spot: Vector2 = list.pick_random()
+							list.erase(picked_spot)
+							create_asteroid(game_manager.asteroid_types.MEDIUM, picked_spot, 6.0, true)
+							create_asteroid(game_manager.asteroid_types.MEDIUM, list.pick_random(), 6.0, true)
+					6:
+						if randi() == 0:
+							var list: Array = [-Vector2.ONE, Vector2.LEFT, Vector2.LEFT + Vector2.DOWN]
+							var p1: Vector2 = list.pick_random()
+							list.erase(p1)
+							var p2: Vector2 = list.pick_random()
+							list.erase(p2)
+							create_asteroid(game_manager.asteroid_types.MEDIUM, p1, 5.0)
+							create_asteroid(game_manager.asteroid_types.MEDIUM, p2, 5.0)
+							create_asteroid(game_manager.asteroid_types.SMALL, get_free_spot(), 5.0)
+						else:
+							var list: Array = [-Vector2.ONE, Vector2.UP, Vector2.UP + Vector2.RIGHT]
+							var p1: Vector2 = list.pick_random()
+							list.erase(p1)
+							var p2: Vector2 = list.pick_random()
+							list.erase(p2)
+							create_asteroid(game_manager.asteroid_types.MEDIUM, p1, 5.0, true)
+							create_asteroid(game_manager.asteroid_types.MEDIUM, p2, 5.0, true)
+							create_asteroid(game_manager.asteroid_types.SMALL, get_free_spot(), 5.0)
+					7:
+						if randi() == 0:
+							create_asteroid(game_manager.asteroid_types.LARGE, [-Vector2.ONE, Vector2.LEFT].pick_random(), 4.0)
+						else:
+							create_asteroid(game_manager.asteroid_types.LARGE, [Vector2.UP, Vector2.UP + Vector2.RIGHT].pick_random(), 4.0, true)
+					8:
+						if randi() == 0:
+							create_asteroid(game_manager.asteroid_types.LARGE, [-Vector2.ONE, Vector2.LEFT].pick_random(), 3.0)
+							create_asteroid(game_manager.asteroid_types.SMALL, get_free_spot(), 3.0)
+						else:
+							create_asteroid(game_manager.asteroid_types.LARGE, [Vector2.UP, Vector2.UP + Vector2.RIGHT].pick_random(), 3.0, true)
+							create_asteroid(game_manager.asteroid_types.SMALL, get_free_spot(), 3.0)
+			&"WARZONE":
+				match intensity:
+					1:
+						create_rocket(0.6, 7.0, 1)
+					2:
+						create_rocket(0.8, 6.5, 1)
+					3:
+						for i in randi()%2:
+							create_rocket(1.0, 6.0, 2, i * 2.5)
+					4:
+						for i in randi()%2:
+							create_rocket(1.2, 5.5, 2, i * 2.5)
+					5:
+						for i in randi()%2:
+							create_rocket(1.4, 5.0, 2, i * 2.5)
+					6:
+						for i in randi()%3:
+							create_rocket(1.6, 4.5, 3, i * 2.0)
+					7:
+						for i in randi()%3:
+							create_rocket(1.8, 4.0, 3, i * 2.0)
+					8:
+						for i in randi()%3:
+							create_rocket(2.0, 3.5, 3, i * 2.0)
+			&"NEBULA":
+				var picked_option: int = 0
+				if randi() == 0:
+					picked_option = clamp(intensity, 1, 7)
+				elif intensity != 1:
+					picked_option = randi_range(1, intensity - 1)
+				else:
+					picked_option = 1
+				match picked_option:
+					1:
+						create_nebula(game_manager.nebula_types.SMALL, get_free_nebula_spot(), 30, false, 5.0)
+					2:
+						create_nebula(game_manager.nebula_types.SMALL, get_free_nebula_spot(), 30, false, 4.5)
+						create_nebula(game_manager.nebula_types.SMALL, get_free_nebula_spot(), 30, false, 4.5)
+					3:
+						create_nebula(game_manager.nebula_types.SMALL, get_free_nebula_spot(), 25, false, 4.0)
+						create_nebula(game_manager.nebula_types.SMALL, get_free_nebula_spot(), 25, false, 4.0)
+						create_nebula(game_manager.nebula_types.SMALL, get_free_nebula_spot(), 25, false, 4.0)
+					4:
+						create_nebula(game_manager.nebula_types.SMALL, Vector2.ONE, 25, false, 3.5)
+						create_nebula(game_manager.nebula_types.SMALL, -Vector2.ONE, 25, false, 3.5)
+						create_nebula(game_manager.nebula_types.SMALL, Vector2.UP + Vector2.RIGHT, 25, false, 3.5)
+						create_nebula(game_manager.nebula_types.SMALL, -(Vector2.UP + Vector2.RIGHT), 25, false, 3.5)
+					5:
+						create_nebula(game_manager.nebula_types.MEDIUM, [-Vector2.ONE, Vector2.UP, Vector2.LEFT, Vector2.ZERO].pick_random(), 20, false, 3.0)
+					6:
+						var picked_corner: Vector2 = [-Vector2.ONE, Vector2.UP, Vector2.LEFT, Vector2.ZERO].pick_random()
+						match picked_corner:
+							-Vector2.ONE:
+								create_nebula(game_manager.nebula_types.MEDIUM, -Vector2.ONE, 20, false, 2.5)
+								create_nebula(game_manager.nebula_types.SMALL, [Vector2.UP + Vector2.RIGHT, Vector2.DOWN + Vector2.LEFT].pick_random(), 20, false, 2.5)
+							Vector2.UP:
+								create_nebula(game_manager.nebula_types.MEDIUM, Vector2.UP, 20, false, 2.5)
+								create_nebula(game_manager.nebula_types.SMALL, [Vector2.UP + Vector2.LEFT, Vector2.DOWN + Vector2.RIGHT].pick_random(), 20, false, 2.5)
+							Vector2.LEFT:
+								create_nebula(game_manager.nebula_types.MEDIUM, Vector2.LEFT, 20, false, 2.5)
+								create_nebula(game_manager.nebula_types.SMALL, [Vector2.UP + Vector2.LEFT, Vector2.DOWN + Vector2.RIGHT].pick_random(), 20, false, 2.5)
+							Vector2.ZERO:
+								create_nebula(game_manager.nebula_types.MEDIUM, Vector2.ZERO, 20, false, 2.5)
+								create_nebula(game_manager.nebula_types.SMALL, [Vector2.UP + Vector2.RIGHT, Vector2.DOWN + Vector2.LEFT].pick_random(), 20, false, 2.5)
+					7:
+						if randi() == 0:
+							create_nebula(game_manager.nebula_types.LARGE, [Vector2.UP + Vector2.LEFT, Vector2.LEFT].pick_random(), 15, false, 2.0)
+						else:
+							create_nebula(game_manager.nebula_types.LARGE, [Vector2.UP, Vector2.UP + Vector2.RIGHT].pick_random(), 15, false, 2.0, true)
 
 
 func create_asteroid(size: game_manager.asteroid_types, spot: Vector2, time: float, is_vertical: bool = false, types: Array[game_manager.damage_types] = [game_manager.damage_types.PHYSICAL]) -> void:
@@ -124,12 +293,12 @@ func create_asteroid(size: game_manager.asteroid_types, spot: Vector2, time: flo
 						create_hazard(Vector2(spot.x + i, spot.y + j), time, 3, types)
 
 
-func create_nebula(size: game_manager.nebula_types, spot: Vector2, time: float, is_instant: bool = true, is_vertical: bool = false, types: Array[game_manager.damage_types] = [game_manager.damage_types.ELECTRICITY]) -> void:
+func create_nebula(size: game_manager.nebula_types, spot: Vector2, time: float, is_instant: bool = true, hurt_time: float = 0.0, is_vertical: bool = false, types: Array[game_manager.damage_types] = [game_manager.damage_types.ELECTRICITY]) -> void:
 	spot = clamp(spot, -Vector2.ONE, Vector2.ONE)
 	var nebula := NEBULA.instantiate()
 	match size:
 		game_manager.nebula_types.SMALL:
-			if spot in hazard_spots:
+			if spot in hazard_nebula_spots:
 				push_warning("Tried creating a small nebula in ", spot, ", which is busy")
 				return
 			nebula.set_types(types)
@@ -137,11 +306,11 @@ func create_nebula(size: game_manager.nebula_types, spot: Vector2, time: float, 
 			nebula.set_visuals(size, false)
 			hazard_visuals.add_child(nebula)
 			nebula.position = Vector2(spot.x * 64, spot.y * 64)
-			create_hazard(spot, time + 1.0, 1, types, is_instant)
+			create_hazard(spot, time + 1.0, 1, types, is_instant, hurt_time)
 		game_manager.nebula_types.MEDIUM:
 			for i in 2:
 				for j in 2:
-					if Vector2(spot.x + i, spot.y + j) in hazard_spots or spot.y + j > 1 or spot.x + i > 1:
+					if Vector2(spot.x + i, spot.y + j) in hazard_nebula_spots or spot.y + j > 1 or spot.x + i > 1:
 						push_warning("Tried creating a medium nebula in ", spot, ", which is busy or out of bounds at ", spot.x + i, ", vertical: ", is_vertical)
 						return
 			nebula.position = Vector2((spot.x + 0.5) * 64, (spot.y + 0.5) * 64)
@@ -151,19 +320,19 @@ func create_nebula(size: game_manager.nebula_types, spot: Vector2, time: float, 
 			hazard_visuals.add_child(nebula)
 			for i in 2:
 				for j in 2:
-					create_hazard(Vector2(spot.x + i, spot.y + j), time + 1.0, 2, types, is_instant)
+					create_hazard(Vector2(spot.x + i, spot.y + j), time + 1.0, 2, types, is_instant, hurt_time)
 		game_manager.nebula_types.LARGE:
 			if is_vertical:
 				for i in 3:
 					for j in 2:
-						if Vector2(spot.x - j, spot.y + i) in hazard_spots or spot.y + i > 1 or spot.x - j < -1:
+						if Vector2(spot.x - j, spot.y + i) in hazard_nebula_spots or spot.y + i > 1 or spot.x - j < -1:
 							push_warning("Tried creating a large nebula in ", spot, ", which is busy or out of bounds at ", Vector2(spot.x - j, spot.y + i), ", vertical: ", is_vertical)
 							return
 				nebula.position = Vector2((spot.x - 0.5) * 64, (spot.y + 1) * 64)
 			else:
 				for i in 3:
 					for j in 2:
-						if Vector2(spot.x + i, spot.y + j) in hazard_spots or spot.y + j > 1 or spot.x + i > 1:
+						if Vector2(spot.x + i, spot.y + j) in hazard_nebula_spots or spot.y + j > 1 or spot.x + i > 1:
 							push_warning("Tried creating a large nebula in ", spot, ", which is busy or out of bounds at ", Vector2(spot.x + i, spot.y + j), ", vertical: ", is_vertical)
 							return
 				nebula.position = Vector2((spot.x + 1) * 64, (spot.y + 0.5) * 64)
@@ -174,16 +343,17 @@ func create_nebula(size: game_manager.nebula_types, spot: Vector2, time: float, 
 			if is_vertical:
 				for i in 3:
 					for j in 2:
-						create_hazard(Vector2(spot.x - j, spot.y + i), time + 1.0, 3, types, is_instant)
+						create_hazard(Vector2(spot.x - j, spot.y + i), time + 1.0, 3, types, is_instant, hurt_time)
 			else:
 				for i in 3:
 					for j in 2:
-						create_hazard(Vector2(spot.x + i, spot.y + j), time + 1.0, 3, types, is_instant)
+						create_hazard(Vector2(spot.x + i, spot.y + j), time + 1.0, 3, types, is_instant, hurt_time)
 
 
-func create_rocket(speed: float, time: float, damage: int) -> void:
+func create_rocket(speed: float, time: float, damage: int, offset: float = 0.0) -> void:
 	var new_rocket := ROCKET.instantiate()
 	new_rocket.set_time(time)
+	new_rocket.set_start_time(clampf(offset, 0.001, 15.0))
 	new_rocket.target = camera
 	new_rocket.speed = speed
 	new_rocket.damage = clampi(damage, 1, 5)
@@ -204,18 +374,27 @@ func create_ice_world(modifier: float) -> void:
 	game_manager.wear_modifier = modifier
 
 
-func create_hazard(spot: Vector2, time: float, strength: int, types: Array[game_manager.damage_types], is_instant: bool = true) -> void:
-	if spot in hazard_spots:
+func create_hazard(spot: Vector2, time: float, strength: int, types: Array[game_manager.damage_types], is_instant: bool = true, hurt_time: float = 0.0) -> void:
+	if spot in hazard_spots and is_instant:
 		push_warning("Tried creating a hazard in ", spot, ", which is busy")
+		return
+	elif spot in hazard_nebula_spots and !is_instant:
+		push_warning("Tried creating a nebula hazard in ", spot, ", which is busy")
 		return
 	var hazard := HAZARD.instantiate()
 	hazard.strength = strength
 	hazard.types = types
 	hazard.spot = spot
 	hazard.is_instant = is_instant
-	hazard.finished.connect(hit)
-	hazard_spots[spot] = hazard
+	hazard.hit.connect(hit)
+	hazard.finished.connect(hazard_finished)
+	if is_instant:
+		hazard_spots[spot] = hazard
+	else:
+		hazard_nebula_spots[spot] = hazard
 	hazard.set_time(time)
+	if !is_instant:
+		hazard.set_hurt_time(hurt_time)
 	incoming_hazards.add_child(hazard)
 	hazard.position = Vector2(spot.x * 64, spot.y * 64)
 
@@ -228,6 +407,14 @@ func hit(spot: Vector2, strength: int, type: game_manager.damage_types) -> void:
 	if spot == current_pos:
 		damaged.emit(strength, type)
 	hazard_spots.erase(spot)
+
+
+func hazard_finished(hazard: Hazard) -> void:
+	if hazard.is_instant:
+		hazard_spots.erase(hazard_spots.keys()[hazard_spots.values().find(hazard)])
+	else:
+		hazard_nebula_spots.erase(hazard_nebula_spots.keys()[hazard_nebula_spots.values().find(hazard)])
+	hazard.queue_free()
 
 
 func move(to: Vector2) -> bool:
@@ -305,6 +492,30 @@ func move(to: Vector2) -> bool:
 		return false
 
 
+func get_free_spot() -> Vector2:
+	var spots: Array = [
+		Vector2.UP + Vector2.LEFT, Vector2.UP, Vector2.UP + Vector2.RIGHT,
+		Vector2.LEFT, Vector2.ZERO, Vector2.RIGHT,
+		Vector2.DOWN + Vector2.LEFT, Vector2.DOWN, Vector2.DOWN + Vector2.RIGHT
+	]
+	for spot in hazard_spots:
+		if spot in spots:
+			spots.erase(spot)
+	return spots.pick_random()
+
+
+func get_free_nebula_spot() -> Vector2:
+	var spots: Array = [
+		Vector2.UP + Vector2.LEFT, Vector2.UP, Vector2.UP + Vector2.RIGHT,
+		Vector2.LEFT, Vector2.ZERO, Vector2.RIGHT,
+		Vector2.DOWN + Vector2.LEFT, Vector2.DOWN, Vector2.DOWN + Vector2.RIGHT
+	]
+	for spot in hazard_nebula_spots:
+		if spot in spots:
+			spots.erase(spot)
+	return spots.pick_random()
+
+
 func _on_rocket_hit(hit_rocket: rocket) -> void:
 	var spot: Vector2 = Vector2.ZERO
 	spot.x = floori((hit_rocket.position.x - 96) / 64) + 2
@@ -318,3 +529,9 @@ func _on_star_flare_hit(damage: int) -> void:
 
 func _on_map_location_changed(new_location: map_node) -> void:
 	current_location = new_location
+	start()
+	new_location_set_up.emit()
+
+
+func _on_hazard_timer_timeout() -> void:
+	propagate_hazard()

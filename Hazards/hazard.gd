@@ -4,7 +4,8 @@ extends Node2D
 class_name Hazard
 
 
-signal finished(spot: Vector2, strength: int, type: game_manager.damage_types)
+signal hit(spot: Vector2, strength: int, type: game_manager.damage_types)
+signal finished(hazard: Hazard)
 
 
 var types: Array[game_manager.damage_types]
@@ -20,14 +21,18 @@ func set_time(time: float) -> void:
 	$Timer.wait_time = time
 
 
+func set_hurt_time(time: float) -> void:
+	$"Hurt Timer".wait_time = time
+
+
 func _on_timer_timeout() -> void:
 	if is_instant:
 		for i in types:
-			finished.emit(spot, strength, i)
-	queue_free()
+			hit.emit(spot, strength, i)
+	finished.emit(self)
 
 
 func _on_hurt_timer_timeout() -> void:
 	if !is_instant:
 		for i in types:
-			finished.emit(spot, strength, i)
+			hit.emit(spot, strength, i)

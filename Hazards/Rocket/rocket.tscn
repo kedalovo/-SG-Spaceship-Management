@@ -94,6 +94,10 @@ texture = ExtResource("1_tr8hm")
 libraries = {
 "": SubResource("AnimationLibrary_nfr5t")
 }
-autoplay = "start"
+
+[node name="Start Timer" type="Timer" parent="."]
+one_shot = true
+autostart = true
 
 [connection signal="animation_finished" from="Sprite/Animator" to="." method="_on_animator_animation_finished"]
+[connection signal="timeout" from="Start Timer" to="." method="_on_start_timer_timeout"]

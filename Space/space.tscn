@@ -173,3 +173,7 @@ offset_bottom = 96.0
 
 [node name="Incoming Hazards" type="Node2D" parent="."]
 position = Vector2(128, 192)
+
+[node name="Hazard Timer" type="Timer" parent="."]
+
+[connection signal="timeout" from="Hazard Timer" to="." method="_on_hazard_timer_timeout"]

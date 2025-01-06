@@ -226,6 +226,7 @@ func generate_map() -> void:
 			intensity = 1
 		var line: Array = grid[i]
 		for j in LINE_LENGTH:
+			@warning_ignore("integer_division")
 			var difficulty := i / (grid.size() / 3) + 1
 			line[j].reparent(contents)
 			line[j].position = Vector2(j * 128 + 224 + randi_range(-POS_X_SPREAD, POS_X_SPREAD), i * -128 + 1884 + randi_range(-POS_Y_SPREAD, POS_Y_SPREAD))

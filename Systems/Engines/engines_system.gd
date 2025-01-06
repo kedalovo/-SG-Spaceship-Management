@@ -64,13 +64,21 @@ func setup_cells() -> void:
 
 
 func reset_cells() -> void:
-	for cell_idx in cells_fuel.size():
-		var cell: Cell = cells_fuel[cell_idx]
+	var installed_cells_fuel: Array = []
+	var installed_cells_coolant: Array = []
+	for i in cells_fuel:
+		if i.in_slot >= 0:
+			installed_cells_fuel.append(i)
+	for i in cells_coolant:
+		if i.in_slot >= 0:
+			installed_cells_coolant.append(i)
+	for cell_idx in installed_cells_fuel.size():
+		var cell: Cell = installed_cells_fuel[cell_idx]
 		if cell.is_depleted or cell.is_depleting or cell.is_destroyed:
 			var slot = cell_slots.get_children()[slots_fuel[cell_idx]]
 			cell.place_into_slot(slot)
-	for cell_idx in cells_coolant.size():
-		var cell: Cell = cells_coolant[cell_idx]
+	for cell_idx in installed_cells_coolant.size():
+		var cell: Cell = installed_cells_coolant[cell_idx]
 		if cell.is_depleted or cell.is_depleting or cell.is_destroyed:
 			var slot = cell_slots.get_children()[slots_coolant[cell_idx]]
 			cell.place_into_slot(slot)

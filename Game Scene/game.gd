@@ -57,15 +57,15 @@ func _input(event: InputEvent) -> void:
 	if event.is_action_pressed(&"esc"):
 		quit_game()
 	if event.is_action_pressed(&"test1"):
-		#life_support_system.add_fuel()
-		map_animator.play(&"open")
-		Input.mouse_mode = Input.MOUSE_MODE_HIDDEN
-		map.cursor.show()
+		#map_animator.play(&"open")
+		#Input.mouse_mode = Input.MOUSE_MODE_HIDDEN
+		#map.cursor.show()
+		pass
 	if event.is_action_pressed(&"test"):
-		#life_support_system.upgrade(1)
-		map_animator.play_backwards(&"open")
-		Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
-		map.cursor.hide()
+		#map_animator.play_backwards(&"open")
+		#Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
+		#map.cursor.hide()
+		pass
 	if event.is_action_pressed(&"left"):
 		var moved: bool = space.move(Vector2.LEFT)
 		if moved:
@@ -100,6 +100,9 @@ func _physics_process(_delta: float) -> void:
 
 func start_round() -> void:
 	round_timer.start()
+	map_animator.play_backwards(&"open")
+	Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
+	map.cursor.hide()
 
 
 func game_over() -> void:
@@ -172,3 +175,7 @@ func _on_system_fixed(fixed_system: system) -> void:
 
 func _on_round_timer_timeout() -> void:
 	game_over()
+
+
+func _on_space_new_location_set_up() -> void:
+	start_round()
