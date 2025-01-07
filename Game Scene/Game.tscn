@@ -1,4 +1,4 @@
-[gd_scene load_steps=63 format=3 uid="uid://dr0fafp1u36yj"]
+[gd_scene load_steps=64 format=3 uid="uid://dr0fafp1u36yj"]
 
 [ext_resource type="Script" path="res://Game Scene/game.gd" id="1_t00el"]
 [ext_resource type="Texture2D" uid="uid://dmcht1gqpy4v3" path="res://Systems/Life Support/Assets/Life Support.png" id="2_3bjf3"]
@@ -41,6 +41,7 @@
 [ext_resource type="PackedScene" uid="uid://c22b6p4rrgv5p" path="res://Systems/External/external_system.tscn" id="19_kf2ef"]
 [ext_resource type="PackedScene" uid="uid://cn0fv0fedt2ig" path="res://Systems/Computer/computer_system.tscn" id="20_1h5sm"]
 [ext_resource type="BitMap" uid="uid://csmaqmv7np4t4" path="res://Cabin/Assets/Up Button bitmask.png" id="20_aibmr"]
+[ext_resource type="PackedScene" uid="uid://c88opie2hw5hq" path="res://Clock/clock.tscn" id="21_wxrcd"]
 [ext_resource type="PackedScene" uid="uid://c1lkqnbuafwie" path="res://Space/space.tscn" id="24_qmju5"]
 [ext_resource type="PackedScene" uid="uid://dh1g8tgwww50" path="res://Map/map.tscn" id="43_xxu5e"]
 
@@ -326,6 +327,9 @@ texture_normal = ExtResource("17_aga0h")
 texture_pressed = ExtResource("18_6souy")
 texture_hover = ExtResource("19_j6524")
 texture_click_mask = ExtResource("20_aibmr")
+
+[node name="Clock" parent="Cabin" instance=ExtResource("21_wxrcd")]
+position = Vector2(128, 32)
 
 [node name="Systems Background" type="Sprite2D" parent="."]
 position = Vector2(608, 270)

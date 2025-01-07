@@ -30,6 +30,7 @@ const CURSOR_POINTER = preload("res://UI/Cursor pointer.png")
 @onready var map_animator: AnimationPlayer = $Map/Animator
 
 @onready var round_timer: Timer = $RoundTimer
+@onready var clock: Node2D = $Cabin/Clock
 
 const CABIN_ZOOM_LEVEL: float = 1.1
 
@@ -96,6 +97,7 @@ func _notification(what: int) -> void:
 
 func _physics_process(_delta: float) -> void:
 	cabin_view.scale = lerp(cabin_view.scale, Vector2.ONE, 0.1)
+	clock.set_time(round_timer.time_left)
 
 
 func start_round() -> void:

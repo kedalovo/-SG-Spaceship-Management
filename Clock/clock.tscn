@@ -1,0 +1,39 @@
+[gd_scene load_steps=4 format=3 uid="uid://c88opie2hw5hq"]
+
+[ext_resource type="Texture2D" uid="uid://71ta1w2bsguy" path="res://Clock/Assets/Clock.png" id="1_lc7ms"]
+[ext_resource type="Script" path="res://Clock/clock.gd" id="1_rssbq"]
+[ext_resource type="Texture2D" uid="uid://df7prcwlq6mpa" path="res://Clock/Assets/Clock numbers.png" id="2_c146y"]
+
+[node name="Clock" type="Node2D"]
+script = ExtResource("1_rssbq")
+
+[node name="Sprite" type="Sprite2D" parent="."]
+texture = ExtResource("1_lc7ms")
+
+[node name="Dot" type="ColorRect" parent="."]
+visible = false
+offset_left = -18.0
+offset_top = 15.0
+offset_right = -14.0
+offset_bottom = 19.0
+color = Color(1, 0, 0, 1)
+
+[node name="Digits" type="Node2D" parent="."]
+modulate = Color(0.742188, 0, 0, 1)
+
+[node name="Digit 1" type="Sprite2D" parent="Digits"]
+position = Vector2(-32, 0)
+texture = ExtResource("2_c146y")
+region_enabled = true
+region_rect = Rect2(0, 0, 22, 38)
+
+[node name="Digit 2" type="Sprite2D" parent="Digits"]
+texture = ExtResource("2_c146y")
+region_enabled = true
+region_rect = Rect2(0, 0, 22, 38)
+
+[node name="Digit 3" type="Sprite2D" parent="Digits"]
+position = Vector2(32, 0)
+texture = ExtResource("2_c146y")
+region_enabled = true
+region_rect = Rect2(0, 0, 22, 38)

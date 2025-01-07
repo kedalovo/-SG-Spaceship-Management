@@ -406,7 +406,6 @@ func direct_hit(strength: int, type: game_manager.damage_types) -> void:
 func hit(spot: Vector2, strength: int, type: game_manager.damage_types) -> void:
 	if spot == current_pos:
 		damaged.emit(strength, type)
-	hazard_spots.erase(spot)
 
 
 func hazard_finished(hazard: Hazard) -> void:
