@@ -738,6 +738,7 @@ process_callback = 0
 wait_time = 180.0
 one_shot = true
 
+[connection signal="coin_got" from="Cabin/SubViewportContainer2/SubViewport/Space" to="." method="_on_space_coin_got"]
 [connection signal="damaged" from="Cabin/SubViewportContainer2/SubViewport/Space" to="." method="_on_damaged"]
 [connection signal="new_location_set_up" from="Cabin/SubViewportContainer2/SubViewport/Space" to="." method="_on_space_new_location_set_up"]
 [connection signal="pressed" from="Cabin/Controls/Left Button" to="." method="_on_left_button_pressed"]

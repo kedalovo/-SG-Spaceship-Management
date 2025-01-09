@@ -3,6 +3,7 @@ extends Node2D
 
 signal damaged(strength: int, type: game_manager.damage_types)
 signal new_location_set_up
+signal coin_got
 
 
 const HAZARD = preload("res://Hazards/hazard.tscn")
@@ -10,6 +11,9 @@ const ASTEROID = preload("res://Hazards/Asteroid/asteroid.tscn")
 const NEBULA = preload("res://Hazards/Nebula/nebula.tscn")
 const ROCKET = preload("res://Hazards/Rocket/rocket.tscn")
 const STAR = preload("res://Hazards/Star Proximity/star.tscn")
+
+const COIN = preload("res://Coin/coin.tscn")
+
 
 @onready var particles: Node2D = $Particles
 @onready var far_particles: GPUParticles2D = $"Particles/Far Particles"
@@ -42,6 +46,9 @@ func _ready() -> void:
 	#separators.modulate = Color.WHITE
 	#create_rocket(2.0, 3.5, 1)
 	#create_star(10.0, 1)
+	create_coin(10)
+	create_coin(5)
+	create_coin(15)
 	pass
 
 
@@ -399,6 +406,16 @@ func create_hazard(spot: Vector2, time: float, strength: int, types: Array[game_
 	hazard.position = Vector2(spot.x * 64, spot.y * 64)
 
 
+func create_coin(time: float) -> void:
+	var new_coin := COIN.instantiate()
+	var spot: Vector2 = Vector2(randi_range(-1, 1), randi_range(-1, 1))
+	new_coin.spot = spot
+	new_coin.set_time(time)
+	new_coin.finished.connect(coin_finished)
+	new_coin.position = Vector2(spot.x * 64, spot.y * 64)
+	incoming_hazards.add_child(new_coin)
+
+
 func direct_hit(strength: int, type: game_manager.damage_types) -> void:
 	damaged.emit(strength, type)
 
@@ -414,6 +431,11 @@ func hazard_finished(hazard: Hazard) -> void:
 	else:
 		hazard_nebula_spots.erase(hazard_nebula_spots.keys()[hazard_nebula_spots.values().find(hazard)])
 	hazard.queue_free()
+
+
+func coin_finished(spot: Vector2) -> void:
+	if spot == current_pos:
+		coin_got.emit()
 
 
 func move(to: Vector2) -> bool:

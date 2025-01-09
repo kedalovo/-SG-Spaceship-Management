@@ -176,4 +176,7 @@ position = Vector2(128, 192)
 
 [node name="Hazard Timer" type="Timer" parent="."]
 
+[node name="Coin Timer" type="Timer" parent="."]
+autostart = true
+
 [connection signal="timeout" from="Hazard Timer" to="." method="_on_hazard_timer_timeout"]

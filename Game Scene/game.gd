@@ -49,9 +49,9 @@ var is_mouse_inside: bool
 func _ready() -> void:
 	Input.set_custom_mouse_cursor(CURSOR_NORMAL, Input.CURSOR_ARROW)
 	Input.set_custom_mouse_cursor(CURSOR_POINTER, Input.CURSOR_POINTING_HAND)
-	map_animator.play(&"open")
-	Input.mouse_mode = Input.MOUSE_MODE_HIDDEN
-	map.cursor.show()
+	#map_animator.play(&"open")
+	#Input.mouse_mode = Input.MOUSE_MODE_HIDDEN
+	#map.cursor.show()
 
 
 func _input(event: InputEvent) -> void:
@@ -181,3 +181,7 @@ func _on_round_timer_timeout() -> void:
 
 func _on_space_new_location_set_up() -> void:
 	start_round()
+
+
+func _on_space_coin_got() -> void:
+	print("MONEY")
