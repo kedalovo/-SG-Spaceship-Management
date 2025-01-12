@@ -1,0 +1,64 @@
+[gd_scene load_steps=4 format=3 uid="uid://esnak8iwscmb"]
+
+[ext_resource type="Script" path="res://Balance/balance.gd" id="1_aui0t"]
+[ext_resource type="Texture2D" uid="uid://dobces574g6ju" path="res://Balance/Assets/Balance board.png" id="1_cvj0o"]
+[ext_resource type="Texture2D" uid="uid://cm8pcgnj10y47" path="res://Balance/Assets/Balance credit.png" id="2_vrvjm"]
+
+[node name="Balance" type="Node2D"]
+script = ExtResource("1_aui0t")
+
+[node name="Board" type="Sprite2D" parent="."]
+z_index = 1
+position = Vector2(-320, 0)
+texture = ExtResource("1_cvj0o")
+centered = false
+
+[node name="Coin 1" type="Sprite2D" parent="Board"]
+visible = false
+position = Vector2(304, 24)
+texture = ExtResource("2_vrvjm")
+
+[node name="Coin 2" type="Sprite2D" parent="Board"]
+visible = false
+position = Vector2(272, 24)
+texture = ExtResource("2_vrvjm")
+
+[node name="Coin 3" type="Sprite2D" parent="Board"]
+visible = false
+position = Vector2(240, 24)
+texture = ExtResource("2_vrvjm")
+
+[node name="Coin 4" type="Sprite2D" parent="Board"]
+visible = false
+position = Vector2(208, 24)
+texture = ExtResource("2_vrvjm")
+
+[node name="Coin 5" type="Sprite2D" parent="Board"]
+visible = false
+position = Vector2(176, 24)
+texture = ExtResource("2_vrvjm")
+
+[node name="Coin 6" type="Sprite2D" parent="Board"]
+visible = false
+position = Vector2(144, 24)
+texture = ExtResource("2_vrvjm")
+
+[node name="Coin 7" type="Sprite2D" parent="Board"]
+visible = false
+position = Vector2(112, 24)
+texture = ExtResource("2_vrvjm")
+
+[node name="Coin 8" type="Sprite2D" parent="Board"]
+visible = false
+position = Vector2(80, 24)
+texture = ExtResource("2_vrvjm")
+
+[node name="Coin 9" type="Sprite2D" parent="Board"]
+visible = false
+position = Vector2(48, 24)
+texture = ExtResource("2_vrvjm")
+
+[node name="Coin 10" type="Sprite2D" parent="Board"]
+visible = false
+position = Vector2(16, 24)
+texture = ExtResource("2_vrvjm")

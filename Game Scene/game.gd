@@ -32,6 +32,8 @@ const CURSOR_POINTER = preload("res://UI/Cursor pointer.png")
 @onready var round_timer: Timer = $RoundTimer
 @onready var clock: Node2D = $Cabin/Clock
 
+@onready var balance: Node2D = $Balance
+
 const CABIN_ZOOM_LEVEL: float = 1.1
 
 @onready var systems: Array[system] = [
@@ -61,11 +63,15 @@ func _input(event: InputEvent) -> void:
 		#map_animator.play(&"open")
 		#Input.mouse_mode = Input.MOUSE_MODE_HIDDEN
 		#map.cursor.show()
+		balance.value = 5
+		print(balance.value)
 		pass
 	if event.is_action_pressed(&"test"):
 		#map_animator.play_backwards(&"open")
 		#Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
 		#map.cursor.hide()
+		balance.value = 10
+		print(balance.value)
 		pass
 	if event.is_action_pressed(&"left"):
 		var moved: bool = space.move(Vector2.LEFT)
@@ -184,4 +190,4 @@ func _on_space_new_location_set_up() -> void:
 
 
 func _on_space_coin_got() -> void:
-	print("MONEY")
+	balance.value += 1

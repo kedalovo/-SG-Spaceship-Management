@@ -1,4 +1,4 @@
-[gd_scene load_steps=64 format=3 uid="uid://dr0fafp1u36yj"]
+[gd_scene load_steps=65 format=3 uid="uid://dr0fafp1u36yj"]
 
 [ext_resource type="Script" path="res://Game Scene/game.gd" id="1_t00el"]
 [ext_resource type="Texture2D" uid="uid://dmcht1gqpy4v3" path="res://Systems/Life Support/Assets/Life Support.png" id="2_3bjf3"]
@@ -44,6 +44,7 @@
 [ext_resource type="PackedScene" uid="uid://c88opie2hw5hq" path="res://Clock/clock.tscn" id="21_wxrcd"]
 [ext_resource type="PackedScene" uid="uid://c1lkqnbuafwie" path="res://Space/space.tscn" id="24_qmju5"]
 [ext_resource type="PackedScene" uid="uid://dh1g8tgwww50" path="res://Map/map.tscn" id="43_xxu5e"]
+[ext_resource type="PackedScene" uid="uid://esnak8iwscmb" path="res://Balance/balance.tscn" id="45_a0v1l"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_kost8"]
 atlas = ExtResource("4_lunap")
@@ -331,6 +332,9 @@ texture_click_mask = ExtResource("20_aibmr")
 [node name="Clock" parent="Cabin" instance=ExtResource("21_wxrcd")]
 position = Vector2(128, 32)
 
+[node name="Balance" parent="." instance=ExtResource("45_a0v1l")]
+position = Vector2(960, 0)
+
 [node name="Systems Background" type="Sprite2D" parent="."]
 position = Vector2(608, 270)
 texture = ExtResource("2_idqil")
@@ -570,103 +574,6 @@ offset_bottom = 72.0
 focus_mode = 0
 mouse_default_cursor_shape = 2
 flat = true
-
-[node name="Balance ColorRect" type="ColorRect" parent="."]
-offset_left = 784.0
-offset_top = 8.0
-offset_right = 952.0
-offset_bottom = 48.0
-color = Color(0.101563, 0.101563, 0.101563, 1)
-
-[node name="ColorRect" type="ColorRect" parent="Balance ColorRect"]
-custom_minimum_size = Vector2(8, 0)
-layout_mode = 2
-offset_left = 8.0
-offset_top = 8.0
-offset_right = 16.0
-offset_bottom = 32.0
-color = Color(0, 1, 0.0390625, 1)
-
-[node name="ColorRect2" type="ColorRect" parent="Balance ColorRect"]
-custom_minimum_size = Vector2(8, 0)
-layout_mode = 2
-offset_left = 24.0
-offset_top = 8.0
-offset_right = 32.0
-offset_bottom = 32.0
-color = Color(0, 1, 0.0390625, 1)
-
-[node name="ColorRect3" type="ColorRect" parent="Balance ColorRect"]
-custom_minimum_size = Vector2(8, 0)
-layout_mode = 2
-offset_left = 40.0
-offset_top = 8.0
-offset_right = 48.0
-offset_bottom = 32.0
-color = Color(0, 1, 0.0390625, 1)
-
-[node name="ColorRect4" type="ColorRect" parent="Balance ColorRect"]
-custom_minimum_size = Vector2(8, 0)
-layout_mode = 2
-offset_left = 56.0
-offset_top = 8.0
-offset_right = 64.0
-offset_bottom = 32.0
-color = Color(0, 1, 0.0390625, 1)
-
-[node name="ColorRect5" type="ColorRect" parent="Balance ColorRect"]
-custom_minimum_size = Vector2(8, 0)
-layout_mode = 2
-offset_left = 72.0
-offset_top = 8.0
-offset_right = 80.0
-offset_bottom = 32.0
-color = Color(0, 1, 0.0390625, 1)
-
-[node name="ColorRect6" type="ColorRect" parent="Balance ColorRect"]
-custom_minimum_size = Vector2(8, 0)
-layout_mode = 2
-offset_left = 88.0
-offset_top = 8.0
-offset_right = 96.0
-offset_bottom = 32.0
-color = Color(0, 1, 0.0390625, 1)
-
-[node name="ColorRect7" type="ColorRect" parent="Balance ColorRect"]
-custom_minimum_size = Vector2(8, 0)
-layout_mode = 2
-offset_left = 104.0
-offset_top = 8.0
-offset_right = 112.0
-offset_bottom = 32.0
-color = Color(0.0458984, 0.25, 0.0538712, 1)
-
-[node name="ColorRect8" type="ColorRect" parent="Balance ColorRect"]
-custom_minimum_size = Vector2(8, 0)
-layout_mode = 2
-offset_left = 120.0
-offset_top = 8.0
-offset_right = 128.0
-offset_bottom = 32.0
-color = Color(0.0458984, 0.25, 0.0538712, 1)
-
-[node name="ColorRect9" type="ColorRect" parent="Balance ColorRect"]
-custom_minimum_size = Vector2(8, 0)
-layout_mode = 2
-offset_left = 136.0
-offset_top = 8.0
-offset_right = 144.0
-offset_bottom = 32.0
-color = Color(0.0458984, 0.25, 0.0538712, 1)
-
-[node name="ColorRect10" type="ColorRect" parent="Balance ColorRect"]
-custom_minimum_size = Vector2(8, 0)
-layout_mode = 2
-offset_left = 152.0
-offset_top = 8.0
-offset_right = 160.0
-offset_bottom = 32.0
-color = Color(0.0458984, 0.25, 0.0538712, 1)
 
 [node name="System Container" type="Control" parent="."]
 visible = false

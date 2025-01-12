@@ -23,7 +23,10 @@ const COIN = preload("res://Coin/coin.tscn")
 @onready var incoming_hazards: Node2D = $"Incoming Hazards"
 @onready var hazard_visuals: Node2D = $"Grid/Hazard visuals"
 @onready var camera: Camera2D = $Camera
-@onready var hazard_timer: Timer = $"Hazard Timer"
+@onready var hazard_timer_1: Timer = $"Hazard Timer 1"
+@onready var hazard_timer_2: Timer = $"Hazard Timer 2"
+@onready var hazard_timers: Array = [hazard_timer_1, hazard_timer_2]
+@onready var coin_timer: Timer = $"Coin Timer"
 
 @onready var separators: Node2D = $Grid/Separators
 
@@ -46,16 +49,31 @@ func _ready() -> void:
 	#separators.modulate = Color.WHITE
 	#create_rocket(2.0, 3.5, 1)
 	#create_star(10.0, 1)
-	create_coin(10)
-	create_coin(5)
-	create_coin(15)
 	pass
 
 
 func start() -> void:
+	match current_location.hazards_intensity[0]:
+		1:
+			coin_timer.start(10)
+		2:
+			coin_timer.start(9)
+		3:
+			coin_timer.start(8)
+		4:
+			coin_timer.start(7)
+		5:
+			coin_timer.start(6)
+		6:
+			coin_timer.start(5)
+		7:
+			coin_timer.start(4)
+		8:
+			coin_timer.start(3)
 	for idx in current_location.hazards.size():
 		var hazard: String = current_location.hazards[idx]
 		var intensity: int = current_location.hazards_intensity[idx]
+		var hazard_timer: Timer = hazard_timers[idx]
 		match hazard:
 			&"ASTEROID_FIELD":
 				@warning_ignore("integer_division")
@@ -91,147 +109,146 @@ func start() -> void:
 						create_star(10, 3)
 
 
-func propagate_hazard() -> void:
-	for idx in current_location.hazards.size():
-		var hazard: String = current_location.hazards[idx]
-		var intensity: int = current_location.hazards_intensity[idx]
-		match hazard:
-			&"ASTEROID_FIELD":
-				var picked_option: int = 0
-				if randi() == 0:
-					picked_option = intensity
-				elif intensity != 1:
-					picked_option = randi_range(1, intensity - 1)
-				else:
-					picked_option = 1
-				match picked_option:
-					1:
-						create_asteroid(game_manager.asteroid_types.SMALL, get_free_spot(), 10.0)
-					2:
-						create_asteroid(game_manager.asteroid_types.SMALL, get_free_spot(), 9.0)
-						create_asteroid(game_manager.asteroid_types.SMALL, get_free_spot(), 9.0)
-					3:
-						create_asteroid(game_manager.asteroid_types.SMALL, get_free_spot(), 8.0)
-						create_asteroid(game_manager.asteroid_types.SMALL, get_free_spot(), 8.0)
-						create_asteroid(game_manager.asteroid_types.SMALL, get_free_spot(), 8.0)
-					4:
-						if randi() == 0:
-							create_asteroid(game_manager.asteroid_types.MEDIUM, [-Vector2.ONE, Vector2.LEFT, Vector2.LEFT + Vector2.DOWN].pick_random(), 7.0)
-						else:
-							create_asteroid(game_manager.asteroid_types.MEDIUM, [-Vector2.ONE, Vector2.UP, Vector2.UP + Vector2.RIGHT].pick_random(), 7.0, true)
-					5:
-						if randi() == 0:
-							var list: Array = [-Vector2.ONE, Vector2.LEFT, Vector2.LEFT + Vector2.DOWN]
-							var picked_spot: Vector2 = list.pick_random()
-							list.erase(picked_spot)
-							create_asteroid(game_manager.asteroid_types.MEDIUM, picked_spot, 6.0)
-							create_asteroid(game_manager.asteroid_types.MEDIUM, list.pick_random(), 6.0)
-						else:
-							var list: Array = [-Vector2.ONE, Vector2.UP, Vector2.UP + Vector2.RIGHT]
-							var picked_spot: Vector2 = list.pick_random()
-							list.erase(picked_spot)
-							create_asteroid(game_manager.asteroid_types.MEDIUM, picked_spot, 6.0, true)
-							create_asteroid(game_manager.asteroid_types.MEDIUM, list.pick_random(), 6.0, true)
-					6:
-						if randi() == 0:
-							var list: Array = [-Vector2.ONE, Vector2.LEFT, Vector2.LEFT + Vector2.DOWN]
-							var p1: Vector2 = list.pick_random()
-							list.erase(p1)
-							var p2: Vector2 = list.pick_random()
-							list.erase(p2)
-							create_asteroid(game_manager.asteroid_types.MEDIUM, p1, 5.0)
-							create_asteroid(game_manager.asteroid_types.MEDIUM, p2, 5.0)
-							create_asteroid(game_manager.asteroid_types.SMALL, get_free_spot(), 5.0)
-						else:
-							var list: Array = [-Vector2.ONE, Vector2.UP, Vector2.UP + Vector2.RIGHT]
-							var p1: Vector2 = list.pick_random()
-							list.erase(p1)
-							var p2: Vector2 = list.pick_random()
-							list.erase(p2)
-							create_asteroid(game_manager.asteroid_types.MEDIUM, p1, 5.0, true)
-							create_asteroid(game_manager.asteroid_types.MEDIUM, p2, 5.0, true)
-							create_asteroid(game_manager.asteroid_types.SMALL, get_free_spot(), 5.0)
-					7:
-						if randi() == 0:
-							create_asteroid(game_manager.asteroid_types.LARGE, [-Vector2.ONE, Vector2.LEFT].pick_random(), 4.0)
-						else:
-							create_asteroid(game_manager.asteroid_types.LARGE, [Vector2.UP, Vector2.UP + Vector2.RIGHT].pick_random(), 4.0, true)
-					8:
-						if randi() == 0:
-							create_asteroid(game_manager.asteroid_types.LARGE, [-Vector2.ONE, Vector2.LEFT].pick_random(), 3.0)
-							create_asteroid(game_manager.asteroid_types.SMALL, get_free_spot(), 3.0)
-						else:
-							create_asteroid(game_manager.asteroid_types.LARGE, [Vector2.UP, Vector2.UP + Vector2.RIGHT].pick_random(), 3.0, true)
-							create_asteroid(game_manager.asteroid_types.SMALL, get_free_spot(), 3.0)
-			&"WARZONE":
-				match intensity:
-					1:
-						create_rocket(0.6, 7.0, 1)
-					2:
-						create_rocket(0.8, 6.5, 1)
-					3:
-						for i in randi()%2:
-							create_rocket(1.0, 6.0, 2, i * 2.5)
-					4:
-						for i in randi()%2:
-							create_rocket(1.2, 5.5, 2, i * 2.5)
-					5:
-						for i in randi()%2:
-							create_rocket(1.4, 5.0, 2, i * 2.5)
-					6:
-						for i in randi()%3:
-							create_rocket(1.6, 4.5, 3, i * 2.0)
-					7:
-						for i in randi()%3:
-							create_rocket(1.8, 4.0, 3, i * 2.0)
-					8:
-						for i in randi()%3:
-							create_rocket(2.0, 3.5, 3, i * 2.0)
-			&"NEBULA":
-				var picked_option: int = 0
-				if randi() == 0:
-					picked_option = clamp(intensity, 1, 7)
-				elif intensity != 1:
-					picked_option = randi_range(1, intensity - 1)
-				else:
-					picked_option = 1
-				match picked_option:
-					1:
-						create_nebula(game_manager.nebula_types.SMALL, get_free_nebula_spot(), 30, false, 5.0)
-					2:
-						create_nebula(game_manager.nebula_types.SMALL, get_free_nebula_spot(), 30, false, 4.5)
-						create_nebula(game_manager.nebula_types.SMALL, get_free_nebula_spot(), 30, false, 4.5)
-					3:
-						create_nebula(game_manager.nebula_types.SMALL, get_free_nebula_spot(), 25, false, 4.0)
-						create_nebula(game_manager.nebula_types.SMALL, get_free_nebula_spot(), 25, false, 4.0)
-						create_nebula(game_manager.nebula_types.SMALL, get_free_nebula_spot(), 25, false, 4.0)
-					4:
-						create_nebula(game_manager.nebula_types.SMALL, Vector2.ONE, 25, false, 3.5)
-						create_nebula(game_manager.nebula_types.SMALL, -Vector2.ONE, 25, false, 3.5)
-						create_nebula(game_manager.nebula_types.SMALL, Vector2.UP + Vector2.RIGHT, 25, false, 3.5)
-						create_nebula(game_manager.nebula_types.SMALL, -(Vector2.UP + Vector2.RIGHT), 25, false, 3.5)
-					5:
-						create_nebula(game_manager.nebula_types.MEDIUM, [-Vector2.ONE, Vector2.UP, Vector2.LEFT, Vector2.ZERO].pick_random(), 20, false, 3.0)
-					6:
-						var picked_corner: Vector2 = [-Vector2.ONE, Vector2.UP, Vector2.LEFT, Vector2.ZERO].pick_random()
-						match picked_corner:
-							-Vector2.ONE:
-								create_nebula(game_manager.nebula_types.MEDIUM, -Vector2.ONE, 20, false, 2.5)
-								create_nebula(game_manager.nebula_types.SMALL, [Vector2.UP + Vector2.RIGHT, Vector2.DOWN + Vector2.LEFT].pick_random(), 20, false, 2.5)
-							Vector2.UP:
-								create_nebula(game_manager.nebula_types.MEDIUM, Vector2.UP, 20, false, 2.5)
-								create_nebula(game_manager.nebula_types.SMALL, [Vector2.UP + Vector2.LEFT, Vector2.DOWN + Vector2.RIGHT].pick_random(), 20, false, 2.5)
-							Vector2.LEFT:
-								create_nebula(game_manager.nebula_types.MEDIUM, Vector2.LEFT, 20, false, 2.5)
-								create_nebula(game_manager.nebula_types.SMALL, [Vector2.UP + Vector2.LEFT, Vector2.DOWN + Vector2.RIGHT].pick_random(), 20, false, 2.5)
-							Vector2.ZERO:
-								create_nebula(game_manager.nebula_types.MEDIUM, Vector2.ZERO, 20, false, 2.5)
-								create_nebula(game_manager.nebula_types.SMALL, [Vector2.UP + Vector2.RIGHT, Vector2.DOWN + Vector2.LEFT].pick_random(), 20, false, 2.5)
-					7:
-						if randi() == 0:
-							create_nebula(game_manager.nebula_types.LARGE, [Vector2.UP + Vector2.LEFT, Vector2.LEFT].pick_random(), 15, false, 2.0)
-						else:
-							create_nebula(game_manager.nebula_types.LARGE, [Vector2.UP, Vector2.UP + Vector2.RIGHT].pick_random(), 15, false, 2.0, true)
+func propagate_hazard(idx: int) -> void:
+	var hazard: String = current_location.hazards[idx]
+	var intensity: int = current_location.hazards_intensity[idx]
+	match hazard:
+		&"ASTEROID_FIELD":
+			var picked_option: int = 0
+			if randi() == 0:
+				picked_option = intensity
+			elif intensity != 1:
+				picked_option = randi_range(1, intensity - 1)
+			else:
+				picked_option = 1
+			match picked_option:
+				1:
+					create_asteroid(game_manager.asteroid_types.SMALL, get_free_spot(), 10.0)
+				2:
+					create_asteroid(game_manager.asteroid_types.SMALL, get_free_spot(), 9.0)
+					create_asteroid(game_manager.asteroid_types.SMALL, get_free_spot(), 9.0)
+				3:
+					create_asteroid(game_manager.asteroid_types.SMALL, get_free_spot(), 8.0)
+					create_asteroid(game_manager.asteroid_types.SMALL, get_free_spot(), 8.0)
+					create_asteroid(game_manager.asteroid_types.SMALL, get_free_spot(), 8.0)
+				4:
+					if randi() == 0:
+						create_asteroid(game_manager.asteroid_types.MEDIUM, [-Vector2.ONE, Vector2.LEFT, Vector2.LEFT + Vector2.DOWN].pick_random(), 7.0)
+					else:
+						create_asteroid(game_manager.asteroid_types.MEDIUM, [-Vector2.ONE, Vector2.UP, Vector2.UP + Vector2.RIGHT].pick_random(), 7.0, true)
+				5:
+					if randi() == 0:
+						var list: Array = [-Vector2.ONE, Vector2.LEFT, Vector2.LEFT + Vector2.DOWN]
+						var picked_spot: Vector2 = list.pick_random()
+						list.erase(picked_spot)
+						create_asteroid(game_manager.asteroid_types.MEDIUM, picked_spot, 6.0)
+						create_asteroid(game_manager.asteroid_types.MEDIUM, list.pick_random(), 6.0)
+					else:
+						var list: Array = [-Vector2.ONE, Vector2.UP, Vector2.UP + Vector2.RIGHT]
+						var picked_spot: Vector2 = list.pick_random()
+						list.erase(picked_spot)
+						create_asteroid(game_manager.asteroid_types.MEDIUM, picked_spot, 6.0, true)
+						create_asteroid(game_manager.asteroid_types.MEDIUM, list.pick_random(), 6.0, true)
+				6:
+					if randi() == 0:
+						var list: Array = [-Vector2.ONE, Vector2.LEFT, Vector2.LEFT + Vector2.DOWN]
+						var p1: Vector2 = list.pick_random()
+						list.erase(p1)
+						var p2: Vector2 = list.pick_random()
+						list.erase(p2)
+						create_asteroid(game_manager.asteroid_types.MEDIUM, p1, 5.0)
+						create_asteroid(game_manager.asteroid_types.MEDIUM, p2, 5.0)
+						create_asteroid(game_manager.asteroid_types.SMALL, get_free_spot(), 5.0)
+					else:
+						var list: Array = [-Vector2.ONE, Vector2.UP, Vector2.UP + Vector2.RIGHT]
+						var p1: Vector2 = list.pick_random()
+						list.erase(p1)
+						var p2: Vector2 = list.pick_random()
+						list.erase(p2)
+						create_asteroid(game_manager.asteroid_types.MEDIUM, p1, 5.0, true)
+						create_asteroid(game_manager.asteroid_types.MEDIUM, p2, 5.0, true)
+						create_asteroid(game_manager.asteroid_types.SMALL, get_free_spot(), 5.0)
+				7:
+					if randi() == 0:
+						create_asteroid(game_manager.asteroid_types.LARGE, [-Vector2.ONE, Vector2.LEFT].pick_random(), 4.0)
+					else:
+						create_asteroid(game_manager.asteroid_types.LARGE, [Vector2.UP, Vector2.UP + Vector2.RIGHT].pick_random(), 4.0, true)
+				8:
+					if randi() == 0:
+						create_asteroid(game_manager.asteroid_types.LARGE, [-Vector2.ONE, Vector2.LEFT].pick_random(), 3.0)
+						create_asteroid(game_manager.asteroid_types.SMALL, get_free_spot(), 3.0)
+					else:
+						create_asteroid(game_manager.asteroid_types.LARGE, [Vector2.UP, Vector2.UP + Vector2.RIGHT].pick_random(), 3.0, true)
+						create_asteroid(game_manager.asteroid_types.SMALL, get_free_spot(), 3.0)
+		&"WARZONE":
+			match intensity:
+				1:
+					create_rocket(0.6, 7.0, 1)
+				2:
+					create_rocket(0.8, 6.5, 1)
+				3:
+					for i in randi()%2:
+						create_rocket(1.0, 6.0, 2, i * 2.5)
+				4:
+					for i in randi()%2:
+						create_rocket(1.2, 5.5, 2, i * 2.5)
+				5:
+					for i in randi()%2:
+						create_rocket(1.4, 5.0, 2, i * 2.5)
+				6:
+					for i in randi()%3:
+						create_rocket(1.6, 4.5, 3, i * 2.0)
+				7:
+					for i in randi()%3:
+						create_rocket(1.8, 4.0, 3, i * 2.0)
+				8:
+					for i in randi()%3:
+						create_rocket(2.0, 3.5, 3, i * 2.0)
+		&"NEBULA":
+			var picked_option: int = 0
+			if randi() == 0:
+				picked_option = clamp(intensity, 1, 7)
+			elif intensity != 1:
+				picked_option = randi_range(1, intensity - 1)
+			else:
+				picked_option = 1
+			match picked_option:
+				1:
+					create_nebula(game_manager.nebula_types.SMALL, get_free_nebula_spot(), 30, false, 5.0)
+				2:
+					create_nebula(game_manager.nebula_types.SMALL, get_free_nebula_spot(), 30, false, 4.5)
+					create_nebula(game_manager.nebula_types.SMALL, get_free_nebula_spot(), 30, false, 4.5)
+				3:
+					create_nebula(game_manager.nebula_types.SMALL, get_free_nebula_spot(), 25, false, 4.0)
+					create_nebula(game_manager.nebula_types.SMALL, get_free_nebula_spot(), 25, false, 4.0)
+					create_nebula(game_manager.nebula_types.SMALL, get_free_nebula_spot(), 25, false, 4.0)
+				4:
+					create_nebula(game_manager.nebula_types.SMALL, Vector2.ONE, 25, false, 3.5)
+					create_nebula(game_manager.nebula_types.SMALL, -Vector2.ONE, 25, false, 3.5)
+					create_nebula(game_manager.nebula_types.SMALL, Vector2.UP + Vector2.RIGHT, 25, false, 3.5)
+					create_nebula(game_manager.nebula_types.SMALL, -(Vector2.UP + Vector2.RIGHT), 25, false, 3.5)
+				5:
+					create_nebula(game_manager.nebula_types.MEDIUM, [-Vector2.ONE, Vector2.UP, Vector2.LEFT, Vector2.ZERO].pick_random(), 20, false, 3.0)
+				6:
+					var picked_corner: Vector2 = [-Vector2.ONE, Vector2.UP, Vector2.LEFT, Vector2.ZERO].pick_random()
+					match picked_corner:
+						-Vector2.ONE:
+							create_nebula(game_manager.nebula_types.MEDIUM, -Vector2.ONE, 20, false, 2.5)
+							create_nebula(game_manager.nebula_types.SMALL, [Vector2.UP + Vector2.RIGHT, Vector2.DOWN + Vector2.LEFT].pick_random(), 20, false, 2.5)
+						Vector2.UP:
+							create_nebula(game_manager.nebula_types.MEDIUM, Vector2.UP, 20, false, 2.5)
+							create_nebula(game_manager.nebula_types.SMALL, [Vector2.UP + Vector2.LEFT, Vector2.DOWN + Vector2.RIGHT].pick_random(), 20, false, 2.5)
+						Vector2.LEFT:
+							create_nebula(game_manager.nebula_types.MEDIUM, Vector2.LEFT, 20, false, 2.5)
+							create_nebula(game_manager.nebula_types.SMALL, [Vector2.UP + Vector2.LEFT, Vector2.DOWN + Vector2.RIGHT].pick_random(), 20, false, 2.5)
+						Vector2.ZERO:
+							create_nebula(game_manager.nebula_types.MEDIUM, Vector2.ZERO, 20, false, 2.5)
+							create_nebula(game_manager.nebula_types.SMALL, [Vector2.UP + Vector2.RIGHT, Vector2.DOWN + Vector2.LEFT].pick_random(), 20, false, 2.5)
+				7:
+					if randi() == 0:
+						create_nebula(game_manager.nebula_types.LARGE, [Vector2.UP + Vector2.LEFT, Vector2.LEFT].pick_random(), 15, false, 2.0)
+					else:
+						create_nebula(game_manager.nebula_types.LARGE, [Vector2.UP, Vector2.UP + Vector2.RIGHT].pick_random(), 15, false, 2.0, true)
 
 
 func create_asteroid(size: game_manager.asteroid_types, spot: Vector2, time: float, is_vertical: bool = false, types: Array[game_manager.damage_types] = [game_manager.damage_types.PHYSICAL]) -> void:
@@ -554,5 +571,13 @@ func _on_map_location_changed(new_location: map_node) -> void:
 	new_location_set_up.emit()
 
 
-func _on_hazard_timer_timeout() -> void:
-	propagate_hazard()
+func _on_hazard_timer_1_timeout() -> void:
+	propagate_hazard(0)
+
+
+func _on_hazard_timer_2_timeout() -> void:
+	propagate_hazard(1)
+
+
+func _on_coin_timer_timeout() -> void:
+	create_coin(5.0)

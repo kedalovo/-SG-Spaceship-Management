@@ -174,9 +174,16 @@ offset_bottom = 96.0
 [node name="Incoming Hazards" type="Node2D" parent="."]
 position = Vector2(128, 192)
 
-[node name="Hazard Timer" type="Timer" parent="."]
+[node name="Hazard Timer 1" type="Timer" parent="."]
+process_callback = 0
+
+[node name="Hazard Timer 2" type="Timer" parent="."]
+process_callback = 0
 
 [node name="Coin Timer" type="Timer" parent="."]
-autostart = true
+process_callback = 0
+wait_time = 10.0
 
-[connection signal="timeout" from="Hazard Timer" to="." method="_on_hazard_timer_timeout"]
+[connection signal="timeout" from="Hazard Timer 1" to="." method="_on_hazard_timer_1_timeout"]
+[connection signal="timeout" from="Hazard Timer 2" to="." method="_on_hazard_timer_2_timeout"]
+[connection signal="timeout" from="Coin Timer" to="." method="_on_coin_timer_timeout"]
