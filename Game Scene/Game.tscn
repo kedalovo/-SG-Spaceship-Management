@@ -1,4 +1,4 @@
-[gd_scene load_steps=65 format=3 uid="uid://dr0fafp1u36yj"]
+[gd_scene load_steps=69 format=3 uid="uid://dr0fafp1u36yj"]
 
 [ext_resource type="Script" path="res://Game Scene/game.gd" id="1_t00el"]
 [ext_resource type="Texture2D" uid="uid://dmcht1gqpy4v3" path="res://Systems/Life Support/Assets/Life Support.png" id="2_3bjf3"]
@@ -45,6 +45,7 @@
 [ext_resource type="PackedScene" uid="uid://c1lkqnbuafwie" path="res://Space/space.tscn" id="24_qmju5"]
 [ext_resource type="PackedScene" uid="uid://dh1g8tgwww50" path="res://Map/map.tscn" id="43_xxu5e"]
 [ext_resource type="PackedScene" uid="uid://esnak8iwscmb" path="res://Balance/balance.tscn" id="45_a0v1l"]
+[ext_resource type="PackedScene" uid="uid://btvb5400v1yyr" path="res://Store/store.tscn" id="46_ilj7l"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_kost8"]
 atlas = ExtResource("4_lunap")
@@ -236,6 +237,40 @@ tracks/1/keys = {
 _data = {
 "RESET": SubResource("Animation_gjldm"),
 "open": SubResource("Animation_wgcf6")
+}
+
+[sub_resource type="Animation" id="Animation_gdff1"]
+resource_name = "open"
+tracks/0/type = "bezier"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:position:x")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"handle_modes": PackedInt32Array(0, 0),
+"points": PackedFloat32Array(960, 0, 0, 0.1, 0, 256, -1, 0, 0, 0),
+"times": PackedFloat32Array(0, 1)
+}
+
+[sub_resource type="Animation" id="Animation_cf6m1"]
+length = 0.001
+tracks/0/type = "bezier"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:position:x")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"handle_modes": PackedInt32Array(0),
+"points": PackedFloat32Array(960, -0.25, 0, 0.25, 0),
+"times": PackedFloat32Array(0)
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_lnarc"]
+_data = {
+"RESET": SubResource("Animation_cf6m1"),
+"open": SubResource("Animation_gdff1")
 }
 
 [node name="Game" type="Node2D"]
@@ -632,7 +667,7 @@ position = Vector2(308, 216)
 visible = false
 
 [node name="Map" parent="." instance=ExtResource("43_xxu5e")]
-z_index = 1
+z_index = 2
 position = Vector2(-960, 0)
 
 [node name="Animator" type="AnimationPlayer" parent="Map"]
@@ -644,6 +679,14 @@ libraries = {
 process_callback = 0
 wait_time = 180.0
 one_shot = true
+
+[node name="Store" parent="." instance=ExtResource("46_ilj7l")]
+position = Vector2(960, 0)
+
+[node name="Animator" type="AnimationPlayer" parent="Store"]
+libraries = {
+"": SubResource("AnimationLibrary_lnarc")
+}
 
 [connection signal="coin_got" from="Cabin/SubViewportContainer2/SubViewport/Space" to="." method="_on_space_coin_got"]
 [connection signal="damaged" from="Cabin/SubViewportContainer2/SubViewport/Space" to="." method="_on_damaged"]

@@ -1,0 +1,16 @@
+[remap]
+
+importer="bitmap"
+type="BitMap"
+uid="uid://bm0y1rivtf1wm"
+path="res://.godot/imported/Bottom left bitmask.png-c6ad64418f9405a1286fd0ff8145ad27.res"
+
+[deps]
+
+source_file="res://Store/Assets/Bottom left bitmask.png"
+dest_files=["res://.godot/imported/Bottom left bitmask.png-c6ad64418f9405a1286fd0ff8145ad27.res"]
+
+[params]
+
+create_from=0
+threshold=0.5

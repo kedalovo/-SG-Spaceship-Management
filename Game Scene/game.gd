@@ -51,9 +51,9 @@ var is_mouse_inside: bool
 func _ready() -> void:
 	Input.set_custom_mouse_cursor(CURSOR_NORMAL, Input.CURSOR_ARROW)
 	Input.set_custom_mouse_cursor(CURSOR_POINTER, Input.CURSOR_POINTING_HAND)
-	#map_animator.play(&"open")
-	#Input.mouse_mode = Input.MOUSE_MODE_HIDDEN
-	#map.cursor.show()
+	map_animator.play(&"open")
+	Input.mouse_mode = Input.MOUSE_MODE_HIDDEN
+	map.cursor.show()
 
 
 func _input(event: InputEvent) -> void:
@@ -63,15 +63,15 @@ func _input(event: InputEvent) -> void:
 		#map_animator.play(&"open")
 		#Input.mouse_mode = Input.MOUSE_MODE_HIDDEN
 		#map.cursor.show()
-		balance.value = 5
-		print(balance.value)
+		#balance.value = 5
+		#print(balance.value)
 		pass
 	if event.is_action_pressed(&"test"):
 		#map_animator.play_backwards(&"open")
 		#Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
 		#map.cursor.hide()
-		balance.value = 10
-		print(balance.value)
+		#balance.value = 10
+		#print(balance.value)
 		pass
 	if event.is_action_pressed(&"left"):
 		var moved: bool = space.move(Vector2.LEFT)
