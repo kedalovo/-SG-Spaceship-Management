@@ -191,3 +191,23 @@ func _on_space_new_location_set_up() -> void:
 
 func _on_space_coin_got() -> void:
 	balance.value += 1
+
+
+func _on_store_algae_bought() -> void:
+	pass # Replace with function body.
+
+
+func _on_store_coolant_bought() -> void:
+	pass # Replace with function body.
+
+
+func _on_store_fuel_bought() -> void:
+	pass # Replace with function body.
+
+
+func _on_store_patch_bought() -> void:
+	pass # Replace with function body.
+
+
+func _on_store_upgrade_bought(upgrade: game_manager.upgrades) -> void:
+	pass # Replace with function body.

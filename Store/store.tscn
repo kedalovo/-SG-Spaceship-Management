@@ -1,4 +1,4 @@
-[gd_scene load_steps=16 format=3 uid="uid://btvb5400v1yyr"]
+[gd_scene load_steps=21 format=3 uid="uid://btvb5400v1yyr"]
 
 [ext_resource type="Texture2D" uid="uid://bkry1rl40rve5" path="res://Store/Assets/Store Background.png" id="1_jd1dj"]
 [ext_resource type="Script" path="res://Store/store.gd" id="1_waq3s"]
@@ -15,9 +15,24 @@
 [ext_resource type="Texture2D" uid="uid://bx2imxchgrcyx" path="res://Store/Assets/Life support upgrade 1.png" id="10_g2lqu"]
 [ext_resource type="Texture2D" uid="uid://4ejxauyckmjt" path="res://Store/Assets/Engines upgrade.png" id="11_furb3"]
 [ext_resource type="Texture2D" uid="uid://bpgm0k48bajf5" path="res://Store/Assets/Hull upgrade 1.png" id="13_fjrrf"]
+[ext_resource type="Texture2D" uid="uid://bpln35h85xi5o" path="res://Store/Assets/Ballistic upgrade.png" id="15_rmw53"]
+[ext_resource type="Texture2D" uid="uid://cy7kjsd7h4nhr" path="res://Store/Assets/Controls upgrade.png" id="16_5i5d2"]
+[ext_resource type="Texture2D" uid="uid://j5s7t4xad3n5" path="res://Store/Assets/Navigation upgrade.png" id="18_wa2ly"]
+
+[sub_resource type="Gradient" id="Gradient_ohp06"]
+interpolation_mode = 2
+colors = PackedColorArray(0.472107, 0.664063, 0, 1, 1, 0.84375, 0, 1)
+metadata/_snap_enabled = true
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_gmq1c"]
+gradient = SubResource("Gradient_ohp06")
+width = 121
+height = 80
 
 [node name="Store" type="Node2D"]
 script = ExtResource("1_waq3s")
+default_color = Color(0.215686, 0.541176, 0.0470588, 1)
+highlight_color = Color(0.176955, 1, 0, 1)
 
 [node name="Sprite" type="Sprite2D" parent="."]
 texture = ExtResource("1_jd1dj")
@@ -47,6 +62,16 @@ grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 1
 color = Color(0.0546875, 0.0546875, 0.0546875, 1)
+
+[node name="TextureProgressBar" type="TextureProgressBar" parent="Buttons/Algae Button"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+value = 100.0
+texture_progress = SubResource("GradientTexture2D_gmq1c")
 
 [node name="Sprite" type="Sprite2D" parent="Buttons/Algae Button"]
 position = Vector2(28.5, 8)
@@ -180,6 +205,7 @@ visible = false
 texture = ExtResource("7_hk3ls")
 
 [node name="Top Left Button" type="TextureButton" parent="Buttons"]
+modulate = Color(0.215686, 0.541176, 0.0470588, 1)
 layout_mode = 0
 offset_left = 39.0
 offset_top = 23.0
@@ -192,6 +218,7 @@ position = Vector2(99, 85)
 texture = ExtResource("10_g2lqu")
 
 [node name="Top Middle Button" type="Button" parent="Buttons"]
+modulate = Color(0.215686, 0.541176, 0.0470588, 1)
 layout_mode = 0
 offset_left = 263.0
 offset_top = 21.0
@@ -204,6 +231,7 @@ position = Vector2(89, 75)
 texture = ExtResource("11_furb3")
 
 [node name="Top Right Button" type="TextureButton" parent="Buttons"]
+modulate = Color(0.215686, 0.541176, 0.0470588, 1)
 layout_mode = 0
 offset_left = 467.0
 offset_top = 23.0
@@ -216,6 +244,7 @@ position = Vector2(99, 85)
 texture = ExtResource("13_fjrrf")
 
 [node name="Bottom Left Button" type="TextureButton" parent="Buttons"]
+modulate = Color(0.215686, 0.541176, 0.0470588, 1)
 layout_mode = 0
 offset_left = 35.0
 offset_top = 199.0
@@ -225,8 +254,10 @@ texture_click_mask = ExtResource("5_10xce")
 
 [node name="Sprite" type="Sprite2D" parent="Buttons/Bottom Left Button"]
 position = Vector2(100, 55)
+texture = ExtResource("15_rmw53")
 
 [node name="Bottom Middle Button" type="Button" parent="Buttons"]
+modulate = Color(0.215686, 0.541176, 0.0470588, 1)
 layout_mode = 0
 offset_left = 262.0
 offset_top = 217.0
@@ -236,8 +267,10 @@ flat = true
 
 [node name="Sprite" type="Sprite2D" parent="Buttons/Bottom Middle Button"]
 position = Vector2(90, 60.5)
+texture = ExtResource("16_5i5d2")
 
 [node name="Bottom Right Button" type="TextureButton" parent="Buttons"]
+modulate = Color(0.215686, 0.541176, 0.0470588, 1)
 layout_mode = 0
 offset_left = 469.0
 offset_top = 199.0
@@ -247,6 +280,7 @@ texture_click_mask = ExtResource("4_fdqj1")
 
 [node name="Sprite" type="Sprite2D" parent="Buttons/Bottom Right Button"]
 position = Vector2(100, 55)
+texture = ExtResource("18_wa2ly")
 
 [connection signal="mouse_entered" from="Buttons/Algae Button" to="." method="_on_algae_button_mouse_entered"]
 [connection signal="mouse_exited" from="Buttons/Algae Button" to="." method="_on_algae_button_mouse_exited"]
@@ -260,3 +294,21 @@ position = Vector2(100, 55)
 [connection signal="mouse_entered" from="Buttons/Patch Button" to="." method="_on_patch_button_mouse_entered"]
 [connection signal="mouse_exited" from="Buttons/Patch Button" to="." method="_on_patch_button_mouse_exited"]
 [connection signal="pressed" from="Buttons/Patch Button" to="." method="_on_patch_button_pressed"]
+[connection signal="mouse_entered" from="Buttons/Top Left Button" to="." method="_on_top_left_button_mouse_entered"]
+[connection signal="mouse_exited" from="Buttons/Top Left Button" to="." method="_on_top_left_button_mouse_exited"]
+[connection signal="pressed" from="Buttons/Top Left Button" to="." method="_on_top_left_button_pressed"]
+[connection signal="mouse_entered" from="Buttons/Top Middle Button" to="." method="_on_top_middle_button_mouse_entered"]
+[connection signal="mouse_exited" from="Buttons/Top Middle Button" to="." method="_on_top_middle_button_mouse_exited"]
+[connection signal="pressed" from="Buttons/Top Middle Button" to="." method="_on_top_middle_button_pressed"]
+[connection signal="mouse_entered" from="Buttons/Top Right Button" to="." method="_on_top_right_button_mouse_entered"]
+[connection signal="mouse_exited" from="Buttons/Top Right Button" to="." method="_on_top_right_button_mouse_exited"]
+[connection signal="pressed" from="Buttons/Top Right Button" to="." method="_on_top_right_button_pressed"]
+[connection signal="mouse_entered" from="Buttons/Bottom Left Button" to="." method="_on_bottom_left_button_mouse_entered"]
+[connection signal="mouse_exited" from="Buttons/Bottom Left Button" to="." method="_on_bottom_left_button_mouse_exited"]
+[connection signal="pressed" from="Buttons/Bottom Left Button" to="." method="_on_bottom_left_button_pressed"]
+[connection signal="mouse_entered" from="Buttons/Bottom Middle Button" to="." method="_on_bottom_middle_button_mouse_entered"]
+[connection signal="mouse_exited" from="Buttons/Bottom Middle Button" to="." method="_on_bottom_middle_button_mouse_exited"]
+[connection signal="pressed" from="Buttons/Bottom Middle Button" to="." method="_on_bottom_middle_button_pressed"]
+[connection signal="mouse_entered" from="Buttons/Bottom Right Button" to="." method="_on_bottom_right_button_mouse_entered"]
+[connection signal="mouse_exited" from="Buttons/Bottom Right Button" to="." method="_on_bottom_right_button_mouse_exited"]
+[connection signal="pressed" from="Buttons/Bottom Right Button" to="." method="_on_bottom_right_button_pressed"]

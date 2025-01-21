@@ -76,6 +76,17 @@ enum hazard_types {
 	STAR_PROXIMITY
 }
 
+enum upgrades {
+	LIFE_SUPPORT_1,
+	LIFE_SUPPORT_2,
+	ENGINES,
+	HULL_1,
+	HULL_2,
+	CONTROLS,
+	BALLISTIC,
+	NAVIGATION
+}
+
 static func get_module_texture(module_type: module_types) -> Texture2D:
 	match module_type:
 		module_types.PATCH:
