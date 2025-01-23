@@ -209,5 +209,5 @@ func _on_store_patch_bought() -> void:
 	pass # Replace with function body.
 
 
-func _on_store_upgrade_bought(upgrade: game_manager.upgrades) -> void:
+func _on_store_item_bought(item: game_manager.store_items) -> void:
 	pass # Replace with function body.

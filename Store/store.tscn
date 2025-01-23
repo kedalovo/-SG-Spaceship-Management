@@ -1,10 +1,11 @@
-[gd_scene load_steps=21 format=3 uid="uid://btvb5400v1yyr"]
+[gd_scene load_steps=30 format=3 uid="uid://btvb5400v1yyr"]
 
 [ext_resource type="Texture2D" uid="uid://bkry1rl40rve5" path="res://Store/Assets/Store Background.png" id="1_jd1dj"]
 [ext_resource type="Script" path="res://Store/store.gd" id="1_waq3s"]
 [ext_resource type="Texture2D" uid="uid://hxwlyo7e8ovw" path="res://Systems/Life Support/Assets/Algae.png" id="2_f31xe"]
 [ext_resource type="BitMap" uid="uid://20vt37lyi2ai" path="res://Store/Assets/Top left bitmask.png" id="2_k7hq7"]
 [ext_resource type="BitMap" uid="uid://be80amnlfflo1" path="res://Store/Assets/Top right bitmask.png" id="3_2ow5o"]
+[ext_resource type="Script" path="res://Store/store_button.gd" id="3_ch6t5"]
 [ext_resource type="Texture2D" uid="uid://csxi5m2cuofu7" path="res://Systems/Life Support/Assets/Algae Outline.png" id="3_sl458"]
 [ext_resource type="BitMap" uid="uid://b74dxr815fhnb" path="res://Store/Assets/Bottom right bitmask.png" id="4_fdqj1"]
 [ext_resource type="Texture2D" uid="uid://dmxj84rvqsyqo" path="res://Systems/Engines/Assets/Engine Cell.png" id="4_x70c4"]
@@ -13,21 +14,45 @@
 [ext_resource type="Texture2D" uid="uid://6xtels7glrj0" path="res://Systems/Hull/Assets/Patch.png" id="5_sowqq"]
 [ext_resource type="Texture2D" uid="uid://cqi86ps2dgf2e" path="res://Systems/Hull/Assets/Patch Outline.png" id="7_hk3ls"]
 [ext_resource type="Texture2D" uid="uid://bx2imxchgrcyx" path="res://Store/Assets/Life support upgrade 1.png" id="10_g2lqu"]
+[ext_resource type="Texture2D" uid="uid://bpjvxslhrr4f7" path="res://Store/Assets/Top left progress.png" id="10_onf14"]
 [ext_resource type="Texture2D" uid="uid://4ejxauyckmjt" path="res://Store/Assets/Engines upgrade.png" id="11_furb3"]
 [ext_resource type="Texture2D" uid="uid://bpgm0k48bajf5" path="res://Store/Assets/Hull upgrade 1.png" id="13_fjrrf"]
+[ext_resource type="Texture2D" uid="uid://wcdave2u70bw" path="res://Store/Assets/Top right progress.png" id="14_k3n7o"]
 [ext_resource type="Texture2D" uid="uid://bpln35h85xi5o" path="res://Store/Assets/Ballistic upgrade.png" id="15_rmw53"]
 [ext_resource type="Texture2D" uid="uid://cy7kjsd7h4nhr" path="res://Store/Assets/Controls upgrade.png" id="16_5i5d2"]
+[ext_resource type="Texture2D" uid="uid://b3so0phk6gf26" path="res://Store/Assets/Bottom left progress.png" id="16_mtm3h"]
 [ext_resource type="Texture2D" uid="uid://j5s7t4xad3n5" path="res://Store/Assets/Navigation upgrade.png" id="18_wa2ly"]
+[ext_resource type="Texture2D" uid="uid://bdrc1yo8vvhbe" path="res://Store/Assets/Bottom right progress.png" id="21_4uli5"]
 
 [sub_resource type="Gradient" id="Gradient_ohp06"]
 interpolation_mode = 2
-colors = PackedColorArray(0.472107, 0.664063, 0, 1, 1, 0.84375, 0, 1)
+colors = PackedColorArray(0.421875, 0.421875, 0.421875, 1, 1, 1, 1, 1)
 metadata/_snap_enabled = true
 
 [sub_resource type="GradientTexture2D" id="GradientTexture2D_gmq1c"]
 gradient = SubResource("Gradient_ohp06")
 width = 121
 height = 80
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_v4122"]
+gradient = SubResource("Gradient_ohp06")
+width = 131
+height = 80
+
+[sub_resource type="Gradient" id="Gradient_vgiec"]
+interpolation_mode = 2
+colors = PackedColorArray(0.421875, 0.421875, 0.421875, 1, 1, 1, 1, 1)
+metadata/_snap_enabled = true
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_acf8t"]
+gradient = SubResource("Gradient_vgiec")
+width = 178
+height = 150
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_22v28"]
+gradient = SubResource("Gradient_ohp06")
+width = 180
+height = 121
 
 [node name="Store" type="Node2D"]
 script = ExtResource("1_waq3s")
@@ -52,6 +77,9 @@ offset_right = 163.0
 offset_bottom = 493.0
 focus_mode = 0
 flat = true
+script = ExtResource("3_ch6t5")
+upgrade = 8
+is_bottom_button = true
 
 [node name="Background ColorRect" type="ColorRect" parent="Buttons/Algae Button"]
 layout_mode = 1
@@ -63,15 +91,15 @@ grow_vertical = 2
 mouse_filter = 1
 color = Color(0.0546875, 0.0546875, 0.0546875, 1)
 
-[node name="TextureProgressBar" type="TextureProgressBar" parent="Buttons/Algae Button"]
+[node name="Progress" type="TextureProgressBar" parent="Buttons/Algae Button"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-value = 100.0
 texture_progress = SubResource("GradientTexture2D_gmq1c")
+tint_progress = Color(0.96875, 1, 0, 1)
 
 [node name="Sprite" type="Sprite2D" parent="Buttons/Algae Button"]
 position = Vector2(28.5, 8)
@@ -83,6 +111,9 @@ centered = false
 visible = false
 texture = ExtResource("3_sl458")
 centered = false
+
+[node name="Timer" type="Timer" parent="Buttons/Algae Button"]
+one_shot = true
 
 [node name="Fuel Button" type="Button" parent="Buttons"]
 layout_mode = 0
@@ -102,6 +133,16 @@ grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 1
 color = Color(0.0546875, 0.0546875, 0.0546875, 1)
+
+[node name="Progress" type="TextureProgressBar" parent="Buttons/Fuel Button"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture_progress = SubResource("GradientTexture2D_v4122")
+tint_progress = Color(0.96875, 1, 0, 1)
 
 [node name="Sprite" type="Sprite2D" parent="Buttons/Fuel Button"]
 position = Vector2(49.5, 8)
@@ -148,6 +189,16 @@ grow_vertical = 2
 mouse_filter = 1
 color = Color(0.0546875, 0.0546875, 0.0546875, 1)
 
+[node name="Progress" type="TextureProgressBar" parent="Buttons/Coolant Button"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture_progress = SubResource("GradientTexture2D_v4122")
+tint_progress = Color(0.96875, 1, 0, 1)
+
 [node name="Sprite" type="Sprite2D" parent="Buttons/Coolant Button"]
 position = Vector2(49.5, 8)
 scale = Vector2(2, 2)
@@ -193,6 +244,16 @@ grow_vertical = 2
 mouse_filter = 1
 color = Color(0.0546875, 0.0546875, 0.0546875, 1)
 
+[node name="Progress" type="TextureProgressBar" parent="Buttons/Patch Button"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture_progress = SubResource("GradientTexture2D_gmq1c")
+tint_progress = Color(0.96875, 1, 0, 1)
+
 [node name="Sprite" type="Sprite2D" parent="Buttons/Patch Button"]
 position = Vector2(60, 40)
 scale = Vector2(2, 2)
@@ -205,7 +266,6 @@ visible = false
 texture = ExtResource("7_hk3ls")
 
 [node name="Top Left Button" type="TextureButton" parent="Buttons"]
-modulate = Color(0.215686, 0.541176, 0.0470588, 1)
 layout_mode = 0
 offset_left = 39.0
 offset_top = 23.0
@@ -213,12 +273,19 @@ offset_right = 237.0
 offset_bottom = 164.0
 texture_click_mask = ExtResource("2_k7hq7")
 
+[node name="Progress" type="TextureProgressBar" parent="Buttons/Top Left Button"]
+layout_mode = 0
+offset_right = 198.0
+offset_bottom = 141.0
+texture_progress = ExtResource("10_onf14")
+tint_progress = Color(0.96875, 1, 0, 1)
+
 [node name="Sprite" type="Sprite2D" parent="Buttons/Top Left Button"]
+modulate = Color(0.215686, 0.541176, 0.0470588, 1)
 position = Vector2(99, 85)
 texture = ExtResource("10_g2lqu")
 
 [node name="Top Middle Button" type="Button" parent="Buttons"]
-modulate = Color(0.215686, 0.541176, 0.0470588, 1)
 layout_mode = 0
 offset_left = 263.0
 offset_top = 21.0
@@ -226,12 +293,22 @@ offset_right = 441.0
 offset_bottom = 171.0
 flat = true
 
+[node name="Progress" type="TextureProgressBar" parent="Buttons/Top Middle Button"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture_progress = SubResource("GradientTexture2D_acf8t")
+tint_progress = Color(0.96875, 1, 0, 1)
+
 [node name="Sprite" type="Sprite2D" parent="Buttons/Top Middle Button"]
+modulate = Color(0.215686, 0.541176, 0.0470588, 1)
 position = Vector2(89, 75)
 texture = ExtResource("11_furb3")
 
 [node name="Top Right Button" type="TextureButton" parent="Buttons"]
-modulate = Color(0.215686, 0.541176, 0.0470588, 1)
 layout_mode = 0
 offset_left = 467.0
 offset_top = 23.0
@@ -239,12 +316,19 @@ offset_right = 665.0
 offset_bottom = 164.0
 texture_click_mask = ExtResource("3_2ow5o")
 
+[node name="Progress" type="TextureProgressBar" parent="Buttons/Top Right Button"]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+texture_progress = ExtResource("14_k3n7o")
+tint_progress = Color(0.96875, 1, 0, 1)
+
 [node name="Sprite" type="Sprite2D" parent="Buttons/Top Right Button"]
+modulate = Color(0.215686, 0.541176, 0.0470588, 1)
 position = Vector2(99, 85)
 texture = ExtResource("13_fjrrf")
 
 [node name="Bottom Left Button" type="TextureButton" parent="Buttons"]
-modulate = Color(0.215686, 0.541176, 0.0470588, 1)
 layout_mode = 0
 offset_left = 35.0
 offset_top = 199.0
@@ -252,12 +336,19 @@ offset_right = 235.0
 offset_bottom = 357.0
 texture_click_mask = ExtResource("5_10xce")
 
+[node name="Progress" type="TextureProgressBar" parent="Buttons/Bottom Left Button"]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+texture_progress = ExtResource("16_mtm3h")
+tint_progress = Color(0.96875, 1, 0, 1)
+
 [node name="Sprite" type="Sprite2D" parent="Buttons/Bottom Left Button"]
+modulate = Color(0.215686, 0.541176, 0.0470588, 1)
 position = Vector2(100, 55)
 texture = ExtResource("15_rmw53")
 
 [node name="Bottom Middle Button" type="Button" parent="Buttons"]
-modulate = Color(0.215686, 0.541176, 0.0470588, 1)
 layout_mode = 0
 offset_left = 262.0
 offset_top = 217.0
@@ -265,12 +356,22 @@ offset_right = 442.0
 offset_bottom = 338.0
 flat = true
 
+[node name="Progress" type="TextureProgressBar" parent="Buttons/Bottom Middle Button"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture_progress = SubResource("GradientTexture2D_22v28")
+tint_progress = Color(0.96875, 1, 0, 1)
+
 [node name="Sprite" type="Sprite2D" parent="Buttons/Bottom Middle Button"]
+modulate = Color(0.215686, 0.541176, 0.0470588, 1)
 position = Vector2(90, 60.5)
 texture = ExtResource("16_5i5d2")
 
 [node name="Bottom Right Button" type="TextureButton" parent="Buttons"]
-modulate = Color(0.215686, 0.541176, 0.0470588, 1)
 layout_mode = 0
 offset_left = 469.0
 offset_top = 199.0
@@ -278,37 +379,20 @@ offset_right = 669.0
 offset_bottom = 357.0
 texture_click_mask = ExtResource("4_fdqj1")
 
+[node name="Progress" type="TextureProgressBar" parent="Buttons/Bottom Right Button"]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+texture_progress = ExtResource("21_4uli5")
+tint_progress = Color(0.96875, 1, 0, 1)
+
 [node name="Sprite" type="Sprite2D" parent="Buttons/Bottom Right Button"]
+modulate = Color(0.215686, 0.541176, 0.0470588, 1)
 position = Vector2(100, 55)
 texture = ExtResource("18_wa2ly")
 
-[connection signal="mouse_entered" from="Buttons/Algae Button" to="." method="_on_algae_button_mouse_entered"]
-[connection signal="mouse_exited" from="Buttons/Algae Button" to="." method="_on_algae_button_mouse_exited"]
-[connection signal="pressed" from="Buttons/Algae Button" to="." method="_on_algae_button_pressed"]
-[connection signal="mouse_entered" from="Buttons/Fuel Button" to="." method="_on_fuel_button_mouse_entered"]
-[connection signal="mouse_exited" from="Buttons/Fuel Button" to="." method="_on_fuel_button_mouse_exited"]
-[connection signal="pressed" from="Buttons/Fuel Button" to="." method="_on_fuel_button_pressed"]
-[connection signal="mouse_entered" from="Buttons/Coolant Button" to="." method="_on_coolant_button_mouse_entered"]
-[connection signal="mouse_exited" from="Buttons/Coolant Button" to="." method="_on_coolant_button_mouse_exited"]
-[connection signal="pressed" from="Buttons/Coolant Button" to="." method="_on_coolant_button_pressed"]
-[connection signal="mouse_entered" from="Buttons/Patch Button" to="." method="_on_patch_button_mouse_entered"]
-[connection signal="mouse_exited" from="Buttons/Patch Button" to="." method="_on_patch_button_mouse_exited"]
-[connection signal="pressed" from="Buttons/Patch Button" to="." method="_on_patch_button_pressed"]
-[connection signal="mouse_entered" from="Buttons/Top Left Button" to="." method="_on_top_left_button_mouse_entered"]
-[connection signal="mouse_exited" from="Buttons/Top Left Button" to="." method="_on_top_left_button_mouse_exited"]
-[connection signal="pressed" from="Buttons/Top Left Button" to="." method="_on_top_left_button_pressed"]
-[connection signal="mouse_entered" from="Buttons/Top Middle Button" to="." method="_on_top_middle_button_mouse_entered"]
-[connection signal="mouse_exited" from="Buttons/Top Middle Button" to="." method="_on_top_middle_button_mouse_exited"]
-[connection signal="pressed" from="Buttons/Top Middle Button" to="." method="_on_top_middle_button_pressed"]
-[connection signal="mouse_entered" from="Buttons/Top Right Button" to="." method="_on_top_right_button_mouse_entered"]
-[connection signal="mouse_exited" from="Buttons/Top Right Button" to="." method="_on_top_right_button_mouse_exited"]
-[connection signal="pressed" from="Buttons/Top Right Button" to="." method="_on_top_right_button_pressed"]
-[connection signal="mouse_entered" from="Buttons/Bottom Left Button" to="." method="_on_bottom_left_button_mouse_entered"]
-[connection signal="mouse_exited" from="Buttons/Bottom Left Button" to="." method="_on_bottom_left_button_mouse_exited"]
-[connection signal="pressed" from="Buttons/Bottom Left Button" to="." method="_on_bottom_left_button_pressed"]
-[connection signal="mouse_entered" from="Buttons/Bottom Middle Button" to="." method="_on_bottom_middle_button_mouse_entered"]
-[connection signal="mouse_exited" from="Buttons/Bottom Middle Button" to="." method="_on_bottom_middle_button_mouse_exited"]
-[connection signal="pressed" from="Buttons/Bottom Middle Button" to="." method="_on_bottom_middle_button_pressed"]
-[connection signal="mouse_entered" from="Buttons/Bottom Right Button" to="." method="_on_bottom_right_button_mouse_entered"]
-[connection signal="mouse_exited" from="Buttons/Bottom Right Button" to="." method="_on_bottom_right_button_mouse_exited"]
-[connection signal="pressed" from="Buttons/Bottom Right Button" to="." method="_on_bottom_right_button_pressed"]
+[connection signal="button_down" from="Buttons/Algae Button" to="Buttons/Algae Button" method="_on_button_down"]
+[connection signal="button_up" from="Buttons/Algae Button" to="Buttons/Algae Button" method="_on_button_up"]
+[connection signal="mouse_entered" from="Buttons/Algae Button" to="Buttons/Algae Button" method="_on_mouse_entered"]
+[connection signal="mouse_exited" from="Buttons/Algae Button" to="Buttons/Algae Button" method="_on_mouse_exited"]
+[connection signal="timeout" from="Buttons/Algae Button/Timer" to="Buttons/Algae Button" method="_on_timer_timeout"]

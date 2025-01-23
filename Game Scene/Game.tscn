@@ -738,4 +738,3 @@ libraries = {
 [connection signal="coolant_bought" from="Store" to="." method="_on_store_coolant_bought"]
 [connection signal="fuel_bought" from="Store" to="." method="_on_store_fuel_bought"]
 [connection signal="patch_bought" from="Store" to="." method="_on_store_patch_bought"]
-[connection signal="upgrade_bought" from="Store" to="." method="_on_store_upgrade_bought"]

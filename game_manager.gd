@@ -76,7 +76,7 @@ enum hazard_types {
 	STAR_PROXIMITY
 }
 
-enum upgrades {
+enum store_items {
 	LIFE_SUPPORT_1,
 	LIFE_SUPPORT_2,
 	ENGINES,
@@ -84,7 +84,11 @@ enum upgrades {
 	HULL_2,
 	CONTROLS,
 	BALLISTIC,
-	NAVIGATION
+	NAVIGATION,
+	ALGAE,
+	FUEL_CELL,
+	COOLANT_CELL,
+	PATCH
 }
 
 static func get_module_texture(module_type: module_types) -> Texture2D:
