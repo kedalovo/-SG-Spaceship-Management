@@ -77,6 +77,7 @@ enum hazard_types {
 }
 
 enum store_items {
+	NONE,
 	LIFE_SUPPORT_1,
 	LIFE_SUPPORT_2,
 	ENGINES,

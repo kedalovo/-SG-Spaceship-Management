@@ -1,4 +1,7 @@
-extends Button
+extends TextureButton
+
+
+signal upgrade_bought(new_upgrade: game_manager.store_items)
 
 
 @export var upgrade: game_manager.store_items
@@ -18,11 +21,20 @@ func _ready() -> void:
 
 
 func _process(_delta: float) -> void:
-	progress.value = roundf(time / timer.time_left)
+	if timer.is_stopped():
+		progress.value = 0
+	else:
+		progress.value = 100 - roundf(timer.time_left / time * 100)
+	#label.text = str(progress.value) + '\n' + str(time) + '\n' + str(timer.time_left)
+
+
+func update_texture(new_texture: Texture2D) -> void:
+	sprite.texture = new_texture
 
 
 func _on_button_down() -> void:
-	timer.start(time)
+	if upgrade != game_manager.store_items.NONE:
+		timer.start(time)
 
 
 func _on_button_up() -> void:
@@ -46,4 +58,4 @@ func _on_mouse_exited() -> void:
 
 
 func _on_timer_timeout() -> void:
-	pass # Replace with function body.
+	upgrade_bought.emit(upgrade)
