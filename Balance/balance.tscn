@@ -1,8 +1,46 @@
-[gd_scene load_steps=4 format=3 uid="uid://esnak8iwscmb"]
+[gd_scene load_steps=7 format=3 uid="uid://esnak8iwscmb"]
 
 [ext_resource type="Script" path="res://Balance/balance.gd" id="1_aui0t"]
 [ext_resource type="Texture2D" uid="uid://dobces574g6ju" path="res://Balance/Assets/Balance board.png" id="1_cvj0o"]
 [ext_resource type="Texture2D" uid="uid://cm8pcgnj10y47" path="res://Balance/Assets/Balance credit.png" id="2_vrvjm"]
+
+[sub_resource type="Animation" id="Animation_bhsm4"]
+resource_name = "flash"
+length = 0.4
+step = 0.1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Board:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.2, 0.3, 0.4),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 1), Color(1, 0, 0, 1), Color(1, 1, 1, 1), Color(1, 0, 0, 1), Color(1, 1, 1, 1)]
+}
+
+[sub_resource type="Animation" id="Animation_1nrsj"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Board:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 1)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_57xcv"]
+_data = {
+"RESET": SubResource("Animation_1nrsj"),
+"flash": SubResource("Animation_bhsm4")
+}
 
 [node name="Balance" type="Node2D"]
 script = ExtResource("1_aui0t")
@@ -62,3 +100,8 @@ texture = ExtResource("2_vrvjm")
 visible = false
 position = Vector2(16, 24)
 texture = ExtResource("2_vrvjm")
+
+[node name="Animator" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_57xcv")
+}

@@ -1,4 +1,4 @@
-[gd_scene load_steps=31 format=3 uid="uid://btvb5400v1yyr"]
+[gd_scene load_steps=34 format=3 uid="uid://btvb5400v1yyr"]
 
 [ext_resource type="Texture2D" uid="uid://bkry1rl40rve5" path="res://Store/Assets/Store Background.png" id="1_jd1dj"]
 [ext_resource type="Script" path="res://Store/store.gd" id="1_waq3s"]
@@ -34,6 +34,92 @@ metadata/_snap_enabled = true
 gradient = SubResource("Gradient_ohp06")
 width = 121
 height = 80
+
+[sub_resource type="Animation" id="Animation_fgily"]
+resource_name = "shake"
+length = 0.4
+step = 0.1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:rotation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.2, 0.3, 0.4),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1),
+"update": 0,
+"values": [0.0, 0.349066, 0.0, -0.349066, 0.0]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".:self_modulate")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.3, 0.4),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 1), Color(1, 0, 0, 1), Color(1, 0, 0, 1), Color(1, 1, 1, 1)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath(".:skew")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.3, 0.4),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 0,
+"values": [0.0, -0.261799, 0.261799, 0.0]
+}
+
+[sub_resource type="Animation" id="Animation_c28ye"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:rotation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [0.0]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".:self_modulate")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 1)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath(".:skew")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [0.0]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_wbllm"]
+_data = {
+"RESET": SubResource("Animation_c28ye"),
+"shake": SubResource("Animation_fgily")
+}
 
 [sub_resource type="GradientTexture2D" id="GradientTexture2D_v4122"]
 gradient = SubResource("Gradient_ohp06")
@@ -105,15 +191,18 @@ texture_progress = SubResource("GradientTexture2D_gmq1c")
 tint_progress = Color(0.96875, 1, 0, 1)
 
 [node name="Sprite" type="Sprite2D" parent="Buttons/Algae Button"]
-position = Vector2(28.5, 8)
+position = Vector2(60.5, 40)
 scale = Vector2(2, 2)
 texture = ExtResource("2_f31xe")
-centered = false
 
 [node name="Outline" type="Sprite2D" parent="Buttons/Algae Button/Sprite"]
 visible = false
 texture = ExtResource("3_sl458")
-centered = false
+
+[node name="Animator" type="AnimationPlayer" parent="Buttons/Algae Button/Sprite"]
+libraries = {
+"": SubResource("AnimationLibrary_wbllm")
+}
 
 [node name="Timer" type="Timer" parent="Buttons/Algae Button"]
 one_shot = true
@@ -153,10 +242,9 @@ texture_progress = SubResource("GradientTexture2D_v4122")
 tint_progress = Color(0.96875, 1, 0, 1)
 
 [node name="Sprite" type="Sprite2D" parent="Buttons/Fuel Button"]
-position = Vector2(49.5, 8)
+position = Vector2(65.5, 40)
 scale = Vector2(2, 2)
 texture = ExtResource("4_x70c4")
-centered = false
 
 [node name="ColorRect" type="ColorRect" parent="Buttons/Fuel Button/Sprite"]
 anchors_preset = 8
@@ -164,10 +252,10 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -2.0
-offset_top = -9.0
-offset_right = 2.0
-offset_bottom = 9.0
+offset_left = -9.75
+offset_top = -25.0
+offset_right = -5.75
+offset_bottom = -7.0
 grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
@@ -176,7 +264,11 @@ color = Color(1, 0.866667, 0, 1)
 [node name="Outline" type="Sprite2D" parent="Buttons/Fuel Button/Sprite"]
 visible = false
 texture = ExtResource("5_5kjh2")
-centered = false
+
+[node name="Animator" type="AnimationPlayer" parent="Buttons/Fuel Button/Sprite"]
+libraries = {
+"": SubResource("AnimationLibrary_wbllm")
+}
 
 [node name="Timer" type="Timer" parent="Buttons/Fuel Button"]
 one_shot = true
@@ -216,10 +308,9 @@ texture_progress = SubResource("GradientTexture2D_v4122")
 tint_progress = Color(0.96875, 1, 0, 1)
 
 [node name="Sprite" type="Sprite2D" parent="Buttons/Coolant Button"]
-position = Vector2(49.5, 8)
+position = Vector2(65.5, 40)
 scale = Vector2(2, 2)
 texture = ExtResource("4_x70c4")
-centered = false
 
 [node name="ColorRect" type="ColorRect" parent="Buttons/Coolant Button/Sprite"]
 anchors_preset = 8
@@ -227,10 +318,10 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -2.0
-offset_top = -9.0
-offset_right = 2.0
-offset_bottom = 9.0
+offset_left = -9.75
+offset_top = -25.0
+offset_right = -5.75
+offset_bottom = -7.0
 grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
@@ -239,7 +330,11 @@ color = Color(0, 0.505882, 1, 1)
 [node name="Outline" type="Sprite2D" parent="Buttons/Coolant Button/Sprite"]
 visible = false
 texture = ExtResource("5_5kjh2")
-centered = false
+
+[node name="Animator" type="AnimationPlayer" parent="Buttons/Coolant Button/Sprite"]
+libraries = {
+"": SubResource("AnimationLibrary_wbllm")
+}
 
 [node name="Timer" type="Timer" parent="Buttons/Coolant Button"]
 one_shot = true
@@ -289,6 +384,11 @@ region_rect = Rect2(15, 15, 18, 18)
 visible = false
 texture = ExtResource("7_hk3ls")
 
+[node name="Animator" type="AnimationPlayer" parent="Buttons/Patch Button/Sprite"]
+libraries = {
+"": SubResource("AnimationLibrary_wbllm")
+}
+
 [node name="Timer" type="Timer" parent="Buttons/Patch Button"]
 one_shot = true
 
@@ -301,6 +401,7 @@ offset_bottom = 164.0
 texture_click_mask = ExtResource("2_k7hq7")
 script = ExtResource("3_ch6t5")
 upgrade = 1
+price = 3
 
 [node name="Progress" type="TextureProgressBar" parent="Buttons/Top Left Button"]
 layout_mode = 0
@@ -313,6 +414,11 @@ tint_progress = Color(0.96875, 1, 0, 1)
 modulate = Color(0.215686, 0.541176, 0.0470588, 1)
 position = Vector2(99, 85)
 texture = ExtResource("10_g2lqu")
+
+[node name="Animator" type="AnimationPlayer" parent="Buttons/Top Left Button/Sprite"]
+libraries = {
+"": SubResource("AnimationLibrary_wbllm")
+}
 
 [node name="Timer" type="Timer" parent="Buttons/Top Left Button"]
 one_shot = true
@@ -327,6 +433,7 @@ texture_click_mask = ExtResource("24_shtal")
 stretch_mode = 0
 script = ExtResource("3_ch6t5")
 upgrade = 3
+price = 3
 
 [node name="Progress" type="TextureProgressBar" parent="Buttons/Top Middle Button"]
 layout_mode = 1
@@ -343,6 +450,11 @@ modulate = Color(0.215686, 0.541176, 0.0470588, 1)
 position = Vector2(89, 75)
 texture = ExtResource("11_furb3")
 
+[node name="Animator" type="AnimationPlayer" parent="Buttons/Top Middle Button/Sprite"]
+libraries = {
+"": SubResource("AnimationLibrary_wbllm")
+}
+
 [node name="Timer" type="Timer" parent="Buttons/Top Middle Button"]
 one_shot = true
 
@@ -355,6 +467,7 @@ offset_bottom = 164.0
 texture_click_mask = ExtResource("3_2ow5o")
 script = ExtResource("3_ch6t5")
 upgrade = 4
+price = 3
 
 [node name="Progress" type="TextureProgressBar" parent="Buttons/Top Right Button"]
 layout_mode = 0
@@ -368,6 +481,11 @@ modulate = Color(0.215686, 0.541176, 0.0470588, 1)
 position = Vector2(99, 85)
 texture = ExtResource("13_fjrrf")
 
+[node name="Animator" type="AnimationPlayer" parent="Buttons/Top Right Button/Sprite"]
+libraries = {
+"": SubResource("AnimationLibrary_wbllm")
+}
+
 [node name="Timer" type="Timer" parent="Buttons/Top Right Button"]
 one_shot = true
 
@@ -380,6 +498,7 @@ offset_bottom = 357.0
 texture_click_mask = ExtResource("5_10xce")
 script = ExtResource("3_ch6t5")
 upgrade = 7
+price = 3
 
 [node name="Progress" type="TextureProgressBar" parent="Buttons/Bottom Left Button"]
 layout_mode = 0
@@ -392,6 +511,11 @@ tint_progress = Color(0.96875, 1, 0, 1)
 modulate = Color(0.215686, 0.541176, 0.0470588, 1)
 position = Vector2(100, 55)
 texture = ExtResource("15_rmw53")
+
+[node name="Animator" type="AnimationPlayer" parent="Buttons/Bottom Left Button/Sprite"]
+libraries = {
+"": SubResource("AnimationLibrary_wbllm")
+}
 
 [node name="Timer" type="Timer" parent="Buttons/Bottom Left Button"]
 one_shot = true
@@ -406,6 +530,7 @@ texture_click_mask = ExtResource("24_shtal")
 stretch_mode = 0
 script = ExtResource("3_ch6t5")
 upgrade = 6
+price = 3
 
 [node name="Progress" type="TextureProgressBar" parent="Buttons/Bottom Middle Button"]
 layout_mode = 1
@@ -422,6 +547,11 @@ modulate = Color(0.215686, 0.541176, 0.0470588, 1)
 position = Vector2(90, 60.5)
 texture = ExtResource("16_5i5d2")
 
+[node name="Animator" type="AnimationPlayer" parent="Buttons/Bottom Middle Button/Sprite"]
+libraries = {
+"": SubResource("AnimationLibrary_wbllm")
+}
+
 [node name="Timer" type="Timer" parent="Buttons/Bottom Middle Button"]
 one_shot = true
 
@@ -434,6 +564,7 @@ offset_bottom = 357.0
 texture_click_mask = ExtResource("4_fdqj1")
 script = ExtResource("3_ch6t5")
 upgrade = 8
+price = 3
 
 [node name="Progress" type="TextureProgressBar" parent="Buttons/Bottom Right Button"]
 layout_mode = 0
@@ -447,65 +578,80 @@ modulate = Color(0.215686, 0.541176, 0.0470588, 1)
 position = Vector2(100, 55)
 texture = ExtResource("18_wa2ly")
 
+[node name="Animator" type="AnimationPlayer" parent="Buttons/Bottom Right Button/Sprite"]
+libraries = {
+"": SubResource("AnimationLibrary_wbllm")
+}
+
 [node name="Timer" type="Timer" parent="Buttons/Bottom Right Button"]
 one_shot = true
 
 [connection signal="button_down" from="Buttons/Algae Button" to="Buttons/Algae Button" method="_on_button_down"]
 [connection signal="button_up" from="Buttons/Algae Button" to="Buttons/Algae Button" method="_on_button_up"]
+[connection signal="failed_buy_attempt" from="Buttons/Algae Button" to="." method="_on_low_balance_flash"]
 [connection signal="mouse_entered" from="Buttons/Algae Button" to="Buttons/Algae Button" method="_on_mouse_entered"]
 [connection signal="mouse_exited" from="Buttons/Algae Button" to="Buttons/Algae Button" method="_on_mouse_exited"]
 [connection signal="upgrade_bought" from="Buttons/Algae Button" to="." method="_on_item_bought"]
 [connection signal="timeout" from="Buttons/Algae Button/Timer" to="Buttons/Algae Button" method="_on_timer_timeout"]
 [connection signal="button_down" from="Buttons/Fuel Button" to="Buttons/Fuel Button" method="_on_button_down"]
 [connection signal="button_up" from="Buttons/Fuel Button" to="Buttons/Fuel Button" method="_on_button_up"]
+[connection signal="failed_buy_attempt" from="Buttons/Fuel Button" to="." method="_on_low_balance_flash"]
 [connection signal="mouse_entered" from="Buttons/Fuel Button" to="Buttons/Fuel Button" method="_on_mouse_entered"]
 [connection signal="mouse_exited" from="Buttons/Fuel Button" to="Buttons/Fuel Button" method="_on_mouse_exited"]
 [connection signal="upgrade_bought" from="Buttons/Fuel Button" to="." method="_on_item_bought"]
 [connection signal="timeout" from="Buttons/Fuel Button/Timer" to="Buttons/Fuel Button" method="_on_timer_timeout"]
 [connection signal="button_down" from="Buttons/Coolant Button" to="Buttons/Coolant Button" method="_on_button_down"]
 [connection signal="button_up" from="Buttons/Coolant Button" to="Buttons/Coolant Button" method="_on_button_up"]
+[connection signal="failed_buy_attempt" from="Buttons/Coolant Button" to="." method="_on_low_balance_flash"]
 [connection signal="mouse_entered" from="Buttons/Coolant Button" to="Buttons/Coolant Button" method="_on_mouse_entered"]
 [connection signal="mouse_exited" from="Buttons/Coolant Button" to="Buttons/Coolant Button" method="_on_mouse_exited"]
 [connection signal="upgrade_bought" from="Buttons/Coolant Button" to="." method="_on_item_bought"]
 [connection signal="timeout" from="Buttons/Coolant Button/Timer" to="Buttons/Coolant Button" method="_on_timer_timeout"]
 [connection signal="button_down" from="Buttons/Patch Button" to="Buttons/Patch Button" method="_on_button_down"]
 [connection signal="button_up" from="Buttons/Patch Button" to="Buttons/Patch Button" method="_on_button_up"]
+[connection signal="failed_buy_attempt" from="Buttons/Patch Button" to="." method="_on_low_balance_flash"]
 [connection signal="mouse_entered" from="Buttons/Patch Button" to="Buttons/Patch Button" method="_on_mouse_entered"]
 [connection signal="mouse_exited" from="Buttons/Patch Button" to="Buttons/Patch Button" method="_on_mouse_exited"]
 [connection signal="upgrade_bought" from="Buttons/Patch Button" to="." method="_on_item_bought"]
 [connection signal="timeout" from="Buttons/Patch Button/Timer" to="Buttons/Patch Button" method="_on_timer_timeout"]
 [connection signal="button_down" from="Buttons/Top Left Button" to="Buttons/Top Left Button" method="_on_button_down"]
 [connection signal="button_up" from="Buttons/Top Left Button" to="Buttons/Top Left Button" method="_on_button_up"]
+[connection signal="failed_buy_attempt" from="Buttons/Top Left Button" to="." method="_on_low_balance_flash"]
 [connection signal="mouse_entered" from="Buttons/Top Left Button" to="Buttons/Top Left Button" method="_on_mouse_entered"]
 [connection signal="mouse_exited" from="Buttons/Top Left Button" to="Buttons/Top Left Button" method="_on_mouse_exited"]
 [connection signal="upgrade_bought" from="Buttons/Top Left Button" to="." method="_on_item_bought"]
 [connection signal="timeout" from="Buttons/Top Left Button/Timer" to="Buttons/Top Left Button" method="_on_timer_timeout"]
 [connection signal="button_down" from="Buttons/Top Middle Button" to="Buttons/Top Middle Button" method="_on_button_down"]
 [connection signal="button_up" from="Buttons/Top Middle Button" to="Buttons/Top Middle Button" method="_on_button_up"]
+[connection signal="failed_buy_attempt" from="Buttons/Top Middle Button" to="." method="_on_low_balance_flash"]
 [connection signal="mouse_entered" from="Buttons/Top Middle Button" to="Buttons/Top Middle Button" method="_on_mouse_entered"]
 [connection signal="mouse_exited" from="Buttons/Top Middle Button" to="Buttons/Top Middle Button" method="_on_mouse_exited"]
 [connection signal="upgrade_bought" from="Buttons/Top Middle Button" to="." method="_on_item_bought"]
 [connection signal="timeout" from="Buttons/Top Middle Button/Timer" to="Buttons/Top Middle Button" method="_on_timer_timeout"]
 [connection signal="button_down" from="Buttons/Top Right Button" to="Buttons/Top Right Button" method="_on_button_down"]
 [connection signal="button_up" from="Buttons/Top Right Button" to="Buttons/Top Right Button" method="_on_button_up"]
+[connection signal="failed_buy_attempt" from="Buttons/Top Right Button" to="." method="_on_low_balance_flash"]
 [connection signal="mouse_entered" from="Buttons/Top Right Button" to="Buttons/Top Right Button" method="_on_mouse_entered"]
 [connection signal="mouse_exited" from="Buttons/Top Right Button" to="Buttons/Top Right Button" method="_on_mouse_exited"]
 [connection signal="upgrade_bought" from="Buttons/Top Right Button" to="." method="_on_item_bought"]
 [connection signal="timeout" from="Buttons/Top Right Button/Timer" to="Buttons/Top Right Button" method="_on_timer_timeout"]
 [connection signal="button_down" from="Buttons/Bottom Left Button" to="Buttons/Bottom Left Button" method="_on_button_down"]
 [connection signal="button_up" from="Buttons/Bottom Left Button" to="Buttons/Bottom Left Button" method="_on_button_up"]
+[connection signal="failed_buy_attempt" from="Buttons/Bottom Left Button" to="." method="_on_low_balance_flash"]
 [connection signal="mouse_entered" from="Buttons/Bottom Left Button" to="Buttons/Bottom Left Button" method="_on_mouse_entered"]
 [connection signal="mouse_exited" from="Buttons/Bottom Left Button" to="Buttons/Bottom Left Button" method="_on_mouse_exited"]
 [connection signal="upgrade_bought" from="Buttons/Bottom Left Button" to="." method="_on_item_bought"]
 [connection signal="timeout" from="Buttons/Bottom Left Button/Timer" to="Buttons/Bottom Left Button" method="_on_timer_timeout"]
 [connection signal="button_down" from="Buttons/Bottom Middle Button" to="Buttons/Bottom Middle Button" method="_on_button_down"]
 [connection signal="button_up" from="Buttons/Bottom Middle Button" to="Buttons/Bottom Middle Button" method="_on_button_up"]
+[connection signal="failed_buy_attempt" from="Buttons/Bottom Middle Button" to="." method="_on_low_balance_flash"]
 [connection signal="mouse_entered" from="Buttons/Bottom Middle Button" to="Buttons/Bottom Middle Button" method="_on_mouse_entered"]
 [connection signal="mouse_exited" from="Buttons/Bottom Middle Button" to="Buttons/Bottom Middle Button" method="_on_mouse_exited"]
 [connection signal="upgrade_bought" from="Buttons/Bottom Middle Button" to="." method="_on_item_bought"]
 [connection signal="timeout" from="Buttons/Bottom Middle Button/Timer" to="Buttons/Bottom Middle Button" method="_on_timer_timeout"]
 [connection signal="button_down" from="Buttons/Bottom Right Button" to="Buttons/Bottom Right Button" method="_on_button_down"]
 [connection signal="button_up" from="Buttons/Bottom Right Button" to="Buttons/Bottom Right Button" method="_on_button_up"]
+[connection signal="failed_buy_attempt" from="Buttons/Bottom Right Button" to="." method="_on_low_balance_flash"]
 [connection signal="mouse_entered" from="Buttons/Bottom Right Button" to="Buttons/Bottom Right Button" method="_on_mouse_entered"]
 [connection signal="mouse_exited" from="Buttons/Bottom Right Button" to="Buttons/Bottom Right Button" method="_on_mouse_exited"]
 [connection signal="upgrade_bought" from="Buttons/Bottom Right Button" to="." method="_on_item_bought"]

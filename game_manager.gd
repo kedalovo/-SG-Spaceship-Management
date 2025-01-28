@@ -35,6 +35,12 @@ const WIRE_COLORS: Array[Color] = [Color.RED, Color.BLUE, Color.YELLOW, Color.GR
 
 static var wear_modifier: float = 1.0
 
+static var balance: int:
+	set(val):
+		balance = clampi(val, 0, 10)
+	get:
+		return balance
+
 static var is_in_system: bool = false
 
 enum damage_types {

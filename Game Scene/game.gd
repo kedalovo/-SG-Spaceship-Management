@@ -29,6 +29,9 @@ const CURSOR_POINTER = preload("res://UI/Cursor pointer.png")
 @onready var map: Node2D = $Map
 @onready var map_animator: AnimationPlayer = $Map/Animator
 
+@onready var store: Node2D = $Store
+@onready var store_animator: AnimationPlayer = $Store/Animator
+
 @onready var round_timer: Timer = $RoundTimer
 @onready var clock: Node2D = $Cabin/Clock
 
@@ -46,6 +49,7 @@ const CABIN_ZOOM_LEVEL: float = 1.1
 var current_system_idx: int = -1
 
 var is_mouse_inside: bool
+var can_control_via_arrows: bool
 
 
 func _ready() -> void:
@@ -54,6 +58,7 @@ func _ready() -> void:
 	map_animator.play(&"open")
 	Input.mouse_mode = Input.MOUSE_MODE_HIDDEN
 	map.cursor.show()
+	#store_animator.play(&"open")
 
 
 func _input(event: InputEvent) -> void:
@@ -190,24 +195,37 @@ func _on_space_new_location_set_up() -> void:
 
 
 func _on_space_coin_got() -> void:
-	balance.value += 1
-
-
-func _on_store_algae_bought() -> void:
-	pass # Replace with function body.
-
-
-func _on_store_coolant_bought() -> void:
-	pass # Replace with function body.
-
-
-func _on_store_fuel_bought() -> void:
-	pass # Replace with function body.
-
-
-func _on_store_patch_bought() -> void:
-	pass # Replace with function body.
+	game_manager.balance += 1
+	balance.value = game_manager.balance
 
 
 func _on_store_item_bought(item: game_manager.store_items) -> void:
-	pass # Replace with function body.
+	match item:
+		game_manager.store_items.NONE:
+			push_error("'NONE' item can not be bought at the store")
+		game_manager.store_items.LIFE_SUPPORT_1:
+			life_support_system.upgrade(1)
+		game_manager.store_items.LIFE_SUPPORT_2:
+			life_support_system.upgrade(2)
+		game_manager.store_items.ENGINES:
+			engines_system.upgrade(1)
+		game_manager.store_items.HULL_1:
+			hull_system.upgrade(1)
+		game_manager.store_items.HULL_2:
+			hull_system.upgrade(2)
+		game_manager.store_items.CONTROLS:
+			can_control_via_arrows = true
+		game_manager.store_items.BALLISTIC:
+			#TODO: Ballistic prediction needs to be implemented. Basically, a hazard visualization - when it hits and where
+			pass
+		game_manager.store_items.NAVIGATION:
+			#TODO: Here we'll just set a global variable in game_manager of the scan range to a higher value
+			pass
+		game_manager.store_items.ALGAE:
+			life_support_system.add_fuel()
+		game_manager.store_items.FUEL_CELL:
+			engines_system.add_fuel()
+		game_manager.store_items.COOLANT_CELL:
+			engines_system.add_coolant()
+		game_manager.store_items.PATCH:
+			hull_system.add_patch()

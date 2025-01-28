@@ -2,6 +2,7 @@ extends Node2D
 
 
 @onready var board: Sprite2D = $Board
+@onready var animator: AnimationPlayer = $Animator
 
 
 var value: int:
@@ -19,3 +20,7 @@ func set_balance(new_balance: int) -> void:
 			board.get_child(coin_idx).show()
 		else:
 			board.get_child(coin_idx).hide()
+
+
+func _on_store_balance_flash() -> void:
+	animator.play(&"flash")

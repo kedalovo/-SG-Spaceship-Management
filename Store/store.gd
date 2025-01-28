@@ -1,11 +1,8 @@
 extends Node2D
 
 
-signal algae_bought
-signal fuel_bought
-signal coolant_bought
-signal patch_bought
 signal item_bought(item: game_manager.store_items)
+signal balance_flash
 
 
 @export_color_no_alpha var default_color: Color
@@ -36,28 +33,31 @@ func _on_item_bought(item: game_manager.store_items) -> void:
 		game_manager.store_items.LIFE_SUPPORT_1:
 			top_left_button.upgrade = game_manager.store_items.LIFE_SUPPORT_2
 			top_left_button.update_texture(LIFE_SUPPORT_UPGRADE_2)
-			item_bought.emit(game_manager.store_items.LIFE_SUPPORT_1)
 		game_manager.store_items.LIFE_SUPPORT_2:
-			item_bought.emit(game_manager.store_items.LIFE_SUPPORT_2)
+			pass
 		game_manager.store_items.ENGINES:
-			item_bought.emit(game_manager.store_items.ENGINES)
+			pass
 		game_manager.store_items.HULL_1:
 			top_right_button.upgrade = game_manager.store_items.HULL_2
 			top_right_button.update_texture(HULL_UPGRADE_2)
-			item_bought.emit(game_manager.store_items.HULL_1)
 		game_manager.store_items.HULL_2:
-			item_bought.emit(game_manager.store_items.HULL_2)
+			pass
 		game_manager.store_items.CONTROLS:
-			item_bought.emit(game_manager.store_items.CONTROLS)
+			pass
 		game_manager.store_items.BALLISTIC:
-			item_bought.emit(game_manager.store_items.BALLISTIC)
+			pass
 		game_manager.store_items.NAVIGATION:
-			item_bought.emit(game_manager.store_items.NAVIGATION)
+			pass
 		game_manager.store_items.ALGAE:
-			algae_bought.emit()
+			pass
 		game_manager.store_items.FUEL_CELL:
-			fuel_bought.emit()
+			pass
 		game_manager.store_items.COOLANT_CELL:
-			coolant_bought.emit()
+			pass
 		game_manager.store_items.PATCH:
-			patch_bought.emit()
+			pass
+	item_bought.emit(item)
+
+
+func _on_low_balance_flash() -> void:
+	balance_flash.emit()

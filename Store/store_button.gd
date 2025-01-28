@@ -2,15 +2,18 @@ extends TextureButton
 
 
 signal upgrade_bought(new_upgrade: game_manager.store_items)
+signal failed_buy_attempt
 
 
 @export var upgrade: game_manager.store_items
 @export var is_bottom_button: bool = false
 @export var time: float = 3.0
+@export var price: int = 1
 
 @onready var sprite: Sprite2D = $Sprite
 @onready var progress: TextureProgressBar = $Progress
 @onready var timer: Timer = $Timer
+@onready var animator: AnimationPlayer = $Sprite/Animator
 
 var sprite_outline: Sprite2D
 
@@ -33,8 +36,13 @@ func update_texture(new_texture: Texture2D) -> void:
 
 
 func _on_button_down() -> void:
-	if upgrade != game_manager.store_items.NONE:
-		timer.start(time)
+	if game_manager.balance < price:
+		animator.play(&"shake")
+		if is_bottom_button:
+			sprite_outline.hide()
+		failed_buy_attempt.emit()
+		return
+	timer.start(time)
 
 
 func _on_button_up() -> void:
