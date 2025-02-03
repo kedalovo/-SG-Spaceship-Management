@@ -733,6 +733,8 @@ libraries = {
 [connection signal="finished_animation" from="SubViewportContainer/SubViewport/Computer System" to="." method="_on_system_animation_finished"]
 [connection signal="fixed" from="SubViewportContainer/SubViewport/Computer System" to="." method="_on_system_fixed"]
 [connection signal="location_changed" from="Map" to="Cabin/SubViewportContainer2/SubViewport/Space" method="_on_map_location_changed"]
+[connection signal="store_summoned" from="Map" to="." method="_on_map_store_summoned"]
 [connection signal="timeout" from="RoundTimer" to="." method="_on_round_timer_timeout"]
 [connection signal="balance_flash" from="Store" to="Balance" method="_on_store_balance_flash"]
 [connection signal="item_bought" from="Store" to="." method="_on_store_item_bought"]
+[connection signal="map_summoned" from="Store" to="." method="_on_store_map_summoned"]

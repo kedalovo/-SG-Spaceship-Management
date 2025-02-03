@@ -2,6 +2,11 @@ extends Node2D
 
 
 signal location_changed(new_location: map_node)
+signal store_summoned
+
+
+@export_color_no_alpha var default_color: Color
+@export_color_no_alpha var highlight_color: Color
 
 
 const MAP_NODE = preload("res://Map/Map Node/map_node.tscn")
@@ -22,6 +27,8 @@ const ICONS: Array = [ASTEROID_ICON, MISSILE_ICON, NEBULA_ICON, SNOWFLAKE_ICON, 
 @onready var marker: Sprite2D = $Marker
 @onready var marker_animator: AnimationPlayer = $"Marker/Marker Animator"
 @onready var contents: Control = $"Scroll/Map Container/MarginContainer/Contents"
+@onready var input_stopper: Control = $"Input Stopper"
+@onready var store_button: TextureButton = $"Store Button Background/Store Button"
 
 @export var line_color_global: Color
 
@@ -69,6 +76,13 @@ func _draw() -> void:
 				for target in j.connected_to_nodes:
 					if !target.disabled and !j.disabled:
 						draw_line(target.global_position, j.global_position, line_color_global, 2)
+
+
+func toggle_input(new_state: bool) -> void:
+	if new_state:
+		input_stopper.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	else:
+		input_stopper.mouse_filter = Control.MOUSE_FILTER_STOP
 
 
 func draw_default_punctured_line(from: Vector2, to: Vector2) -> void:
@@ -292,3 +306,16 @@ func _on_map_node_pressed(node: map_node) -> void:
 	for i in current_location.connected_to_nodes:
 		i.is_available = true
 	location_changed.emit(node)
+
+
+func _on_store_button_pressed() -> void:
+	toggle_input(false)
+	store_summoned.emit()
+
+
+func _on_store_button_mouse_entered() -> void:
+	store_button.modulate = highlight_color
+
+
+func _on_store_button_mouse_exited() -> void:
+	store_button.modulate = default_color

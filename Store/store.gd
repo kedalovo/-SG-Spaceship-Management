@@ -3,6 +3,7 @@ extends Node2D
 
 signal item_bought(item: game_manager.store_items)
 signal balance_flash
+signal map_summoned
 
 
 @export_color_no_alpha var default_color: Color
@@ -24,6 +25,21 @@ const LIFE_SUPPORT_UPGRADE_2 = preload("res://Store/Assets/Life support upgrade 
 @onready var bottom_left_button: TextureButton = $"Buttons/Bottom Left Button"
 @onready var bottom_middle_button: TextureButton = $"Buttons/Bottom Middle Button"
 @onready var bottom_right_button: TextureButton = $"Buttons/Bottom Right Button"
+
+@onready var map_button: TextureButton = $"Map Button Background/Map Button"
+
+@onready var input_stopper: Control = $"Input Stopper"
+
+
+func _ready() -> void:
+	toggle_input(true)
+
+
+func toggle_input(new_state: bool) -> void:
+	if new_state:
+		input_stopper.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	else:
+		input_stopper.mouse_filter = Control.MOUSE_FILTER_STOP
 
 
 func _on_item_bought(item: game_manager.store_items) -> void:
@@ -61,3 +77,16 @@ func _on_item_bought(item: game_manager.store_items) -> void:
 
 func _on_low_balance_flash() -> void:
 	balance_flash.emit()
+
+
+func _on_map_button_pressed() -> void:
+	toggle_input(false)
+	map_summoned.emit()
+
+
+func _on_map_button_mouse_entered() -> void:
+	map_button.modulate = highlight_color
+
+
+func _on_map_button_mouse_exited() -> void:
+	map_button.modulate = default_color

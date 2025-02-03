@@ -55,10 +55,7 @@ var can_control_via_arrows: bool
 func _ready() -> void:
 	Input.set_custom_mouse_cursor(CURSOR_NORMAL, Input.CURSOR_ARROW)
 	Input.set_custom_mouse_cursor(CURSOR_POINTER, Input.CURSOR_POINTING_HAND)
-	map_animator.play(&"open")
-	Input.mouse_mode = Input.MOUSE_MODE_HIDDEN
-	map.cursor.show()
-	#store_animator.play(&"open")
+	toggle_store(true)
 
 
 func _input(event: InputEvent) -> void:
@@ -109,6 +106,26 @@ func _notification(what: int) -> void:
 func _physics_process(_delta: float) -> void:
 	cabin_view.scale = lerp(cabin_view.scale, Vector2.ONE, 0.1)
 	clock.set_time(round_timer.time_left)
+
+
+func toggle_map(open: bool) -> void:
+	if open:
+		map.toggle_input(true)
+		map_animator.play(&"open")
+		Input.mouse_mode = Input.MOUSE_MODE_HIDDEN
+		map.cursor.show()
+	else:
+		map_animator.play_backwards(&"open")
+		Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
+		map.cursor.hide()
+
+
+func toggle_store(open: bool) -> void:
+	if open:
+		store.toggle_input(true)
+		store_animator.play(&"open")
+	else:
+		store_animator.play_backwards(&"open")
 
 
 func start_round() -> void:
@@ -229,3 +246,12 @@ func _on_store_item_bought(item: game_manager.store_items) -> void:
 			engines_system.add_coolant()
 		game_manager.store_items.PATCH:
 			hull_system.add_patch()
+
+
+func _on_store_map_summoned() -> void:
+	toggle_map(true)
+
+
+func _on_map_store_summoned() -> void:
+	toggle_map(false)
+	toggle_store(true)

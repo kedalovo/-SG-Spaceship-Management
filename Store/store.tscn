@@ -1,4 +1,4 @@
-[gd_scene load_steps=34 format=3 uid="uid://btvb5400v1yyr"]
+[gd_scene load_steps=36 format=3 uid="uid://btvb5400v1yyr"]
 
 [ext_resource type="Texture2D" uid="uid://bkry1rl40rve5" path="res://Store/Assets/Store Background.png" id="1_jd1dj"]
 [ext_resource type="Script" path="res://Store/store.gd" id="1_waq3s"]
@@ -24,6 +24,7 @@
 [ext_resource type="Texture2D" uid="uid://j5s7t4xad3n5" path="res://Store/Assets/Navigation upgrade.png" id="18_wa2ly"]
 [ext_resource type="Texture2D" uid="uid://bdrc1yo8vvhbe" path="res://Store/Assets/Bottom right progress.png" id="21_4uli5"]
 [ext_resource type="BitMap" uid="uid://dbqxykcm213cb" path="res://Store/Assets/Button mask.png" id="24_shtal"]
+[ext_resource type="Texture2D" uid="uid://duj4reibc0j18" path="res://Store/Assets/Map Icon.png" id="25_tcmsf"]
 
 [sub_resource type="Gradient" id="Gradient_ohp06"]
 interpolation_mode = 2
@@ -34,6 +35,45 @@ metadata/_snap_enabled = true
 gradient = SubResource("Gradient_ohp06")
 width = 121
 height = 80
+
+[sub_resource type="Animation" id="Animation_c28ye"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:rotation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [0.0]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".:self_modulate")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 1)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath(".:skew")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [0.0]
+}
 
 [sub_resource type="Animation" id="Animation_fgily"]
 resource_name = "shake"
@@ -76,45 +116,6 @@ tracks/2/keys = {
 "values": [0.0, -0.261799, 0.261799, 0.0]
 }
 
-[sub_resource type="Animation" id="Animation_c28ye"]
-length = 0.001
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath(".:rotation")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 0,
-"values": [0.0]
-}
-tracks/1/type = "value"
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/path = NodePath(".:self_modulate")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 0,
-"values": [Color(1, 1, 1, 1)]
-}
-tracks/2/type = "value"
-tracks/2/imported = false
-tracks/2/enabled = true
-tracks/2/path = NodePath(".:skew")
-tracks/2/interp = 1
-tracks/2/loop_wrap = true
-tracks/2/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 0,
-"values": [0.0]
-}
-
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_wbllm"]
 _data = {
 "RESET": SubResource("Animation_c28ye"),
@@ -140,6 +141,9 @@ height = 150
 gradient = SubResource("Gradient_ohp06")
 width = 180
 height = 121
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_54icc"]
+bg_color = Color(0, 0, 0, 0.52549)
 
 [node name="Store" type="Node2D"]
 script = ExtResource("1_waq3s")
@@ -586,6 +590,40 @@ libraries = {
 [node name="Timer" type="Timer" parent="Buttons/Bottom Right Button"]
 one_shot = true
 
+[node name="Map Button Background" type="Panel" parent="."]
+offset_right = 36.0
+offset_bottom = 36.0
+theme_override_styles/panel = SubResource("StyleBoxFlat_54icc")
+
+[node name="Map Button" type="TextureButton" parent="Map Button Background"]
+modulate = Color(0.215686, 0.541176, 0.0470588, 1)
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -16.0
+offset_top = -16.0
+offset_right = 16.0
+offset_bottom = 16.0
+grow_horizontal = 2
+grow_vertical = 2
+focus_mode = 0
+texture_normal = ExtResource("25_tcmsf")
+texture_pressed = ExtResource("25_tcmsf")
+texture_hover = ExtResource("25_tcmsf")
+texture_disabled = ExtResource("25_tcmsf")
+texture_focused = ExtResource("25_tcmsf")
+texture_click_mask = ExtResource("24_shtal")
+stretch_mode = 0
+
+[node name="Input Stopper" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 704.0
+offset_bottom = 540.0
+
 [connection signal="button_down" from="Buttons/Algae Button" to="Buttons/Algae Button" method="_on_button_down"]
 [connection signal="button_up" from="Buttons/Algae Button" to="Buttons/Algae Button" method="_on_button_up"]
 [connection signal="failed_buy_attempt" from="Buttons/Algae Button" to="." method="_on_low_balance_flash"]
@@ -656,3 +694,6 @@ one_shot = true
 [connection signal="mouse_exited" from="Buttons/Bottom Right Button" to="Buttons/Bottom Right Button" method="_on_mouse_exited"]
 [connection signal="upgrade_bought" from="Buttons/Bottom Right Button" to="." method="_on_item_bought"]
 [connection signal="timeout" from="Buttons/Bottom Right Button/Timer" to="Buttons/Bottom Right Button" method="_on_timer_timeout"]
+[connection signal="mouse_entered" from="Map Button Background/Map Button" to="." method="_on_map_button_mouse_entered"]
+[connection signal="mouse_exited" from="Map Button Background/Map Button" to="." method="_on_map_button_mouse_exited"]
+[connection signal="pressed" from="Map Button Background/Map Button" to="." method="_on_map_button_pressed"]
