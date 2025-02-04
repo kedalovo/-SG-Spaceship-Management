@@ -1,4 +1,4 @@
-[gd_scene load_steps=69 format=3 uid="uid://dr0fafp1u36yj"]
+[gd_scene load_steps=74 format=3 uid="uid://dr0fafp1u36yj"]
 
 [ext_resource type="Script" path="res://Game Scene/game.gd" id="1_t00el"]
 [ext_resource type="Texture2D" uid="uid://dmcht1gqpy4v3" path="res://Systems/Life Support/Assets/Life Support.png" id="2_3bjf3"]
@@ -272,6 +272,27 @@ _data = {
 "RESET": SubResource("Animation_cf6m1"),
 "open": SubResource("Animation_gdff1")
 }
+
+[sub_resource type="Gradient" id="Gradient_qrctg"]
+colors = PackedColorArray(0, 0, 0, 0, 1, 1, 1, 0.580392)
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_vis7m"]
+noise_type = 5
+seed = 18
+domain_warp_enabled = true
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_mg1f0"]
+color_ramp = SubResource("Gradient_qrctg")
+noise = SubResource("FastNoiseLite_vis7m")
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_ms1rj"]
+noise_type = 5
+seed = 35
+domain_warp_enabled = true
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_ak3bv"]
+color_ramp = SubResource("Gradient_qrctg")
+noise = SubResource("FastNoiseLite_ms1rj")
 
 [node name="Game" type="Node2D"]
 script = ExtResource("1_t00el")
@@ -687,6 +708,22 @@ position = Vector2(960, 0)
 libraries = {
 "": SubResource("AnimationLibrary_lnarc")
 }
+
+[node name="TextureRect" type="TextureRect" parent="."]
+z_index = 1
+offset_left = 256.0
+offset_right = 960.0
+offset_bottom = 544.0
+mouse_filter = 2
+texture = SubResource("NoiseTexture2D_mg1f0")
+
+[node name="TextureRect2" type="TextureRect" parent="."]
+z_index = 1
+offset_left = 256.0
+offset_right = 960.0
+offset_bottom = 544.0
+mouse_filter = 2
+texture = SubResource("NoiseTexture2D_ak3bv")
 
 [connection signal="coin_got" from="Cabin/SubViewportContainer2/SubViewport/Space" to="." method="_on_space_coin_got"]
 [connection signal="damaged" from="Cabin/SubViewportContainer2/SubViewport/Space" to="." method="_on_damaged"]

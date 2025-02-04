@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" path="res://Hazards/Star Proximity/star.gd" id="1_dtps8"]
 
-[node name="Star" type="Node2D"]
+[node name="Star" type="Node2D" groups=["hazard_visual"]]
 script = ExtResource("1_dtps8")
 
 [node name="Timer" type="Timer" parent="."]

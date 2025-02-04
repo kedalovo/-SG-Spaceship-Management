@@ -83,7 +83,7 @@ _data = {
 "start": SubResource("Animation_hwafj")
 }
 
-[node name="Rocket" type="Node2D"]
+[node name="Rocket" type="Node2D" groups=["hazard_visual"]]
 script = ExtResource("1_aj4ug")
 
 [node name="Sprite" type="Sprite2D" parent="."]

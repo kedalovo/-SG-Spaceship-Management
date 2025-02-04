@@ -159,7 +159,7 @@ _data = {
 "start": SubResource("Animation_rbcmf")
 }
 
-[node name="Coin" type="Node2D"]
+[node name="Coin" type="Node2D" groups=["coin"]]
 script = ExtResource("1_2bygf")
 
 [node name="Sprite" type="AnimatedSprite2D" parent="."]

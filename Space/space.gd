@@ -46,9 +46,6 @@ var is_moving: bool = false
 
 
 func _ready() -> void:
-	#separators.modulate = Color.WHITE
-	#create_rocket(2.0, 3.5, 1)
-	#create_star(10.0, 1)
 	pass
 
 
@@ -109,7 +106,25 @@ func start() -> void:
 						create_star(10, 3)
 
 
+func stop() -> void:
+	coin_timer.stop()
+	hazard_spots.clear()
+	hazard_nebula_spots.clear()
+	for node in get_tree().get_nodes_in_group(&"hazard_visual"):
+		node.queue_free()
+	for node in get_tree().get_nodes_in_group(&"coin"):
+		node.queue_free()
+	for node in get_tree().get_nodes_in_group(&"hazard"):
+		node.queue_free()
+	hazard_timer_1.stop()
+	hazard_timer_2.stop()
+	game_manager.wear_modifier = 1.0
+
+
 func propagate_hazard(idx: int) -> void:
+	if !game_manager.is_playing:
+		push_warning("Tried propagating hazard while round is over")
+		return
 	var hazard: String = current_location.hazards[idx]
 	var intensity: int = current_location.hazards_intensity[idx]
 	match hazard:

@@ -88,7 +88,7 @@ _data = {
 "main": SubResource("Animation_ogntw")
 }
 
-[node name="Asteroid" type="Node2D"]
+[node name="Asteroid" type="Node2D" groups=["hazard_visual"]]
 script = ExtResource("1_yw1qf")
 
 [node name="Pivot" type="Node2D" parent="."]

@@ -67,3 +67,4 @@ func _on_mouse_exited() -> void:
 
 func _on_timer_timeout() -> void:
 	upgrade_bought.emit(upgrade)
+	game_manager.balance -= price

@@ -36,6 +36,8 @@ const CURSOR_POINTER = preload("res://UI/Cursor pointer.png")
 @onready var clock: Node2D = $Cabin/Clock
 
 @onready var balance: Node2D = $Balance
+@onready var texture_rect: TextureRect = $TextureRect
+@onready var texture_rect_2: TextureRect = $TextureRect2
 
 const CABIN_ZOOM_LEVEL: float = 1.1
 
@@ -50,12 +52,14 @@ var current_system_idx: int = -1
 
 var is_mouse_inside: bool
 var can_control_via_arrows: bool
+var is_store_open: bool
+var is_map_open: bool
 
 
 func _ready() -> void:
 	Input.set_custom_mouse_cursor(CURSOR_NORMAL, Input.CURSOR_ARROW)
 	Input.set_custom_mouse_cursor(CURSOR_POINTER, Input.CURSOR_POINTING_HAND)
-	toggle_store(true)
+	#toggle_map(true)
 
 
 func _input(event: InputEvent) -> void:
@@ -75,22 +79,23 @@ func _input(event: InputEvent) -> void:
 		#balance.value = 10
 		#print(balance.value)
 		pass
-	if event.is_action_pressed(&"left"):
-		var moved: bool = space.move(Vector2.LEFT)
-		if moved:
-			cabin_view.scale = Vector2(CABIN_ZOOM_LEVEL, CABIN_ZOOM_LEVEL)
-	if event.is_action_pressed(&"right"):
-		var moved: bool = space.move(Vector2.RIGHT)
-		if moved:
-			cabin_view.scale = Vector2(CABIN_ZOOM_LEVEL, CABIN_ZOOM_LEVEL)
-	if event.is_action_pressed(&"up"):
-		var moved: bool = space.move(Vector2.UP)
-		if moved:
-			cabin_view.scale = Vector2(CABIN_ZOOM_LEVEL, CABIN_ZOOM_LEVEL)
-	if event.is_action_pressed(&"down"):
-		var moved: bool = space.move(Vector2.DOWN)
-		if moved:
-			cabin_view.scale = Vector2(CABIN_ZOOM_LEVEL, CABIN_ZOOM_LEVEL)
+	if game_manager.is_playing:
+		if event.is_action_pressed(&"left"):
+			var moved: bool = space.move(Vector2.LEFT)
+			if moved:
+				cabin_view.scale = Vector2(CABIN_ZOOM_LEVEL, CABIN_ZOOM_LEVEL)
+		if event.is_action_pressed(&"right"):
+			var moved: bool = space.move(Vector2.RIGHT)
+			if moved:
+				cabin_view.scale = Vector2(CABIN_ZOOM_LEVEL, CABIN_ZOOM_LEVEL)
+		if event.is_action_pressed(&"up"):
+			var moved: bool = space.move(Vector2.UP)
+			if moved:
+				cabin_view.scale = Vector2(CABIN_ZOOM_LEVEL, CABIN_ZOOM_LEVEL)
+		if event.is_action_pressed(&"down"):
+			var moved: bool = space.move(Vector2.DOWN)
+			if moved:
+				cabin_view.scale = Vector2(CABIN_ZOOM_LEVEL, CABIN_ZOOM_LEVEL)
 	if event.is_action_pressed(&"fullscreen"):
 		if DisplayServer.window_get_mode() == DisplayServer.WindowMode.WINDOW_MODE_WINDOWED:
 			DisplayServer.window_set_mode(DisplayServer.WINDOW_MODE_EXCLUSIVE_FULLSCREEN)
@@ -104,27 +109,30 @@ func _notification(what: int) -> void:
 
 
 func _physics_process(_delta: float) -> void:
+	texture_rect.texture.noise.offset.x += _delta * 10
+	texture_rect_2.texture.noise.offset.x += _delta * 5
 	cabin_view.scale = lerp(cabin_view.scale, Vector2.ONE, 0.1)
 	clock.set_time(round_timer.time_left)
 
 
 func toggle_map(open: bool) -> void:
-	if open:
+	if open and !is_map_open:
 		map.toggle_input(true)
 		map_animator.play(&"open")
 		Input.mouse_mode = Input.MOUSE_MODE_HIDDEN
 		map.cursor.show()
-	else:
+	elif !open and is_map_open:
 		map_animator.play_backwards(&"open")
 		Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
 		map.cursor.hide()
 
 
 func toggle_store(open: bool) -> void:
-	if open:
+	if open and !is_store_open:
+		is_store_open = true
 		store.toggle_input(true)
 		store_animator.play(&"open")
-	else:
+	elif !open and is_store_open:
 		store_animator.play_backwards(&"open")
 
 
@@ -144,6 +152,17 @@ func quit_game() -> void:
 	Input.set_custom_mouse_cursor(null, Input.CURSOR_ARROW)
 	Input.set_custom_mouse_cursor(null, Input.CURSOR_POINTING_HAND)
 	get_tree().quit()
+
+
+func update_balance() -> void:
+	balance.value = game_manager.balance
+
+
+func proceed() -> void:
+	toggle_store(true)
+	space.stop()
+	for node in systems:
+		node.fix()
 
 
 func _on_system_sprite_pressed(system_index: int) -> void:
@@ -204,19 +223,20 @@ func _on_system_fixed(fixed_system: system) -> void:
 
 
 func _on_round_timer_timeout() -> void:
-	game_over()
+	proceed()
 
 
 func _on_space_new_location_set_up() -> void:
+	toggle_store(false)
 	start_round()
 
 
 func _on_space_coin_got() -> void:
 	game_manager.balance += 1
-	balance.value = game_manager.balance
 
 
 func _on_store_item_bought(item: game_manager.store_items) -> void:
+	update_balance()
 	match item:
 		game_manager.store_items.NONE:
 			push_error("'NONE' item can not be bought at the store")
