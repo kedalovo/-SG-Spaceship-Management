@@ -1,4 +1,4 @@
-[gd_scene load_steps=74 format=3 uid="uid://dr0fafp1u36yj"]
+[gd_scene load_steps=80 format=3 uid="uid://dr0fafp1u36yj"]
 
 [ext_resource type="Script" path="res://Game Scene/game.gd" id="1_t00el"]
 [ext_resource type="Texture2D" uid="uid://dmcht1gqpy4v3" path="res://Systems/Life Support/Assets/Life Support.png" id="2_3bjf3"]
@@ -46,6 +46,7 @@
 [ext_resource type="PackedScene" uid="uid://dh1g8tgwww50" path="res://Map/map.tscn" id="43_xxu5e"]
 [ext_resource type="PackedScene" uid="uid://esnak8iwscmb" path="res://Balance/balance.tscn" id="45_a0v1l"]
 [ext_resource type="PackedScene" uid="uid://btvb5400v1yyr" path="res://Store/store.tscn" id="46_ilj7l"]
+[ext_resource type="Script" path="res://Game Scene/system_fog.gd" id="47_tadro"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_kost8"]
 atlas = ExtResource("4_lunap")
@@ -180,6 +181,11 @@ _data = {
 "idle": SubResource("Animation_xrol2")
 }
 
+[sub_resource type="Gradient" id="Gradient_uebx4"]
+offsets = PackedFloat32Array(0.8, 1)
+colors = PackedColorArray(1, 1, 1, 1, 1, 1, 1, 0)
+metadata/_snap_enabled = true
+
 [sub_resource type="Animation" id="Animation_gjldm"]
 length = 0.001
 tracks/0/type = "bezier"
@@ -273,26 +279,100 @@ _data = {
 "open": SubResource("Animation_gdff1")
 }
 
-[sub_resource type="Gradient" id="Gradient_qrctg"]
-colors = PackedColorArray(0, 0, 0, 0, 1, 1, 1, 0.580392)
+[sub_resource type="Gradient" id="Gradient_00qi8"]
+offsets = PackedFloat32Array(0.2, 1)
+colors = PackedColorArray(0, 0, 0, 0, 0.648438, 0.463531, 0.463531, 1)
+metadata/_snap_enabled = true
 
-[sub_resource type="FastNoiseLite" id="FastNoiseLite_vis7m"]
-noise_type = 5
-seed = 18
-domain_warp_enabled = true
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_6e036"]
+noise_type = 4
+seed = 1
 
-[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_mg1f0"]
-color_ramp = SubResource("Gradient_qrctg")
-noise = SubResource("FastNoiseLite_vis7m")
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_onnjt"]
+width = 704
+height = 540
+generate_mipmaps = false
+seamless = true
+color_ramp = SubResource("Gradient_00qi8")
+noise = SubResource("FastNoiseLite_6e036")
 
-[sub_resource type="FastNoiseLite" id="FastNoiseLite_ms1rj"]
-noise_type = 5
-seed = 35
-domain_warp_enabled = true
+[sub_resource type="Gradient" id="Gradient_h8s1g"]
+offsets = PackedFloat32Array(0.3, 1)
+colors = PackedColorArray(0, 0, 0, 0, 0.253906, 0.172577, 0.172577, 1)
+metadata/_snap_enabled = true
 
-[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_ak3bv"]
-color_ramp = SubResource("Gradient_qrctg")
-noise = SubResource("FastNoiseLite_ms1rj")
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_rt4da"]
+noise_type = 4
+fractal_octaves = 1
+fractal_gain = 0.1
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_6ggei"]
+width = 704
+height = 540
+generate_mipmaps = false
+seamless = true
+color_ramp = SubResource("Gradient_h8s1g")
+noise = SubResource("FastNoiseLite_rt4da")
+
+[sub_resource type="Animation" id="Animation_tjkyp"]
+resource_name = "show"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Fog 1:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 0), Color(1, 1, 1, 1)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Fog 2:modulate")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 0), Color(1, 1, 1, 1)]
+}
+
+[sub_resource type="Animation" id="Animation_c0j81"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Fog 1:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 0)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Fog 2:modulate")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 0)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_utld7"]
+_data = {
+"RESET": SubResource("Animation_c0j81"),
+"show": SubResource("Animation_tjkyp")
+}
 
 [node name="Game" type="Node2D"]
 script = ExtResource("1_t00el")
@@ -474,6 +554,87 @@ offset_bottom = 72.0
 focus_mode = 0
 mouse_default_cursor_shape = 2
 flat = true
+
+[node name="Smoke Particles" type="Node2D" parent="Systems Sprites/EnginesSprite"]
+show_behind_parent = true
+position = Vector2(0, -40)
+
+[node name="Smoke 1" type="CPUParticles2D" parent="Systems Sprites/EnginesSprite/Smoke Particles"]
+position = Vector2(-18, 0)
+emitting = false
+amount = 50
+lifetime = 2.0
+lifetime_randomness = 0.2
+emission_shape = 1
+emission_sphere_radius = 5.0
+direction = Vector2(0, -1)
+spread = 90.0
+gravity = Vector2(0, -50)
+initial_velocity_min = 5.0
+initial_velocity_max = 20.0
+orbit_velocity_max = 0.1
+scale_amount_min = 2.0
+scale_amount_max = 3.0
+color = Color(0, 0, 0, 1)
+color_ramp = SubResource("Gradient_uebx4")
+
+[node name="Smoke 2" type="CPUParticles2D" parent="Systems Sprites/EnginesSprite/Smoke Particles"]
+show_behind_parent = true
+position = Vector2(23, 0)
+emitting = false
+amount = 50
+lifetime = 2.0
+lifetime_randomness = 0.2
+emission_shape = 1
+emission_sphere_radius = 5.0
+direction = Vector2(0, -1)
+spread = 90.0
+gravity = Vector2(0, -50)
+initial_velocity_min = 5.0
+initial_velocity_max = 20.0
+orbit_velocity_max = 0.1
+scale_amount_min = 2.0
+scale_amount_max = 3.0
+color = Color(0, 0, 0, 1)
+color_ramp = SubResource("Gradient_uebx4")
+
+[node name="Smoke 3" type="CPUParticles2D" parent="Systems Sprites/EnginesSprite/Smoke Particles"]
+position = Vector2(-34, 7)
+emitting = false
+amount = 25
+lifetime = 2.5
+lifetime_randomness = 0.2
+emission_shape = 1
+emission_sphere_radius = 3.0
+direction = Vector2(0, -1)
+spread = 90.0
+gravity = Vector2(0, -50)
+initial_velocity_min = 5.0
+initial_velocity_max = 20.0
+orbit_velocity_max = 0.1
+scale_amount_min = 2.0
+scale_amount_max = 3.0
+color = Color(0.09375, 0.09375, 0.09375, 1)
+color_ramp = SubResource("Gradient_uebx4")
+
+[node name="Smoke 4" type="CPUParticles2D" parent="Systems Sprites/EnginesSprite/Smoke Particles"]
+position = Vector2(4, 7)
+emitting = false
+amount = 25
+lifetime = 2.5
+lifetime_randomness = 0.2
+emission_shape = 1
+emission_sphere_radius = 3.0
+direction = Vector2(0, -1)
+spread = 90.0
+gravity = Vector2(0, -50)
+initial_velocity_min = 5.0
+initial_velocity_max = 20.0
+orbit_velocity_max = 0.1
+scale_amount_min = 2.0
+scale_amount_max = 3.0
+color = Color(0.09375, 0.09375, 0.09375, 1)
+color_ramp = SubResource("Gradient_uebx4")
 
 [node name="HullSprite" type="Sprite2D" parent="Systems Sprites"]
 position = Vector2(216, -112)
@@ -709,21 +870,37 @@ libraries = {
 "": SubResource("AnimationLibrary_lnarc")
 }
 
-[node name="TextureRect" type="TextureRect" parent="."]
+[node name="System Fog" type="Node2D" parent="."]
 z_index = 1
-offset_left = 256.0
-offset_right = 960.0
-offset_bottom = 544.0
-mouse_filter = 2
-texture = SubResource("NoiseTexture2D_mg1f0")
+position = Vector2(608, 280)
+script = ExtResource("47_tadro")
+metadata/_edit_group_ = true
+metadata/_edit_lock_ = true
 
-[node name="TextureRect2" type="TextureRect" parent="."]
-z_index = 1
-offset_left = 256.0
-offset_right = 960.0
-offset_bottom = 544.0
+[node name="Fog 1" type="TextureRect" parent="System Fog"]
+modulate = Color(1, 1, 1, 0)
+offset_left = -352.0
+offset_top = -280.0
+offset_right = 352.0
+offset_bottom = 260.0
 mouse_filter = 2
-texture = SubResource("NoiseTexture2D_ak3bv")
+texture = SubResource("NoiseTexture2D_onnjt")
+metadata/_edit_lock_ = true
+
+[node name="Fog 2" type="TextureRect" parent="System Fog"]
+modulate = Color(1, 1, 1, 0)
+offset_left = -352.0
+offset_top = -280.0
+offset_right = 352.0
+offset_bottom = 260.0
+mouse_filter = 2
+texture = SubResource("NoiseTexture2D_6ggei")
+metadata/_edit_lock_ = true
+
+[node name="Animator" type="AnimationPlayer" parent="System Fog"]
+libraries = {
+"": SubResource("AnimationLibrary_utld7")
+}
 
 [connection signal="coin_got" from="Cabin/SubViewportContainer2/SubViewport/Space" to="." method="_on_space_coin_got"]
 [connection signal="damaged" from="Cabin/SubViewportContainer2/SubViewport/Space" to="." method="_on_damaged"]

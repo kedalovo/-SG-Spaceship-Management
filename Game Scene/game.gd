@@ -36,8 +36,13 @@ const CURSOR_POINTER = preload("res://UI/Cursor pointer.png")
 @onready var clock: Node2D = $Cabin/Clock
 
 @onready var balance: Node2D = $Balance
-@onready var texture_rect: TextureRect = $TextureRect
-@onready var texture_rect_2: TextureRect = $TextureRect2
+
+@onready var system_fog: Node2D = $"System Fog"
+
+@onready var smoke_1: CPUParticles2D = $"Systems Sprites/EnginesSprite/Smoke Particles/Smoke 1"
+@onready var smoke_2: CPUParticles2D = $"Systems Sprites/EnginesSprite/Smoke Particles/Smoke 2"
+@onready var smoke_3: CPUParticles2D = $"Systems Sprites/EnginesSprite/Smoke Particles/Smoke 3"
+@onready var smoke_4: CPUParticles2D = $"Systems Sprites/EnginesSprite/Smoke Particles/Smoke 4"
 
 const CABIN_ZOOM_LEVEL: float = 1.1
 
@@ -109,8 +114,6 @@ func _notification(what: int) -> void:
 
 
 func _physics_process(_delta: float) -> void:
-	texture_rect.texture.noise.offset.x += _delta * 10
-	texture_rect_2.texture.noise.offset.x += _delta * 5
 	cabin_view.scale = lerp(cabin_view.scale, Vector2.ONE, 0.1)
 	clock.set_time(round_timer.time_left)
 
@@ -216,10 +219,42 @@ func _on_damaged(strength: int, type: game_manager.damage_types) -> void:
 		var picked_system_idx: int = randi()% damage_variants.size()
 		damage_variants[picked_system_idx]._damage(1, type)
 		systems_visuals[systems.find(damage_variants[picked_system_idx])].damage()
+		match damage_variants[picked_system_idx]:
+			life_support_system:
+				system_fog.toggle(true)
+			engines_system:
+				smoke_1.emitting = true
+				smoke_2.emitting = true
+				smoke_3.emitting = true
+				smoke_4.emitting = true
+			hull_system:
+				pass
+			electrical_system:
+				pass
+			external_system:
+				pass
+			computer_system:
+				pass
 
 
 func _on_system_fixed(fixed_system: system) -> void:
 	systems_visuals[systems.find(fixed_system)].fix()
+	match fixed_system:
+		life_support_system:
+			system_fog.toggle(false)
+		engines_system:
+			smoke_1.emitting = false
+			smoke_2.emitting = false
+			smoke_3.emitting = false
+			smoke_4.emitting = false
+		hull_system:
+			pass
+		electrical_system:
+			pass
+		external_system:
+			pass
+		computer_system:
+			pass
 
 
 func _on_round_timer_timeout() -> void:
