@@ -1,7 +1,8 @@
-[gd_scene load_steps=80 format=3 uid="uid://dr0fafp1u36yj"]
+[gd_scene load_steps=90 format=3 uid="uid://dr0fafp1u36yj"]
 
 [ext_resource type="Script" path="res://Game Scene/game.gd" id="1_t00el"]
 [ext_resource type="Texture2D" uid="uid://dmcht1gqpy4v3" path="res://Systems/Life Support/Assets/Life Support.png" id="2_3bjf3"]
+[ext_resource type="Script" path="res://Cabin/cabin.gd" id="2_bwp27"]
 [ext_resource type="Texture2D" uid="uid://c6wdksyljuwx5" path="res://Systems/Systems Background.png" id="2_idqil"]
 [ext_resource type="Texture2D" uid="uid://dgqvbuthht2p7" path="res://Cabin/Assets/Cabin view.png" id="3_e6bxd"]
 [ext_resource type="Texture2D" uid="uid://crc0xix75leon" path="res://Systems/Life Support/Assets/Life Support outline.png" id="3_hjlia"]
@@ -43,10 +44,79 @@
 [ext_resource type="BitMap" uid="uid://csmaqmv7np4t4" path="res://Cabin/Assets/Up Button bitmask.png" id="20_aibmr"]
 [ext_resource type="PackedScene" uid="uid://c88opie2hw5hq" path="res://Clock/clock.tscn" id="21_wxrcd"]
 [ext_resource type="PackedScene" uid="uid://c1lkqnbuafwie" path="res://Space/space.tscn" id="24_qmju5"]
+[ext_resource type="Texture2D" uid="uid://b3hovyjabxyw3" path="res://Systems/Systems Cracks.png" id="24_sngj0"]
 [ext_resource type="PackedScene" uid="uid://dh1g8tgwww50" path="res://Map/map.tscn" id="43_xxu5e"]
 [ext_resource type="PackedScene" uid="uid://esnak8iwscmb" path="res://Balance/balance.tscn" id="45_a0v1l"]
 [ext_resource type="PackedScene" uid="uid://btvb5400v1yyr" path="res://Store/store.tscn" id="46_ilj7l"]
 [ext_resource type="Script" path="res://Game Scene/system_fog.gd" id="47_tadro"]
+
+[sub_resource type="Gradient" id="Gradient_bmxab"]
+offsets = PackedFloat32Array(0.4, 0.6, 1)
+colors = PackedColorArray(1, 1, 1, 0, 0.34902, 0.12549, 0.0470588, 0.921569, 0.148438, 0.13916, 0, 1)
+metadata/_snap_enabled = true
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_onxe7"]
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_vq5j1"]
+width = 256
+height = 320
+color_ramp = SubResource("Gradient_bmxab")
+noise = SubResource("FastNoiseLite_onxe7")
+
+[sub_resource type="Animation" id="Animation_j1jxd"]
+resource_name = "show"
+length = 5.0
+step = 0.1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Dirt:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 5),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 0), Color(1, 1, 1, 1)]
+}
+
+[sub_resource type="Animation" id="Animation_r4wjc"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Dirt:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 0)]
+}
+
+[sub_resource type="Animation" id="Animation_w838b"]
+resource_name = "hide"
+step = 0.1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Dirt:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 1), Color(1, 1, 1, 0)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_0bilx"]
+_data = {
+"RESET": SubResource("Animation_r4wjc"),
+"hide": SubResource("Animation_w838b"),
+"show": SubResource("Animation_j1jxd")
+}
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_kost8"]
 atlas = ExtResource("4_lunap")
@@ -175,9 +245,28 @@ tracks/0/keys = {
 "times": PackedFloat32Array(0, 0.5, 1)
 }
 
+[sub_resource type="Animation" id="Animation_ojatj"]
+resource_name = "crazy"
+length = 0.3
+loop_mode = 1
+step = 0.1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:energy")
+tracks/0/interp = 0
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.15),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [1.0, 5.0]
+}
+
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_gutu4"]
 _data = {
 "RESET": SubResource("Animation_5t5ek"),
+"crazy": SubResource("Animation_ojatj"),
 "idle": SubResource("Animation_xrol2")
 }
 
@@ -314,33 +403,6 @@ seamless = true
 color_ramp = SubResource("Gradient_h8s1g")
 noise = SubResource("FastNoiseLite_rt4da")
 
-[sub_resource type="Animation" id="Animation_tjkyp"]
-resource_name = "show"
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("Fog 1:modulate")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0, 1),
-"transitions": PackedFloat32Array(1, 1),
-"update": 0,
-"values": [Color(1, 1, 1, 0), Color(1, 1, 1, 1)]
-}
-tracks/1/type = "value"
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/path = NodePath("Fog 2:modulate")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/keys = {
-"times": PackedFloat32Array(0, 1),
-"transitions": PackedFloat32Array(1, 1),
-"update": 0,
-"values": [Color(1, 1, 1, 0), Color(1, 1, 1, 1)]
-}
-
 [sub_resource type="Animation" id="Animation_c0j81"]
 length = 0.001
 tracks/0/type = "value"
@@ -368,6 +430,33 @@ tracks/1/keys = {
 "values": [Color(1, 1, 1, 0)]
 }
 
+[sub_resource type="Animation" id="Animation_tjkyp"]
+resource_name = "show"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Fog 1:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 0), Color(1, 1, 1, 1)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Fog 2:modulate")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 0), Color(1, 1, 1, 1)]
+}
+
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_utld7"]
 _data = {
 "RESET": SubResource("Animation_c0j81"),
@@ -381,22 +470,38 @@ script = ExtResource("1_t00el")
 anchor_mode = 0
 
 [node name="Cabin" type="Node2D" parent="."]
+script = ExtResource("2_bwp27")
 
-[node name="SubViewportContainer2" type="SubViewportContainer" parent="Cabin"]
+[node name="SubViewportContainer" type="SubViewportContainer" parent="Cabin"]
 offset_right = 256.0
 offset_bottom = 384.0
 
-[node name="SubViewport" type="SubViewport" parent="Cabin/SubViewportContainer2"]
+[node name="SubViewport" type="SubViewport" parent="Cabin/SubViewportContainer"]
 handle_input_locally = false
 size = Vector2i(256, 384)
 render_target_update_mode = 4
 
-[node name="Space" parent="Cabin/SubViewportContainer2/SubViewport" instance=ExtResource("24_qmju5")]
+[node name="Space" parent="Cabin/SubViewportContainer/SubViewport" instance=ExtResource("24_qmju5")]
 
 [node name="Cabin View" type="Sprite2D" parent="Cabin"]
 position = Vector2(128, 368)
 texture = ExtResource("3_e6bxd")
 offset = Vector2(0, -176)
+
+[node name="Dirt" type="TextureRect" parent="Cabin/Cabin View"]
+modulate = Color(1, 1, 1, 0)
+show_behind_parent = true
+offset_left = -128.0
+offset_top = -304.0
+offset_right = 128.0
+offset_bottom = 16.0
+mouse_filter = 2
+texture = SubResource("NoiseTexture2D_vq5j1")
+
+[node name="Animator" type="AnimationPlayer" parent="Cabin/Cabin View"]
+libraries = {
+"": SubResource("AnimationLibrary_0bilx")
+}
 
 [node name="Controls" type="Node2D" parent="Cabin"]
 position = Vector2(0, 384)
@@ -474,6 +579,9 @@ position = Vector2(960, 0)
 [node name="Systems Background" type="Sprite2D" parent="."]
 position = Vector2(608, 270)
 texture = ExtResource("2_idqil")
+
+[node name="Cracks" type="Sprite2D" parent="Systems Background"]
+texture = ExtResource("24_sngj0")
 
 [node name="Systems Sprites" type="Node2D" parent="."]
 position = Vector2(608, 280)
@@ -902,9 +1010,9 @@ libraries = {
 "": SubResource("AnimationLibrary_utld7")
 }
 
-[connection signal="coin_got" from="Cabin/SubViewportContainer2/SubViewport/Space" to="." method="_on_space_coin_got"]
-[connection signal="damaged" from="Cabin/SubViewportContainer2/SubViewport/Space" to="." method="_on_damaged"]
-[connection signal="new_location_set_up" from="Cabin/SubViewportContainer2/SubViewport/Space" to="." method="_on_space_new_location_set_up"]
+[connection signal="coin_got" from="Cabin/SubViewportContainer/SubViewport/Space" to="." method="_on_space_coin_got"]
+[connection signal="damaged" from="Cabin/SubViewportContainer/SubViewport/Space" to="." method="_on_damaged"]
+[connection signal="new_location_set_up" from="Cabin/SubViewportContainer/SubViewport/Space" to="." method="_on_space_new_location_set_up"]
 [connection signal="pressed" from="Cabin/Controls/Left Button" to="." method="_on_left_button_pressed"]
 [connection signal="pressed" from="Cabin/Controls/Down Button" to="." method="_on_down_button_pressed"]
 [connection signal="pressed" from="Cabin/Controls/Right Button" to="." method="_on_right_button_pressed"]
@@ -946,7 +1054,7 @@ libraries = {
 [connection signal="fixed" from="SubViewportContainer/SubViewport/External System" to="." method="_on_system_fixed"]
 [connection signal="finished_animation" from="SubViewportContainer/SubViewport/Computer System" to="." method="_on_system_animation_finished"]
 [connection signal="fixed" from="SubViewportContainer/SubViewport/Computer System" to="." method="_on_system_fixed"]
-[connection signal="location_changed" from="Map" to="Cabin/SubViewportContainer2/SubViewport/Space" method="_on_map_location_changed"]
+[connection signal="location_changed" from="Map" to="Cabin/SubViewportContainer/SubViewport/Space" method="_on_map_location_changed"]
 [connection signal="store_summoned" from="Map" to="." method="_on_map_store_summoned"]
 [connection signal="timeout" from="RoundTimer" to="." method="_on_round_timer_timeout"]
 [connection signal="balance_flash" from="Store" to="Balance" method="_on_store_balance_flash"]

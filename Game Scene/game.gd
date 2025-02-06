@@ -23,7 +23,7 @@ const CURSOR_POINTER = preload("res://UI/Cursor pointer.png")
 @onready var sub_viewport_container: SubViewportContainer = $SubViewportContainer
 
 @onready var cabin: Node2D = $Cabin
-@onready var space: Node2D = $Cabin/SubViewportContainer2/SubViewport/Space
+@onready var space: Node2D = $Cabin/SubViewportContainer/SubViewport/Space
 @onready var cabin_view: Sprite2D = $"Cabin/Cabin View"
 
 @onready var map: Node2D = $Map
@@ -43,6 +43,8 @@ const CURSOR_POINTER = preload("res://UI/Cursor pointer.png")
 @onready var smoke_2: CPUParticles2D = $"Systems Sprites/EnginesSprite/Smoke Particles/Smoke 2"
 @onready var smoke_3: CPUParticles2D = $"Systems Sprites/EnginesSprite/Smoke Particles/Smoke 3"
 @onready var smoke_4: CPUParticles2D = $"Systems Sprites/EnginesSprite/Smoke Particles/Smoke 4"
+
+@onready var systems_cracks: Sprite2D = $"Systems Background/Cracks"
 
 const CABIN_ZOOM_LEVEL: float = 1.1
 
@@ -228,13 +230,15 @@ func _on_damaged(strength: int, type: game_manager.damage_types) -> void:
 				smoke_3.emitting = true
 				smoke_4.emitting = true
 			hull_system:
-				pass
+				systems_cracks.show()
 			electrical_system:
-				pass
+				for sys in systems_visuals:
+					sys.toggle_crazy(true)
 			external_system:
-				pass
+				cabin.toggle_dirt(true)
 			computer_system:
-				pass
+				clock.is_crazy = true
+				round_timer.paused = true
 
 
 func _on_system_fixed(fixed_system: system) -> void:
@@ -248,13 +252,15 @@ func _on_system_fixed(fixed_system: system) -> void:
 			smoke_3.emitting = false
 			smoke_4.emitting = false
 		hull_system:
-			pass
+			systems_cracks.hide()
 		electrical_system:
-			pass
+			for sys in systems_visuals:
+				sys.toggle_crazy(false)
 		external_system:
-			pass
+			cabin.toggle_dirt(false)
 		computer_system:
-			pass
+			clock.is_crazy = false
+			round_timer.paused = false
 
 
 func _on_round_timer_timeout() -> void:
