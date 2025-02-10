@@ -1,4 +1,4 @@
-[gd_scene load_steps=90 format=3 uid="uid://dr0fafp1u36yj"]
+[gd_scene load_steps=99 format=3 uid="uid://dr0fafp1u36yj"]
 
 [ext_resource type="Script" path="res://Game Scene/game.gd" id="1_t00el"]
 [ext_resource type="Texture2D" uid="uid://dmcht1gqpy4v3" path="res://Systems/Life Support/Assets/Life Support.png" id="2_3bjf3"]
@@ -45,7 +45,11 @@
 [ext_resource type="PackedScene" uid="uid://c88opie2hw5hq" path="res://Clock/clock.tscn" id="21_wxrcd"]
 [ext_resource type="PackedScene" uid="uid://c1lkqnbuafwie" path="res://Space/space.tscn" id="24_qmju5"]
 [ext_resource type="Texture2D" uid="uid://b3hovyjabxyw3" path="res://Systems/Systems Cracks.png" id="24_sngj0"]
+[ext_resource type="Texture2D" uid="uid://bajrehqar6o1c" path="res://Systems/Systems container.png" id="41_cghc3"]
+[ext_resource type="Texture2D" uid="uid://d120brxfi0olu" path="res://Systems/Red dot.png" id="42_1fkf3"]
+[ext_resource type="Texture2D" uid="uid://bdyrpfgdk7dns" path="res://Systems/Wall tile.png" id="43_se6t5"]
 [ext_resource type="PackedScene" uid="uid://dh1g8tgwww50" path="res://Map/map.tscn" id="43_xxu5e"]
+[ext_resource type="Shader" path="res://Resources/CRT.gdshader" id="44_wf2gm"]
 [ext_resource type="PackedScene" uid="uid://esnak8iwscmb" path="res://Balance/balance.tscn" id="45_a0v1l"]
 [ext_resource type="PackedScene" uid="uid://btvb5400v1yyr" path="res://Store/store.tscn" id="46_ilj7l"]
 [ext_resource type="Script" path="res://Game Scene/system_fog.gd" id="47_tadro"]
@@ -62,23 +66,6 @@ width = 256
 height = 320
 color_ramp = SubResource("Gradient_bmxab")
 noise = SubResource("FastNoiseLite_onxe7")
-
-[sub_resource type="Animation" id="Animation_j1jxd"]
-resource_name = "show"
-length = 5.0
-step = 0.1
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("Dirt:modulate")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0, 5),
-"transitions": PackedFloat32Array(1, 1),
-"update": 0,
-"values": [Color(1, 1, 1, 0), Color(1, 1, 1, 1)]
-}
 
 [sub_resource type="Animation" id="Animation_r4wjc"]
 length = 0.001
@@ -109,6 +96,23 @@ tracks/0/keys = {
 "transitions": PackedFloat32Array(1, 1),
 "update": 0,
 "values": [Color(1, 1, 1, 1), Color(1, 1, 1, 0)]
+}
+
+[sub_resource type="Animation" id="Animation_j1jxd"]
+resource_name = "show"
+length = 5.0
+step = 0.1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Dirt:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 5),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 0), Color(1, 1, 1, 1)]
 }
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_0bilx"]
@@ -229,22 +233,6 @@ tracks/0/keys = {
 "times": PackedFloat32Array(0)
 }
 
-[sub_resource type="Animation" id="Animation_xrol2"]
-resource_name = "idle"
-loop_mode = 1
-step = 0.05
-tracks/0/type = "bezier"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath(".:energy")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"handle_modes": PackedInt32Array(0, 0, 0),
-"points": PackedFloat32Array(1, 0, 0, 0.1, 0, 5, -0.1, 0, 0.1, 0, 1, -0.1, 0, 0, 0),
-"times": PackedFloat32Array(0, 0.5, 1)
-}
-
 [sub_resource type="Animation" id="Animation_ojatj"]
 resource_name = "crazy"
 length = 0.3
@@ -263,6 +251,22 @@ tracks/0/keys = {
 "values": [1.0, 5.0]
 }
 
+[sub_resource type="Animation" id="Animation_xrol2"]
+resource_name = "idle"
+loop_mode = 1
+step = 0.05
+tracks/0/type = "bezier"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:energy")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"handle_modes": PackedInt32Array(0, 0, 0),
+"points": PackedFloat32Array(1, 0, 0, 0.1, 0, 5, -0.1, 0, 0.1, 0, 1, -0.1, 0, 0, 0),
+"times": PackedFloat32Array(0, 0.5, 1)
+}
+
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_gutu4"]
 _data = {
 "RESET": SubResource("Animation_5t5ek"),
@@ -274,6 +278,65 @@ _data = {
 offsets = PackedFloat32Array(0.8, 1)
 colors = PackedColorArray(1, 1, 1, 1, 1, 1, 1, 0)
 metadata/_snap_enabled = true
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_0rv56"]
+texture = ExtResource("41_cghc3")
+
+[sub_resource type="Animation" id="Animation_a4drl"]
+resource_name = "flash"
+length = 2.0
+loop_mode = 1
+step = 0.1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:visible")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 1, 2),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 1,
+"values": [true, false, true]
+}
+
+[sub_resource type="Animation" id="Animation_5rbkm"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:visible")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_4fdyn"]
+_data = {
+"RESET": SubResource("Animation_5rbkm"),
+"flash": SubResource("Animation_a4drl")
+}
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_vl17f"]
+shader = ExtResource("44_wf2gm")
+shader_parameter/resolution = Vector2(640, 360)
+shader_parameter/scan_line_amount = 0.5
+shader_parameter/warp_amount = 0.1
+shader_parameter/noise_amount = 0.01
+shader_parameter/interference_amount = 0.2
+shader_parameter/grille_amount = 0.1
+shader_parameter/grille_size = 1.0
+shader_parameter/vignette_amount = 0.6
+shader_parameter/vignette_intensity = 0.4
+shader_parameter/aberation_amount = 0.1
+shader_parameter/roll_line_amount = 0.3
+shader_parameter/roll_speed = 1.0
+shader_parameter/scan_line_strength = -10.0
+shader_parameter/pixel_strength = -2.0
 
 [sub_resource type="Animation" id="Animation_gjldm"]
 length = 0.001
@@ -581,6 +644,7 @@ position = Vector2(608, 270)
 texture = ExtResource("2_idqil")
 
 [node name="Cracks" type="Sprite2D" parent="Systems Background"]
+visible = false
 texture = ExtResource("24_sngj0")
 
 [node name="Systems Sprites" type="Node2D" parent="."]
@@ -902,17 +966,67 @@ flat = true
 
 [node name="System Container" type="Control" parent="."]
 visible = false
+z_index = 2
 layout_mode = 3
 anchors_preset = 0
 offset_right = 960.0
 offset_bottom = 540.0
+metadata/_edit_lock_ = true
 
 [node name="System Close-up Marker" type="Panel" parent="System Container"]
+z_index = 2
 layout_mode = 0
 offset_left = 304.0
 offset_top = 56.0
 offset_right = 920.0
 offset_bottom = 488.0
+theme_override_styles/panel = SubResource("StyleBoxTexture_0rv56")
+metadata/_edit_lock_ = true
+
+[node name="Red Dot" type="TextureRect" parent="System Container/System Close-up Marker"]
+layout_mode = 1
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -208.0
+offset_top = -35.0
+offset_right = -189.0
+offset_bottom = -16.0
+grow_horizontal = 0
+grow_vertical = 0
+texture = ExtResource("42_1fkf3")
+stretch_mode = 2
+metadata/_edit_lock_ = true
+
+[node name="Animator" type="AnimationPlayer" parent="System Container/System Close-up Marker/Red Dot"]
+libraries = {
+"": SubResource("AnimationLibrary_4fdyn")
+}
+autoplay = "flash"
+
+[node name="Shader Rect" type="ColorRect" parent="System Container/System Close-up Marker"]
+show_behind_parent = true
+material = SubResource("ShaderMaterial_vl17f")
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Background" type="TextureRect" parent="System Container/System Close-up Marker"]
+show_behind_parent = true
+z_index = -2
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("43_se6t5")
+stretch_mode = 1
 
 [node name="SubViewportContainer" type="SubViewportContainer" parent="."]
 visible = false
