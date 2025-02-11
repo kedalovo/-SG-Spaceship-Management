@@ -10,8 +10,11 @@ signal button_pressed(node: map_node)
 
 
 @onready var icon: Sprite2D = $Icon
+@onready var debug_label: Label = $"Debug Label"
 
 var true_texture: Texture2D
+
+var wormhole: map_node
 
 var connected_to_nodes: Array = []
 
@@ -25,6 +28,9 @@ var disabled: bool = false
 var is_continuation: bool = false
 var is_secret: bool = true
 var is_available: bool = false
+var has_destination: bool = false
+var has_wormhole: bool = false
+var is_wormhole: bool = false
 
 
 func add_connections(new_connections: Array) -> void:
@@ -33,6 +39,26 @@ func add_connections(new_connections: Array) -> void:
 			if !i.disabled and i not in connected_to_nodes:
 				connected_to_nodes.append(i)
 				i.is_continuation = true
+
+
+func setup_wormhole() -> void:
+	wormhole.reparent(get_parent())
+	wormhole.position = position + Vector2(randf_range(-32.0, 32.0), randf_range(-32.0, -64.0))
+	wormhole.is_secret = false
+	wormhole.is_available = true
+
+
+func check_destinations() -> void:
+	if has_destination:
+		var not_connected: bool = true
+		for i in connected_to_nodes:
+			if !i.disabled:
+				not_connected = false
+		has_destination = not_connected
+
+
+func set_debug(text: String) -> void:
+	debug_label.text = text
 
 
 func update_icon() -> void:

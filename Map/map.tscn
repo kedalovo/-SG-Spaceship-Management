@@ -1,4 +1,4 @@
-[gd_scene load_steps=13 format=3 uid="uid://dh1g8tgwww50"]
+[gd_scene load_steps=19 format=3 uid="uid://dh1g8tgwww50"]
 
 [ext_resource type="Script" path="res://Map/map.gd" id="1_jlmf0"]
 [ext_resource type="Texture2D" uid="uid://b6mmbj44xpsa0" path="res://Map/Assets/Map panel.png" id="2_8rhpx"]
@@ -20,6 +20,41 @@ texture_margin_right = 32.0
 texture_margin_bottom = 32.0
 axis_stretch_horizontal = 1
 axis_stretch_vertical = 1
+
+[sub_resource type="Gradient" id="Gradient_l37tp"]
+offsets = PackedFloat32Array(0.5, 0.8, 0.9, 1)
+colors = PackedColorArray(0.491119, 1, 0.433594, 0, 0.360784, 0.819608, 0.4, 0.678431, 0.18924, 0.914063, 0.25119, 0.772549, 0, 1, 0.0862745, 1)
+metadata/_snap_enabled = true
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_7im7j"]
+frequency = 0.002
+fractal_type = 2
+fractal_octaves = 10
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_xq3v4"]
+width = 960
+height = 2048
+seamless = true
+color_ramp = SubResource("Gradient_l37tp")
+noise = SubResource("FastNoiseLite_7im7j")
+
+[sub_resource type="Gradient" id="Gradient_cujqn"]
+offsets = PackedFloat32Array(0.2, 0.4, 0.6)
+colors = PackedColorArray(0.818627, 0.421875, 1, 0.392157, 0.686275, 0, 1, 0.482353, 0.984009, 0.488281, 1, 0)
+metadata/_snap_enabled = true
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_v2v0b"]
+noise_type = 3
+frequency = 0.002
+fractal_type = 3
+fractal_octaves = 10
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_doo0b"]
+width = 960
+height = 2048
+seamless = true
+color_ramp = SubResource("Gradient_cujqn")
+noise = SubResource("FastNoiseLite_v2v0b")
 
 [sub_resource type="Animation" id="Animation_me0st"]
 length = 0.001
@@ -152,6 +187,28 @@ theme_override_constants/margin_bottom = 32
 
 [node name="Contents" type="Control" parent="Scroll/Map Container/MarginContainer"]
 layout_mode = 2
+
+[node name="Fog 1" type="TextureRect" parent="Scroll/Map Container"]
+modulate = Color(1, 1, 1, 0.196078)
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+texture = SubResource("NoiseTexture2D_xq3v4")
+
+[node name="Fog 2" type="TextureRect" parent="Scroll/Map Container"]
+modulate = Color(1, 1, 1, 0.196078)
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+texture = SubResource("NoiseTexture2D_doo0b")
 
 [node name="Map Nodes" type="Node2D" parent="."]
 metadata/_edit_lock_ = true

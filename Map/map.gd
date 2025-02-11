@@ -29,6 +29,8 @@ const ICONS: Array = [ASTEROID_ICON, MISSILE_ICON, NEBULA_ICON, SNOWFLAKE_ICON, 
 @onready var contents: Control = $"Scroll/Map Container/MarginContainer/Contents"
 @onready var input_stopper: Control = $"Input Stopper"
 @onready var store_button: TextureButton = $"Store Button Background/Store Button"
+@onready var fog_1: TextureRect = $"Scroll/Map Container/Fog 1"
+@onready var fog_2: TextureRect = $"Scroll/Map Container/Fog 2"
 
 @export var line_color_global: Color
 
@@ -49,6 +51,8 @@ var current_level: int = -1
 
 
 func _ready() -> void:
+	fog_1.texture.noise.seed = randi()
+	fog_2.texture.noise.seed = randi()
 	generate_map()
 	scroll.set_deferred(&"scroll_vertical", 1504)
 
@@ -169,7 +173,6 @@ func generate_map() -> void:
 			if !j.disabled:
 				are_all_disabled = false
 		if are_all_disabled:
-			#print_debug("Filling line...")
 			i.pick_random().disabled = false
 			i.pick_random().disabled = false
 			i.pick_random().disabled = false
@@ -185,9 +188,16 @@ func generate_map() -> void:
 	sorted_order.pop_back()
 	for i in sorted_order:
 		grid[i][0].add_connections([grid[i+1][0], grid[i+1][1]])
+		grid[i+1][0].has_destination = true
+		grid[i+1][1].has_destination = true
 		for j in range(1, LINE_LENGTH - 1):
 			grid[i][j].add_connections([grid[i+1][j-1], grid[i+1][j], grid[i+1][j+1]])
+			grid[i+1][j-1].has_destination = true
+			grid[i+1][j].has_destination = true
+			grid[i+1][j+1].has_destination = true
 		grid[i][LINE_LENGTH - 1].add_connections([grid[i+1][LINE_LENGTH - 2], grid[i+1][LINE_LENGTH - 1]])
+		grid[i+1][LINE_LENGTH - 2].has_destination = true
+		grid[i+1][LINE_LENGTH - 1].has_destination = true
 	
 	# Disabling nodes in first line without connections
 	for i in grid[dummy_grid.keys().min()]:
@@ -207,13 +217,9 @@ func generate_map() -> void:
 			if !j.connected_to_nodes.is_empty():
 				no_con = false
 		if no_con:
-			#print_debug("Line ", i, " was connected, all lines: ", str(sorted_order))
-			#var c = 0
 			for j in grid[i+1]:
 				if !j.disabled:
 					j.is_continuation = true
-					#prints(i, c)
-				#c += 1
 	
 	# Recreating deleted connections
 	for i in sorted_order:
@@ -228,6 +234,18 @@ func generate_map() -> void:
 			if !j.disabled and !j.is_continuation:
 				j.disabled = true
 				j.reason = 1
+	
+	# Adding wormholes to map nodes without destinations
+	for i in grid.size()-1:
+		for j in grid[i]:
+			j.check_destinations()
+			if !j.disabled and j.has_destination:
+				j.set_debug("wormhole")
+				j.has_wormhole = true
+				var wormhole: map_node = MAP_NODE.instantiate()
+				wormhole.is_wormhole = true
+				map_nodes.add_child(wormhole)
+				j.wormhole = wormhole
 	
 	var hazards: Array = game_manager.hazard_types.keys()
 	var hazard_buffer: Array = hazards.duplicate()
@@ -274,6 +292,8 @@ func generate_map() -> void:
 			while hazard_bin.size() > 2:
 				hazard_buffer.append(hazard_bin.pop_front())
 			line[j].set_difficulty(difficulty)
+			if line[j].has_wormhole:
+				line[j].setup_wormhole()
 			if line[j].disabled:
 				line[j].hide()
 	

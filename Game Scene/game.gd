@@ -66,7 +66,7 @@ var is_map_open: bool
 func _ready() -> void:
 	Input.set_custom_mouse_cursor(CURSOR_NORMAL, Input.CURSOR_ARROW)
 	Input.set_custom_mouse_cursor(CURSOR_POINTER, Input.CURSOR_POINTING_HAND)
-	#toggle_map(true)
+	toggle_map(true)
 
 
 func _input(event: InputEvent) -> void:
