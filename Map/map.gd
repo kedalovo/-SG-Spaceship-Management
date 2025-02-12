@@ -43,6 +43,8 @@ const POS_Y_SPREAD: int = 32
 var current_location: map_node = null
 
 var grid: Array[Array] = []
+var lines_con: Array = []
+var con_start: map_node
 var dummy_grid: Dictionary
 
 var line_offset: float = 0.0
@@ -70,16 +72,19 @@ func _process(_delta: float) -> void:
 
 
 func _draw() -> void:
-	for i in grid:
-		for j in i:
-			if j == current_location:
-				for target in j.connected_to_nodes:
-					if !target.disabled and !j.disabled:
-						draw_default_punctured_line(j.global_position, target.global_position)
+	for row in grid:
+		for location in row:
+			if location == current_location:
+				for target in location.connected_to_nodes:
+					if !target.disabled and !location.disabled:
+						draw_default_punctured_line(location.global_position, target.global_position)
 			else:
-				for target in j.connected_to_nodes:
-					if !target.disabled and !j.disabled:
-						draw_line(target.global_position, j.global_position, line_color_global, 2)
+				for target in location.connected_to_nodes:
+					if !target.disabled and !location.disabled:
+						draw_line(target.global_position, location.global_position, line_color_global, 2)
+	for location in lines_con:
+		if !location.disabled:
+			draw_default_punctured_line(con_start.global_position, location.global_position)
 
 
 func toggle_input(new_state: bool) -> void:
@@ -240,11 +245,14 @@ func generate_map() -> void:
 		for j in grid[i]:
 			j.check_destinations()
 			if !j.disabled and j.has_destination:
-				j.set_debug("wormhole")
 				j.has_wormhole = true
 				var wormhole: map_node = MAP_NODE.instantiate()
 				wormhole.is_wormhole = true
 				map_nodes.add_child(wormhole)
+				wormhole.mouse_entered.connect(_on_map_node_mouse_enter)
+				wormhole.mouse_exited.connect(_on_map_node_mouse_exit)
+				wormhole.button_pressed.connect(_on_map_node_pressed)
+				wormhole.connected_to_nodes = grid[i+1]
 				j.wormhole = wormhole
 	
 	var hazards: Array = game_manager.hazard_types.keys()
@@ -300,20 +308,29 @@ func generate_map() -> void:
 	# Showing types of first two lines of locations
 	for i in grid[0]:
 		i.is_secret = false
-		i.is_available = true
+		i.toggle_availability(true)
 		i.update_icon()
 	for i in grid[1]:
 		i.is_secret = false
 		i.update_icon()
 
 
-func _on_map_node_mouse_enter(node: Node2D) -> void:
+func _on_map_node_mouse_enter(node: map_node) -> void:
 	marker.position = node.global_position
+	if node.is_wormhole:
+		con_start = node
+		lines_con = node.connected_to_nodes
+		for n in node.connected_to_nodes:
+			n.toggle_highlight(true)
 	marker_animator.play(&"show")
 	cursor.hide()
 
 
-func _on_map_node_mouse_exit(_node: Node2D) -> void:
+func _on_map_node_mouse_exit(node: map_node) -> void:
+	lines_con = []
+	con_start = null
+	for n in node.connected_to_nodes:
+		n.toggle_highlight(false)
 	marker_animator.play_backwards(&"show")
 	cursor.show()
 
@@ -322,9 +339,9 @@ func _on_map_node_pressed(node: map_node) -> void:
 	current_location = node
 	current_level += 1
 	for i in grid[current_level]:
-		i.is_available = false
+		i.toggle_availability(false)
 	for i in current_location.connected_to_nodes:
-		i.is_available = true
+		i.toggle_availability(true)
 	location_changed.emit(node)
 
 

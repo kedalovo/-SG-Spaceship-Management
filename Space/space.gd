@@ -581,7 +581,10 @@ func _on_star_flare_hit(damage: int) -> void:
 
 
 func _on_map_location_changed(new_location: map_node) -> void:
-	current_location = new_location
+	if new_location.is_wormhole:
+		current_location = new_location.connected_to_nodes.pick_random()
+	else:
+		current_location = new_location
 	start()
 	new_location_set_up.emit()
 

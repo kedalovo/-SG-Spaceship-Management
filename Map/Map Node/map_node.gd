@@ -11,6 +11,7 @@ signal button_pressed(node: map_node)
 
 @onready var icon: Sprite2D = $Icon
 @onready var debug_label: Label = $"Debug Label"
+@onready var animator: AnimationPlayer = $Icon/Animator
 
 var true_texture: Texture2D
 
@@ -41,11 +42,30 @@ func add_connections(new_connections: Array) -> void:
 				i.is_continuation = true
 
 
+func toggle_availability(new_state: bool) -> void:
+	is_available = new_state
+	if has_wormhole:
+		wormhole.is_available = new_state
+
+
 func setup_wormhole() -> void:
 	wormhole.reparent(get_parent())
 	wormhole.position = position + Vector2(randf_range(-32.0, 32.0), randf_range(-32.0, -64.0))
 	wormhole.is_secret = false
-	wormhole.is_available = true
+	wormhole.modulate = Color("5d1212")
+	wormhole.spin()
+
+
+func toggle_highlight(on: bool) -> void:
+	match on:
+		true:
+			animator.play(&"highlight")
+		false:
+			animator.play(&"RESET")
+
+
+func spin() -> void:
+	animator.play(&"spin")
 
 
 func check_destinations() -> void:
