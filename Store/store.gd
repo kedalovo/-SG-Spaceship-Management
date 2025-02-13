@@ -90,3 +90,7 @@ func _on_map_button_mouse_entered() -> void:
 
 func _on_map_button_mouse_exited() -> void:
 	map_button.modulate = default_color
+
+
+func _on_store_button_hover(btn: store_button) -> void:
+	pass # Replace with function body.

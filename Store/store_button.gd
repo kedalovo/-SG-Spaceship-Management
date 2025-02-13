@@ -1,8 +1,12 @@
 extends TextureButton
 
 
+class_name store_button
+
+
 signal upgrade_bought(new_upgrade: game_manager.store_items)
 signal failed_buy_attempt
+signal hover(btn: store_button)
 
 
 @export var upgrade: game_manager.store_items
@@ -54,6 +58,7 @@ func _on_mouse_entered() -> void:
 		sprite_outline.show()
 	else:
 		sprite.modulate = Color("2dff00")
+	hover.emit(self)
 
 
 func _on_mouse_exited() -> void:

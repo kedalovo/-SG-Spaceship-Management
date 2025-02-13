@@ -356,3 +356,10 @@ func _on_store_button_mouse_entered() -> void:
 
 func _on_store_button_mouse_exited() -> void:
 	store_button.modulate = default_color
+
+
+func _on_scroll_gui_input(event: InputEvent) -> void:
+	if event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_WHEEL_UP and !event.pressed:
+		Input.warp_mouse(get_local_mouse_position())
+	elif event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_WHEEL_DOWN and !event.pressed:
+		Input.warp_mouse(get_local_mouse_position())
