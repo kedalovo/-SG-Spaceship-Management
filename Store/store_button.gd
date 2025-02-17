@@ -13,6 +13,7 @@ signal hover(btn: store_button)
 @export var is_bottom_button: bool = false
 @export var time: float = 3.0
 @export var price: int = 1
+@export_multiline var custom_tooltip: String
 
 @onready var sprite: Sprite2D = $Sprite
 @onready var progress: TextureProgressBar = $Progress

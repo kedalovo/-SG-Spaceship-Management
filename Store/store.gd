@@ -4,6 +4,7 @@ extends Node2D
 signal item_bought(item: game_manager.store_items)
 signal balance_flash
 signal map_summoned
+signal button_hover(btn: store_button)
 
 
 @export_color_no_alpha var default_color: Color
@@ -93,4 +94,4 @@ func _on_map_button_mouse_exited() -> void:
 
 
 func _on_store_button_hover(btn: store_button) -> void:
-	pass # Replace with function body.
+	button_hover.emit(btn)

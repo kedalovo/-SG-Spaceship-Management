@@ -1,0 +1,7 @@
+[gd_resource type="Theme" load_steps=2 format=3 uid="uid://b44tv8qw1g4bl"]
+
+[ext_resource type="FontFile" uid="uid://cwh545aike8r4" path="res://Resources/Theme/Tektur-VariableFont_wdth,wght.ttf" id="1_hqxj6"]
+
+[resource]
+default_font = ExtResource("1_hqxj6")
+default_font_size = 16

@@ -1,4 +1,4 @@
-[gd_scene load_steps=99 format=3 uid="uid://dr0fafp1u36yj"]
+[gd_scene load_steps=105 format=3 uid="uid://dr0fafp1u36yj"]
 
 [ext_resource type="Script" path="res://Game Scene/game.gd" id="1_t00el"]
 [ext_resource type="Texture2D" uid="uid://dmcht1gqpy4v3" path="res://Systems/Life Support/Assets/Life Support.png" id="2_3bjf3"]
@@ -53,6 +53,9 @@
 [ext_resource type="PackedScene" uid="uid://esnak8iwscmb" path="res://Balance/balance.tscn" id="45_a0v1l"]
 [ext_resource type="PackedScene" uid="uid://btvb5400v1yyr" path="res://Store/store.tscn" id="46_ilj7l"]
 [ext_resource type="Script" path="res://Game Scene/system_fog.gd" id="47_tadro"]
+[ext_resource type="Theme" uid="uid://b44tv8qw1g4bl" path="res://Resources/Theme/main_theme.tres" id="54_bi7ny"]
+[ext_resource type="Script" path="res://Game Scene/tooltip.gd" id="55_ssbhd"]
+[ext_resource type="Texture2D" uid="uid://0cw1p0iyd5pj" path="res://Cabin/Assets/Tooltip screen.png" id="55_urjol"]
 
 [sub_resource type="Gradient" id="Gradient_bmxab"]
 offsets = PackedFloat32Array(0.4, 0.6, 1)
@@ -524,6 +527,41 @@ tracks/1/keys = {
 _data = {
 "RESET": SubResource("Animation_c0j81"),
 "show": SubResource("Animation_tjkyp")
+}
+
+[sub_resource type="Animation" id="Animation_4vrme"]
+resource_name = "open"
+step = 0.1
+tracks/0/type = "bezier"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:position:x")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"handle_modes": PackedInt32Array(0, 0),
+"points": PackedFloat32Array(-256, 0, 0, 0, 0, 0, -1, 0, 0, 0),
+"times": PackedFloat32Array(0, 1)
+}
+
+[sub_resource type="Animation" id="Animation_6f2x4"]
+length = 0.001
+tracks/0/type = "bezier"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:position:x")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"handle_modes": PackedInt32Array(0),
+"points": PackedFloat32Array(-256, -0.25, 0, 0.25, 0),
+"times": PackedFloat32Array(0)
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_f3t64"]
+_data = {
+"RESET": SubResource("Animation_6f2x4"),
+"open": SubResource("Animation_4vrme")
 }
 
 [node name="Game" type="Node2D"]
@@ -1124,6 +1162,69 @@ libraries = {
 "": SubResource("AnimationLibrary_utld7")
 }
 
+[node name="Tooltip" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 0
+offset_left = -256.0
+offset_bottom = 540.0
+theme = ExtResource("54_bi7ny")
+script = ExtResource("55_ssbhd")
+
+[node name="Background" type="ColorRect" parent="Tooltip"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 1)
+
+[node name="Border" type="TextureRect" parent="Tooltip"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("55_urjol")
+
+[node name="Margin" type="MarginContainer" parent="Tooltip"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 16
+theme_override_constants/margin_top = 16
+theme_override_constants/margin_right = 16
+theme_override_constants/margin_bottom = 16
+
+[node name="VBox" type="VBoxContainer" parent="Tooltip/Margin"]
+layout_mode = 2
+
+[node name="Title Label" type="Label" parent="Tooltip/Margin/VBox"]
+custom_minimum_size = Vector2(0, 140)
+layout_mode = 2
+text = "Navigation upgrade."
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Content Label" type="Label" parent="Tooltip/Margin/VBox"]
+custom_minimum_size = Vector2(224, 0)
+layout_mode = 2
+size_flags_vertical = 2
+text = "Tired of being in the dark? Well, worry no more, because we've got you covered!
+The navigation upgrade allows you to see several systems ahead so you can plan your trips accordingly."
+horizontal_alignment = 1
+vertical_alignment = 1
+autowrap_mode = 3
+
+[node name="Animator" type="AnimationPlayer" parent="Tooltip"]
+libraries = {
+"": SubResource("AnimationLibrary_f3t64")
+}
+
 [connection signal="coin_got" from="Cabin/SubViewportContainer/SubViewport/Space" to="." method="_on_space_coin_got"]
 [connection signal="damaged" from="Cabin/SubViewportContainer/SubViewport/Space" to="." method="_on_damaged"]
 [connection signal="new_location_set_up" from="Cabin/SubViewportContainer/SubViewport/Space" to="." method="_on_space_new_location_set_up"]
@@ -1172,5 +1273,6 @@ libraries = {
 [connection signal="store_summoned" from="Map" to="." method="_on_map_store_summoned"]
 [connection signal="timeout" from="RoundTimer" to="." method="_on_round_timer_timeout"]
 [connection signal="balance_flash" from="Store" to="Balance" method="_on_store_balance_flash"]
+[connection signal="button_hover" from="Store" to="." method="_on_store_button_hover"]
 [connection signal="item_bought" from="Store" to="." method="_on_store_item_bought"]
 [connection signal="map_summoned" from="Store" to="." method="_on_store_map_summoned"]

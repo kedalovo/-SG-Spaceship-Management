@@ -46,6 +46,8 @@ const CURSOR_POINTER = preload("res://UI/Cursor pointer.png")
 
 @onready var systems_cracks: Sprite2D = $"Systems Background/Cracks"
 
+@onready var tooltip_panel: Control = $Tooltip
+
 const CABIN_ZOOM_LEVEL: float = 1.1
 
 @onready var systems: Array[system] = [
@@ -66,7 +68,8 @@ var is_map_open: bool
 func _ready() -> void:
 	Input.set_custom_mouse_cursor(CURSOR_NORMAL, Input.CURSOR_ARROW)
 	Input.set_custom_mouse_cursor(CURSOR_POINTER, Input.CURSOR_POINTING_HAND)
-	toggle_map(true)
+	#toggle_map(true)
+	toggle_store(true)
 
 
 func _input(event: InputEvent) -> void:
@@ -316,3 +319,7 @@ func _on_store_map_summoned() -> void:
 func _on_map_store_summoned() -> void:
 	toggle_map(false)
 	toggle_store(true)
+
+
+func _on_store_button_hover(btn: store_button) -> void:
+	tooltip_panel.set_text(btn.custom_tooltip)
