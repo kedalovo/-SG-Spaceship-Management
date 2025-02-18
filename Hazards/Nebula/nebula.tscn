@@ -1,4 +1,4 @@
-[gd_scene load_steps=6 format=3 uid="uid://7rlqejrqvaih"]
+[gd_scene load_steps=8 format=3 uid="uid://7rlqejrqvaih"]
 
 [ext_resource type="Script" path="res://Hazards/Nebula/nebula.gd" id="1_x2t1v"]
 [ext_resource type="Texture2D" uid="uid://cwq8ul86efw5a" path="res://Hazards/Nebula/Assets/Nebula 3x2.png" id="2_2xw1j"]
@@ -84,6 +84,16 @@ _data = {
 "main": SubResource("Animation_ogntw")
 }
 
+[sub_resource type="Gradient" id="Gradient_riehu"]
+offsets = PackedFloat32Array(0, 0.2, 0.8, 1)
+colors = PackedColorArray(1, 0.578125, 0.578125, 1, 1, 0, 0, 1, 1, 0.375, 0, 1, 1, 0.960784, 0, 0)
+metadata/_snap_enabled = true
+
+[sub_resource type="Gradient" id="Gradient_x05od"]
+offsets = PackedFloat32Array(0, 0.2, 0.8, 1)
+colors = PackedColorArray(0.581421, 0.578125, 1, 1, 0.0078125, 0, 1, 1, 0, 0.0187988, 0.300781, 1, 0, 0, 0, 0)
+metadata/_snap_enabled = true
+
 [node name="Nebula" type="Node2D" groups=["hazard_visual"]]
 script = ExtResource("1_x2t1v")
 
@@ -98,6 +108,34 @@ libraries = {
 }
 autoplay = "main"
 
+[node name="Fire Particles" type="CPUParticles2D" parent="Pivot/Sprite"]
+emitting = false
+amount = 50
+lifetime = 3.0
+preprocess = 10.0
+spread = 180.0
+gravity = Vector2(0, 0)
+initial_velocity_min = 25.0
+initial_velocity_max = 25.0
+tangential_accel_min = -50.0
+tangential_accel_max = 50.0
+scale_amount_max = 3.0
+color_ramp = SubResource("Gradient_riehu")
+
+[node name="Electricity Particles" type="CPUParticles2D" parent="Pivot/Sprite"]
+emitting = false
+amount = 50
+lifetime = 3.0
+preprocess = 10.0
+spread = 180.0
+gravity = Vector2(0, 0)
+initial_velocity_min = 25.0
+initial_velocity_max = 25.0
+tangential_accel_min = -50.0
+tangential_accel_max = 50.0
+scale_amount_max = 3.0
+color_ramp = SubResource("Gradient_x05od")
+
 [node name="Appear Timer" type="Timer" parent="."]
 one_shot = true
 autostart = true
@@ -106,6 +144,7 @@ autostart = true
 one_shot = true
 
 [node name="ColorRect" type="ColorRect" parent="."]
+visible = false
 offset_left = -1.0
 offset_top = -32.0
 offset_right = 1.0
@@ -113,6 +152,7 @@ offset_bottom = 32.0
 color = Color(1, 0, 0, 1)
 
 [node name="ColorRect2" type="ColorRect" parent="."]
+visible = false
 offset_left = -32.0
 offset_top = -1.0
 offset_right = 32.0

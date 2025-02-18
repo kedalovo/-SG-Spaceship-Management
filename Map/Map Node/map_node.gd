@@ -21,6 +21,7 @@ var connected_to_nodes: Array = []
 
 var hazards: Array = []
 var hazards_intensity: Array = []
+var hazards_types: Array[Array] = []
 
 var reason: int = 0
 var difficulty: int = 0

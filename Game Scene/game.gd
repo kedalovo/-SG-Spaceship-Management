@@ -139,8 +139,10 @@ func toggle_store(open: bool) -> void:
 	if open and !is_store_open:
 		is_store_open = true
 		store.toggle_input(true)
+		tooltip_panel.toggle(true)
 		store_animator.play(&"open")
 	elif !open and is_store_open:
+		tooltip_panel.toggle(false)
 		store_animator.play_backwards(&"open")
 
 
@@ -323,3 +325,9 @@ func _on_map_store_summoned() -> void:
 
 func _on_store_button_hover(btn: store_button) -> void:
 	tooltip_panel.set_text(btn.custom_tooltip)
+	balance.set_flash(btn.price)
+
+
+func _on_store_button_hover_stop() -> void:
+	tooltip_panel.set_text("")
+	balance.set_flash(0)

@@ -8,7 +8,12 @@ func set_visuals(size: game_manager.nebula_types, is_vertical: bool) -> void:
 
 
 func set_types(types: Array[game_manager.damage_types]) -> void:
-	print_debug("Nebula types: ", types)
+	for type in types:
+		match type:
+			game_manager.damage_types.HEAT:
+				$"Pivot/Sprite/Fire Particles".emitting = true
+			game_manager.damage_types.ELECTRICITY:
+				$"Pivot/Sprite/Electricity Particles".emitting = true
 
 
 func set_time(time: float) -> void:

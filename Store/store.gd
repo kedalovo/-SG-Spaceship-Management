@@ -5,6 +5,7 @@ signal item_bought(item: game_manager.store_items)
 signal balance_flash
 signal map_summoned
 signal button_hover(btn: store_button)
+signal button_hover_stop
 
 
 @export_color_no_alpha var default_color: Color
@@ -95,3 +96,7 @@ func _on_map_button_mouse_exited() -> void:
 
 func _on_store_button_hover(btn: store_button) -> void:
 	button_hover.emit(btn)
+
+
+func _on_store_button_hover_stop() -> void:
+	button_hover_stop.emit()

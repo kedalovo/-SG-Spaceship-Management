@@ -529,6 +529,20 @@ _data = {
 "show": SubResource("Animation_tjkyp")
 }
 
+[sub_resource type="Animation" id="Animation_6f2x4"]
+length = 0.001
+tracks/0/type = "bezier"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:position:x")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"handle_modes": PackedInt32Array(0),
+"points": PackedFloat32Array(-256, -0.25, 0, 0.25, 0),
+"times": PackedFloat32Array(0)
+}
+
 [sub_resource type="Animation" id="Animation_4vrme"]
 resource_name = "open"
 step = 0.1
@@ -542,20 +556,6 @@ tracks/0/keys = {
 "handle_modes": PackedInt32Array(0, 0),
 "points": PackedFloat32Array(-256, 0, 0, 0, 0, 0, -1, 0, 0, 0),
 "times": PackedFloat32Array(0, 1)
-}
-
-[sub_resource type="Animation" id="Animation_6f2x4"]
-length = 0.001
-tracks/0/type = "bezier"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath(".:position:x")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"handle_modes": PackedInt32Array(0),
-"points": PackedFloat32Array(-256, -0.25, 0, 0.25, 0),
-"times": PackedFloat32Array(0)
 }
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_f3t64"]
@@ -1206,7 +1206,6 @@ layout_mode = 2
 [node name="Title Label" type="Label" parent="Tooltip/Margin/VBox"]
 custom_minimum_size = Vector2(0, 140)
 layout_mode = 2
-text = "Navigation upgrade."
 horizontal_alignment = 1
 vertical_alignment = 1
 
@@ -1214,8 +1213,6 @@ vertical_alignment = 1
 custom_minimum_size = Vector2(224, 0)
 layout_mode = 2
 size_flags_vertical = 2
-text = "Tired of being in the dark? Well, worry no more, because we've got you covered!
-The navigation upgrade allows you to see several systems ahead so you can plan your trips accordingly."
 horizontal_alignment = 1
 vertical_alignment = 1
 autowrap_mode = 3
@@ -1274,5 +1271,6 @@ libraries = {
 [connection signal="timeout" from="RoundTimer" to="." method="_on_round_timer_timeout"]
 [connection signal="balance_flash" from="Store" to="Balance" method="_on_store_balance_flash"]
 [connection signal="button_hover" from="Store" to="." method="_on_store_button_hover"]
+[connection signal="button_hover_stop" from="Store" to="." method="_on_store_button_hover_stop"]
 [connection signal="item_bought" from="Store" to="." method="_on_store_item_bought"]
 [connection signal="map_summoned" from="Store" to="." method="_on_store_map_summoned"]

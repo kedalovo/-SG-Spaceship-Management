@@ -1,6 +1,7 @@
-[gd_scene load_steps=5 format=3 uid="uid://ba0gfvh0alief"]
+[gd_scene load_steps=8 format=3 uid="uid://ba0gfvh0alief"]
 
 [ext_resource type="Script" path="res://Hazards/Asteroid/asteroid.gd" id="1_yw1qf"]
+[ext_resource type="Texture2D" uid="uid://bknngsj1sjq4" path="res://Hazards/Asteroid/Assets/Small asteroid.png" id="2_q6m1v"]
 
 [sub_resource type="Animation" id="Animation_sms2q"]
 length = 0.001
@@ -88,6 +89,16 @@ _data = {
 "main": SubResource("Animation_ogntw")
 }
 
+[sub_resource type="Gradient" id="Gradient_jt4km"]
+offsets = PackedFloat32Array(0, 0.2, 0.8, 1)
+colors = PackedColorArray(1, 0.578125, 0.578125, 1, 1, 0, 0, 1, 1, 0.375, 0, 1, 1, 0.960784, 0, 0)
+metadata/_snap_enabled = true
+
+[sub_resource type="Gradient" id="Gradient_e0c7g"]
+offsets = PackedFloat32Array(0, 0.2, 0.8, 1)
+colors = PackedColorArray(0.581421, 0.578125, 1, 1, 0.0078125, 0, 1, 1, 0, 0.0187988, 0.300781, 1, 0, 0, 0, 0)
+metadata/_snap_enabled = true
+
 [node name="Asteroid" type="Node2D" groups=["hazard_visual"]]
 script = ExtResource("1_yw1qf")
 
@@ -95,12 +106,35 @@ script = ExtResource("1_yw1qf")
 
 [node name="Sprite" type="Sprite2D" parent="Pivot"]
 scale = Vector2(0.5, 0.5)
+texture = ExtResource("2_q6m1v")
 
 [node name="Animator" type="AnimationPlayer" parent="Pivot/Sprite"]
 libraries = {
 "": SubResource("AnimationLibrary_cdcxf")
 }
 autoplay = "main"
+
+[node name="Fire Particles" type="CPUParticles2D" parent="Pivot/Sprite"]
+emitting = false
+amount = 50
+preprocess = 10.0
+spread = 180.0
+gravity = Vector2(0, 0)
+initial_velocity_min = 100.0
+initial_velocity_max = 100.0
+scale_amount_max = 3.0
+color_ramp = SubResource("Gradient_jt4km")
+
+[node name="Electricity Particles" type="CPUParticles2D" parent="Pivot/Sprite"]
+emitting = false
+amount = 50
+preprocess = 10.0
+spread = 180.0
+gravity = Vector2(0, 0)
+initial_velocity_min = 100.0
+initial_velocity_max = 100.0
+scale_amount_max = 3.0
+color_ramp = SubResource("Gradient_e0c7g")
 
 [node name="Timer" type="Timer" parent="."]
 one_shot = true

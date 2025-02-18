@@ -7,6 +7,7 @@ class_name store_button
 signal upgrade_bought(new_upgrade: game_manager.store_items)
 signal failed_buy_attempt
 signal hover(btn: store_button)
+signal hover_stop
 
 
 @export var upgrade: game_manager.store_items
@@ -69,6 +70,7 @@ func _on_mouse_exited() -> void:
 		sprite_outline.hide()
 	else:
 		sprite.modulate = Color("378a0c")
+	hover_stop.emit()
 
 
 func _on_timer_timeout() -> void:

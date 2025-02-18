@@ -266,15 +266,17 @@ func propagate_hazard(idx: int) -> void:
 						create_nebula(game_manager.nebula_types.LARGE, [Vector2.UP, Vector2.UP + Vector2.RIGHT].pick_random(), 15, false, 2.0, true)
 
 
-func create_asteroid(size: game_manager.asteroid_types, spot: Vector2, time: float, is_vertical: bool = false, types: Array[game_manager.damage_types] = [game_manager.damage_types.PHYSICAL]) -> void:
+func create_asteroid(size: game_manager.asteroid_types, spot: Vector2, time: float, is_vertical: bool = false, types: Array[game_manager.damage_types] = []) -> void:
 	spot = clamp(spot, -Vector2.ONE, Vector2.ONE)
+	if game_manager.damage_types.PHYSICAL in types:
+		push_error("All asteroids are physical by default, can't assign physical type")
 	var asteroid := ASTEROID.instantiate()
 	match size:
 		game_manager.asteroid_types.SMALL:
 			if spot in hazard_spots:
 				push_warning("Tried creating a small asteroid in ", spot, ", which is busy")
 				return
-			asteroid.set_types(types)
+			asteroid.set_types(types + [game_manager.damage_types.PHYSICAL])
 			asteroid.set_time(time)
 			asteroid.set_visuals(size, false)
 			hazard_visuals.add_child(asteroid)
@@ -332,15 +334,19 @@ func create_asteroid(size: game_manager.asteroid_types, spot: Vector2, time: flo
 						create_hazard(Vector2(spot.x + i, spot.y + j), time, 3, types)
 
 
-func create_nebula(size: game_manager.nebula_types, spot: Vector2, time: float, is_instant: bool = true, hurt_time: float = 0.0, is_vertical: bool = false, types: Array[game_manager.damage_types] = [game_manager.damage_types.ELECTRICITY]) -> void:
+func create_nebula(size: game_manager.nebula_types, spot: Vector2, time: float, is_instant: bool = true, hurt_time: float = 0.0, is_vertical: bool = false, types: Array[game_manager.damage_types] = []) -> void:
 	spot = clamp(spot, -Vector2.ONE, Vector2.ONE)
+	if game_manager.damage_types.ELECTRICITY in types:
+		push_error("All nebulas are electrical by default, can't assign electrical type")
+	if game_manager.damage_types.PHYSICAL in types:
+		push_error("Nebulas can't be physical")
 	var nebula := NEBULA.instantiate()
 	match size:
 		game_manager.nebula_types.SMALL:
 			if spot in hazard_nebula_spots:
 				push_warning("Tried creating a small nebula in ", spot, ", which is busy")
 				return
-			nebula.set_types(types)
+			nebula.set_types(types + [game_manager.damage_types.ELECTRICITY])
 			nebula.set_time(time)
 			nebula.set_visuals(size, false)
 			hazard_visuals.add_child(nebula)
