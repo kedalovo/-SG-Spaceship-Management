@@ -47,6 +47,7 @@ const CURSOR_POINTER = preload("res://UI/Cursor pointer.png")
 @onready var systems_cracks: Sprite2D = $"Systems Background/Cracks"
 
 @onready var tooltip_panel: Control = $Tooltip
+@onready var map_tooltip: PanelContainer = $"Map Tooltip"
 
 const CABIN_ZOOM_LEVEL: float = 1.1
 
@@ -121,6 +122,16 @@ func _notification(what: int) -> void:
 func _physics_process(_delta: float) -> void:
 	cabin_view.scale = lerp(cabin_view.scale, Vector2.ONE, 0.1)
 	clock.set_time(round_timer.time_left)
+	
+	map_tooltip.global_position = get_global_mouse_position()
+	if map_tooltip.global_position.y + map_tooltip.get_rect().size.y > 540.0:
+		map_tooltip.global_position += Vector2(0, -map_tooltip.get_rect().size.y)
+	if map_tooltip.global_position.y + map_tooltip.get_rect().size.y < 0.0:
+		map_tooltip.global_position += Vector2(0, map_tooltip.get_rect().size.y)
+	if map_tooltip.global_position.x < 0.0:
+		map_tooltip.global_position += Vector2(map_tooltip.get_rect().size.x + 32, 0)
+	if map_tooltip.global_position.x + map_tooltip.get_rect().size.x > 960.0:
+		map_tooltip.global_position += Vector2(-map_tooltip.get_rect().size.x - 32, 0)
 
 
 func toggle_map(open: bool) -> void:

@@ -105,6 +105,37 @@ func set_difficulty(new_difficulty: int) -> void:
 				icon.modulate = Color("cbc800")
 			3:
 				icon.modulate = Color("cb0000")
+		if difficulty == 2:
+			for i in hazards.size():
+				var haz = hazards[i]
+				var haz_int = hazards_intensity[i]
+				match haz:
+					game_manager.hazard_types.ASTEROID_FIELD:
+						if randi() % (6 - haz_int) == 0:
+							hazards_types.append([[game_manager.damage_types.HEAT, game_manager.damage_types.ELECTRICITY].pick_random()])
+						else:
+							hazards_types.append([])
+					game_manager.hazard_types.NEBULA:
+						if randi() % (6 - haz_int) == 0:
+							hazards_types.append([game_manager.damage_types.HEAT])
+						else:
+							hazards_types.append([])
+					_:
+						hazards_types.append([])
+		elif difficulty == 3:
+			for i in hazards.size():
+				var haz = hazards[i]
+				var haz_int = hazards_intensity[i]
+				match haz:
+					game_manager.hazard_types.ASTEROID_FIELD:
+						if randi() % (6 - haz_int) == 0:
+							hazards_types.append([[game_manager.damage_types.HEAT, game_manager.damage_types.ELECTRICITY].pick_random()])
+						else:
+							hazards_types.append([game_manager.damage_types.HEAT, game_manager.damage_types.ELECTRICITY])
+					game_manager.hazard_types.NEBULA:
+						hazards_types.append([game_manager.damage_types.HEAT])
+					_:
+						hazards_types.append([])
 
 
 func _on_mouse_grab_mouse_entered() -> void:

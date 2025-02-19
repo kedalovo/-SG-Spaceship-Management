@@ -28,7 +28,7 @@ const ICONS: Array = [ASTEROID_ICON, MISSILE_ICON, NEBULA_ICON, SNOWFLAKE_ICON, 
 @onready var marker_animator: AnimationPlayer = $"Marker/Marker Animator"
 @onready var contents: Control = $"Scroll/Map Container/MarginContainer/Contents"
 @onready var input_stopper: Control = $"Input Stopper"
-@onready var store_button: TextureButton = $"Store Button Background/Store Button"
+@onready var store_button_link: TextureButton = $"Store Button Background/Store Button"
 @onready var fog_1: TextureRect = $"Scroll/Map Container/Fog 1"
 @onready var fog_2: TextureRect = $"Scroll/Map Container/Fog 2"
 
@@ -259,7 +259,7 @@ func generate_map() -> void:
 	var hazard_buffer: Array = hazards.duplicate()
 	var hazard_bin: Array = []
 	var intensity: int = 0
-	# Visualising result
+	# Visualising result and assigning difficulty and hazard types
 	for i in range(0, grid.size()):
 		intensity += 1
 		if intensity > 5:
@@ -351,11 +351,11 @@ func _on_store_button_pressed() -> void:
 
 
 func _on_store_button_mouse_entered() -> void:
-	store_button.modulate = highlight_color
+	store_button_link.modulate = highlight_color
 
 
 func _on_store_button_mouse_exited() -> void:
-	store_button.modulate = default_color
+	store_button_link.modulate = default_color
 
 
 func _on_scroll_gui_input(event: InputEvent) -> void:

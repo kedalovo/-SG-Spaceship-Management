@@ -1,0 +1,47 @@
+[gd_scene load_steps=6 format=3 uid="uid://b86gbcpx61di7"]
+
+[ext_resource type="Theme" uid="uid://b44tv8qw1g4bl" path="res://Resources/Theme/main_theme.tres" id="1_d0nph"]
+[ext_resource type="Texture2D" uid="uid://50a261m76es3" path="res://Map/Assets/Tooltip border.png" id="2_tf5uu"]
+[ext_resource type="Script" path="res://Map/Map Tooltip/map_tooltip.gd" id="3_lymgm"]
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_gjd40"]
+texture = ExtResource("2_tf5uu")
+texture_margin_left = 13.0
+texture_margin_top = 13.0
+texture_margin_right = 13.0
+texture_margin_bottom = 13.0
+modulate_color = Color(1, 1, 1, 0.588235)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_bxre0"]
+bg_color = Color(0, 0, 0, 0.815686)
+
+[node name="Map Tooltip" type="PanelContainer"]
+offset_right = 224.0
+offset_bottom = 245.0
+theme = ExtResource("1_d0nph")
+theme_override_styles/panel = SubResource("StyleBoxTexture_gjd40")
+script = ExtResource("3_lymgm")
+
+[node name="Panel" type="PanelContainer" parent="."]
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_bxre0")
+
+[node name="MarginContainer" type="MarginContainer" parent="Panel"]
+layout_mode = 2
+theme_override_constants/margin_left = 4
+theme_override_constants/margin_top = 4
+theme_override_constants/margin_right = 4
+theme_override_constants/margin_bottom = 4
+
+[node name="Label" type="Label" parent="Panel/MarginContainer"]
+custom_minimum_size = Vector2(190, 0)
+layout_mode = 2
+size_flags_vertical = 1
+text = "Fiery electrified asteroid field.
+
+Dangers:
+
+◆ Physical hits from asteroids;
+◆ fiery asteroids;
+◆ electrified asteroids."
+autowrap_mode = 3
