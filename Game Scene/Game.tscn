@@ -1,4 +1,4 @@
-[gd_scene load_steps=106 format=3 uid="uid://dr0fafp1u36yj"]
+[gd_scene load_steps=105 format=3 uid="uid://dr0fafp1u36yj"]
 
 [ext_resource type="Script" path="res://Game Scene/game.gd" id="1_t00el"]
 [ext_resource type="Texture2D" uid="uid://dmcht1gqpy4v3" path="res://Systems/Life Support/Assets/Life Support.png" id="2_3bjf3"]
@@ -56,7 +56,6 @@
 [ext_resource type="Theme" uid="uid://b44tv8qw1g4bl" path="res://Resources/Theme/main_theme.tres" id="54_bi7ny"]
 [ext_resource type="Script" path="res://Game Scene/tooltip.gd" id="55_ssbhd"]
 [ext_resource type="Texture2D" uid="uid://0cw1p0iyd5pj" path="res://Cabin/Assets/Tooltip screen.png" id="55_urjol"]
-[ext_resource type="PackedScene" uid="uid://b86gbcpx61di7" path="res://Map/Map Tooltip/map_tooltip.tscn" id="57_1qs5c"]
 
 [sub_resource type="Gradient" id="Gradient_bmxab"]
 offsets = PackedFloat32Array(0.4, 0.6, 1)
@@ -1222,12 +1221,6 @@ autowrap_mode = 3
 libraries = {
 "": SubResource("AnimationLibrary_f3t64")
 }
-
-[node name="Map Tooltip" parent="." instance=ExtResource("57_1qs5c")]
-offset_left = 460.0
-offset_top = 37.0
-offset_right = 684.0
-offset_bottom = 290.0
 
 [connection signal="coin_got" from="Cabin/SubViewportContainer/SubViewport/Space" to="." method="_on_space_coin_got"]
 [connection signal="damaged" from="Cabin/SubViewportContainer/SubViewport/Space" to="." method="_on_damaged"]

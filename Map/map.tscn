@@ -1,4 +1,4 @@
-[gd_scene load_steps=19 format=3 uid="uid://dh1g8tgwww50"]
+[gd_scene load_steps=20 format=3 uid="uid://dh1g8tgwww50"]
 
 [ext_resource type="Script" path="res://Map/map.gd" id="1_jlmf0"]
 [ext_resource type="Texture2D" uid="uid://b6mmbj44xpsa0" path="res://Map/Assets/Map panel.png" id="2_8rhpx"]
@@ -6,6 +6,7 @@
 [ext_resource type="Texture2D" uid="uid://dx4uuw4w0mcbb" path="res://Map/Assets/Map marker.png" id="4_1ecxj"]
 [ext_resource type="Texture2D" uid="uid://c2mypu71lgj13" path="res://Map/Assets/Store Icon.png" id="5_gb2tl"]
 [ext_resource type="BitMap" uid="uid://dbqxykcm213cb" path="res://Store/Assets/Button mask.png" id="6_hl6c4"]
+[ext_resource type="PackedScene" uid="uid://b86gbcpx61di7" path="res://Map/Map Tooltip/map_tooltip.tscn" id="7_ldttc"]
 
 [sub_resource type="Gradient" id="Gradient_7uqp6"]
 offsets = PackedFloat32Array(0, 0.2, 0.8, 1)
@@ -264,6 +265,9 @@ anchors_preset = 0
 offset_right = 960.0
 offset_bottom = 540.0
 metadata/_edit_lock_ = true
+
+[node name="Map Tooltip" parent="." instance=ExtResource("7_ldttc")]
+offset_bottom = 253.0
 
 [connection signal="gui_input" from="Scroll" to="." method="_on_scroll_gui_input"]
 [connection signal="mouse_entered" from="Store Button Background/Store Button" to="." method="_on_store_button_mouse_entered"]

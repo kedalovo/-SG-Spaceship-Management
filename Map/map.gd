@@ -315,8 +315,13 @@ func generate_map() -> void:
 		i.update_icon()
 
 
+func tooltip_popup(node: map_node) -> void:
+	pass
+
+
 func _on_map_node_mouse_enter(node: map_node) -> void:
 	marker.position = node.global_position
+	tooltip_popup(node)
 	if node.is_wormhole:
 		con_start = node
 		lines_con = node.connected_to_nodes

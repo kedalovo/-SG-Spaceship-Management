@@ -32,6 +32,8 @@ const SMALL_NEBULA = preload("res://Hazards/Nebula/Assets/Nebula 1x1.png")
 
 const WIRE_COLORS: Array[Color] = [Color.RED, Color.BLUE, Color.YELLOW, Color.GREEN, Color.MAGENTA]
 
+const POINT_SYMBOL: String = "◆"
+
 static var wear_modifier: float = 1.0
 
 static var balance: int:
@@ -194,3 +196,58 @@ static func get_random_text(length: int) -> String:
 			random_num += 33
 		result += String.chr(random_num)
 	return result
+
+
+static func get_map_node_tooltip(node: map_node) -> String:
+	var result: String = ""
+	for hazard_idx in node.hazards.size():
+		var haz := node.hazards[hazard_idx]
+		var haz_types: Array = node.hazards_types[hazard_idx]
+		if haz_types.is_empty():
+			result += get_hazard_text(haz, true) + ".\n"
+		else:
+			result += get_hazard_variation_text(haz_types) + get_hazard_text(haz)
+	return result
+
+
+static func get_hazard_text(haz_type: hazard_types, is_start: bool = false) -> String:
+	var res: String = ""
+	match haz_type:
+		hazard_types.ASTEROID_FIELD:
+			res = "asteroid field"
+		hazard_types.WARZONE:
+			res = "warone"
+		hazard_types.NEBULA:
+			res = "nebulae"
+		hazard_types.ICE_FIELD:
+			res = "ice field"
+		hazard_types.STAR_PROXIMITY:
+			res = "star proximity"
+	if is_start:
+		if res.length() < 9:
+			res = res.capitalize()
+		else:
+			res = res.substr(0, res.find(" ")).capitalize() + res.substr(res.find(" "))
+	return res
+
+
+static func get_hazard_variation_text(variations: Array[damage_types]) -> String:
+	var res: String = ""
+	if variations.size() == 2:
+		match variations[0]:
+			damage_types.HEAT:
+				res += "Fiery "
+			damage_types.ELECTRICITY:
+				res += "Electric "
+		match variations[1]:
+			damage_types.HEAT:
+				res += "fiery "
+			damage_types.ELECTRICITY:
+				res += "electric "
+	else:
+		match variations[0]:
+			damage_types.HEAT:
+				res += "Fiery "
+			damage_types.ELECTRICITY:
+				res += "Electric "
+	return res

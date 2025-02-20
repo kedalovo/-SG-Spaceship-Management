@@ -125,13 +125,13 @@ func _physics_process(_delta: float) -> void:
 	
 	map_tooltip.global_position = get_global_mouse_position()
 	if map_tooltip.global_position.y + map_tooltip.get_rect().size.y > 540.0:
-		map_tooltip.global_position += Vector2(0, -map_tooltip.get_rect().size.y)
-	if map_tooltip.global_position.y + map_tooltip.get_rect().size.y < 0.0:
-		map_tooltip.global_position += Vector2(0, map_tooltip.get_rect().size.y)
-	if map_tooltip.global_position.x < 0.0:
-		map_tooltip.global_position += Vector2(map_tooltip.get_rect().size.x + 32, 0)
+		map_tooltip.global_position += Vector2(32, -map_tooltip.get_rect().size.y - 32)
+	#if map_tooltip.global_position.y + map_tooltip.get_rect().size.y < 0.0:
+		#map_tooltip.global_position += Vector2(0, map_tooltip.get_rect().size.y)
+	#if map_tooltip.global_position.x < 0.0:
+		#map_tooltip.global_position += Vector2(map_tooltip.get_rect().size.x + 32, 0)
 	if map_tooltip.global_position.x + map_tooltip.get_rect().size.x > 960.0:
-		map_tooltip.global_position += Vector2(-map_tooltip.get_rect().size.x - 32, 0)
+		map_tooltip.global_position += Vector2(-map_tooltip.get_rect().size.x - 32, 32)
 
 
 func toggle_map(open: bool) -> void:

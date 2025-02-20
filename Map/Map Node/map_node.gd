@@ -17,10 +17,10 @@ var true_texture: Texture2D
 
 var wormhole: map_node
 
-var connected_to_nodes: Array = []
+var connected_to_nodes: Array[map_node] = []
 
-var hazards: Array = []
-var hazards_intensity: Array = []
+var hazards: Array[game_manager.hazard_types] = []
+var hazards_intensity: Array[int] = []
 var hazards_types: Array[Array] = []
 
 var reason: int = 0
