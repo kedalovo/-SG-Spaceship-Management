@@ -34,6 +34,8 @@ const ICONS: Array = [ASTEROID_ICON, MISSILE_ICON, NEBULA_ICON, SNOWFLAKE_ICON, 
 
 @export var line_color_global: Color
 
+@onready var map_tooltip: PanelContainer = $"Map Tooltip"
+
 const NUM_OF_DELETIONS: int = 20
 const LINE_NUM: int = 15
 const LINE_LENGTH: int = 5
@@ -255,9 +257,11 @@ func generate_map() -> void:
 				wormhole.connected_to_nodes = grid[i+1]
 				j.wormhole = wormhole
 	
-	var hazards: Array = game_manager.hazard_types.keys()
-	var hazard_buffer: Array = hazards.duplicate()
-	var hazard_bin: Array = []
+	var hazards: Array[game_manager.hazard_types] = [
+		game_manager.hazard_types.ASTEROID_FIELD, game_manager.hazard_types.WARZONE, 
+		game_manager.hazard_types.NEBULA, game_manager.hazard_types.ICE_FIELD, game_manager.hazard_types.STAR_PROXIMITY]
+	var hazard_buffer: Array[game_manager.hazard_types] = hazards.duplicate()
+	var hazard_bin: Array[game_manager.hazard_types] = []
 	var intensity: int = 0
 	# Visualising result and assigning difficulty and hazard types
 	for i in range(0, grid.size()):
@@ -277,14 +281,14 @@ func generate_map() -> void:
 			line[j].set_default_texture(QUESTION_ICON)
 			if difficulty == 1:
 				hazard_buffer.shuffle()
-				var picked_hazard: String = hazard_buffer.pop_front()
+				var picked_hazard: game_manager.hazard_types = hazard_buffer.pop_front()
 				hazard_bin.append(picked_hazard)
 				line[j].hazards.append(picked_hazard)
 				line[j].hazards_intensity.append(intensity)
 				line[j].set_texture(ICONS[hazards.find(picked_hazard)])
 			elif difficulty > 1:
 				hazard_buffer.shuffle()
-				var picked_hazard: String = hazard_buffer.pop_front()
+				var picked_hazard: game_manager.hazard_types = hazard_buffer.pop_front()
 				hazard_bin.append(picked_hazard)
 				line[j].hazards.append(picked_hazard)
 				line[j].set_texture(ICONS[hazards.find(picked_hazard)])
@@ -316,7 +320,22 @@ func generate_map() -> void:
 
 
 func tooltip_popup(node: map_node) -> void:
-	pass
+	if node.is_wormhole or node.is_secret:
+		return
+	map_tooltip.set_text(game_manager.get_map_node_tooltip(node))
+	match node.difficulty:
+		1:
+			map_tooltip.self_modulate = Color("00cb00")
+		2:
+			map_tooltip.self_modulate = Color("cbc800")
+		3:
+			map_tooltip.self_modulate = Color("cb0000")
+	map_tooltip.global_position = node.global_position + Vector2(16.0, 16.0)
+	if map_tooltip.global_position.y + map_tooltip.get_rect().size.y > 508.0:
+		map_tooltip.global_position = Vector2(16.0, -map_tooltip.get_rect().size.y - 16.0)
+	if map_tooltip.global_position.x + map_tooltip.get_rect().size.x > 928.0:
+		map_tooltip.global_position += Vector2(-map_tooltip.get_rect().size.x - 36.0, 16.0)
+	map_tooltip.toggle_open(true)
 
 
 func _on_map_node_mouse_enter(node: map_node) -> void:
@@ -332,6 +351,7 @@ func _on_map_node_mouse_enter(node: map_node) -> void:
 
 
 func _on_map_node_mouse_exit(node: map_node) -> void:
+	map_tooltip.toggle_open(false)
 	lines_con = []
 	con_start = null
 	for n in node.connected_to_nodes:

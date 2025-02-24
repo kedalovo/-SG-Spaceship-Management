@@ -108,7 +108,7 @@ func set_difficulty(new_difficulty: int) -> void:
 		if difficulty == 2:
 			for i in hazards.size():
 				var haz = hazards[i]
-				var haz_int = hazards_intensity[i]
+				var haz_int = clampi(hazards_intensity[i], 1, 5)
 				match haz:
 					game_manager.hazard_types.ASTEROID_FIELD:
 						if randi() % (6 - haz_int) == 0:

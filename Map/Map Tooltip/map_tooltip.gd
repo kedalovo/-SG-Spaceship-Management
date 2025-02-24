@@ -10,3 +10,10 @@ func _ready() -> void:
 func set_text(new_text: String) -> void:
 	label.text = new_text
 	reset_size()
+
+
+func toggle_open(on: bool) -> void:
+	if on:
+		modulate = Color.WHITE
+	else:
+		modulate = Color.TRANSPARENT

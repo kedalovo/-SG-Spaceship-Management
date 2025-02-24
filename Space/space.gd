@@ -68,25 +68,25 @@ func start() -> void:
 		8:
 			coin_timer.start(3)
 	for idx in current_location.hazards.size():
-		var hazard: String = current_location.hazards[idx]
+		var hazard: game_manager.hazard_types = current_location.hazards[idx]
 		var intensity: int = current_location.hazards_intensity[idx]
 		var hazard_timer: Timer = hazard_timers[idx]
 		match hazard:
-			&"ASTEROID_FIELD":
+			game_manager.hazard_types.ASTEROID_FIELD:
 				@warning_ignore("integer_division")
 				hazard_timer.wait_time = 30.0 - (intensity / 2) * 5.0 + idx * 2.0
 				hazard_timer.start()
-			&"WARZONE":
+			game_manager.hazard_types.WARZONE:
 				@warning_ignore("integer_division")
 				hazard_timer.wait_time = 30.0 - (intensity / 2) * 5.0 + idx * 2.0
 				hazard_timer.start()
-			&"NEBULA":
+			game_manager.hazard_types.NEBULA:
 				@warning_ignore("integer_division")
 				hazard_timer.wait_time = 30.0 - (intensity / 2) * 5.0 + idx * 2.0
 				hazard_timer.start()
-			&"ICE_FIELD":
+			game_manager.hazard_types.ICE_FIELD:
 				create_ice_world(floorf(0.6 + 0.5 * intensity))
-			&"STAR_PROXIMITY":
+			game_manager.hazard_types.STAR_PROXIMITY:
 				match intensity:
 					1:
 						create_star(30, 1)
@@ -125,10 +125,10 @@ func propagate_hazard(idx: int) -> void:
 	if !game_manager.is_playing:
 		push_warning("Tried propagating hazard while round is over")
 		return
-	var hazard: String = current_location.hazards[idx]
+	var hazard: game_manager.hazard_types = current_location.hazards[idx]
 	var intensity: int = current_location.hazards_intensity[idx]
 	match hazard:
-		&"ASTEROID_FIELD":
+		game_manager.hazard_types.ASTEROID_FIELD:
 			var picked_option: int = 0
 			if randi() == 0:
 				picked_option = intensity
@@ -195,7 +195,7 @@ func propagate_hazard(idx: int) -> void:
 					else:
 						create_asteroid(game_manager.asteroid_types.LARGE, [Vector2.UP, Vector2.UP + Vector2.RIGHT].pick_random(), 3.0, true)
 						create_asteroid(game_manager.asteroid_types.SMALL, get_free_spot(), 3.0)
-		&"WARZONE":
+		game_manager.hazard_types.WARZONE:
 			match intensity:
 				1:
 					create_rocket(0.6, 7.0, 1)
@@ -219,7 +219,7 @@ func propagate_hazard(idx: int) -> void:
 				8:
 					for i in randi()%3:
 						create_rocket(2.0, 3.5, 3, i * 2.0)
-		&"NEBULA":
+		game_manager.hazard_types.NEBULA:
 			var picked_option: int = 0
 			if randi() == 0:
 				picked_option = clamp(intensity, 1, 7)

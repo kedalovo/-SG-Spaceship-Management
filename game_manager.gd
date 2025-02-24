@@ -202,11 +202,15 @@ static func get_map_node_tooltip(node: map_node) -> String:
 	var result: String = ""
 	for hazard_idx in node.hazards.size():
 		var haz := node.hazards[hazard_idx]
-		var haz_types: Array = node.hazards_types[hazard_idx]
-		if haz_types.is_empty():
+		if node.hazards_types.size() == 0:
 			result += get_hazard_text(haz, true) + ".\n"
 		else:
-			result += get_hazard_variation_text(haz_types) + get_hazard_text(haz)
+			var haz_types: Array = node.hazards_types[hazard_idx]
+			if haz_types.is_empty():
+				result += get_hazard_text(haz, true) + ".\n"
+			else:
+				result += get_hazard_variation_text(haz_types) + get_hazard_text(haz) + ".\n"
+	result += "\n" + get_hazard_list_text(node)
 	return result
 
 
@@ -216,7 +220,7 @@ static func get_hazard_text(haz_type: hazard_types, is_start: bool = false) -> S
 		hazard_types.ASTEROID_FIELD:
 			res = "asteroid field"
 		hazard_types.WARZONE:
-			res = "warone"
+			res = "warzone"
 		hazard_types.NEBULA:
 			res = "nebulae"
 		hazard_types.ICE_FIELD:
@@ -231,7 +235,7 @@ static func get_hazard_text(haz_type: hazard_types, is_start: bool = false) -> S
 	return res
 
 
-static func get_hazard_variation_text(variations: Array[damage_types]) -> String:
+static func get_hazard_variation_text(variations: Array) -> String:
 	var res: String = ""
 	if variations.size() == 2:
 		match variations[0]:
@@ -250,4 +254,34 @@ static func get_hazard_variation_text(variations: Array[damage_types]) -> String
 				res += "Fiery "
 			damage_types.ELECTRICITY:
 				res += "Electric "
+	return res
+
+
+static func get_hazard_list_text(node: map_node) -> String:
+	var res: String = ""
+	for i in node.hazards.size():
+		var haz: hazard_types = node.hazards[i]
+		var temp_res: String = ""
+		match haz:
+			hazard_types.ASTEROID_FIELD:
+				temp_res += POINT_SYMBOL + " physical hits from asteroids\n"
+				if node.hazards_types.size() > 0:
+					for dam_type in node.hazards_types[i]:
+						if dam_type == damage_types.HEAT:
+							temp_res += POINT_SYMBOL + " fiery asteroids\n"
+						elif dam_type == damage_types.ELECTRICITY:
+							temp_res += POINT_SYMBOL + " electrified asteroids\n"
+			hazard_types.WARZONE:
+				temp_res += POINT_SYMBOL + " physical hits from rockets\n"
+			hazard_types.NEBULA:
+				temp_res += POINT_SYMBOL + " electrical hits from nebulae\n"
+				if node.hazards_types.size() > 0:
+					for dam_type in node.hazards_types[i]:
+						if dam_type == damage_types.HEAT:
+							temp_res += POINT_SYMBOL + " fiery nebulae\n"
+			hazard_types.ICE_FIELD:
+				temp_res += POINT_SYMBOL + " abnormal temperatures\n"
+			hazard_types.STAR_PROXIMITY:
+				temp_res += POINT_SYMBOL + " solar flares\n"
+		res += temp_res
 	return res
