@@ -330,11 +330,19 @@ func tooltip_popup(node: map_node) -> void:
 			map_tooltip.self_modulate = Color("cbc800")
 		3:
 			map_tooltip.self_modulate = Color("cb0000")
-	map_tooltip.global_position = node.global_position + Vector2(16.0, 16.0)
-	if map_tooltip.global_position.y + map_tooltip.get_rect().size.y > 508.0:
-		map_tooltip.global_position = Vector2(16.0, -map_tooltip.get_rect().size.y - 16.0)
-	if map_tooltip.global_position.x + map_tooltip.get_rect().size.x > 928.0:
-		map_tooltip.global_position += Vector2(-map_tooltip.get_rect().size.x - 36.0, 16.0)
+	var rect_size := map_tooltip.get_rect().size
+	var target_pos := node.global_position + Vector2(16.0, 16.0)
+	# Top right
+	if target_pos.y + rect_size.y >= 508.0 and target_pos.x + rect_size.x <= 928.0:
+		map_tooltip.global_position = node.global_position + Vector2(16.0, -rect_size.y - 16.0)
+	# Bottom left
+	elif target_pos.x + rect_size.x >= 928.0 and target_pos.y + rect_size.y <= 508.0:
+		map_tooltip.global_position = node.global_position + Vector2(-rect_size.x - 16.0, 16.0)
+	# Top left
+	elif target_pos.y + rect_size.y >= 508.0 and target_pos.x + rect_size.x >= 928.0:
+		map_tooltip.global_position = node.global_position + Vector2(-rect_size.x - 16.0, -rect_size.y - 16.0)
+	else:
+		map_tooltip.global_position = target_pos
 	map_tooltip.toggle_open(true)
 
 

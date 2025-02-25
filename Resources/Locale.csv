@@ -1,0 +1,16 @@
+keys,en,ru
+ASTEROID_FIELD,asteroid field,поля астероидов
+WARZONE,warzone,военная зона
+NEBULAE,nebulae,туманности
+ICE_FIELD,ice field,ледяное поле
+STAR_PROXIMITY,star proximity,близость звезды
+FIERY,fiery,огненные
+ELECTRIC,electric,электрические
+PHYSICAL_ASTEROIDS,physical hits from asteroids,физические удары от астероидов
+FIERY_ASTEROIDS,fiery asteroids,огненные астероиды
+ELECTRIC_ASTEROIDS,electric asteroids,элетрические астероиды
+PHYSICAL_ROCKETS,physical hits from rockets,физические удары от ракет
+ELECTRIC_NEBULAE,electric hits from nebulae,электрические удары от тумманостей
+FIERY_NEBULAE,fiery nebulae,огненные туманности
+ABNORMAL_TEMPERATURES,abnormal temperatures,абнормальные температуры
+SOLAR_FLARES,solar flares,солнечные вспышки
