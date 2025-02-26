@@ -20,6 +20,8 @@ const QUESTION_ICON = preload("res://Map/Map Node/Icons/Question Icon.png")
 
 const ICONS: Array = [ASTEROID_ICON, MISSILE_ICON, NEBULA_ICON, SNOWFLAKE_ICON, STAR_ICON]
 
+const POINT_SYMBOL: String = "◆"
+
 @onready var map_nodes: Node2D = $"Map Nodes"
 @onready var map_container: Control = $"Scroll/Map Container"
 @onready var scroll: ScrollContainer = $Scroll
@@ -320,9 +322,9 @@ func generate_map() -> void:
 
 
 func tooltip_popup(node: map_node) -> void:
-	if node.is_wormhole or node.is_secret:
+	if node.is_wormhole:
 		return
-	map_tooltip.set_text(game_manager.get_map_node_tooltip(node))
+	map_tooltip.set_text(get_map_node_tooltip(node))
 	match node.difficulty:
 		1:
 			map_tooltip.self_modulate = Color("00cb00")
@@ -331,19 +333,115 @@ func tooltip_popup(node: map_node) -> void:
 		3:
 			map_tooltip.self_modulate = Color("cb0000")
 	var rect_size := map_tooltip.get_rect().size
-	var target_pos := node.global_position + Vector2(16.0, 16.0)
+	var target_pos := node.global_position + Vector2(18.0, 18.0)
 	# Top right
 	if target_pos.y + rect_size.y >= 508.0 and target_pos.x + rect_size.x <= 928.0:
-		map_tooltip.global_position = node.global_position + Vector2(16.0, -rect_size.y - 16.0)
+		if target_pos.y - rect_size.y <= 0.0:
+			map_tooltip.global_position = Vector2(node.global_position.x + 18.0, 32.0)
+		else:
+			map_tooltip.global_position = node.global_position + Vector2(18.0, -rect_size.y - 18.0)
 	# Bottom left
 	elif target_pos.x + rect_size.x >= 928.0 and target_pos.y + rect_size.y <= 508.0:
-		map_tooltip.global_position = node.global_position + Vector2(-rect_size.x - 16.0, 16.0)
+		map_tooltip.global_position = node.global_position + Vector2(-rect_size.x - 18.0, 18.0)
 	# Top left
 	elif target_pos.y + rect_size.y >= 508.0 and target_pos.x + rect_size.x >= 928.0:
-		map_tooltip.global_position = node.global_position + Vector2(-rect_size.x - 16.0, -rect_size.y - 16.0)
+		if target_pos.y - rect_size.y <= 0.0:
+			map_tooltip.global_position = Vector2(node.global_position.x - rect_size.x - 18.0, 32.0)
+		else:
+			map_tooltip.global_position = node.global_position + Vector2(-rect_size.x - 18.0, -rect_size.y - 18.0)
+	# Bottom right
 	else:
 		map_tooltip.global_position = target_pos
 	map_tooltip.toggle_open(true)
+
+
+func get_map_node_tooltip(node: map_node) -> String:
+	var result: String = ""
+	for hazard_idx in node.hazards.size():
+		var haz := node.hazards[hazard_idx]
+		if node.hazards_types.size() == 0:
+			result += get_hazard_text(haz, true) + ".\n"
+		else:
+			var haz_types: Array = node.hazards_types[hazard_idx]
+			if haz_types.is_empty():
+				result += get_hazard_text(haz, true) + ".\n"
+			else:
+				result += get_hazard_variation_text(haz_types) + get_hazard_text(haz) + ".\n"
+	result += "\n" + get_hazard_list_text(node)
+	return result
+
+
+func get_hazard_text(haz_type: game_manager.hazard_types, is_start: bool = false) -> String:
+	var res: String = ""
+	match haz_type:
+		game_manager.hazard_types.ASTEROID_FIELD:
+			res = tr("ASTEROID_FIELD")
+		game_manager.hazard_types.WARZONE:
+			res = tr("WARZONE")
+		game_manager.hazard_types.NEBULA:
+			res = tr("NEBULAE")
+		game_manager.hazard_types.ICE_FIELD:
+			res = tr("ICE_FIELD")
+		game_manager.hazard_types.STAR_PROXIMITY:
+			res = tr("STAR_PROXIMITY")
+	if is_start:
+		if res.length() < 9:
+			res = res.capitalize()
+		else:
+			res = res.substr(0, res.find(" ")).capitalize() + res.substr(res.find(" "))
+	return res
+
+
+func get_hazard_variation_text(variations: Array) -> String:
+	var res: String = ""
+	if variations.size() == 2:
+		match variations[0]:
+			game_manager.damage_types.HEAT:
+				res += tr("FIERY").capitalize() + " "
+			game_manager.damage_types.ELECTRICITY:
+				res += tr("ELECTRIC").capitalize() + " "
+		match variations[1]:
+			game_manager.damage_types.HEAT:
+				res += tr("FIERY") + " "
+			game_manager.damage_types.ELECTRICITY:
+				res += tr("ELECTRIC") + " "
+	else:
+		match variations[0]:
+			game_manager.damage_types.HEAT:
+				res += tr("FIERY").capitalize() + " "
+			game_manager.damage_types.ELECTRICITY:
+				res += tr("ELECTRIC").capitalize() + " "
+	return res
+
+
+func get_hazard_list_text(node: map_node) -> String:
+	var res: String = ""
+	for i in node.hazards.size():
+		var haz: game_manager.hazard_types = node.hazards[i]
+		var temp_res: String = ""
+		match haz:
+			game_manager.hazard_types.ASTEROID_FIELD:
+				temp_res += POINT_SYMBOL + " " + tr("PHYSICAL_ASTEROIDS") + "\n"
+				if node.hazards_types.size() > 0:
+					for dam_type in node.hazards_types[i]:
+						if dam_type == game_manager.damage_types.HEAT:
+							temp_res += POINT_SYMBOL + " " + tr("FIERY_ASTEROIDS") + "\n"
+						elif dam_type == game_manager.damage_types.ELECTRICITY:
+							temp_res += POINT_SYMBOL + " " + tr("ELECTRIC_ASTEROIDS") + "\n"
+			game_manager.hazard_types.WARZONE:
+				temp_res += POINT_SYMBOL + " " + tr("PHYSICAL_ROCKETS") + "\n"
+			game_manager.hazard_types.NEBULA:
+				temp_res += POINT_SYMBOL + " " + tr("ELECTRIC_NEBULAE") + "\n"
+				if node.hazards_types.size() > 0:
+					for dam_type in node.hazards_types[i]:
+						if dam_type == game_manager.damage_types.HEAT:
+							temp_res += POINT_SYMBOL + " " + tr("FIERY_NEBULAE") + "\n"
+			game_manager.hazard_types.ICE_FIELD:
+				temp_res += POINT_SYMBOL + " " + tr("ABNORMAL_TEMPERATURES") + "\n"
+			game_manager.hazard_types.STAR_PROXIMITY:
+				temp_res += POINT_SYMBOL + " " + tr("SOLAR_FLARES") + "\n"
+		res += temp_res
+	return res
 
 
 func _on_map_node_mouse_enter(node: map_node) -> void:
@@ -393,6 +491,6 @@ func _on_store_button_mouse_exited() -> void:
 
 func _on_scroll_gui_input(event: InputEvent) -> void:
 	if event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_WHEEL_UP and !event.pressed:
-		Input.warp_mouse(get_local_mouse_position())
+		get_viewport().warp_mouse(get_local_mouse_position())
 	elif event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_WHEEL_DOWN and !event.pressed:
-		Input.warp_mouse(get_local_mouse_position())
+		get_viewport().warp_mouse(get_local_mouse_position())

@@ -32,8 +32,6 @@ const SMALL_NEBULA = preload("res://Hazards/Nebula/Assets/Nebula 1x1.png")
 
 const WIRE_COLORS: Array[Color] = [Color.RED, Color.BLUE, Color.YELLOW, Color.GREEN, Color.MAGENTA]
 
-const POINT_SYMBOL: String = "◆"
-
 static var wear_modifier: float = 1.0
 
 static var balance: int:
@@ -196,92 +194,3 @@ static func get_random_text(length: int) -> String:
 			random_num += 33
 		result += String.chr(random_num)
 	return result
-
-
-static func get_map_node_tooltip(node: map_node) -> String:
-	var result: String = ""
-	for hazard_idx in node.hazards.size():
-		var haz := node.hazards[hazard_idx]
-		if node.hazards_types.size() == 0:
-			result += get_hazard_text(haz, true) + ".\n"
-		else:
-			var haz_types: Array = node.hazards_types[hazard_idx]
-			if haz_types.is_empty():
-				result += get_hazard_text(haz, true) + ".\n"
-			else:
-				result += get_hazard_variation_text(haz_types) + get_hazard_text(haz) + ".\n"
-	result += "\n" + get_hazard_list_text(node)
-	return result
-
-
-static func get_hazard_text(haz_type: hazard_types, is_start: bool = false) -> String:
-	var res: String = ""
-	match haz_type:
-		hazard_types.ASTEROID_FIELD:
-			res = "ASTEROID_FIELD"
-		hazard_types.WARZONE:
-			res = "WARZONE"
-		hazard_types.NEBULA:
-			res = "NEBULAE"
-		hazard_types.ICE_FIELD:
-			res = "ICE_FIELD"
-		hazard_types.STAR_PROXIMITY:
-			res = "STAR_PROXIMITY"
-	if is_start:
-		if res.length() < 9:
-			res = res.capitalize()
-		else:
-			res = res.substr(0, res.find(" ")).capitalize() + res.substr(res.find(" "))
-	return res
-
-
-static func get_hazard_variation_text(variations: Array) -> String:
-	var res: String = ""
-	if variations.size() == 2:
-		match variations[0]:
-			damage_types.HEAT:
-				res += "FIERY".capitalize() + " "
-			damage_types.ELECTRICITY:
-				res += "ELECTRIC".capitalize() + " "
-		match variations[1]:
-			damage_types.HEAT:
-				res += "FIERY" + " "
-			damage_types.ELECTRICITY:
-				res += "ELECTRIC" + " "
-	else:
-		match variations[0]:
-			damage_types.HEAT:
-				res += "FIERY".capitalize() + " "
-			damage_types.ELECTRICITY:
-				res += "ELECTRIC".capitalize() + " "
-	return res
-
-
-static func get_hazard_list_text(node: map_node) -> String:
-	var res: String = ""
-	for i in node.hazards.size():
-		var haz: hazard_types = node.hazards[i]
-		var temp_res: String = ""
-		match haz:
-			hazard_types.ASTEROID_FIELD:
-				temp_res += POINT_SYMBOL + " " + "PHYSICAL_ASTEROIDS" + "\n"
-				if node.hazards_types.size() > 0:
-					for dam_type in node.hazards_types[i]:
-						if dam_type == damage_types.HEAT:
-							temp_res += POINT_SYMBOL + " " + "FIERY_ASTEROIDS" + "\n"
-						elif dam_type == damage_types.ELECTRICITY:
-							temp_res += POINT_SYMBOL + " " + "ELECTRIC_ASTEROIDS" + "\n"
-			hazard_types.WARZONE:
-				temp_res += POINT_SYMBOL + " " + "PHYSICAL_ROCKETS" + "\n"
-			hazard_types.NEBULA:
-				temp_res += POINT_SYMBOL + " " + "ELECTRIC_NEBULAE" + "\n"
-				if node.hazards_types.size() > 0:
-					for dam_type in node.hazards_types[i]:
-						if dam_type == damage_types.HEAT:
-							temp_res += POINT_SYMBOL + " " + "FIERY_NEBULAE" + "\n"
-			hazard_types.ICE_FIELD:
-				temp_res += POINT_SYMBOL + " " + "ABNORMAL_TEMPERATURES" + "\n"
-			hazard_types.STAR_PROXIMITY:
-				temp_res += POINT_SYMBOL + " " + "SOLAR_FLARES" + "\n"
-		res += temp_res
-	return res

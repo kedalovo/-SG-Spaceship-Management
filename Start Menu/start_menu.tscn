@@ -1,0 +1,107 @@
+[gd_scene load_steps=11 format=3 uid="uid://dn4ym10lpebtm"]
+
+[ext_resource type="Theme" uid="uid://b44tv8qw1g4bl" path="res://Resources/Theme/main_theme.tres" id="1_1wxod"]
+[ext_resource type="Script" path="res://Start Menu/start_menu.gd" id="2_iqtfu"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_bjs4s"]
+bg_color = Color(0, 0, 0, 1)
+
+[sub_resource type="Gradient" id="Gradient_8kml1"]
+offsets = PackedFloat32Array(0, 0.3, 0.7, 1)
+colors = PackedColorArray(1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0)
+metadata/_snap_enabled = true
+
+[sub_resource type="Gradient" id="Gradient_dw87f"]
+offsets = PackedFloat32Array(0, 0.2, 1)
+colors = PackedColorArray(1, 1, 1, 0, 1, 1, 1, 0, 1, 1, 1, 0.596078)
+metadata/_snap_enabled = true
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_jnt4f"]
+noise_type = 2
+seed = 18
+frequency = 0.015
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_23h7x"]
+width = 960
+height = 540
+generate_mipmaps = false
+seamless = true
+normalize = false
+color_ramp = SubResource("Gradient_dw87f")
+noise = SubResource("FastNoiseLite_jnt4f")
+
+[sub_resource type="Gradient" id="Gradient_87mra"]
+offsets = PackedFloat32Array(0, 0.4, 1)
+colors = PackedColorArray(1, 1, 1, 0, 1, 1, 1, 0, 1, 1, 1, 0.392157)
+metadata/_snap_enabled = true
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_ak4ea"]
+seed = 18
+frequency = 0.004
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_jkpon"]
+width = 960
+height = 540
+generate_mipmaps = false
+seamless = true
+normalize = false
+color_ramp = SubResource("Gradient_87mra")
+noise = SubResource("FastNoiseLite_ak4ea")
+
+[node name="Start menu" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("1_1wxod")
+script = ExtResource("2_iqtfu")
+
+[node name="Background Container" type="PanelContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_bjs4s")
+
+[node name="Space Particles" type="CPUParticles2D" parent="Background Container"]
+position = Vector2(480, 272)
+amount = 500
+lifetime = 10.0
+preprocess = 10.0
+emission_shape = 3
+emission_rect_extents = Vector2(480, 270)
+direction = Vector2(0, 0)
+spread = 180.0
+gravity = Vector2(0, 0)
+initial_velocity_max = 2.0
+scale_amount_max = 2.0
+color_ramp = SubResource("Gradient_8kml1")
+
+[node name="Noise" type="TextureRect" parent="Background Container"]
+modulate = Color(1, 0, 0, 1)
+layout_mode = 2
+texture = SubResource("NoiseTexture2D_23h7x")
+
+[node name="Noise 2" type="TextureRect" parent="Background Container"]
+modulate = Color(0, 0, 1, 1)
+layout_mode = 2
+texture = SubResource("NoiseTexture2D_jkpon")
+
+[node name="VBox" type="VBoxContainer" parent="Background Container"]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+
+[node name="Start Button" type="Button" parent="Background Container/VBox"]
+layout_mode = 2
+focus_mode = 0
+text = "Start game"
+
+[node name="Exit Button" type="Button" parent="Background Container/VBox"]
+layout_mode = 2
+focus_mode = 0
+text = "Exit"
