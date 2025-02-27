@@ -1,7 +1,73 @@
-[gd_resource type="Theme" load_steps=2 format=3 uid="uid://b44tv8qw1g4bl"]
+[gd_resource type="Theme" load_steps=16 format=3 uid="uid://b44tv8qw1g4bl"]
 
 [ext_resource type="FontFile" uid="uid://cwh545aike8r4" path="res://Resources/Theme/Tektur-VariableFont_wdth,wght.ttf" id="1_hqxj6"]
+[ext_resource type="Texture2D" uid="uid://50a261m76es3" path="res://Map/Assets/Tooltip border.png" id="2_itobq"]
+[ext_resource type="Texture2D" uid="uid://bw0sxd53o2dh" path="res://UI/Check Button checked.png" id="3_qsw7m"]
+[ext_resource type="Texture2D" uid="uid://ctcnss4khu67b" path="res://UI/Check Button unchecked.png" id="4_150k2"]
+
+[sub_resource type="FontVariation" id="FontVariation_j06md"]
+base_font = ExtResource("1_hqxj6")
+variation_opentype = {
+2003072104: 100,
+2003265652: 600
+}
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_ho8ia"]
+texture = ExtResource("2_itobq")
+texture_margin_left = 12.0
+texture_margin_top = 12.0
+texture_margin_right = 12.0
+texture_margin_bottom = 12.0
+modulate_color = Color(0.246094, 0.246094, 0.246094, 1)
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_f8epd"]
+texture = ExtResource("2_itobq")
+texture_margin_left = 12.0
+texture_margin_top = 12.0
+texture_margin_right = 12.0
+texture_margin_bottom = 12.0
+modulate_color = Color(0.699219, 0.943604, 1, 1)
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_kt2v8"]
+texture = ExtResource("2_itobq")
+texture_margin_left = 12.0
+texture_margin_top = 12.0
+texture_margin_right = 12.0
+texture_margin_bottom = 12.0
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_157cq"]
+texture = ExtResource("2_itobq")
+texture_margin_left = 12.0
+texture_margin_top = 12.0
+texture_margin_right = 12.0
+texture_margin_bottom = 12.0
+modulate_color = Color(0.535156, 0.535156, 0.535156, 1)
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_hntyu"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_3kxg2"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_dadii"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_1n1lo"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_jjfl2"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_do68j"]
 
 [resource]
 default_font = ExtResource("1_hqxj6")
 default_font_size = 16
+Button/fonts/font = SubResource("FontVariation_j06md")
+Button/styles/disabled = SubResource("StyleBoxTexture_ho8ia")
+Button/styles/hover = SubResource("StyleBoxTexture_f8epd")
+Button/styles/normal = SubResource("StyleBoxTexture_kt2v8")
+Button/styles/pressed = SubResource("StyleBoxTexture_157cq")
+CheckButton/icons/checked = ExtResource("3_qsw7m")
+CheckButton/icons/unchecked = ExtResource("4_150k2")
+CheckButton/styles/disabled = SubResource("StyleBoxEmpty_hntyu")
+CheckButton/styles/focus = SubResource("StyleBoxEmpty_3kxg2")
+CheckButton/styles/hover = SubResource("StyleBoxEmpty_dadii")
+CheckButton/styles/hover_pressed = SubResource("StyleBoxEmpty_1n1lo")
+CheckButton/styles/normal = SubResource("StyleBoxEmpty_jjfl2")
+CheckButton/styles/pressed = SubResource("StyleBoxEmpty_do68j")

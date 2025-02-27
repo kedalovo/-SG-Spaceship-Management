@@ -99,9 +99,100 @@ size_flags_vertical = 4
 [node name="Start Button" type="Button" parent="Background Container/VBox"]
 layout_mode = 2
 focus_mode = 0
-text = "Start game"
+mouse_default_cursor_shape = 2
+text = "New game"
+
+[node name="ColorRect" type="ColorRect" parent="Background Container/VBox/Start Button"]
+show_behind_parent = true
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+color = Color(0, 0, 0, 0.54902)
+
+[node name="Continue Button" type="Button" parent="Background Container/VBox"]
+layout_mode = 2
+focus_mode = 0
+mouse_default_cursor_shape = 2
+disabled = true
+text = "Continue"
+
+[node name="ColorRect" type="ColorRect" parent="Background Container/VBox/Continue Button"]
+show_behind_parent = true
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+color = Color(0, 0, 0, 0.54902)
+
+[node name="Tutorial Button" type="Button" parent="Background Container/VBox"]
+layout_mode = 2
+focus_mode = 0
+mouse_default_cursor_shape = 2
+text = "Tutorial"
+
+[node name="ColorRect" type="ColorRect" parent="Background Container/VBox/Tutorial Button"]
+show_behind_parent = true
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+color = Color(0, 0, 0, 0.54902)
 
 [node name="Exit Button" type="Button" parent="Background Container/VBox"]
 layout_mode = 2
 focus_mode = 0
+mouse_default_cursor_shape = 2
 text = "Exit"
+
+[node name="ColorRect" type="ColorRect" parent="Background Container/VBox/Exit Button"]
+show_behind_parent = true
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+color = Color(0, 0, 0, 0.54902)
+
+[node name="Margin" type="MarginContainer" parent="Background Container"]
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/margin_left = 16
+theme_override_constants/margin_top = 16
+theme_override_constants/margin_right = 16
+theme_override_constants/margin_bottom = 16
+
+[node name="Language HBox" type="HBoxContainer" parent="Background Container/Margin"]
+layout_mode = 2
+size_flags_vertical = 8
+alignment = 1
+
+[node name="English Label" type="Label" parent="Background Container/Margin/Language HBox"]
+layout_mode = 2
+size_flags_horizontal = 10
+text = "English"
+
+[node name="CheckButton" type="CheckButton" parent="Background Container/Margin/Language HBox"]
+layout_mode = 2
+size_flags_horizontal = 4
+
+[node name="Russian Label" type="Label" parent="Background Container/Margin/Language HBox"]
+layout_mode = 2
+size_flags_horizontal = 2
+text = "Русский"
+
+[connection signal="pressed" from="Background Container/VBox/Start Button" to="." method="_on_start_button_pressed"]
+[connection signal="pressed" from="Background Container/VBox/Continue Button" to="." method="_on_continue_button_pressed"]
+[connection signal="pressed" from="Background Container/VBox/Tutorial Button" to="." method="_on_tutorial_button_pressed"]
+[connection signal="pressed" from="Background Container/VBox/Exit Button" to="." method="_on_exit_button_pressed"]
