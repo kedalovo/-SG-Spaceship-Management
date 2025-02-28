@@ -7,11 +7,17 @@ const CURSOR_POINTER = preload("res://UI/Cursor pointer.png")
 
 @onready var noise: TextureRect = $"Background Container/Noise"
 @onready var noise_2: TextureRect = $"Background Container/Noise 2"
+@onready var progress: TextureProgressBar = $"Background Container/Margin/VBox/Progress"
+@onready var animator: AnimationPlayer = $"Background Container/Animator"
 
+var game_scene: Node
 
 var loading_progress: Array = []
 
+var last_progress: float = 0.0
+
 var is_loading_game: bool = false
+var is_finished_loading: bool = false
 
 
 func _ready() -> void:
@@ -26,16 +32,39 @@ func _notification(what: int) -> void:
 		quit_game()
 
 
+func _input(event: InputEvent) -> void:
+	if event.is_action_pressed(&"esc"):
+		quit_game()
+
+
 func _process(_delta: float) -> void:
 	if is_loading_game:
 		ResourceLoader.load_threaded_get_status("res://Game Scene/game.tscn", loading_progress)
-		print(loading_progress)
+		if last_progress < loading_progress[0]:
+			last_progress = loading_progress[0]
+			var tween: = get_tree().create_tween()
+			tween.tween_property(progress, "value", loading_progress[0] * 100, 1.0).set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
+			if last_progress == 1.0:
+				tween.finished.connect(_on_loading_finished)
+				game_scene = ResourceLoader.load_threaded_get("res://Game Scene/game.tscn").instantiate()
+				is_loading_game = false
 
 
 func quit_game() -> void:
 	Input.set_custom_mouse_cursor(null, Input.CURSOR_ARROW)
 	Input.set_custom_mouse_cursor(null, Input.CURSOR_POINTING_HAND)
 	get_tree().quit()
+
+
+func switch_scene() -> void:
+	get_tree().set_current_scene(game_scene)
+	queue_free()
+
+
+func _on_loading_finished() -> void:
+	get_tree().root.add_child(game_scene)
+	get_tree().root.move_child(game_scene, 1)
+	animator.play(&"start_game")
 
 
 func _on_start_button_pressed() -> void:

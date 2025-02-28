@@ -1,4 +1,4 @@
-[gd_scene load_steps=11 format=3 uid="uid://dn4ym10lpebtm"]
+[gd_scene load_steps=16 format=3 uid="uid://dn4ym10lpebtm"]
 
 [ext_resource type="Theme" uid="uid://b44tv8qw1g4bl" path="res://Resources/Theme/main_theme.tres" id="1_1wxod"]
 [ext_resource type="Script" path="res://Start Menu/start_menu.gd" id="2_iqtfu"]
@@ -48,7 +48,154 @@ normalize = false
 color_ramp = SubResource("Gradient_87mra")
 noise = SubResource("FastNoiseLite_ak4ea")
 
+[sub_resource type="Gradient" id="Gradient_1x2xf"]
+colors = PackedColorArray(1, 1, 1, 1, 1, 1, 1, 1)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_6biy0"]
+gradient = SubResource("Gradient_1x2xf")
+width = 106
+
+[sub_resource type="Animation" id="Animation_fo05p"]
+resource_name = "start_game"
+length = 4.0
+step = 0.1
+tracks/0/type = "bezier"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Margin:modulate:a")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"handle_modes": PackedInt32Array(0, 0),
+"points": PackedFloat32Array(1, -0.25, 0, 0.25, 0, 0, -0.25, 0, 0.25, 0),
+"times": PackedFloat32Array(0, 1.5)
+}
+tracks/1/type = "bezier"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Space Particles:modulate:a")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"handle_modes": PackedInt32Array(0, 0),
+"points": PackedFloat32Array(1, -0.25, 0, 0.25, 0, 0, -0.25, 0, 0.25, 0),
+"times": PackedFloat32Array(2, 4)
+}
+tracks/2/type = "bezier"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath(".:theme_override_styles/panel:bg_color:a")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"handle_modes": PackedInt32Array(0, 0),
+"points": PackedFloat32Array(1, -0.25, 0, 0.25, 0, 0, -0.25, 0, 0.25, 0),
+"times": PackedFloat32Array(2, 4)
+}
+tracks/3/type = "bezier"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("Noise:modulate:a")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"handle_modes": PackedInt32Array(0, 0),
+"points": PackedFloat32Array(1, -0.25, 0, 0.25, 0, 0, -0.25, 0, 0.25, 0),
+"times": PackedFloat32Array(2, 4)
+}
+tracks/4/type = "bezier"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("Noise 2:modulate:a")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"handle_modes": PackedInt32Array(0, 0),
+"points": PackedFloat32Array(1, -0.25, 0, 0.25, 0, 0, -0.25, 0, 0.25, 0),
+"times": PackedFloat32Array(2, 4)
+}
+tracks/5/type = "method"
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/path = NodePath("..")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/keys = {
+"times": PackedFloat32Array(4),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": [],
+"method": &"switch_scene"
+}]
+}
+
+[sub_resource type="Animation" id="Animation_ibsy0"]
+length = 0.001
+tracks/0/type = "bezier"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Margin:modulate:a")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"handle_modes": PackedInt32Array(0),
+"points": PackedFloat32Array(1, -0.25, 0, 0.25, 0),
+"times": PackedFloat32Array(0)
+}
+tracks/1/type = "bezier"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Space Particles:modulate:a")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"handle_modes": PackedInt32Array(0),
+"points": PackedFloat32Array(1, -0.25, 0, 0.25, 0),
+"times": PackedFloat32Array(0)
+}
+tracks/2/type = "bezier"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath(".:theme_override_styles/panel:bg_color:a")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"handle_modes": PackedInt32Array(0),
+"points": PackedFloat32Array(1, -0.25, 0, 0.25, 0),
+"times": PackedFloat32Array(0)
+}
+tracks/3/type = "bezier"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("Noise:modulate:a")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"handle_modes": PackedInt32Array(0),
+"points": PackedFloat32Array(1, -0.25, 0, 0.25, 0),
+"times": PackedFloat32Array(0)
+}
+tracks/4/type = "bezier"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("Noise 2:modulate:a")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"handle_modes": PackedInt32Array(0),
+"points": PackedFloat32Array(1, -0.25, 0, 0.25, 0),
+"times": PackedFloat32Array(0)
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_gbyqn"]
+_data = {
+"RESET": SubResource("Animation_ibsy0"),
+"start_game": SubResource("Animation_fo05p")
+}
+
 [node name="Start menu" type="Control"]
+top_level = true
+z_index = 20
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -91,80 +238,6 @@ modulate = Color(0, 0, 1, 1)
 layout_mode = 2
 texture = SubResource("NoiseTexture2D_jkpon")
 
-[node name="VBox" type="VBoxContainer" parent="Background Container"]
-layout_mode = 2
-size_flags_horizontal = 4
-size_flags_vertical = 4
-
-[node name="Start Button" type="Button" parent="Background Container/VBox"]
-layout_mode = 2
-focus_mode = 0
-mouse_default_cursor_shape = 2
-text = "New game"
-
-[node name="ColorRect" type="ColorRect" parent="Background Container/VBox/Start Button"]
-show_behind_parent = true
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-mouse_filter = 2
-color = Color(0, 0, 0, 0.54902)
-
-[node name="Continue Button" type="Button" parent="Background Container/VBox"]
-layout_mode = 2
-focus_mode = 0
-mouse_default_cursor_shape = 2
-disabled = true
-text = "Continue"
-
-[node name="ColorRect" type="ColorRect" parent="Background Container/VBox/Continue Button"]
-show_behind_parent = true
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-mouse_filter = 2
-color = Color(0, 0, 0, 0.54902)
-
-[node name="Tutorial Button" type="Button" parent="Background Container/VBox"]
-layout_mode = 2
-focus_mode = 0
-mouse_default_cursor_shape = 2
-text = "Tutorial"
-
-[node name="ColorRect" type="ColorRect" parent="Background Container/VBox/Tutorial Button"]
-show_behind_parent = true
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-mouse_filter = 2
-color = Color(0, 0, 0, 0.54902)
-
-[node name="Exit Button" type="Button" parent="Background Container/VBox"]
-layout_mode = 2
-focus_mode = 0
-mouse_default_cursor_shape = 2
-text = "Exit"
-
-[node name="ColorRect" type="ColorRect" parent="Background Container/VBox/Exit Button"]
-show_behind_parent = true
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-mouse_filter = 2
-color = Color(0, 0, 0, 0.54902)
-
 [node name="Margin" type="MarginContainer" parent="Background Container"]
 layout_mode = 2
 mouse_filter = 2
@@ -192,7 +265,92 @@ layout_mode = 2
 size_flags_horizontal = 2
 text = "Русский"
 
-[connection signal="pressed" from="Background Container/VBox/Start Button" to="." method="_on_start_button_pressed"]
-[connection signal="pressed" from="Background Container/VBox/Continue Button" to="." method="_on_continue_button_pressed"]
-[connection signal="pressed" from="Background Container/VBox/Tutorial Button" to="." method="_on_tutorial_button_pressed"]
-[connection signal="pressed" from="Background Container/VBox/Exit Button" to="." method="_on_exit_button_pressed"]
+[node name="VBox" type="VBoxContainer" parent="Background Container/Margin"]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+
+[node name="Progress" type="TextureProgressBar" parent="Background Container/Margin/VBox"]
+custom_minimum_size = Vector2(0, 3)
+layout_mode = 2
+nine_patch_stretch = true
+texture_progress = SubResource("GradientTexture1D_6biy0")
+
+[node name="Start Button" type="Button" parent="Background Container/Margin/VBox"]
+layout_mode = 2
+focus_mode = 0
+mouse_default_cursor_shape = 2
+text = "New game"
+
+[node name="ColorRect" type="ColorRect" parent="Background Container/Margin/VBox/Start Button"]
+show_behind_parent = true
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+color = Color(0, 0, 0, 0.54902)
+
+[node name="Continue Button" type="Button" parent="Background Container/Margin/VBox"]
+layout_mode = 2
+focus_mode = 0
+mouse_default_cursor_shape = 2
+disabled = true
+text = "Continue"
+
+[node name="ColorRect" type="ColorRect" parent="Background Container/Margin/VBox/Continue Button"]
+show_behind_parent = true
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+color = Color(0, 0, 0, 0.54902)
+
+[node name="Tutorial Button" type="Button" parent="Background Container/Margin/VBox"]
+layout_mode = 2
+focus_mode = 0
+mouse_default_cursor_shape = 2
+text = "Tutorial"
+
+[node name="ColorRect" type="ColorRect" parent="Background Container/Margin/VBox/Tutorial Button"]
+show_behind_parent = true
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+color = Color(0, 0, 0, 0.54902)
+
+[node name="Exit Button" type="Button" parent="Background Container/Margin/VBox"]
+layout_mode = 2
+focus_mode = 0
+mouse_default_cursor_shape = 2
+text = "Exit"
+
+[node name="ColorRect" type="ColorRect" parent="Background Container/Margin/VBox/Exit Button"]
+show_behind_parent = true
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+color = Color(0, 0, 0, 0.54902)
+
+[node name="Animator" type="AnimationPlayer" parent="Background Container"]
+libraries = {
+"": SubResource("AnimationLibrary_gbyqn")
+}
+
+[connection signal="pressed" from="Background Container/Margin/VBox/Start Button" to="." method="_on_start_button_pressed"]
+[connection signal="pressed" from="Background Container/Margin/VBox/Continue Button" to="." method="_on_continue_button_pressed"]
+[connection signal="pressed" from="Background Container/Margin/VBox/Tutorial Button" to="." method="_on_tutorial_button_pressed"]
+[connection signal="pressed" from="Background Container/Margin/VBox/Exit Button" to="." method="_on_exit_button_pressed"]
