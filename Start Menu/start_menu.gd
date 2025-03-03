@@ -82,3 +82,11 @@ func _on_tutorial_button_pressed() -> void:
 
 func _on_exit_button_pressed() -> void:
 	quit_game()
+
+
+func _on_check_button_toggled(toggled_on: bool) -> void:
+	match toggled_on:
+		true:
+			TranslationServer.set_locale("ru")
+		false:
+			TranslationServer.set_locale("en")

@@ -178,11 +178,7 @@ script = ExtResource("3_ch6t5")
 upgrade = 8
 is_bottom_button = true
 time = 1.0
-custom_tooltip = "Algae.
-
-This resource is essential to have in order to generate oxygen.
-
-We recommend buying as much of it as you possibly can."
+custom_tooltip = "TOOLTIP_ALGAE"
 
 [node name="Background ColorRect" type="ColorRect" parent="Buttons/Algae Button"]
 layout_mode = 1
@@ -234,11 +230,7 @@ script = ExtResource("3_ch6t5")
 upgrade = 9
 is_bottom_button = true
 time = 1.0
-custom_tooltip = "Fuel cell.
-
-These cells contain fuel for your engines.
-
-Without them you wouldn't be able to go anywhere!"
+custom_tooltip = "TOOLTIP_FUEL"
 
 [node name="Background ColorRect" type="ColorRect" parent="Buttons/Fuel Button"]
 layout_mode = 1
@@ -305,11 +297,7 @@ script = ExtResource("3_ch6t5")
 upgrade = 10
 is_bottom_button = true
 time = 1.0
-custom_tooltip = "Coolant cells.
-
-These cells contain coolant for you engines.
-
-They protect your system from overheating."
+custom_tooltip = "TOOLTIP_COOLANT"
 
 [node name="Background ColorRect" type="ColorRect" parent="Buttons/Coolant Button"]
 layout_mode = 1
@@ -376,11 +364,7 @@ script = ExtResource("3_ch6t5")
 upgrade = 11
 is_bottom_button = true
 time = 1.0
-custom_tooltip = "Patches.
-
-These patches are an advanced technology that allows to plug holes of all shapes.
-
-Very useful in a nerve-wracking spaceflight full of dangers."
+custom_tooltip = "TOOLTIP_PATCH"
 
 [node name="Background ColorRect" type="ColorRect" parent="Buttons/Patch Button"]
 layout_mode = 1
@@ -431,11 +415,7 @@ texture_click_mask = ExtResource("2_k7hq7")
 script = ExtResource("3_ch6t5")
 upgrade = 1
 price = 3
-custom_tooltip = "Life support upgrade 1.
-
-Life support is essential to your survival in space, since it provides breathable air and keeps your temperature at a normal level.
-
-This upgrade makes your tank bigger, so that you can store more algae and survive for a longer time."
+custom_tooltip = "TOOLTIP_LIFE_SUPPORT_1"
 
 [node name="Progress" type="TextureProgressBar" parent="Buttons/Top Left Button"]
 layout_mode = 0
@@ -468,11 +448,7 @@ stretch_mode = 0
 script = ExtResource("3_ch6t5")
 upgrade = 3
 price = 3
-custom_tooltip = "Engines upgrade.
-
-Engines keep your ship running, so it's important to take care of them.
-
-This upgrade will make it much easier to make sure you are putting the right cells into the right slots by highlighting them."
+custom_tooltip = "TOOLTIP_ENGINES"
 
 [node name="Progress" type="TextureProgressBar" parent="Buttons/Top Middle Button"]
 layout_mode = 1
@@ -507,11 +483,7 @@ texture_click_mask = ExtResource("3_2ow5o")
 script = ExtResource("3_ch6t5")
 upgrade = 4
 price = 3
-custom_tooltip = "Hull upgrade 1.
-
-Your ship's hull is your entire life, if it breaks, you go down with it.
-
-This upgrade provides enhancement to the patch technology by making the screws bigger, making it easier to hit them in time."
+custom_tooltip = "TOOLTIP_HULL_1"
 
 [node name="Progress" type="TextureProgressBar" parent="Buttons/Top Right Button"]
 layout_mode = 0
@@ -543,11 +515,7 @@ texture_click_mask = ExtResource("5_10xce")
 script = ExtResource("3_ch6t5")
 upgrade = 7
 price = 3
-custom_tooltip = "Ballistic upgrade.
-
-Space is filled with terrible dangers that can drastically lower your chances of making it through.
-
-The ballistic system will allow you to anticipate the hits better, predicting when and where they will hit."
+custom_tooltip = "TOOLTIP_BALLISTIC"
 
 [node name="Progress" type="TextureProgressBar" parent="Buttons/Bottom Left Button"]
 layout_mode = 0
@@ -580,11 +548,7 @@ stretch_mode = 0
 script = ExtResource("3_ch6t5")
 upgrade = 6
 price = 3
-custom_tooltip = "Controls upgrade.
-
-It's tough to keep an eye on controlling the ship as well as the systems' health at the same time.
-
-The controls upgrade will allow you to control your ship without going to the control panel (enabling to use WASD or arrow keys to control the ship)."
+custom_tooltip = "TOOLTIP_CONTROLS"
 
 [node name="Progress" type="TextureProgressBar" parent="Buttons/Bottom Middle Button"]
 layout_mode = 1
@@ -619,11 +583,7 @@ texture_click_mask = ExtResource("4_fdqj1")
 script = ExtResource("3_ch6t5")
 upgrade = 8
 price = 3
-custom_tooltip = "Navigation upgrade.
-
-Tired of being in the dark? Well, worry no more, because we've got you covered!
-
-The navigation upgrade allows you to see several systems ahead so you can plan your trips accordingly."
+custom_tooltip = "TOOLTIP_NAVIGATION"
 
 [node name="Progress" type="TextureProgressBar" parent="Buttons/Bottom Right Button"]
 layout_mode = 0

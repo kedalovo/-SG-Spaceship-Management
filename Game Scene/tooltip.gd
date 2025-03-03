@@ -11,6 +11,7 @@ func set_text(new_text: String) -> void:
 		title_label.text = ""
 		content_label.text = ""
 		return
+	new_text = tr(new_text)
 	var first_break: int = new_text.find("\n")
 	title_label.text = new_text.substr(0, first_break - 1)
 	content_label.text = new_text.substr(first_break + 2, new_text.length() - first_break - 2)
