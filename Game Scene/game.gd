@@ -48,6 +48,8 @@ const CURSOR_POINTER = preload("res://UI/Cursor pointer.png")
 
 @onready var tooltip_panel: Control = $Tooltip
 
+@onready var pause_menu: Control = $"Pause Menu"
+
 const CABIN_ZOOM_LEVEL: float = 1.1
 
 @onready var systems: Array[system] = [
@@ -63,18 +65,19 @@ var is_mouse_inside: bool
 var can_control_via_arrows: bool
 var is_store_open: bool
 var is_map_open: bool
+var is_tutorial: bool
 
 
 func _ready() -> void:
 	Input.set_custom_mouse_cursor(CURSOR_NORMAL, Input.CURSOR_ARROW)
 	Input.set_custom_mouse_cursor(CURSOR_POINTER, Input.CURSOR_POINTING_HAND)
-	#toggle_map(true)
-	toggle_store(true)
+	toggle_map(true)
+	#toggle_store(true)
 
 
 func _input(event: InputEvent) -> void:
 	if event.is_action_pressed(&"esc"):
-		quit_game()
+		pause_game()
 	if event.is_action_pressed(&"test1"):
 		#map_animator.play(&"open")
 		#Input.mouse_mode = Input.MOUSE_MODE_HIDDEN
@@ -129,10 +132,12 @@ func toggle_map(open: bool) -> void:
 		map_animator.play(&"open")
 		Input.mouse_mode = Input.MOUSE_MODE_HIDDEN
 		map.cursor.show()
+		is_map_open = true
 	elif !open and is_map_open:
 		map_animator.play_backwards(&"open")
 		Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
 		map.cursor.hide()
+		is_map_open = false
 
 
 func toggle_store(open: bool) -> void:
@@ -157,6 +162,17 @@ func game_over() -> void:
 	pass
 
 
+func pause_game() -> void:
+	if pause_menu.was_just_unpaused:
+		pause_menu.was_just_unpaused = false
+		return
+	pause_menu.show()
+	if is_map_open:
+		pause_menu.was_in_map = true
+		Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
+	get_tree().paused = true
+
+
 func quit_game() -> void:
 	# Gets rid of the annoying errors and warnings about leaking two textures when closing game (the cursor textures)
 	Input.set_custom_mouse_cursor(null, Input.CURSOR_ARROW)
@@ -173,6 +189,10 @@ func proceed() -> void:
 	space.stop()
 	for node in systems:
 		node.fix()
+
+
+func setup_tutorial() -> void:
+	pass
 
 
 func _on_system_sprite_pressed(system_index: int) -> void:
