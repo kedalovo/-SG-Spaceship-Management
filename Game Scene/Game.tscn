@@ -1,4 +1,4 @@
-[gd_scene load_steps=109 format=3 uid="uid://dr0fafp1u36yj"]
+[gd_scene load_steps=121 format=3 uid="uid://dr0fafp1u36yj"]
 
 [ext_resource type="Script" path="res://Game Scene/game.gd" id="1_t00el"]
 [ext_resource type="Texture2D" uid="uid://dmcht1gqpy4v3" path="res://Systems/Life Support/Assets/Life Support.png" id="2_3bjf3"]
@@ -567,6 +567,218 @@ _data = {
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_erfaq"]
 bg_color = Color(0, 0, 0, 0.784314)
+
+[sub_resource type="Animation" id="Animation_2rtb3"]
+resource_name = "tutorial_1_introduction"
+step = 0.1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("PanelContainer/Label:text")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": ["Hello! This game is about delivering cargo in space. Your goal is to make it from point A to point B.
+
+On your journey you'll meet various hazards that will damage your ship. Avoiding collisions and fixing problems is the key to success. Now let's walk through a little tutorial to familiarize you with the layout."]
+}
+
+[sub_resource type="Animation" id="Animation_bxdar"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("PanelContainer/Label:text")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": ["Hello! This game is about delivering cargo in space. Your goal is to make it from point A to point B.
+
+On your journey you'll meet various hazards that will damage your ship. Avoiding collisions and fixing problems is the key to success. Now let's walk through a little tutorial to familiarize you with the layout."]
+}
+
+[sub_resource type="Animation" id="Animation_58m03"]
+resource_name = "tutorial_2_map"
+step = 0.1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("PanelContainer/Label:text")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": ["Every game starts with a map. Map consists of locations and connections. You can choose any starting location (if there are several), but next location can only be a connected one.
+
+Hovering over a close location will reveal dangers in it, so that you can plan where to go next.
+
+For now let's pick any starting location."]
+}
+
+[sub_resource type="Animation" id="Animation_mot0g"]
+resource_name = "tutorial_3_timer"
+step = 0.1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("PanelContainer/Label:text")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": ["Every round is timed for 3 minutes (180 seconds). Once the timer runs out, you get to proceed. However, if you damage your ship too much before timer runs out, you lose."]
+}
+
+[sub_resource type="Animation" id="Animation_6m7qd"]
+resource_name = "tutorial_4_controls"
+step = 0.1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("PanelContainer/Label:text")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": ["Look at the control panel. It has 4 directional buttons so that you can move your ship. Movement is handled in a grid of 3 by 3. Try moving your ship by pressing these!"]
+}
+
+[sub_resource type="Animation" id="Animation_ln1jp"]
+resource_name = "tutorial_5_coins"
+step = 0.1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("PanelContainer/Label:text")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": ["While traversing space, you may find coins. Collect them to increase your balance (in the top right). You can't have more than 10 coins at any time.
+
+Try catching a coin now."]
+}
+
+[sub_resource type="Animation" id="Animation_jy3pr"]
+resource_name = "tutorial_6_shop"
+step = 0.1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("PanelContainer/Label:text")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": ["Coins can be used to purchase various upgrades and consumables in the shop. You enter shop automatically every time you successfully finish a round.
+
+Catch as many coins as you can - some resources are essential to keep the ship running."]
+}
+
+[sub_resource type="Animation" id="Animation_j45ha"]
+resource_name = "tutorial_7_systems"
+step = 0.1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("PanelContainer/Label:text")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": ["These are all of your ship's systems. Take care of them and you'll finish the game.
+
+Now we'll walk through every system, how it can be broken and how it can be fixed. Click on the system when it's highlighted."]
+}
+
+[sub_resource type="Animation" id="Animation_g577g"]
+resource_name = "tutorial_7_1_life_support"
+step = 0.1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("PanelContainer/Label:text")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": ["This is life support. It cannot be completely broken, but when the warning light is on - it means the algae in the burner is burning faster.
+
+Talking about algae - tank on the left keeps your algae to burn it on the right. You need to constantly supply the system with fresh algae so that you have oxygen and heat.
+
+Burned algae can be disposed off at the top right compartment."]
+}
+
+[sub_resource type="Animation" id="Animation_jrccx"]
+resource_name = "tutorial_7_2_engines"
+step = 0.1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("PanelContainer/Label:text")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": ["Engines system keeps your engines running, but physical damage can break you cells.
+
+Just like in life support, supply fresh cells into the system and get rid of empty or broken ones to keep the engines running."]
+}
+
+[sub_resource type="Animation" id="Animation_wu1lq"]
+resource_name = "tutorial_7_3_hull"
+step = 0.1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("PanelContainer/Label:text")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": ["Hull system represents your ships hull. When taking hits, holes in the hull might form and they need to be patched.
+
+Drag a patch from the bottom left to the hole. After that, install the patch by pressing the 4 bracings on each side."]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_dtdha"]
+_data = {
+"RESET": SubResource("Animation_bxdar"),
+"tutorial_1_introduction": SubResource("Animation_2rtb3"),
+"tutorial_2_map": SubResource("Animation_58m03"),
+"tutorial_3_timer": SubResource("Animation_mot0g"),
+"tutorial_4_controls": SubResource("Animation_6m7qd"),
+"tutorial_5_coins": SubResource("Animation_ln1jp"),
+"tutorial_6_shop": SubResource("Animation_jy3pr"),
+"tutorial_7_1_life_support": SubResource("Animation_g577g"),
+"tutorial_7_2_engines": SubResource("Animation_jrccx"),
+"tutorial_7_3_hull": SubResource("Animation_wu1lq"),
+"tutorial_7_systems": SubResource("Animation_j45ha")
+}
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_jkf77"]
 draw_center = false
@@ -1293,8 +1505,12 @@ text = "BTN_EXIT"
 [node name="Tutorial" type="Node" parent="."]
 
 [node name="Animator" type="AnimationPlayer" parent="Tutorial"]
+libraries = {
+"": SubResource("AnimationLibrary_dtdha")
+}
 
 [node name="Selection" type="Panel" parent="Tutorial"]
+visible = false
 z_index = 20
 offset_left = 373.0
 offset_top = 196.0
@@ -1304,17 +1520,26 @@ theme_override_styles/panel = SubResource("StyleBoxFlat_jkf77")
 
 [node name="PanelContainer" type="PanelContainer" parent="Tutorial"]
 z_index = 20
-offset_left = 319.0
-offset_top = 56.0
-offset_right = 834.0
-offset_bottom = 345.0
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -256.0
+offset_top = -110.0
+offset_right = 256.0
+offset_bottom = 111.0
+grow_horizontal = 2
+grow_vertical = 2
 theme = ExtResource("54_bi7ny")
 theme_override_styles/panel = SubResource("StyleBoxFlat_hgbde")
 
 [node name="Label" type="Label" parent="Tutorial/PanelContainer"]
-custom_minimum_size = Vector2(483, 257)
 layout_mode = 2
 size_flags_vertical = 1
+text = "Hello! This game is about delivering cargo in space. Your goal is to make it from point A to point B.
+
+On your journey you'll meet various hazards that will damage your ship. Avoiding collisions and fixing problems is the key to success. Now let's walk through a little tutorial to familiarize you with the layout."
 autowrap_mode = 3
 
 [connection signal="coin_got" from="Cabin/SubViewportContainer/SubViewport/Space" to="." method="_on_space_coin_got"]
