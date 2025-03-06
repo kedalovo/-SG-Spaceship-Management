@@ -52,6 +52,23 @@ const CURSOR_POINTER = preload("res://UI/Cursor pointer.png")
 
 const CABIN_ZOOM_LEVEL: float = 1.1
 
+const TUTORIAL_ANIMATIONS: Array[StringName] = [
+	&"tutorial_1_introduction",
+	&"tutorial_2_map",
+	&"tutorial_3_timer",
+	&"tutorial_4_controls",
+	&"tutorial_5_coins",
+	&"tutorial_6_shop",
+	&"tutorial_7_systems",
+	&"tutorial_7_1_life_support",
+	&"tutorial_7_2_engines",
+	&"tutorial_7_3_hull",
+	&"tutorial_7_4_electrical",
+	&"tutorial_7_5_external",
+	&"tutorial_7_6_computer",
+	&"tutorial_8_end",
+	]
+
 @onready var systems: Array[system] = [
 	life_support_system, engines_system, hull_system,
 	electrical_system, external_system, computer_system]
