@@ -15,6 +15,7 @@ signal system_pressed(idx)
 var is_mouse_inside: bool
 var is_damaged: bool
 var is_crazy: bool
+var enabled: bool = true
 
 
 func damage() -> void:
@@ -56,7 +57,7 @@ func toggle_crazy(on: bool) -> void:
 
 
 func _on_button_mouse_entered() -> void:
-	if (!GameManager.is_in_system):
+	if (!GameManager.is_in_system and enabled):
 		outline.show()
 
 
@@ -66,5 +67,6 @@ func _on_button_mouse_exited() -> void:
 
 
 func _on_button_pressed() -> void:
-	system_pressed.emit(system_index)
-	outline.hide()
+	if enabled:
+		system_pressed.emit(system_index)
+		outline.hide()

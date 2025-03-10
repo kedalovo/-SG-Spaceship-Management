@@ -42,7 +42,8 @@ var hazard_nebula_spots: Dictionary
 var current_grid_pos: Vector2 = Vector2.ZERO
 var current_pos: Vector2 = Vector2.ZERO
 
-var is_moving: bool = false
+var is_moving: bool
+var is_tutorial: bool
 
 
 func _ready() -> void:
@@ -587,11 +588,12 @@ func _on_star_flare_hit(damage: int) -> void:
 
 
 func _on_map_location_changed(new_location: map_node) -> void:
-	if new_location.is_wormhole:
-		current_location = new_location.connected_to_nodes.pick_random()
-	else:
-		current_location = new_location
-	start()
+	if !is_tutorial:
+		if new_location.is_wormhole:
+			current_location = new_location.connected_to_nodes.pick_random()
+		else:
+			current_location = new_location
+		start()
 	new_location_set_up.emit()
 
 

@@ -49,6 +49,7 @@ const CURSOR_POINTER = preload("res://UI/Cursor pointer.png")
 @onready var tooltip_panel: Control = $Tooltip
 
 @onready var pause_menu: Control = $"Pause Menu"
+@onready var tutorial: Node = $Tutorial
 
 const CABIN_ZOOM_LEVEL: float = 1.1
 
@@ -84,12 +85,17 @@ var is_store_open: bool
 var is_map_open: bool
 var is_tutorial: bool
 
+var tt_is_map: bool
+
 
 func _ready() -> void:
 	Input.set_custom_mouse_cursor(CURSOR_NORMAL, Input.CURSOR_ARROW)
 	Input.set_custom_mouse_cursor(CURSOR_POINTER, Input.CURSOR_POINTING_HAND)
-	toggle_map(true)
-	#toggle_store(true)
+	if is_tutorial:
+		setup_tutorial()
+	else:
+		toggle_map(true)
+		#toggle_store(true)
 
 
 func _input(event: InputEvent) -> void:
@@ -176,7 +182,8 @@ func start_round() -> void:
 
 
 func game_over() -> void:
-	pass
+	if is_tutorial:
+		return
 
 
 func pause_game() -> void:
@@ -202,6 +209,9 @@ func update_balance() -> void:
 
 
 func proceed() -> void:
+	if is_tutorial:
+		round_timer.start(180.0)
+		return
 	toggle_store(true)
 	space.stop()
 	for node in systems:
@@ -209,7 +219,14 @@ func proceed() -> void:
 
 
 func setup_tutorial() -> void:
-	pass
+	tutorial.start()
+	space.is_tutorial = true
+	life_support_sprite.enabled = false
+	engines_sprite.enabled = false
+	hull_sprite.enabled = false
+	electrical_sprite.enabled = false
+	external_sprite.enabled = false
+	computer_sprite.enabled = false
 
 
 func _on_system_sprite_pressed(system_index: int) -> void:
@@ -219,6 +236,20 @@ func _on_system_sprite_pressed(system_index: int) -> void:
 		GameManager.is_in_system = true
 		system_container.show()
 		sub_viewport_container.show()
+		if is_tutorial:
+			match system_index:
+				0: # Life support
+					pass
+				1: # Engines
+					pass
+				2: # Hull
+					pass
+				3: # Electrical
+					pass
+				4: # External
+					pass
+				5: # Computer
+					pass
 
 
 func _on_system_container_gui_input(event: InputEvent) -> void:
@@ -310,8 +341,11 @@ func _on_round_timer_timeout() -> void:
 
 
 func _on_space_new_location_set_up() -> void:
-	toggle_store(false)
-	start_round()
+	if is_tutorial:
+		pass
+	else:
+		toggle_store(false)
+		start_round()
 
 
 func _on_space_coin_got() -> void:
@@ -368,3 +402,21 @@ func _on_store_button_hover(btn: store_button) -> void:
 func _on_store_button_hover_stop() -> void:
 	tooltip_panel.set_text("")
 	balance.set_flash(0)
+
+
+func _on_tutorial_request(req: String) -> void:
+	match req:
+		"map":
+			tt_is_map = true
+		"coin":
+			space.create_coin(5.0)
+			space.create_coin(7.5)
+			space.create_coin(10.0)
+		"systems":
+			life_support_sprite.enabled = true
+			life_support_system._damage(1, game_manager.damage_types.HEAT)
+			life_support_system.add_fuel()
+			life_support_system.add_fuel()
+			life_support_system.add_fuel()
+			life_support_system.add_fuel()
+			life_support_system.add_fuel()
