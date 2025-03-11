@@ -322,7 +322,7 @@ func generate_map() -> void:
 
 
 func tooltip_popup(node: map_node) -> void:
-	if node.is_wormhole:
+	if node.is_wormhole or node.is_secret:
 		return
 	map_tooltip.set_text(get_map_node_tooltip(node))
 	match node.difficulty:

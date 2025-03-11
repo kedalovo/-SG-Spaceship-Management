@@ -5,6 +5,7 @@ signal request(req: String)
 
 
 @onready var animator: AnimationPlayer = $Animator
+@onready var input_block: Control = $"Input Block"
 
 
 const ANIM_LIST: Array[StringName] = [
@@ -29,17 +30,29 @@ var current_anim: StringName = &""
 
 func start() -> void:
 	animator.play(&"tutorial_1_introduction")
-
+	toggle_input(false)
+	
 
 func proceed() -> void:
 	animator.play(ANIM_LIST[ANIM_LIST.find(current_anim) + 1])
+
+
+func toggle_input(on: bool) -> void:
+	match on:
+		true:
+			input_block.hide()
+		false:
+			input_block.show()
 
 
 func _on_continue_button_pressed() -> void:
 	match current_anim:
 		&"tutorial_1_introduction":
 			proceed()
+			toggle_input(true)
 			request.emit("map")
+		&"tutorial_2_map":
+			request.emit("map_off")
 		&"tutorial_3_timer":
 			proceed()
 		&"tutorial_4_controls":

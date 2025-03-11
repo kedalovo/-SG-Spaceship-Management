@@ -1235,6 +1235,18 @@ tracks/5/keys = {
 "update": 1,
 "values": [true]
 }
+tracks/6/type = "value"
+tracks/6/imported = false
+tracks/6/enabled = true
+tracks/6/path = NodePath("Panel:visible")
+tracks/6/interp = 1
+tracks/6/loop_wrap = true
+tracks/6/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
 
 [sub_resource type="Animation" id="Animation_g577g"]
 resource_name = "tutorial_7_1_life_support"
@@ -2640,6 +2652,14 @@ text = "BTN_EXIT"
 [node name="Tutorial" type="Node" parent="."]
 script = ExtResource("58_yyymu")
 
+[node name="Input Block" type="Control" parent="Tutorial"]
+visible = false
+z_index = 20
+layout_mode = 3
+anchors_preset = 0
+offset_right = 960.0
+offset_bottom = 540.0
+
 [node name="Animator" type="AnimationPlayer" parent="Tutorial"]
 libraries = {
 "": SubResource("AnimationLibrary_dtdha")
@@ -2656,6 +2676,7 @@ offset_top = 8.0
 offset_right = -784.0
 offset_bottom = 56.0
 grow_horizontal = 0
+mouse_filter = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_jkf77")
 
 [node name="Panel" type="PanelContainer" parent="Tutorial"]
@@ -2685,7 +2706,7 @@ autowrap_mode = 3
 visible = false
 z_index = 20
 position = Vector2(736, 448)
-polygon = PackedVector2Array(0, -16, 144, -16, 144, -48, 208, 16, 144, 80, 144, 48, 0, 48)
+polygon = PackedVector2Array(0, -16, 144, -16, 144, -32, 192, 16, 144, 64, 144, 48, 0, 48)
 
 [node name="Continue Button" type="Button" parent="Tutorial/Arrow"]
 modulate = Color(0, 0, 0, 1)
@@ -2694,14 +2715,17 @@ anchor_left = 1.0
 anchor_top = 1.0
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_left = 2.0
+offset_left = 16.0
 offset_top = -6.0
 offset_right = 144.0
 offset_bottom = 39.0
 grow_horizontal = 0
 grow_vertical = 0
+focus_mode = 0
+mouse_default_cursor_shape = 2
 theme = ExtResource("54_bi7ny")
 text = "BTN_CONTINUE"
+clip_text = true
 
 [connection signal="coin_got" from="Cabin/SubViewportContainer/SubViewport/Space" to="." method="_on_space_coin_got"]
 [connection signal="damaged" from="Cabin/SubViewportContainer/SubViewport/Space" to="." method="_on_damaged"]
