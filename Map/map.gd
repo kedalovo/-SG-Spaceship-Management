@@ -55,6 +55,8 @@ var line_offset: float = 0.0
 
 var current_level: int = -1
 
+var is_active: bool
+
 
 func _ready() -> void:
 	fog_1.texture.noise.seed = randi()
@@ -72,7 +74,8 @@ func _physics_process(_delta: float) -> void:
 
 
 func _process(_delta: float) -> void:
-	cursor.position = get_global_mouse_position()
+	if is_active:
+		cursor.position = get_global_mouse_position()
 
 
 func _draw() -> void:
@@ -96,6 +99,10 @@ func toggle_input(new_state: bool) -> void:
 		input_stopper.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	else:
 		input_stopper.mouse_filter = Control.MOUSE_FILTER_STOP
+
+
+func toggle_store_button(on: bool) -> void:
+	store_button_link.disabled = !on
 
 
 func draw_default_punctured_line(from: Vector2, to: Vector2) -> void:

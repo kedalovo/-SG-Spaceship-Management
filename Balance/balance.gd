@@ -12,7 +12,6 @@ var value: int:
 		return value
 	set(v):
 		value = clampi(v, 0, 10)
-		print("Balance is: ", value)
 		set_balance(v)
 
 

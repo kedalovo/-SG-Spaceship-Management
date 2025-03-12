@@ -8,15 +8,21 @@ const HOLE = preload("res://Systems/Hull/Hole/hole.tscn")
 @onready var holes: Node2D = $Holes
 @onready var patches: Node2D = $Patches
 @onready var camera: Camera2D = $Camera2D
+@onready var balance_label: Label = $"Balance Label"
 
 
-var patch_number: int = 5
+var patch_number: int:
+	get:
+		return patch_number
+	set(v):
+		patch_number = clampi(v, 0, max_patch_number)
+		balance_label.text = str(patch_number)
 var max_patch_number: int = 15
 
 
 func _ready() -> void:
 	super._ready()
-	for i in patch_number:
+	for i in 5:
 		add_patch()
 
 
@@ -43,6 +49,7 @@ func _damage(_strength: int, _type: game_manager.damage_types) -> void:
 
 
 func add_patch() -> void:
+	patch_number += 1
 	var new_patch := PATCH.instantiate()
 	new_patch.patch_installed.connect(_on_patch_installed)
 	new_patch.patch_completed.connect(_on_patch_completed)
@@ -51,8 +58,8 @@ func add_patch() -> void:
 		new_patch.is_bigger = true
 	if current_tier > 1:
 		new_patch.is_halved = true
-	new_patch.initial_pos = Vector2(-264, 176)
-	new_patch.position = Vector2(-264, 176)
+	new_patch.initial_pos = Vector2(-248, 160)
+	new_patch.position = Vector2(-248, 160)
 
 
 func add_hole(hole_position: Vector2) -> void:
@@ -68,5 +75,6 @@ func _on_patch_installed(patch: Patch, hole: Hole) -> void:
 
 func _on_patch_completed(_patch: Patch, hole: Hole) -> void:
 	hole.queue_free()
+	patch_number -= 1
 	if holes.get_child_count() == 1:
 		fix()

@@ -1,4 +1,4 @@
-[gd_scene load_steps=126 format=3 uid="uid://dr0fafp1u36yj"]
+[gd_scene load_steps=127 format=3 uid="uid://dr0fafp1u36yj"]
 
 [ext_resource type="Script" path="res://Game Scene/game.gd" id="1_t00el"]
 [ext_resource type="Texture2D" uid="uid://dmcht1gqpy4v3" path="res://Systems/Life Support/Assets/Life Support.png" id="2_3bjf3"]
@@ -396,9 +396,25 @@ tracks/1/keys = {
 "values": [Color(1, 1, 1, 0), Color(1, 1, 1, 0.0784314)]
 }
 
+[sub_resource type="Animation" id="Animation_baygd"]
+resource_name = "close"
+step = 0.1
+tracks/0/type = "bezier"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:position:x")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"handle_modes": PackedInt32Array(0, 0),
+"points": PackedFloat32Array(0, 0, 0, 0.1, 0, -960, -1, 0, 0, 0),
+"times": PackedFloat32Array(0, 1)
+}
+
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_fw8y4"]
 _data = {
 "RESET": SubResource("Animation_gjldm"),
+"close": SubResource("Animation_baygd"),
 "open": SubResource("Animation_wgcf6")
 }
 
@@ -2619,7 +2635,7 @@ libraries = {
 [node name="Pause Menu" type="Control" parent="."]
 process_mode = 2
 visible = false
-z_index = 20
+z_index = 21
 layout_mode = 3
 anchors_preset = 0
 offset_right = 960.0

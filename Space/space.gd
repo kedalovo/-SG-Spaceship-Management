@@ -277,7 +277,10 @@ func create_asteroid(size: game_manager.asteroid_types, spot: Vector2, time: flo
 			if spot in hazard_spots:
 				push_warning("Tried creating a small asteroid in ", spot, ", which is busy")
 				return
-			asteroid.set_types(types + [game_manager.damage_types.PHYSICAL])
+			if types.is_empty():
+				asteroid.set_types([game_manager.damage_types.PHYSICAL])
+			else:
+				asteroid.set_types(types + [game_manager.damage_types.PHYSICAL])
 			asteroid.set_time(time)
 			asteroid.set_visuals(size, false)
 			hazard_visuals.add_child(asteroid)
@@ -347,7 +350,10 @@ func create_nebula(size: game_manager.nebula_types, spot: Vector2, time: float, 
 			if spot in hazard_nebula_spots:
 				push_warning("Tried creating a small nebula in ", spot, ", which is busy")
 				return
-			nebula.set_types(types + [game_manager.damage_types.ELECTRICITY])
+			if types.is_empty():
+				nebula.set_types([game_manager.damage_types.ELECTRICITY])
+			else:
+				nebula.set_types(types + [game_manager.damage_types.ELECTRICITY])
 			nebula.set_time(time)
 			nebula.set_visuals(size, false)
 			hazard_visuals.add_child(nebula)

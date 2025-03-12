@@ -183,7 +183,7 @@ static func get_random_cell_type() -> engine_cell_types:
 
 
 static func get_random_hole_position() -> Vector2:
-	return Vector2(randi_range(-272, 272), randi_range(-184, 128))
+	return Vector2(randi_range(-256, 256), randi_range(-168, 112))
 
 
 static func get_random_text(length: int) -> String:

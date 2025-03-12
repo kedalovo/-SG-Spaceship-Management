@@ -68,7 +68,7 @@ func _on_cooker_area_body_exited(body: Node2D) -> void:
 
 
 func _on_dispose_area_body_entered(body: Node2D) -> void:
-	if body is Algae:
+	if body is Algae and body.is_cooked:
 		algae_in_cooker.erase(body)
 		body.queue_free()
 

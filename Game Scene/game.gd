@@ -83,7 +83,7 @@ var is_mouse_inside: bool
 var can_control_via_arrows: bool
 var is_store_open: bool
 var is_map_open: bool
-var is_tutorial: bool = true
+var is_tutorial: bool
 
 
 func _ready() -> void:
@@ -94,7 +94,6 @@ func _ready() -> void:
 		setup_tutorial()
 	else:
 		toggle_map(true)
-		#toggle_store(true)
 
 
 func _input(event: InputEvent) -> void:
@@ -115,23 +114,23 @@ func _input(event: InputEvent) -> void:
 		#print(balance.value)
 		pass
 	if game_manager.is_playing:
-		if event.is_action_pressed(&"left"):
+		if event.is_action_pressed(&"left") and can_control_via_arrows:
 			var moved: bool = space.move(Vector2.LEFT)
 			if moved:
 				cabin_view.scale = Vector2(CABIN_ZOOM_LEVEL, CABIN_ZOOM_LEVEL)
-		if event.is_action_pressed(&"right"):
+		if event.is_action_pressed(&"right") and can_control_via_arrows:
 			var moved: bool = space.move(Vector2.RIGHT)
 			if moved:
 				cabin_view.scale = Vector2(CABIN_ZOOM_LEVEL, CABIN_ZOOM_LEVEL)
-		if event.is_action_pressed(&"up"):
+		if event.is_action_pressed(&"up") and can_control_via_arrows:
 			var moved: bool = space.move(Vector2.UP)
 			if moved:
 				cabin_view.scale = Vector2(CABIN_ZOOM_LEVEL, CABIN_ZOOM_LEVEL)
-		if event.is_action_pressed(&"down"):
+		if event.is_action_pressed(&"down") and can_control_via_arrows:
 			var moved: bool = space.move(Vector2.DOWN)
 			if moved:
 				cabin_view.scale = Vector2(CABIN_ZOOM_LEVEL, CABIN_ZOOM_LEVEL)
-	if event.is_action_pressed(&"fullscreen"):
+	if event.is_action_pressed(&"fullscreen") and can_control_via_arrows:
 		if DisplayServer.window_get_mode() == DisplayServer.WindowMode.WINDOW_MODE_WINDOWED:
 			DisplayServer.window_set_mode(DisplayServer.WINDOW_MODE_EXCLUSIVE_FULLSCREEN)
 		elif DisplayServer.window_get_mode() == DisplayServer.WindowMode.WINDOW_MODE_EXCLUSIVE_FULLSCREEN:
@@ -150,15 +149,19 @@ func _physics_process(_delta: float) -> void:
 
 func toggle_map(open: bool) -> void:
 	if open and !is_map_open:
+		map.is_active = true
 		map.toggle_input(true)
 		map_animator.play(&"open")
 		Input.mouse_mode = Input.MOUSE_MODE_HIDDEN
 		map.cursor.show()
+		map.marker.show()
 		is_map_open = true
 	elif !open and is_map_open:
-		map_animator.play_backwards(&"open")
+		map.is_active = false
+		map_animator.play(&"close")
 		Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
 		map.cursor.hide()
+		map.marker.hide()
 		is_map_open = false
 
 
@@ -169,20 +172,23 @@ func toggle_store(open: bool) -> void:
 		tooltip_panel.toggle(true)
 		store_animator.play(&"open")
 	elif !open and is_store_open:
+		is_store_open = false
 		tooltip_panel.toggle(false)
 		store_animator.play_backwards(&"open")
 
 
 func start_round() -> void:
 	round_timer.start()
-	map_animator.play_backwards(&"open")
+	toggle_map(false)
 	Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
+	game_manager.is_playing = true
 	map.cursor.hide()
 
 
 func game_over() -> void:
 	if is_tutorial:
 		return
+	game_manager.is_playing = false
 
 
 func pause_game() -> void:
@@ -218,6 +224,7 @@ func proceed() -> void:
 
 
 func setup_tutorial() -> void:
+	round_timer.start()
 	tutorial.start()
 	space.is_tutorial = true
 	life_support_sprite.enabled = false
@@ -228,6 +235,7 @@ func setup_tutorial() -> void:
 	computer_sprite.enabled = false
 	Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
 	map.cursor.hide()
+	map.toggle_store_button(false)
 
 
 func _on_system_sprite_pressed(system_index: int) -> void:
@@ -237,77 +245,63 @@ func _on_system_sprite_pressed(system_index: int) -> void:
 		GameManager.is_in_system = true
 		system_container.show()
 		sub_viewport_container.show()
-		#if is_tutorial:
-			#match system_index:
-				#0: # Life support
-					#pass
-				#1: # Engines
-					#pass
-				#2: # Hull
-					#pass
-				#3: # Electrical
-					#pass
-				#4: # External
-					#pass
-				#5: # Computer
-					#pass
 
 
 func _on_system_container_gui_input(event: InputEvent) -> void:
 	if event is InputEventMouseButton and event.is_pressed() and Input.is_mouse_button_pressed(MOUSE_BUTTON_LEFT) and GameManager.is_in_system:
 		systems[current_system_idx].close()
 		GameManager.is_in_system = false
-		match current_system_idx:
-			0: # Life support
-				tutorial.proceed()
-				life_support_sprite.enabled = false
-				engines_sprite.enabled = true
-				engines_sprite.damage()
-				smoke_1.emitting = true
-				smoke_2.emitting = true
-				smoke_3.emitting = true
-				smoke_4.emitting = true
-				engines_system._damage(2, game_manager.damage_types.PHYSICAL)
-			1: # Engines
-				if !engines_system.is_damaged:
+		if is_tutorial:
+			match current_system_idx:
+				0: # Life support
 					tutorial.proceed()
-					engines_sprite.enabled = false
-					hull_sprite.enabled = true
-					hull_sprite.damage()
-					hull_system._damage(3, game_manager.damage_types.PHYSICAL)
-					systems_cracks.show()
-			2: # Hull
-				if !hull_system.is_damaged:
-					tutorial.proceed()
-					hull_sprite.enabled = false
-					electrical_sprite.enabled = true
-					electrical_system._damage(2, game_manager.damage_types.ELECTRICITY)
-					for sys in systems_visuals:
-						sys.toggle_crazy(true)
-					electrical_sprite.toggle_crazy(false)
-					electrical_sprite.damage()
-			3: # Electrical
-				if !electrical_system.is_damaged:
-					tutorial.proceed()
-					electrical_sprite.enabled = false
-					external_sprite.enabled = true
-					external_sprite.damage()
-					external_system._damage(2, game_manager.damage_types.PHYSICAL)
-					cabin.toggle_dirt(true)
-			4: # External
-				if !external_system.is_damaged:
-					tutorial.proceed()
-					external_sprite.enabled = false
-					computer_sprite.enabled = true
-					computer_sprite.damage()
-					computer_system._damage(2, game_manager.damage_types.ELECTRICITY)
-					clock.is_crazy = true
-					round_timer.paused = true
-			5: # Computer
-				if !computer_system.is_damaged:
-					tutorial.proceed()
-					computer_sprite.enabled = false
-				
+					life_support_sprite.enabled = false
+					engines_sprite.enabled = true
+					engines_sprite.damage()
+					smoke_1.emitting = true
+					smoke_2.emitting = true
+					smoke_3.emitting = true
+					smoke_4.emitting = true
+					engines_system._damage(2, game_manager.damage_types.PHYSICAL)
+				1: # Engines
+					if !engines_system.is_damaged:
+						tutorial.proceed()
+						engines_sprite.enabled = false
+						hull_sprite.enabled = true
+						hull_sprite.damage()
+						hull_system._damage(3, game_manager.damage_types.PHYSICAL)
+						systems_cracks.show()
+				2: # Hull
+					if !hull_system.is_damaged:
+						tutorial.proceed()
+						hull_sprite.enabled = false
+						electrical_sprite.enabled = true
+						electrical_system._damage(2, game_manager.damage_types.ELECTRICITY)
+						for sys in systems_visuals:
+							sys.toggle_crazy(true)
+						electrical_sprite.toggle_crazy(false)
+						electrical_sprite.damage()
+				3: # Electrical
+					if !electrical_system.is_damaged:
+						tutorial.proceed()
+						electrical_sprite.enabled = false
+						external_sprite.enabled = true
+						external_sprite.damage()
+						external_system._damage(2, game_manager.damage_types.PHYSICAL)
+						cabin.toggle_dirt(true)
+				4: # External
+					if !external_system.is_damaged:
+						tutorial.proceed()
+						external_sprite.enabled = false
+						computer_sprite.enabled = true
+						computer_sprite.damage()
+						computer_system._damage(2, game_manager.damage_types.ELECTRICITY)
+						clock.is_crazy = true
+						round_timer.paused = true
+				5: # Computer
+					if !computer_system.is_damaged:
+						tutorial.proceed()
+						computer_sprite.enabled = false
 		current_system_idx = -1
 
 
@@ -439,6 +433,7 @@ func _on_store_item_bought(item: game_manager.store_items) -> void:
 
 
 func _on_store_map_summoned() -> void:
+	toggle_store(false)
 	toggle_map(true)
 
 
@@ -460,7 +455,8 @@ func _on_store_button_hover_stop() -> void:
 func _on_tutorial_request(req: String) -> void:
 	match req:
 		"map":
-			pass
+			Input.mouse_mode = Input.MOUSE_MODE_HIDDEN
+			map.cursor.show()
 		"map_off":
 			map.cursor.hide()
 		"coin":
