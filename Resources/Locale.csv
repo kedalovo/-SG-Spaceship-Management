@@ -108,3 +108,77 @@ The navigation upgrade allows you to see several systems ahead so you can plan y
 Устали пребывать в неизвестности? Больше не беспокойтесь, мы об этом позаботимся!
 
 Это улучшение позволяет увидеть сразу на несколько систем вперёд, так что вы можете планировать свои полёты заранее."
+TUTORIAL_1_INTRODUCTION,"Hello! This game is about delivering cargo in space. Your goal is to make it from point A to point B.
+
+On your journey you'll meet various hazards that will damage your ship. Avoiding collisions and fixing problems is the key to success. Now let's walk through a little tutorial to familiarize you with the layout.","Привет! Эта игра о доставке посылок в космосе. Ваша задача - дойти из точки А в точку Б.
+
+На пути вам встретится разные опасности, которые повредят вашему кораблю. Избегать столкновения и чинить поломки - ключ к успеху. Сейчас мы проведём небольшое обучение чтобы познакомить вас с игрой."
+TUTORIAL_2_MAP,"Every game starts with a map. Map consists of locations and connections. You can choose any starting location (if there are several), but next location can only be a connected one.
+
+Hovering over a close location will reveal dangers in it, so that you can plan where to go next.
+
+For now let's pick any starting location.","Каждая попытка начинается с карты. Карта состоит из локаций и их соединений. Вы можете выбирать из любой доступной начальной локации (если их несколько), но следующая локация выбирается из соединённых.
+
+Наведение мышью над локацией покажет опасности в ней, так что планируйте аккуратно.
+
+Для начала давайте выберем начальную локацию."
+TUTORIAL_3_TIMER,"Every round is timed for 3 minutes (180 seconds). Once the timer runs out, you get to proceed. However, if you damage your ship too much before timer runs out, you lose.","Каждый раунд длится 3 минуты (180 секунд). Когда время кончается, вы проходите дальше. Однако, если ваш корабль слишком сильно повредится до истечения времени, вы проиграете."
+TUTORIAL_4_CONTROLS,Look at the control panel. It has 4 directional buttons so that you can move your ship. Movement is handled in a grid of 3 by 3. Try moving your ship by pressing these!,Посмотрите на панель управления. На ней есть 4 направленных кнопки для движения звездолёта. Движение происходит в сетке 3 на 3 клетки. Попробуйте подвигать звездолётом!
+TUTORIAL_5_COINS,"While traversing space, you may find coins. Collect them to increase your balance (in the top right). You can't have more than 10 coins at any time.
+
+Try catching a coin now.","Путешествуя по космосу, вы можете натолкнуться на монеты. Собирайте их, чтобы увеличить свой баланс (в правом верхнем углу). У вас не может быть более 10 монет.
+
+Попробуйте поймать монету."
+TUTORIAL_6_SHOP,"Coins can be used to purchase various upgrades and consumables in the shop. You enter shop automatically every time you successfully finish a round.
+
+Catch as many coins as you can - some resources are essential to keep the ship running.","Монеты могут быть использованы для покупки различных улучшений и ресурсов в магазине. Вы посещаете магазин автоматически после каждого успешного раунда.
+
+Ловите как можно больше монет - ресурсы безотлагательно важны для поддержания звездолёта."
+TUTORIAL_7_SYSTEMS,"These are all of your ship's systems. Take care of them and you'll finish the game.
+
+Now we'll walk through every system, how it can be broken and how it can be fixed. Click on the system when it's highlighted.","Это - все системы вашего звездолёта. Заботьтесь о них, и вы победите.
+
+Теперь мы пройдёмся по всем системам, как они могут быть сломаны и восстановлены. Нажмите на систему, когда она будет подсвечена."
+TUTORIAL_7_1_LIFE_SUPPORT,"This is life support. It cannot be completely broken, but when the warning light is on - it means the algae in the burner is burning faster.
+
+Talking about algae - tank on the left keeps your algae to burn it on the right. You need to constantly supply the system with fresh algae so that you have oxygen and heat.
+
+Burned algae can be disposed off at the top right compartment.","Это - жезнеобеспечение. Оно не может быть полностью сломано, но когда горит свет, это значит, что водоросли сгорают быстрее.
+
+Говоря о водорослях, танкер слева хранит ваши водоросли для сожжения в печи справа. Вы должны постоянно подкладывать свежие водоросли и избавляться от сгоревших для кислорода и тепла.
+
+Сгоревшие водоросли могут быть уничтожены в отделе в правом верхнем углу печи."
+TUTORIAL_7_2_ENGINES,"Engines system keeps your engines running, but physical damage can break you cells.
+
+Just like in life support, supply fresh cells into the system and get rid of empty or broken ones to keep the engines running.","Система двигателей поддерживает двигатели звездолёта, но физический урон может повредить ячейки.
+
+Так же, как и в системе жизнеобеспечения, поставляйте свежие ячейки в систему и избавляйтесь от пустых или сломанных, чтобы двигатели продолжали работать."
+TUTORIAL_7_3_HULL,"Hull system represents your ships hull. When taking hits, holes in the hull might form and they need to be patched.
+
+Drag a patch from the bottom left to the hole. After that, install the patch by pressing the 4 bracings on each side.","Броня отвечает за прочность звездолёта. Когда звездолёт получает урон, в броне могут образоваться дыры, которые нужно залатать.
+
+Поставте заплатку с левого нижнего угла на дыру. После этого, установите заплатку, нажав на 4 крепления на каждой стороне заплатки."
+TUTORIAL_7_4_ELECTRICAL,"In modern age everything depends on electricity, so losing it is a profound danger.
+
+Drag wires from left to a corresponding color on the right to make a proper connection.","В современном мире всё зависит от электричества, поэтому его потеря - ужасная опасность.
+
+Протяните кабели слева направо по цветам, чтобы создать соединение."
+TUTORIAL_7_5_EXTERNAL,"Even though your ship has a thick hull that protects from everything, there are still several vulnerable pieces outside, like various sensors.
+
+Create a fixing kit by arranging proper modules on the blueprint board.","Несмотря на то, что у вашего звездолёта есть толстая броня, которая защитит от всего, снаружи до сих пор есть деликатные приборы по типу сенсоров.
+
+Создайте комплект починки, передвигая нужные модули на доске чертежей."
+TUTORIAL_7_6_COMPUTER,"Computers are important, especially in a spaceship. Computers take care of your navigations, so that you know where you are going.
+
+While computer system is broken, time is paused, but dangers keep coming, so don't slack off. Fix the code by arranging the encrypted lines in a pattern.","Компьютеры важны, особенно на звездолёте. Компьютеры заботятся о вашей навигации, чтобы вы знали, куда вы направляетесь.
+
+Пока компьютер сломан, время на паузе, но опасности не останавливаются, так что не отлынивайте. Почините программу передвигая зашифрованные фрагменты кода в верной последовательности."
+TUTORIAL_8_END,"So this is it! The tutorial is done and you know everything needed to embark on your journey.
+
+Be brave and fast, gentle and smart.
+
+Good luck!","Вот и всё! Обучение окончено и вы знаете всё, что нужно для начала вашего путешествия.
+
+Будьте храбры и быстры, деликатны и умны.
+
+Удачи!"

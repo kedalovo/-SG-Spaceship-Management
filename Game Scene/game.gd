@@ -83,7 +83,7 @@ var is_mouse_inside: bool
 var can_control_via_arrows: bool
 var is_store_open: bool
 var is_map_open: bool
-var is_tutorial: bool
+var is_tutorial: bool = true
 
 
 func _ready() -> void:
