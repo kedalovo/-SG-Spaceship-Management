@@ -23,7 +23,7 @@ func _ready() -> void:
 
 
 func _physics_process(delta: float) -> void:
-	global_position = global_position.lerp(target.global_position, delta * speed * exp(animator.current_animation_position))
+	global_position += (target.global_position - global_position).normalized() * speed * delta * 5 * exp(animator.current_animation_position)
 	sprite.look_at(target.global_position)
 	sprite.rotate(deg_to_rad(90.0))
 

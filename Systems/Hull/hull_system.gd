@@ -45,7 +45,7 @@ func _damage(_strength: int, _type: game_manager.damage_types) -> void:
 	if _type == game_manager.damage_types.PHYSICAL:
 		for i in _strength:
 			print("Hull system: damaged")
-			add_hole(game_manager.get_random_hole_position())
+			add_random_hole()
 
 
 func add_patch() -> void:
@@ -66,6 +66,25 @@ func add_hole(hole_position: Vector2) -> void:
 	var new_hole := HOLE.instantiate()
 	holes.add_child(new_hole)
 	new_hole.position = hole_position
+
+
+func add_random_hole() -> void:
+	var pos: Vector2 = game_manager.get_random_hole_position()
+	if holes.get_child_count() < 1:
+		add_hole(pos)
+	else:
+		var condition: bool = true
+		while condition:
+			for i in holes.get_children():
+				if pos.distance_to(i.position) > 50:
+					print(pos.distance_to(i.position), " false")
+					condition = false
+				else:
+					print(pos.distance_to(i.position), " true")
+					condition = true
+					pos = game_manager.get_random_hole_position()
+					break
+		add_hole(pos)
 
 
 func _on_patch_installed(patch: Patch, hole: Hole) -> void:

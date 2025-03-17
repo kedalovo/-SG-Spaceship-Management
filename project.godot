@@ -94,7 +94,6 @@ fullscreen={
 [internationalization]
 
 locale/translations=PackedStringArray("res://Resources/Locale.en.translation", "res://Resources/Locale.ru.translation")
-locale/test="ru"
 
 [rendering]
 

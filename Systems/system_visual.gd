@@ -5,6 +5,7 @@ signal system_pressed(idx)
 
 
 @export var system_index: int
+@export var damage_limit: int
 
 @onready var outline: Sprite2D = $Outline
 @onready var warning_light: AnimatedSprite2D = $"Warning Light"
@@ -12,9 +13,12 @@ signal system_pressed(idx)
 @onready var animator: AnimationPlayer = $"Warning Light/Light/Animator"
 
 
+var current_damage: int
+
 var is_mouse_inside: bool
 var is_damaged: bool
 var is_crazy: bool
+var is_destroyed: bool
 var enabled: bool = true
 
 
@@ -23,13 +27,21 @@ func damage() -> void:
 		is_damaged = true
 		if !is_crazy:
 			warning_light.play(&"warning")
-			light.show()
-			animator.play(&"idle")
+		if current_damage >= damage_limit:
+			destroy()
+
+
+func destroy() -> void:
+	if !is_destroyed and is_damaged:
+		is_destroyed = true
+		light.show()
+		animator.play(&"idle")
 
 
 func fix() -> void:
 	if is_damaged:
 		is_damaged = false
+		current_damage = 0
 		if !is_crazy:
 			warning_light.play(&"default")
 			light.hide()

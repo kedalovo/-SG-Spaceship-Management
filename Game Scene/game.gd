@@ -83,7 +83,7 @@ var is_mouse_inside: bool
 var can_control_via_arrows: bool
 var is_store_open: bool
 var is_map_open: bool
-var is_tutorial: bool = true
+var is_tutorial: bool
 
 
 func _ready() -> void:
@@ -287,7 +287,9 @@ func _on_system_container_gui_input(event: InputEvent) -> void:
 						electrical_sprite.enabled = false
 						external_sprite.enabled = true
 						external_sprite.damage()
-						external_system._damage(2, game_manager.damage_types.PHYSICAL)
+						external_system._damage(1, game_manager.damage_types.PHYSICAL)
+						external_system._damage(1, game_manager.damage_types.HEAT)
+						external_system._damage(1, game_manager.damage_types.ELECTRICITY)
 						cabin.toggle_dirt(true)
 				4: # External
 					if !external_system.is_damaged:
