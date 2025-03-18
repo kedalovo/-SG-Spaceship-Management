@@ -2894,6 +2894,10 @@ theme = ExtResource("54_bi7ny")
 text = "BTN_CONTINUE"
 clip_text = true
 
+[node name="Loss Timer" type="Timer" parent="."]
+wait_time = 10.0
+one_shot = true
+
 [connection signal="coin_got" from="Cabin/SubViewportContainer/SubViewport/Space" to="." method="_on_space_coin_got"]
 [connection signal="damaged" from="Cabin/SubViewportContainer/SubViewport/Space" to="." method="_on_damaged"]
 [connection signal="new_location_set_up" from="Cabin/SubViewportContainer/SubViewport/Space" to="." method="_on_space_new_location_set_up"]
@@ -2951,3 +2955,4 @@ clip_text = true
 [connection signal="request" from="Tutorial" to="." method="_on_tutorial_request"]
 [connection signal="animation_started" from="Tutorial/Animator" to="Tutorial" method="_on_animator_animation_started"]
 [connection signal="pressed" from="Tutorial/Arrow/Continue Button" to="Tutorial" method="_on_continue_button_pressed"]
+[connection signal="timeout" from="Loss Timer" to="." method="_on_loss_timer_timeout"]

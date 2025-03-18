@@ -51,6 +51,8 @@ const CURSOR_POINTER = preload("res://UI/Cursor pointer.png")
 @onready var pause_menu: Control = $"Pause Menu"
 @onready var tutorial: Node = $Tutorial
 
+@onready var loss_timer: Timer = $"Loss Timer"
+
 const CABIN_ZOOM_LEVEL: float = 1.1
 
 const TUTORIAL_ANIMATIONS: Array[StringName] = [
@@ -360,6 +362,12 @@ func _on_damaged(strength: int, type: game_manager.damage_types) -> void:
 			computer_system:
 				clock.is_crazy = true
 				round_timer.paused = true
+	var num: int = 0
+	for i in systems:
+		if i.is_damaged:
+			num += 1
+	if num > 2 and loss_timer.is_stopped():
+		loss_timer.start()
 
 
 func _on_system_fixed(fixed_system: system) -> void:
@@ -382,6 +390,12 @@ func _on_system_fixed(fixed_system: system) -> void:
 		computer_system:
 			clock.is_crazy = false
 			round_timer.paused = false
+	var num: int = 0
+	for i in systems:
+		if i.is_damaged:
+			num += 1
+	if num < 3:
+		loss_timer.stop()
 
 
 func _on_round_timer_timeout() -> void:
@@ -476,3 +490,7 @@ func _on_tutorial_request(req: String) -> void:
 			life_support_system.add_fuel()
 			life_support_system.add_fuel()
 			life_support_system.add_fuel()
+
+
+func _on_loss_timer_timeout() -> void:
+	game_over()

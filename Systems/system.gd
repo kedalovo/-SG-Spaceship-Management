@@ -27,7 +27,7 @@ func upgrade(to_tier: int) -> void:
 
 
 func _damage(_strength: int, _type: game_manager.damage_types) -> void:
-	print(name, ": damage is not implemented")
+	push_error("Damage not implemented")
 
 
 func fix() -> void:
