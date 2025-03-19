@@ -52,6 +52,7 @@ const CURSOR_POINTER = preload("res://UI/Cursor pointer.png")
 @onready var tutorial: Node = $Tutorial
 
 @onready var loss_timer: Timer = $"Loss Timer"
+@onready var game_over_menu: Control = $"Game Over Menu"
 
 const CABIN_ZOOM_LEVEL: float = 1.1
 
@@ -85,7 +86,7 @@ var is_mouse_inside: bool
 var can_control_via_arrows: bool
 var is_store_open: bool
 var is_map_open: bool
-var is_tutorial: bool
+var is_tutorial: bool = true
 
 
 func _ready() -> void:
@@ -96,6 +97,11 @@ func _ready() -> void:
 		setup_tutorial()
 	else:
 		toggle_map(true)
+		for i in 10:
+			life_support_system.add_fuel()
+		for i in 5:
+			engines_system.add_fuel()
+			engines_system.add_coolant()
 
 
 func _input(event: InputEvent) -> void:
@@ -191,6 +197,7 @@ func game_over() -> void:
 	if is_tutorial:
 		return
 	game_manager.is_playing = false
+	game_over_menu.show()
 
 
 func pause_game() -> void:
@@ -494,3 +501,7 @@ func _on_tutorial_request(req: String) -> void:
 
 func _on_loss_timer_timeout() -> void:
 	game_over()
+
+
+func _on_game_over_button_pressed() -> void:
+	get_tree().change_scene_to_file("res://Start Menu/start_menu.tscn")

@@ -22,6 +22,7 @@ func cook(damage: int) -> void:
 			health = 0
 			is_cooked = true
 			is_cooking = false
+			call_deferred("set_collision_layer_value", 16, true)
 		sprite.modulate = Color.WHITE.darkened((100 - health) / 100.0)
 		apply_central_impulse(Vector2(randi()%300-150, randi()%300-150))
 

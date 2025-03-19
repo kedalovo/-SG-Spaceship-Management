@@ -44,6 +44,8 @@ func upgrade(to_tier: int) -> void:
 		$"Upgraded Cooker Area".monitoring = true
 		$"Dispose Area".monitoring = false
 		$"Upgraded Dispose Area".monitoring = true
+	elif current_tier == 1 and to_tier == 2:
+		$"Algae Sorter".gravity_space_override = Area2D.SpaceOverride.SPACE_OVERRIDE_COMBINE
 
 
 func _damage(strength: int, type: game_manager.damage_types):

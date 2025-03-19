@@ -1,4 +1,4 @@
-[gd_scene load_steps=127 format=3 uid="uid://dr0fafp1u36yj"]
+[gd_scene load_steps=128 format=3 uid="uid://dr0fafp1u36yj"]
 
 [ext_resource type="Script" path="res://Game Scene/game.gd" id="1_t00el"]
 [ext_resource type="Texture2D" uid="uid://dmcht1gqpy4v3" path="res://Systems/Life Support/Assets/Life Support.png" id="2_3bjf3"]
@@ -2123,6 +2123,9 @@ corner_radius_bottom_left = 8
 corner_detail = 4
 shadow_size = 8
 
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_38m68"]
+bg_color = Color(0, 0, 0, 1)
+
 [node name="Game" type="Node2D"]
 script = ExtResource("1_t00el")
 
@@ -2898,6 +2901,52 @@ clip_text = true
 wait_time = 10.0
 one_shot = true
 
+[node name="Game Over Menu" type="Control" parent="."]
+visible = false
+z_index = 30
+layout_mode = 3
+anchors_preset = 0
+offset_right = 960.0
+offset_bottom = 540.0
+theme = ExtResource("54_bi7ny")
+
+[node name="Panel" type="PanelContainer" parent="Game Over Menu"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_38m68")
+
+[node name="VBox" type="VBoxContainer" parent="Game Over Menu/Panel"]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+alignment = 1
+
+[node name="Title Label" type="Label" parent="Game Over Menu/Panel/VBox"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 48
+text = "GAME_OVER_TITLE"
+horizontal_alignment = 1
+
+[node name="Label" type="Label" parent="Game Over Menu/Panel/VBox"]
+custom_minimum_size = Vector2(300, 0)
+layout_mode = 2
+text = "GAME_OVER_TEXT"
+horizontal_alignment = 1
+autowrap_mode = 3
+
+[node name="VBox" type="VBoxContainer" parent="Game Over Menu/Panel/VBox"]
+layout_mode = 2
+size_flags_horizontal = 4
+
+[node name="Game Over Button" type="Button" parent="Game Over Menu/Panel/VBox/VBox"]
+layout_mode = 2
+size_flags_horizontal = 4
+text = "BTN_CONTINUE"
+
 [connection signal="coin_got" from="Cabin/SubViewportContainer/SubViewport/Space" to="." method="_on_space_coin_got"]
 [connection signal="damaged" from="Cabin/SubViewportContainer/SubViewport/Space" to="." method="_on_damaged"]
 [connection signal="new_location_set_up" from="Cabin/SubViewportContainer/SubViewport/Space" to="." method="_on_space_new_location_set_up"]
@@ -2956,3 +3005,4 @@ one_shot = true
 [connection signal="animation_started" from="Tutorial/Animator" to="Tutorial" method="_on_animator_animation_started"]
 [connection signal="pressed" from="Tutorial/Arrow/Continue Button" to="Tutorial" method="_on_continue_button_pressed"]
 [connection signal="timeout" from="Loss Timer" to="." method="_on_loss_timer_timeout"]
+[connection signal="pressed" from="Game Over Menu/Panel/VBox/VBox/Game Over Button" to="." method="_on_game_over_button_pressed"]

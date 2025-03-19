@@ -7,7 +7,7 @@ const CURSOR_POINTER = preload("res://UI/Cursor pointer.png")
 
 @onready var noise: TextureRect = $"Background Container/Noise"
 @onready var noise_2: TextureRect = $"Background Container/Noise 2"
-@onready var progress: TextureProgressBar = $"Background Container/Margin/VBox/Progress"
+@onready var progress: ProgressBar = $"Background Container/Margin/VBox/Progress"
 @onready var animator: AnimationPlayer = $"Background Container/Animator"
 
 var game_scene: Node
