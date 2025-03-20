@@ -18,7 +18,7 @@ var type: game_manager.engine_cell_types
 
 var start_pos: Vector2
 
-var health: int = 100
+var health: float = 100.0
 var in_slot: int = -1
 
 var is_held: bool = false
@@ -27,13 +27,13 @@ var is_depleted: bool = false
 var is_destroyed: bool = false
 
 
-func use(amount: int) -> void:
+func use(amount: float) -> void:
 	if is_depleting and !is_destroyed and !is_held:
-		var total_amount: int = 0
+		var total_amount: float = 0.0
 		if type == game_manager.engine_cell_types.FUEL:
-			total_amount = ceili(amount * game_manager.wear_modifier)
+			total_amount = amount * game_manager.wear_modifier
 		elif type == game_manager.engine_cell_types.COOLANT:
-			total_amount = floori(amount / game_manager.wear_modifier)
+			total_amount = amount / game_manager.wear_modifier
 		health -= total_amount
 		if health <= 0:
 			health = 0

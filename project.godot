@@ -11,7 +11,7 @@ config_version=5
 [application]
 
 config/name="[SG] Spaceship Management"
-run/main_scene="res://Game Scene/game.tscn"
+run/main_scene="res://Start Menu/start_menu.tscn"
 config/features=PackedStringArray("4.3", "Mobile")
 boot_splash/bg_color=Color(0, 0, 0, 1)
 config/icon="res://icon.svg"

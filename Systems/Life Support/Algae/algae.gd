@@ -7,23 +7,23 @@ class_name Algae
 @onready var sprite: Sprite2D = $Sprite
 
 
-var health: int = 100
+var health: float = 100.0
 var is_cooked: bool = false
 var is_cooking: bool = false
 
 var is_held: bool = false
 
 
-func cook(damage: int) -> void:
+func cook(damage: float) -> void:
 	is_cooking = true
 	if !is_cooked:
-		health -= ceili(damage * game_manager.wear_modifier)
+		health -= damage * game_manager.wear_modifier
 		if health <= 0:
 			health = 0
 			is_cooked = true
 			is_cooking = false
 			call_deferred("set_collision_layer_value", 16, true)
-		sprite.modulate = Color.WHITE.darkened((100 - health) / 100.0)
+		sprite.modulate = Color.WHITE.darkened((100.0 - health) / 100.0)
 		apply_central_impulse(Vector2(randi()%300-150, randi()%300-150))
 
 

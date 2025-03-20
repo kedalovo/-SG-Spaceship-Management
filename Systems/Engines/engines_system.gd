@@ -1,6 +1,12 @@
 extends system
 
 
+signal fuel_cells_ran_out
+signal coolant_cells_ran_out
+signal fuel_cell_added
+signal coolant_cell_added
+
+
 const CELL_SCENE = preload("res://Systems/Engines/Cell/cell.tscn")
 
 @onready var cells_container: Node2D = $Cells
@@ -8,6 +14,9 @@ const CELL_SCENE = preload("res://Systems/Engines/Cell/cell.tscn")
 @onready var fuel_timer: Timer = $FuelTimer
 @onready var coolant_timer: Timer = $CoolantTimer
 @onready var camera: Camera2D = $Camera2D
+@onready var label: Label = $Label
+@onready var empty_fuel_timer: Timer = $"Empty Fuel Timer"
+@onready var empty_coolant_timer: Timer = $"Empty Coolant Timer"
 
 @onready var slots_fuel: Array[int] = []
 @onready var slots_coolant: Array[int] = []
@@ -16,9 +25,10 @@ const CELL_SCENE = preload("res://Systems/Engines/Cell/cell.tscn")
 @onready var cells_coolant: Array[Cell] = []
 
 @onready var hovered_slot: int = -1
-@onready var label: Label = $Label
 
 var destroyed_cells: int = 0
+
+var is_empty: bool
 
 
 func _ready() -> void:
@@ -131,16 +141,16 @@ func _damage(_strength: int, _type: game_manager.damage_types):
 			destroyed_cells += 1
 
 
-func get_fuel_health() -> int:
-	var health := 0
+func get_fuel_health() -> float:
+	var health := 0.0
 	for cell in cells_fuel:
 		if cell.is_depleting:
 			health += cell.health
 	return health
 
 
-func get_coolant_health() -> int:
-	var health := 0
+func get_coolant_health() -> float:
+	var health := 0.0
 	for cell in cells_coolant:
 		if cell.is_depleting:
 			health += cell.health
@@ -189,7 +199,17 @@ func _on_fuel_timer_timeout() -> void:
 		if cell.is_depleting and !cell.is_depleted and !cell.is_destroyed and !cell.is_held:
 			active_cells.append(cell)
 	if active_cells.size() > 0:
-		active_cells.pick_random().use(1)
+		if is_empty:
+			is_empty = false
+			empty_fuel_timer.stop()
+			fuel_cell_added.emit()
+		active_cells.pick_random().use(0.5)
+	else:
+		if is_empty:
+			pass
+		else:
+			is_empty = true
+			empty_fuel_timer.start()
 
 
 func _on_coolant_timer_timeout() -> void:
@@ -198,7 +218,17 @@ func _on_coolant_timer_timeout() -> void:
 		if cell.is_depleting and !cell.is_depleted and !cell.is_destroyed and !cell.is_held:
 			active_cells.append(cell)
 	if active_cells.size() > 0:
-		active_cells.pick_random().use(1)
+		if is_empty:
+			is_empty = false
+			empty_coolant_timer.stop()
+			coolant_cell_added.emit()
+		active_cells.pick_random().use(0.5)
+	else:
+		if is_empty:
+			pass
+		else:
+			is_empty = true
+			empty_coolant_timer.start()
 
 
 func _on_slot_cell_entered(slot_index: int) -> void:
@@ -207,3 +237,11 @@ func _on_slot_cell_entered(slot_index: int) -> void:
 
 func _on_slot_cell_exited(_slot_index: int) -> void:
 	pass
+
+
+func _on_empty_fuel_timer_timeout() -> void:
+	fuel_cells_ran_out.emit()
+
+
+func _on_empty_coolant_timer_timeout() -> void:
+	coolant_cells_ran_out.emit()

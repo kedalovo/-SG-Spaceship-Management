@@ -242,8 +242,7 @@ shape = SubResource("RectangleShape2D_a3g0x")
 
 [node name="CookTimer" type="Timer" parent="."]
 process_callback = 0
-wait_time = 0.1
-autostart = true
+wait_time = 0.2
 
 [node name="DamageTimer" type="Timer" parent="."]
 process_callback = 0
@@ -265,6 +264,10 @@ gravity_direction = Vector2(0, 0)
 [node name="Collision" type="CollisionShape2D" parent="Algae Sorter"]
 shape = SubResource("CircleShape2D_snft3")
 
+[node name="Empty Timer" type="Timer" parent="."]
+wait_time = 10.0
+one_shot = true
+
 [connection signal="body_entered" from="Cooker Area" to="." method="_on_cooker_area_body_entered"]
 [connection signal="body_exited" from="Cooker Area" to="." method="_on_cooker_area_body_exited"]
 [connection signal="body_entered" from="Upgraded Cooker Area" to="." method="_on_cooker_area_body_entered"]
@@ -273,3 +276,4 @@ shape = SubResource("CircleShape2D_snft3")
 [connection signal="body_entered" from="Upgraded Dispose Area" to="." method="_on_dispose_area_body_entered"]
 [connection signal="timeout" from="CookTimer" to="." method="_on_cook_timer_timeout"]
 [connection signal="timeout" from="DamageTimer" to="." method="_on_damage_timer_timeout"]
+[connection signal="timeout" from="Empty Timer" to="." method="_on_empty_timer_timeout"]

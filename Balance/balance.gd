@@ -12,7 +12,8 @@ var value: int:
 		return value
 	set(v):
 		value = clampi(v, 0, 10)
-		set_balance(v)
+		game_manager.balance = value
+		set_balance(value)
 
 
 func set_balance(new_balance: int) -> void:

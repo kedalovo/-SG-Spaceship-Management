@@ -31,8 +31,9 @@ func _damage(_strength: int, _type: game_manager.damage_types) -> void:
 
 
 func fix() -> void:
-	is_damaged = false
-	fixed.emit(self)
+	if is_damaged:
+		is_damaged = false
+		fixed.emit(self)
 
 
 func open() -> void:

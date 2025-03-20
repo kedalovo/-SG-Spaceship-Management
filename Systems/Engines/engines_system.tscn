@@ -275,6 +275,12 @@ offset_top = -85.0
 offset_right = 23.0
 offset_bottom = -62.0
 
+[node name="Empty Fuel Timer" type="Timer" parent="."]
+wait_time = 10.0
+one_shot = true
+
+[node name="Empty Coolant Timer" type="Timer" parent="."]
+
 [connection signal="body_entered" from="Cell Slots/Slot 1" to="Cell Slots/Slot 1" method="_on_body_entered"]
 [connection signal="body_exited" from="Cell Slots/Slot 1" to="Cell Slots/Slot 1" method="_on_body_exited"]
 [connection signal="cell_entered" from="Cell Slots/Slot 1" to="." method="_on_slot_cell_entered"]
@@ -317,3 +323,5 @@ offset_bottom = -62.0
 [connection signal="cell_exited" from="Cell Slots/Slot 10" to="." method="_on_slot_cell_exited"]
 [connection signal="timeout" from="FuelTimer" to="." method="_on_fuel_timer_timeout"]
 [connection signal="timeout" from="CoolantTimer" to="." method="_on_coolant_timer_timeout"]
+[connection signal="timeout" from="Empty Fuel Timer" to="." method="_on_empty_fuel_timer_timeout"]
+[connection signal="timeout" from="Empty Coolant Timer" to="." method="_on_empty_coolant_timer_timeout"]

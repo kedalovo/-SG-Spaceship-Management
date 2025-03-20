@@ -16,6 +16,7 @@ wait_time = 3.0
 autostart = true
 
 [node name="ColorRect" type="ColorRect" parent="."]
+visible = false
 offset_left = -8.0
 offset_top = -8.0
 offset_right = 8.0

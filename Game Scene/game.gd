@@ -86,7 +86,7 @@ var is_mouse_inside: bool
 var can_control_via_arrows: bool
 var is_store_open: bool
 var is_map_open: bool
-var is_tutorial: bool = true
+var is_tutorial: bool
 
 
 func _ready() -> void:
@@ -97,8 +97,6 @@ func _ready() -> void:
 		setup_tutorial()
 	else:
 		toggle_map(true)
-		for i in 10:
-			life_support_system.add_fuel()
 		for i in 5:
 			engines_system.add_fuel()
 			engines_system.add_coolant()
@@ -138,7 +136,7 @@ func _input(event: InputEvent) -> void:
 			var moved: bool = space.move(Vector2.DOWN)
 			if moved:
 				cabin_view.scale = Vector2(CABIN_ZOOM_LEVEL, CABIN_ZOOM_LEVEL)
-	if event.is_action_pressed(&"fullscreen") and can_control_via_arrows:
+	if event.is_action_pressed(&"fullscreen"):
 		if DisplayServer.window_get_mode() == DisplayServer.WindowMode.WINDOW_MODE_WINDOWED:
 			DisplayServer.window_set_mode(DisplayServer.WINDOW_MODE_EXCLUSIVE_FULLSCREEN)
 		elif DisplayServer.window_get_mode() == DisplayServer.WindowMode.WINDOW_MODE_EXCLUSIVE_FULLSCREEN:
@@ -190,6 +188,9 @@ func start_round() -> void:
 	toggle_map(false)
 	Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
 	game_manager.is_playing = true
+	for i in 10:
+		life_support_system.call_deferred(&"add_fuel")
+	life_support_system.start()
 	map.cursor.hide()
 
 
@@ -227,6 +228,9 @@ func proceed() -> void:
 		round_timer.start(180.0)
 		return
 	toggle_store(true)
+	if GameManager.is_in_system:
+		systems[current_system_idx].close()
+		GameManager.is_in_system = false
 	space.stop()
 	for node in systems:
 		node.fix()
@@ -489,6 +493,7 @@ func _on_tutorial_request(req: String) -> void:
 			get_tree().create_timer(10.0).timeout.connect(tutorial.proceed)
 		"systems":
 			life_support_sprite.enabled = true
+			life_support_system.start()
 			life_support_system._damage(1, game_manager.damage_types.HEAT)
 			system_fog.toggle(true)
 			life_support_sprite.damage()
@@ -505,3 +510,45 @@ func _on_loss_timer_timeout() -> void:
 
 func _on_game_over_button_pressed() -> void:
 	get_tree().change_scene_to_file("res://Start Menu/start_menu.tscn")
+
+
+func _on_life_support_system_algae_ran_out() -> void:
+	system_fog.toggle(true)
+	life_support_sprite.damage()
+
+
+func _on_life_support_system_algae_added() -> void:
+	system_fog.toggle(false)
+	life_support_sprite.fix()
+
+
+func _on_engines_system_fuel_cells_ran_out() -> void:
+	smoke_1.emitting = true
+	smoke_2.emitting = true
+	smoke_3.emitting = true
+	smoke_4.emitting = true
+	engines_sprite.damage()
+
+
+func _on_engines_system_coolant_cells_ran_out() -> void:
+	smoke_1.emitting = true
+	smoke_2.emitting = true
+	smoke_3.emitting = true
+	smoke_4.emitting = true
+	engines_sprite.damage()
+
+
+func _on_engines_system_fuel_cell_added() -> void:
+	smoke_1.emitting = false
+	smoke_2.emitting = false
+	smoke_3.emitting = false
+	smoke_4.emitting = false
+	engines_sprite.fix()
+
+
+func _on_engines_system_coolant_cell_added() -> void:
+	smoke_1.emitting = false
+	smoke_2.emitting = false
+	smoke_3.emitting = false
+	smoke_4.emitting = false
+	engines_sprite.fix()
