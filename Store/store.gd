@@ -1,7 +1,7 @@
 extends Node2D
 
 
-signal item_bought(item: game_manager.store_items)
+signal item_bought(item: game_manager.store_items, price: int)
 signal balance_flash
 signal map_summoned
 signal button_hover(btn: store_button)
@@ -14,6 +14,7 @@ signal button_hover_stop
 
 const HULL_UPGRADE_2 = preload("res://Store/Assets/Hull upgrade 2.png")
 const LIFE_SUPPORT_UPGRADE_2 = preload("res://Store/Assets/Life support upgrade 2.png")
+const OUT_OF_STOCK = preload("res://Store/Assets/Out of stock.png")
 
 
 @onready var algae_outline: Sprite2D = $"Buttons/Algae Button/Sprite/Outline"
@@ -44,28 +45,42 @@ func toggle_input(new_state: bool) -> void:
 		input_stopper.mouse_filter = Control.MOUSE_FILTER_STOP
 
 
-func _on_item_bought(item: game_manager.store_items) -> void:
+func _on_item_bought(item: game_manager.store_items, price: int) -> void:
 	match item:
 		game_manager.store_items.NONE:
 			push_error("'NONE' item can not be bought at the store")
 		game_manager.store_items.LIFE_SUPPORT_1:
 			top_left_button.upgrade = game_manager.store_items.LIFE_SUPPORT_2
 			top_left_button.update_texture(LIFE_SUPPORT_UPGRADE_2)
+			top_left_button.custom_tooltip = "TOOLTIP_LIFE_SUPPORT_2"
 		game_manager.store_items.LIFE_SUPPORT_2:
-			pass
+			top_left_button.update_texture(OUT_OF_STOCK)
+			top_left_button.custom_tooltip = "TOOLTIP_OUT_OF_STOCK"
+			top_left_button.upgrade = game_manager.store_items.OUT_OF_STOCK
 		game_manager.store_items.ENGINES:
-			pass
+			top_middle_button.update_texture(OUT_OF_STOCK)
+			top_middle_button.custom_tooltip = "TOOLTIP_OUT_OF_STOCK"
+			top_middle_button.upgrade = game_manager.store_items.OUT_OF_STOCK
 		game_manager.store_items.HULL_1:
 			top_right_button.upgrade = game_manager.store_items.HULL_2
 			top_right_button.update_texture(HULL_UPGRADE_2)
+			top_right_button.custom_tooltip = "TOOLTIP_HULL_2"
 		game_manager.store_items.HULL_2:
-			pass
+			top_right_button.update_texture(OUT_OF_STOCK)
+			top_right_button.custom_tooltip = "TOOLTIP_OUT_OF_STOCK"
+			top_right_button.upgrade = game_manager.store_items.OUT_OF_STOCK
 		game_manager.store_items.CONTROLS:
-			pass
+			bottom_middle_button.update_texture(OUT_OF_STOCK)
+			bottom_middle_button.custom_tooltip = "TOOLTIP_OUT_OF_STOCK"
+			bottom_middle_button.upgrade = game_manager.store_items.OUT_OF_STOCK
 		game_manager.store_items.BALLISTIC:
-			pass
+			bottom_left_button.update_texture(OUT_OF_STOCK)
+			bottom_left_button.custom_tooltip = "TOOLTIP_OUT_OF_STOCK"
+			bottom_left_button.upgrade = game_manager.store_items.OUT_OF_STOCK
 		game_manager.store_items.NAVIGATION:
-			pass
+			bottom_right_button.update_texture(OUT_OF_STOCK)
+			bottom_right_button.custom_tooltip = "TOOLTIP_OUT_OF_STOCK"
+			bottom_right_button.upgrade = game_manager.store_items.OUT_OF_STOCK
 		game_manager.store_items.ALGAE:
 			pass
 		game_manager.store_items.FUEL_CELL:
@@ -74,7 +89,7 @@ func _on_item_bought(item: game_manager.store_items) -> void:
 			pass
 		game_manager.store_items.PATCH:
 			pass
-	item_bought.emit(item)
+	item_bought.emit(item, price)
 
 
 func _on_low_balance_flash() -> void:

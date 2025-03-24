@@ -25,6 +25,7 @@ var is_held: bool = false
 var is_depleting: bool = false
 var is_depleted: bool = false
 var is_destroyed: bool = false
+var is_mouse_on_top: bool = false
 
 
 func use(amount: float) -> void:
@@ -39,6 +40,8 @@ func use(amount: float) -> void:
 			health = 0
 			is_depleting = false
 			is_depleted = true
+			if is_mouse_on_top:
+				outline.show()
 		progress.value = health / 5.55556
 
 
@@ -73,11 +76,13 @@ func _physics_process(_delta: float) -> void:
 
 
 func _on_button_mouse_entered() -> void:
+	is_mouse_on_top = true
 	if !is_depleting:
 		outline.show()
 
 
 func _on_button_mouse_exited() -> void:
+	is_mouse_on_top = false
 	if !is_held:
 		outline.hide()
 

@@ -105,14 +105,15 @@ func _ready() -> void:
 func _input(event: InputEvent) -> void:
 	if event.is_action_pressed(&"esc"):
 		pause_game()
-	if event.is_action_pressed(&"test1"):
+	if event.is_action_pressed(&"test_space"):
 		#map_animator.play(&"open")
 		#Input.mouse_mode = Input.MOUSE_MODE_HIDDEN
 		#map.cursor.show()
 		#balance.value = 5
 		#print(balance.value)
+		life_support_system.unfreeze()
 		pass
-	if event.is_action_pressed(&"test"):
+	if event.is_action_pressed(&"test_quote"):
 		#map_animator.play_backwards(&"open")
 		#Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
 		#map.cursor.hide()
@@ -217,10 +218,6 @@ func quit_game() -> void:
 	Input.set_custom_mouse_cursor(null, Input.CURSOR_ARROW)
 	Input.set_custom_mouse_cursor(null, Input.CURSOR_POINTING_HAND)
 	get_tree().quit()
-
-
-func update_balance() -> void:
-	balance.value = game_manager.balance
 
 
 func proceed() -> void:
@@ -426,8 +423,8 @@ func _on_space_coin_got() -> void:
 	balance.value += 1
 
 
-func _on_store_item_bought(item: game_manager.store_items) -> void:
-	update_balance()
+func _on_store_item_bought(item: game_manager.store_items, price: int) -> void:
+	balance.value -= price
 	match item:
 		game_manager.store_items.NONE:
 			push_error("'NONE' item can not be bought at the store")
@@ -444,16 +441,17 @@ func _on_store_item_bought(item: game_manager.store_items) -> void:
 		game_manager.store_items.CONTROLS:
 			can_control_via_arrows = true
 		game_manager.store_items.BALLISTIC:
-			#TODO: Ballistic prediction needs to be implemented. Basically, a hazard visualization - when it hits and where
-			pass
+			game_manager.is_ballistic = true
 		game_manager.store_items.NAVIGATION:
-			#TODO: Here we'll just set a global variable in game_manager of the scan range to a higher value
-			pass
+			game_manager.scan_distance = 3
 		game_manager.store_items.ALGAE:
+			life_support_system.add_fuel()
 			life_support_system.add_fuel()
 		game_manager.store_items.FUEL_CELL:
 			engines_system.add_fuel()
+			engines_system.add_fuel()
 		game_manager.store_items.COOLANT_CELL:
+			engines_system.add_coolant()
 			engines_system.add_coolant()
 		game_manager.store_items.PATCH:
 			hull_system.add_patch()
@@ -515,11 +513,13 @@ func _on_game_over_button_pressed() -> void:
 func _on_life_support_system_algae_ran_out() -> void:
 	system_fog.toggle(true)
 	life_support_sprite.damage()
+	print("Algae ran out!")
 
 
 func _on_life_support_system_algae_added() -> void:
 	system_fog.toggle(false)
 	life_support_sprite.fix()
+	print("Algae added after running out.")
 
 
 func _on_engines_system_fuel_cells_ran_out() -> void:
@@ -528,6 +528,7 @@ func _on_engines_system_fuel_cells_ran_out() -> void:
 	smoke_3.emitting = true
 	smoke_4.emitting = true
 	engines_sprite.damage()
+	print("Fuel cells ran out!")
 
 
 func _on_engines_system_coolant_cells_ran_out() -> void:
@@ -536,6 +537,7 @@ func _on_engines_system_coolant_cells_ran_out() -> void:
 	smoke_3.emitting = true
 	smoke_4.emitting = true
 	engines_sprite.damage()
+	print("Coolant cells ran out!")
 
 
 func _on_engines_system_fuel_cell_added() -> void:
@@ -544,6 +546,7 @@ func _on_engines_system_fuel_cell_added() -> void:
 	smoke_3.emitting = false
 	smoke_4.emitting = false
 	engines_sprite.fix()
+	print("Fuel cell added after running out.")
 
 
 func _on_engines_system_coolant_cell_added() -> void:
@@ -552,3 +555,4 @@ func _on_engines_system_coolant_cell_added() -> void:
 	smoke_3.emitting = false
 	smoke_4.emitting = false
 	engines_sprite.fix()
+	print("Coolant cell added after running out.")

@@ -1,6 +1,8 @@
-[gd_scene load_steps=2 format=3 uid="uid://bhegifuej00am"]
+[gd_scene load_steps=4 format=3 uid="uid://bhegifuej00am"]
 
 [ext_resource type="Script" path="res://Hazards/hazard.gd" id="1_gbao2"]
+[ext_resource type="Texture2D" uid="uid://cxkbfsx3mwc4w" path="res://Hazards/Ballistics/Ballistics circle.png" id="2_hj80s"]
+[ext_resource type="Texture2D" uid="uid://uq8ug0q20qqt" path="res://Hazards/Ballistics/Ballistics.png" id="3_htwv4"]
 
 [node name="Hazard" type="Node2D" groups=["hazard"]]
 script = ExtResource("1_gbao2")
@@ -22,6 +24,17 @@ offset_top = -8.0
 offset_right = 8.0
 offset_bottom = 8.0
 color = Color(1, 0, 0, 1)
+
+[node name="Progress" type="TextureProgressBar" parent="."]
+offset_left = -32.0
+offset_top = -32.0
+offset_right = 32.0
+offset_bottom = 32.0
+fill_mode = 4
+texture_progress = ExtResource("2_hj80s")
+
+[node name="Ballistic Lines" type="Sprite2D" parent="."]
+texture = ExtResource("3_htwv4")
 
 [connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]
 [connection signal="timeout" from="Hurt Timer" to="." method="_on_hurt_timer_timeout"]

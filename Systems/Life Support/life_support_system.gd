@@ -15,10 +15,16 @@ const ALGAE_SCENE = preload("res://Systems/Life Support/Algae/algae.tscn")
 @onready var empty_timer: Timer = $"Empty Timer"
 
 var algae_in_cooker: Array[Algae] = []
+var live_algae_in_cooker: Array[Algae] = []
 
 var constant_damage: float = 0.5
 
 var is_empty: bool
+
+
+func unfreeze() -> void:
+	for i in algae_container.get_children():
+		i.freeze = false
 
 
 func get_health() -> int:
@@ -31,7 +37,7 @@ func get_health() -> int:
 
 func add_fuel() -> void:
 	var new_algae = ALGAE_SCENE.instantiate()
-	new_algae.position = Vector2(randi_range(-152, -72), -36)
+	new_algae.position = Vector2(randi_range(-152, -88), -36)
 	algae_container.add_child(new_algae)
 
 
@@ -71,6 +77,7 @@ func _on_cooker_area_body_entered(body: Node2D) -> void:
 	if body is Algae:
 		if !(body.is_cooking or body.is_cooked):
 			algae_in_cooker.append(body)
+			live_algae_in_cooker.append(body)
 
 
 func _on_cooker_area_body_exited(body: Node2D) -> void:
@@ -78,6 +85,7 @@ func _on_cooker_area_body_exited(body: Node2D) -> void:
 		if body.is_cooking:
 			body.is_cooking = false
 			algae_in_cooker.erase(body)
+			live_algae_in_cooker.erase(body)
 
 
 func _on_dispose_area_body_entered(body: Node2D) -> void:
@@ -87,17 +95,19 @@ func _on_dispose_area_body_entered(body: Node2D) -> void:
 
 
 func _on_cook_timer_timeout() -> void:
-	if !algae_in_cooker.is_empty():
+	if !live_algae_in_cooker.is_empty():
 		if is_empty:
 			is_empty = false
 			empty_timer.stop()
 			algae_added.emit()
-		algae_in_cooker[randi()%algae_in_cooker.size()].cook(constant_damage)
+		var picked: int = randi()%live_algae_in_cooker.size()
+		live_algae_in_cooker[picked].cook(constant_damage)
+		if live_algae_in_cooker[picked].is_cooked:
+			live_algae_in_cooker.remove_at(picked)
 	else:
 		if is_empty:
 			pass
 		else:
-			is_empty = true
 			empty_timer.start()
 
 
@@ -107,5 +117,7 @@ func _on_damage_timer_timeout() -> void:
 
 
 func _on_empty_timer_timeout() -> void:
-	is_damaged = true
-	algae_ran_out.emit()
+	if live_algae_in_cooker.is_empty():
+		is_damaged = true
+		is_empty = true
+		algae_ran_out.emit()

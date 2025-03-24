@@ -4,7 +4,7 @@ extends TextureButton
 class_name store_button
 
 
-signal upgrade_bought(new_upgrade: game_manager.store_items)
+signal upgrade_bought(new_upgrade: game_manager.store_items, amount: int)
 signal failed_buy_attempt
 signal hover(btn: store_button)
 signal hover_stop
@@ -42,7 +42,7 @@ func update_texture(new_texture: Texture2D) -> void:
 
 
 func _on_button_down() -> void:
-	if game_manager.balance < price:
+	if game_manager.balance < price or upgrade == game_manager.store_items.OUT_OF_STOCK:
 		animator.play(&"shake")
 		if is_bottom_button:
 			sprite_outline.hide()
@@ -74,5 +74,4 @@ func _on_mouse_exited() -> void:
 
 
 func _on_timer_timeout() -> void:
-	upgrade_bought.emit(upgrade)
-	game_manager.balance -= price
+	upgrade_bought.emit(upgrade, price)

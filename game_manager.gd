@@ -39,10 +39,13 @@ static var balance: int:
 		balance = clampi(val, 0, 10)
 	get:
 		return balance
+static var scan_distance: int = 1
 
 static var is_in_system: bool = false
 
 static var is_playing: bool = false
+
+static var is_ballistic: bool = false
 
 enum damage_types {
 	PHYSICAL,
@@ -96,7 +99,8 @@ enum store_items {
 	ALGAE,
 	FUEL_CELL,
 	COOLANT_CELL,
-	PATCH
+	PATCH,
+	OUT_OF_STOCK
 }
 
 static func get_module_texture(module_type: module_types) -> Texture2D:

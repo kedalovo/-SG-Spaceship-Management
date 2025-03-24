@@ -328,6 +328,15 @@ func generate_map() -> void:
 		i.update_icon()
 
 
+func update_secrecy() -> void:
+	if current_level == -1:
+		return
+	for i in game_manager.scan_distance:
+		for j in grid[current_level + i]:
+			j.is_secret = false
+			j.update_icon()
+
+
 func tooltip_popup(node: map_node) -> void:
 	if node.is_wormhole or node.is_secret:
 		return

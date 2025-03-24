@@ -22,29 +22,29 @@ TOOLTIP_ALGAE,"Algae.
 
 This resource is essential to have in order to generate oxygen.
 
-It is recommended you buy as much of it as you possibly can.","Водоросли.
+It is recommended you buy as much of it as you possibly can. Buys two algae.","Водоросли.
 
 Этот ресурс очень важен для синтезации кислорода.
 
-Рекоммендуется покупать их так много, как возможно."
+Рекоммендуется покупать их так много, как возможно. Покупается две штуки."
 TOOLTIP_FUEL,"Fuel cells.
 
 These cells contain fuel for your engines.
 
-Without them you wouldn't be able to go anywhere!","Топливные ячейки.
+Without them you wouldn't be able to go anywhere! Buys two cells.","Топливные ячейки.
 
 Эти ячейки содержат топливо для ваших двигателей.
 
-Без них вы никуда не улетите!"
+Без них вы никуда не улетите! Покупается две ячейки."
 TOOLTIP_COOLANT,"Coolant cells.
 
 These cells contain coolant for your engines.
 
-They protect your ship from overheating.","Охладительные ячейки.
+They protect your ship from overheating. Buys two cells.","Охладительные ячейки.
 
 Эти ячейки содержат охладитель для ваших двигателей.
 
-Они защищают ваш корабль от перегрева."
+Они защищают ваш корабль от перегрева. Покупается две ячейки."
 TOOLTIP_PATCH,"Patches.
 
 These patches are an advanced technology that allows to plug holes of all shapes.
@@ -63,6 +63,15 @@ This upgrade makes your tank bigger, so that you can store more algae and surviv
 Жизнеобеспечение безотлагательно для вашего выживания в космосе, так как оно производит воздух для лёгких и сохраняет вашу температуру на нормальном уровне.
 
 Это улучшение делает ваше хранилище водорослей объёмнее, что позволяет вам выжить дольше."
+TOOLTIP_LIFE_SUPPORT_2,"Life support upgrade 2.
+
+Final upgrade of life support allows burnt algae to be sorted automatically to save you some time on manual labour.
+
+Makes burnt algae gravitate towards right side of the tank.","Улучшение системы жизнеобеспечения 2.
+
+Финальное улучшение системы жизнеобеспечения позволяет сгоревшим водорослям автоматически сортироваться, чтобы облегчить ваш ручной труд.
+
+Притягивает сгоревшие водоросли в правую сторону танкера."
 TOOLTIP_ENGINES,"Engines upgrade.
 
 Engines keep your ship running, so it's important to take care of them.
@@ -81,6 +90,15 @@ This upgrade provides enhancement to the patch technology by making the bracings
 Броня вашего корабля - это вся ваша жизнь. Если она сломается, вы сломаетесь вместе с ней.
 
 Это улучшение продвигает технологию накладок, делая крепления больше, из-за чего легче по ним попадать."
+TOOLTIP_HULL_2,"Hull upgrade 2.
+
+Bigger bracings are good, but what if there's less of them?
+
+Now you only have to hit two bracings instead of four.","Улучшение брони 2.
+
+Большие крепления - это хорошо, но что если у вас будет их меньше?
+
+Теперь вам придётся нажимать на два крепления вместо четырёх."
 TOOLTIP_BALLISTIC,"Ballistic upgrade.
 
 Space is filled with terrible dangers that can drastically lower your chances of making it through.
@@ -108,6 +126,7 @@ The navigation upgrade allows you to see several systems ahead so you can plan y
 Устали пребывать в неизвестности? Больше не беспокойтесь, мы об этом позаботимся!
 
 Это улучшение позволяет увидеть сразу на несколько систем вперёд, так что вы можете планировать свои полёты заранее."
+TOOLTIP_OUT_OF_STOCK,Out of stock.,Товар закончился.
 TUTORIAL_1_INTRODUCTION,"Hello! This game is about delivering cargo in space. Your goal is to make it from point A to point B.
 
 On your journey you'll meet various hazards that will damage your ship. Avoiding collisions and fixing problems is the key to success. Now let's walk through a little tutorial to familiarize you with the layout.","Привет! Эта игра о доставке посылок в космосе. Ваша задача - дойти из точки А в точку Б.

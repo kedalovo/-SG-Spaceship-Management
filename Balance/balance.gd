@@ -5,6 +5,7 @@ extends Node2D
 @onready var animator: AnimationPlayer = $Animator
 @onready var selector_1: Sprite2D = $"Selectors/Selector 1"
 @onready var selector_2: Sprite2D = $"Selectors/Selector 2"
+@onready var selector_3: Sprite2D = $"Selectors/Selector 3"
 
 
 var value: int:
@@ -25,17 +26,24 @@ func set_balance(new_balance: int) -> void:
 
 
 func set_flash(amount: int) -> void:
-	amount = clampi(amount, 0, 2)
+	amount = clampi(amount, 0, 3)
 	match amount:
 		0:
 			selector_1.hide()
 			selector_2.hide()
+			selector_3.hide()
 		1:
 			selector_1.show()
 			selector_2.hide()
+			selector_3.hide()
 		2:
 			selector_1.show()
 			selector_2.show()
+			selector_3.hide()
+		3:
+			selector_1.show()
+			selector_2.show()
+			selector_3.show()
 
 
 func _on_store_balance_flash() -> void:

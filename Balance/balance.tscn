@@ -43,6 +43,21 @@ _data = {
 "flash": SubResource("Animation_bhsm4")
 }
 
+[sub_resource type="Animation" id="Animation_g2dtc"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(0.992188, 1, 0, 1)]
+}
+
 [sub_resource type="Animation" id="Animation_yy7f0"]
 resource_name = "flash"
 loop_mode = 1
@@ -58,21 +73,6 @@ tracks/0/keys = {
 "transitions": PackedFloat32Array(1, 1),
 "update": 0,
 "values": [Color(0.992188, 1, 0, 1), Color(1, 0.164063, 0, 1)]
-}
-
-[sub_resource type="Animation" id="Animation_g2dtc"]
-length = 0.001
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath(".:modulate")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 0,
-"values": [Color(0.992188, 1, 0, 1)]
 }
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_k16lw"]
@@ -157,6 +157,11 @@ texture = ExtResource("4_tffh6")
 [node name="Selector 2" type="Sprite2D" parent="Selectors"]
 visible = false
 position = Vector2(-48, 24)
+texture = ExtResource("4_tffh6")
+
+[node name="Selector 3" type="Sprite2D" parent="Selectors"]
+visible = false
+position = Vector2(-80, 24)
 texture = ExtResource("4_tffh6")
 
 [node name="Animator" type="AnimationPlayer" parent="Selectors"]

@@ -28,7 +28,8 @@ const CELL_SCENE = preload("res://Systems/Engines/Cell/cell.tscn")
 
 var destroyed_cells: int = 0
 
-var is_empty: bool
+var is_empty_fuel: bool
+var is_empty_coolant: bool
 
 
 func _ready() -> void:
@@ -199,16 +200,15 @@ func _on_fuel_timer_timeout() -> void:
 		if cell.is_depleting and !cell.is_depleted and !cell.is_destroyed and !cell.is_held:
 			active_cells.append(cell)
 	if active_cells.size() > 0:
-		if is_empty:
-			is_empty = false
+		if is_empty_fuel:
+			is_empty_fuel = false
 			empty_fuel_timer.stop()
 			fuel_cell_added.emit()
 		active_cells.pick_random().use(0.5)
 	else:
-		if is_empty:
+		if is_empty_fuel:
 			pass
 		else:
-			is_empty = true
 			empty_fuel_timer.start()
 
 
@@ -218,16 +218,15 @@ func _on_coolant_timer_timeout() -> void:
 		if cell.is_depleting and !cell.is_depleted and !cell.is_destroyed and !cell.is_held:
 			active_cells.append(cell)
 	if active_cells.size() > 0:
-		if is_empty:
-			is_empty = false
+		if is_empty_coolant:
+			is_empty_coolant = false
 			empty_coolant_timer.stop()
 			coolant_cell_added.emit()
 		active_cells.pick_random().use(0.5)
 	else:
-		if is_empty:
+		if is_empty_coolant:
 			pass
 		else:
-			is_empty = true
 			empty_coolant_timer.start()
 
 
@@ -240,8 +239,22 @@ func _on_slot_cell_exited(_slot_index: int) -> void:
 
 
 func _on_empty_fuel_timer_timeout() -> void:
-	fuel_cells_ran_out.emit()
+	var active_cells: Array[Cell] = []
+	for cell in cells_fuel:
+		if cell.is_depleting and !cell.is_depleted and !cell.is_destroyed and !cell.is_held:
+			active_cells.append(cell)
+	if active_cells.size() == 0:
+		is_damaged = true
+		is_empty_fuel = true
+		fuel_cells_ran_out.emit()
 
 
 func _on_empty_coolant_timer_timeout() -> void:
-	coolant_cells_ran_out.emit()
+	var active_cells: Array[Cell] = []
+	for cell in cells_fuel:
+		if cell.is_depleting and !cell.is_depleted and !cell.is_destroyed and !cell.is_held:
+			active_cells.append(cell)
+	if active_cells.size() == 0:
+		is_damaged = true
+		is_empty_coolant = true
+		coolant_cells_ran_out.emit()

@@ -9,6 +9,8 @@ signal finished(finished_rocked: rocket)
 
 @onready var sprite: Sprite2D = $Sprite
 @onready var animator: AnimationPlayer = $Sprite/Animator
+@onready var progress: TextureProgressBar = $Progress
+@onready var ballistic_lines: Sprite2D = $"Ballistic Lines"
 
 
 var target: Node2D
@@ -20,12 +22,24 @@ var damage: int = 0
 
 func _ready() -> void:
 	set_physics_process(false)
+	if game_manager.is_ballistic:
+		set_process(true)
+		progress.show()
+		ballistic_lines.show()
+	else:
+		set_process(false)
+		progress.hide()
+		ballistic_lines.hide()
 
 
 func _physics_process(delta: float) -> void:
 	global_position += (target.global_position - global_position).normalized() * speed * delta * 5 * exp(animator.current_animation_position)
 	sprite.look_at(target.global_position)
 	sprite.rotate(deg_to_rad(90.0))
+
+
+func _process(_delta: float) -> void:
+	progress.value = animator.current_animation_position / animator.current_animation_length * 100
 
 
 func set_time(time: float) -> void:

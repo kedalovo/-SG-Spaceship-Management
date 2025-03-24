@@ -28,7 +28,7 @@ func cook(damage: float) -> void:
 
 
 func _physics_process(_delta: float) -> void:
-	if is_held:
+	if is_held and !is_cooking:
 		apply_central_force((get_global_mouse_position() - global_position) * 50)
 
 
@@ -44,7 +44,8 @@ func _on_input_event(_viewport: Node, event: InputEvent, _shape_idx: int) -> voi
 
 
 func _on_mouse_entered() -> void:
-	outline.show()
+	if !is_cooking:
+		outline.show()
 
 
 func _on_mouse_exited() -> void:
