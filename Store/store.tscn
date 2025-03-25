@@ -1,4 +1,4 @@
-[gd_scene load_steps=37 format=3 uid="uid://btvb5400v1yyr"]
+[gd_scene load_steps=40 format=3 uid="uid://btvb5400v1yyr"]
 
 [ext_resource type="Texture2D" uid="uid://bkry1rl40rve5" path="res://Store/Assets/Store Background.png" id="1_jd1dj"]
 [ext_resource type="Script" path="res://Store/store.gd" id="1_waq3s"]
@@ -14,6 +14,7 @@
 [ext_resource type="BitMap" uid="uid://bm0y1rivtf1wm" path="res://Store/Assets/Bottom left bitmask.png" id="5_10xce"]
 [ext_resource type="Texture2D" uid="uid://6xtels7glrj0" path="res://Systems/Hull/Assets/Patch.png" id="5_sowqq"]
 [ext_resource type="Texture2D" uid="uid://cqi86ps2dgf2e" path="res://Systems/Hull/Assets/Patch Outline.png" id="7_hk3ls"]
+[ext_resource type="FontFile" uid="uid://cwh545aike8r4" path="res://Resources/Theme/Tektur-VariableFont_wdth,wght.ttf" id="8_sbbub"]
 [ext_resource type="Texture2D" uid="uid://bx2imxchgrcyx" path="res://Store/Assets/Life support upgrade 1.png" id="10_g2lqu"]
 [ext_resource type="Texture2D" uid="uid://bpjvxslhrr4f7" path="res://Store/Assets/Top left progress.png" id="10_onf14"]
 [ext_resource type="Texture2D" uid="uid://4ejxauyckmjt" path="res://Store/Assets/Engines upgrade.png" id="11_furb3"]
@@ -123,6 +124,21 @@ _data = {
 "shake": SubResource("Animation_fgily")
 }
 
+[sub_resource type="FontVariation" id="FontVariation_cynkp"]
+base_font = ExtResource("8_sbbub")
+variation_opentype = {
+2003072104: 100,
+2003265652: 600
+}
+spacing_top = -5
+spacing_bottom = -7
+
+[sub_resource type="LabelSettings" id="LabelSettings_ne1an"]
+font = SubResource("FontVariation_cynkp")
+font_size = 24
+shadow_size = 2
+shadow_color = Color(0.152941, 0.572549, 0, 1)
+
 [sub_resource type="GradientTexture2D" id="GradientTexture2D_v4122"]
 gradient = SubResource("Gradient_ohp06")
 width = 131
@@ -175,7 +191,7 @@ focus_mode = 0
 texture_click_mask = ExtResource("24_shtal")
 stretch_mode = 0
 script = ExtResource("3_ch6t5")
-upgrade = 8
+upgrade = 9
 is_bottom_button = true
 time = 1.0
 custom_tooltip = "TOOLTIP_ALGAE"
@@ -217,6 +233,22 @@ libraries = {
 [node name="Timer" type="Timer" parent="Buttons/Algae Button"]
 one_shot = true
 
+[node name="Margin" type="MarginContainer" parent="Buttons/Algae Button"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Label" type="Label" parent="Buttons/Algae Button/Margin"]
+layout_mode = 2
+size_flags_horizontal = 8
+size_flags_vertical = 0
+text = "12"
+label_settings = SubResource("LabelSettings_ne1an")
+horizontal_alignment = 2
+
 [node name="Fuel Button" type="TextureButton" parent="Buttons"]
 layout_mode = 0
 offset_left = 198.0
@@ -227,7 +259,7 @@ focus_mode = 0
 texture_click_mask = ExtResource("24_shtal")
 stretch_mode = 0
 script = ExtResource("3_ch6t5")
-upgrade = 9
+upgrade = 10
 is_bottom_button = true
 time = 1.0
 custom_tooltip = "TOOLTIP_FUEL"
@@ -284,6 +316,22 @@ libraries = {
 [node name="Timer" type="Timer" parent="Buttons/Fuel Button"]
 one_shot = true
 
+[node name="Margin" type="MarginContainer" parent="Buttons/Fuel Button"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Label" type="Label" parent="Buttons/Fuel Button/Margin"]
+layout_mode = 2
+size_flags_horizontal = 8
+size_flags_vertical = 0
+text = "12"
+label_settings = SubResource("LabelSettings_ne1an")
+horizontal_alignment = 2
+
 [node name="Coolant Button" type="TextureButton" parent="Buttons"]
 layout_mode = 0
 offset_left = 375.0
@@ -294,7 +342,7 @@ focus_mode = 0
 texture_click_mask = ExtResource("24_shtal")
 stretch_mode = 0
 script = ExtResource("3_ch6t5")
-upgrade = 10
+upgrade = 11
 is_bottom_button = true
 time = 1.0
 custom_tooltip = "TOOLTIP_COOLANT"
@@ -351,6 +399,22 @@ libraries = {
 [node name="Timer" type="Timer" parent="Buttons/Coolant Button"]
 one_shot = true
 
+[node name="Margin" type="MarginContainer" parent="Buttons/Coolant Button"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Label" type="Label" parent="Buttons/Coolant Button/Margin"]
+layout_mode = 2
+size_flags_horizontal = 8
+size_flags_vertical = 0
+text = "12"
+label_settings = SubResource("LabelSettings_ne1an")
+horizontal_alignment = 2
+
 [node name="Patch Button" type="TextureButton" parent="Buttons"]
 layout_mode = 0
 offset_left = 541.0
@@ -361,7 +425,7 @@ focus_mode = 0
 texture_click_mask = ExtResource("24_shtal")
 stretch_mode = 0
 script = ExtResource("3_ch6t5")
-upgrade = 11
+upgrade = 12
 is_bottom_button = true
 time = 1.0
 custom_tooltip = "TOOLTIP_PATCH"
@@ -404,6 +468,22 @@ libraries = {
 
 [node name="Timer" type="Timer" parent="Buttons/Patch Button"]
 one_shot = true
+
+[node name="Margin" type="MarginContainer" parent="Buttons/Patch Button"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Label" type="Label" parent="Buttons/Patch Button/Margin"]
+layout_mode = 2
+size_flags_horizontal = 8
+size_flags_vertical = 0
+text = "12"
+label_settings = SubResource("LabelSettings_ne1an")
+horizontal_alignment = 2
 
 [node name="Top Left Button" type="TextureButton" parent="Buttons"]
 layout_mode = 0

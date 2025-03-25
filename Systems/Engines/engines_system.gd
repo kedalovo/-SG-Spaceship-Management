@@ -36,13 +36,25 @@ func _ready() -> void:
 	super._ready()
 	setup_slots()
 	setup_cells()
-	fuel_timer.start()
-	coolant_timer.start()
 	hovered_slot = -1
 
 
 func _physics_process(_delta: float) -> void:
 	label.text = str(hovered_slot)
+
+
+func start() -> void:
+	fuel_timer.start()
+	coolant_timer.start()
+
+
+func stop() -> void:
+	fuel_timer.stop()
+	coolant_timer.stop()
+	empty_fuel_timer.stop()
+	empty_coolant_timer.stop()
+	is_empty_fuel = false
+	is_empty_coolant = false
 
 
 func setup_slots() -> void:
@@ -101,6 +113,7 @@ func add_fuel() -> Cell:
 	new_cell.start_pos = new_cell.position
 	new_cell.rotation_degrees = randf() * 360
 	cells_fuel.append(new_cell)
+	game_manager.fuel_cell_amount += 1
 	return new_cell
 
 
@@ -110,6 +123,7 @@ func add_coolant() -> Cell:
 	new_cell.start_pos = new_cell.position
 	new_cell.rotation_degrees = randf() * 360
 	cells_coolant.append(new_cell)
+	game_manager.coolant_cell_amount += 1
 	return new_cell
 
 
@@ -184,9 +198,11 @@ func _on_cell_being_deleted(cell: Cell) -> void:
 	cell_slots.get_child(cell.in_slot).is_busy = false
 	if cell.type == game_manager.engine_cell_types.FUEL:
 		cells_fuel.erase(cell)
+		game_manager.fuel_cell_amount -= 1
 	else:
 		if cell.type == game_manager.engine_cell_types.COOLANT:
 			cells_coolant.erase(cell)
+			game_manager.coolant_cell_amount -= 1
 	if cell.is_destroyed:
 		destroyed_cells -= 1
 	if destroyed_cells == 0 and is_damaged:

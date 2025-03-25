@@ -265,6 +265,7 @@ gravity_direction = Vector2(0, 0)
 shape = SubResource("CircleShape2D_snft3")
 
 [node name="Empty Timer" type="Timer" parent="."]
+process_callback = 0
 wait_time = 15.0
 one_shot = true
 

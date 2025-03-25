@@ -33,9 +33,21 @@ const OUT_OF_STOCK = preload("res://Store/Assets/Out of stock.png")
 
 @onready var input_stopper: Control = $"Input Stopper"
 
+@onready var algae_label: Label = $"Buttons/Algae Button/Margin/Label"
+@onready var fuel_label: Label = $"Buttons/Fuel Button/Margin/Label"
+@onready var coolant_label: Label = $"Buttons/Coolant Button/Margin/Label"
+@onready var patch_label: Label = $"Buttons/Patch Button/Margin/Label"
+
 
 func _ready() -> void:
 	toggle_input(true)
+
+
+func update_labels() -> void:
+	algae_label.text = str(game_manager.algae_amount)
+	fuel_label.text = str(game_manager.fuel_cell_amount)
+	coolant_label.text = str(game_manager.coolant_cell_amount)
+	patch_label.text = str(game_manager.patch_amount)
 
 
 func toggle_input(new_state: bool) -> void:
@@ -57,10 +69,12 @@ func _on_item_bought(item: game_manager.store_items, price: int) -> void:
 			top_left_button.update_texture(OUT_OF_STOCK)
 			top_left_button.custom_tooltip = "TOOLTIP_OUT_OF_STOCK"
 			top_left_button.upgrade = game_manager.store_items.OUT_OF_STOCK
+			top_left_button.price = 0
 		game_manager.store_items.ENGINES:
 			top_middle_button.update_texture(OUT_OF_STOCK)
 			top_middle_button.custom_tooltip = "TOOLTIP_OUT_OF_STOCK"
 			top_middle_button.upgrade = game_manager.store_items.OUT_OF_STOCK
+			top_middle_button.price = 0
 		game_manager.store_items.HULL_1:
 			top_right_button.upgrade = game_manager.store_items.HULL_2
 			top_right_button.update_texture(HULL_UPGRADE_2)
@@ -69,18 +83,22 @@ func _on_item_bought(item: game_manager.store_items, price: int) -> void:
 			top_right_button.update_texture(OUT_OF_STOCK)
 			top_right_button.custom_tooltip = "TOOLTIP_OUT_OF_STOCK"
 			top_right_button.upgrade = game_manager.store_items.OUT_OF_STOCK
+			top_right_button.price = 0
 		game_manager.store_items.CONTROLS:
 			bottom_middle_button.update_texture(OUT_OF_STOCK)
 			bottom_middle_button.custom_tooltip = "TOOLTIP_OUT_OF_STOCK"
 			bottom_middle_button.upgrade = game_manager.store_items.OUT_OF_STOCK
+			bottom_middle_button.price = 0
 		game_manager.store_items.BALLISTIC:
 			bottom_left_button.update_texture(OUT_OF_STOCK)
 			bottom_left_button.custom_tooltip = "TOOLTIP_OUT_OF_STOCK"
 			bottom_left_button.upgrade = game_manager.store_items.OUT_OF_STOCK
+			bottom_left_button.price = 0
 		game_manager.store_items.NAVIGATION:
 			bottom_right_button.update_texture(OUT_OF_STOCK)
 			bottom_right_button.custom_tooltip = "TOOLTIP_OUT_OF_STOCK"
 			bottom_right_button.upgrade = game_manager.store_items.OUT_OF_STOCK
+			bottom_right_button.price = 0
 		game_manager.store_items.ALGAE:
 			pass
 		game_manager.store_items.FUEL_CELL:

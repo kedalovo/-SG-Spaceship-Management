@@ -16,6 +16,7 @@ var patch_number: int:
 		return patch_number
 	set(v):
 		patch_number = clampi(v, 0, max_patch_number)
+		game_manager.patch_amount = patch_number
 		balance_label.text = str(patch_number)
 var max_patch_number: int = 15
 

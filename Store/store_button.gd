@@ -34,7 +34,6 @@ func _process(_delta: float) -> void:
 		progress.value = 0
 	else:
 		progress.value = 100 - roundf(timer.time_left / time * 100)
-	#label.text = str(progress.value) + '\n' + str(time) + '\n' + str(timer.time_left)
 
 
 func update_texture(new_texture: Texture2D) -> void:

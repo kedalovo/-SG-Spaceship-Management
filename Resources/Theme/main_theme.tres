@@ -71,3 +71,7 @@ CheckButton/styles/hover = SubResource("StyleBoxEmpty_dadii")
 CheckButton/styles/hover_pressed = SubResource("StyleBoxEmpty_1n1lo")
 CheckButton/styles/normal = SubResource("StyleBoxEmpty_jjfl2")
 CheckButton/styles/pressed = SubResource("StyleBoxEmpty_do68j")
+MarginContainer/constants/margin_bottom = 4
+MarginContainer/constants/margin_left = 4
+MarginContainer/constants/margin_right = 4
+MarginContainer/constants/margin_top = 4

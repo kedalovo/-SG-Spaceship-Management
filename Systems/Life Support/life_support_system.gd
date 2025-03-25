@@ -22,9 +22,10 @@ var constant_damage: float = 0.5
 var is_empty: bool
 
 
-func unfreeze() -> void:
-	for i in algae_container.get_children():
-		i.freeze = false
+func _ready() -> void:
+	super._ready()
+	for i in 10:
+		add_fuel()
 
 
 func get_health() -> int:
@@ -37,12 +38,17 @@ func get_health() -> int:
 
 func add_fuel() -> void:
 	var new_algae = ALGAE_SCENE.instantiate()
-	new_algae.position = Vector2(randi_range(-152, -88), -36)
+	new_algae.position = Vector2(randi_range(-152, -88), randi_range(-36, 0))
 	algae_container.add_child(new_algae)
+	game_manager.algae_amount += 1
 
 
 func start() -> void:
 	$CookTimer.start()
+
+
+func stop() -> void:
+	$CookTimer.stop()
 
 
 func upgrade(to_tier: int) -> void:
@@ -105,9 +111,7 @@ func _on_cook_timer_timeout() -> void:
 		if live_algae_in_cooker[picked].is_cooked:
 			live_algae_in_cooker.remove_at(picked)
 	else:
-		if is_empty:
-			pass
-		else:
+		if (is_empty and empty_timer.is_stopped()) or !is_empty:
 			empty_timer.start()
 
 

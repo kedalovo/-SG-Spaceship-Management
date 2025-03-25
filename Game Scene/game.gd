@@ -1,6 +1,12 @@
 extends Node2D
 
 
+#TODO 	blue lines on map
+#TODO	check algae consumption after breaking and fixing
+#TODO	check first slot in engines
+#TODO	check algae amount changes at each step
+
+
 const CURSOR_NORMAL = preload("res://UI/Cursor normal.png")
 const CURSOR_POINTER = preload("res://UI/Cursor pointer.png")
 
@@ -111,7 +117,6 @@ func _input(event: InputEvent) -> void:
 		#map.cursor.show()
 		#balance.value = 5
 		#print(balance.value)
-		life_support_system.unfreeze()
 		pass
 	if event.is_action_pressed(&"test_quote"):
 		#map_animator.play_backwards(&"open")
@@ -176,6 +181,7 @@ func toggle_store(open: bool) -> void:
 	if open and !is_store_open:
 		is_store_open = true
 		store.toggle_input(true)
+		store.update_labels()
 		tooltip_panel.toggle(true)
 		store_animator.play(&"open")
 	elif !open and is_store_open:
@@ -185,17 +191,18 @@ func toggle_store(open: bool) -> void:
 
 
 func start_round() -> void:
+	print("Round started!")
 	round_timer.start()
 	toggle_map(false)
 	Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
 	game_manager.is_playing = true
-	for i in 10:
-		life_support_system.call_deferred(&"add_fuel")
 	life_support_system.start()
+	engines_system.start()
 	map.cursor.hide()
 
 
 func game_over() -> void:
+	print("Game over!")
 	if is_tutorial:
 		return
 	game_manager.is_playing = false
@@ -206,6 +213,7 @@ func pause_game() -> void:
 	if pause_menu.was_just_unpaused:
 		pause_menu.was_just_unpaused = false
 		return
+	print("PAUSE: Game is paused")
 	pause_menu.show()
 	if is_map_open:
 		pause_menu.was_in_map = true
@@ -214,6 +222,7 @@ func pause_game() -> void:
 
 
 func quit_game() -> void:
+	print("Game closed")
 	# Gets rid of the annoying errors and warnings about leaking two textures when closing game (the cursor textures)
 	Input.set_custom_mouse_cursor(null, Input.CURSOR_ARROW)
 	Input.set_custom_mouse_cursor(null, Input.CURSOR_POINTING_HAND)
@@ -224,7 +233,10 @@ func proceed() -> void:
 	if is_tutorial:
 		round_timer.start(180.0)
 		return
+	print("Round over, proceeding")
 	toggle_store(true)
+	life_support_system.stop()
+	engines_system.stop()
 	if GameManager.is_in_system:
 		systems[current_system_idx].close()
 		GameManager.is_in_system = false
@@ -234,6 +246,7 @@ func proceed() -> void:
 
 
 func setup_tutorial() -> void:
+	print("Setting up tutorial...")
 	round_timer.start()
 	tutorial.start()
 	space.is_tutorial = true
@@ -415,6 +428,7 @@ func _on_space_new_location_set_up() -> void:
 		tutorial.proceed()
 		toggle_map(false)
 	else:
+		print("New location set")
 		toggle_store(false)
 		start_round()
 
@@ -447,14 +461,18 @@ func _on_store_item_bought(item: game_manager.store_items, price: int) -> void:
 		game_manager.store_items.ALGAE:
 			life_support_system.add_fuel()
 			life_support_system.add_fuel()
+			store.update_labels()
 		game_manager.store_items.FUEL_CELL:
 			engines_system.add_fuel()
 			engines_system.add_fuel()
+			store.update_labels()
 		game_manager.store_items.COOLANT_CELL:
 			engines_system.add_coolant()
 			engines_system.add_coolant()
+			store.update_labels()
 		game_manager.store_items.PATCH:
 			hull_system.add_patch()
+			store.update_labels()
 
 
 func _on_store_map_summoned() -> void:

@@ -41,6 +41,11 @@ static var balance: int:
 		return balance
 static var scan_distance: int = 1
 
+static var algae_amount: int = 0
+static var fuel_cell_amount: int = 0
+static var coolant_cell_amount: int = 0
+static var patch_amount: int = 0
+
 static var is_in_system: bool = false
 
 static var is_playing: bool = false

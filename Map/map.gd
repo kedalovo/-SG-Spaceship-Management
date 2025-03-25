@@ -106,7 +106,7 @@ func toggle_store_button(on: bool) -> void:
 
 
 func draw_default_punctured_line(from: Vector2, to: Vector2) -> void:
-	draw_punctured_line(from, to, 4, 30, Color.BLUE, 2)
+	draw_punctured_line(from, to, 4, 30, Color.BLUE * line_color_global, 2)
 
 
 func draw_punctured_line(from: Vector2, to: Vector2, gap_size: int, segment_length: int, line_color: Color, line_width: int) -> void:
