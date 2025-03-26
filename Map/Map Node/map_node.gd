@@ -148,4 +148,7 @@ func _on_mouse_grab_mouse_exited() -> void:
 
 func _on_button_pressed() -> void:
 	if is_available:
+		print("Pressed on location")
 		button_pressed.emit(self)
+	else:
+		print("Pressed on unavailable location")

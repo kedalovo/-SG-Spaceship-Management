@@ -40,6 +40,7 @@ func use(amount: float) -> void:
 			health = 0
 			is_depleting = false
 			is_depleted = true
+			modulate = Color("707070")
 			if is_mouse_on_top:
 				outline.show()
 		progress.value = health / 5.55556

@@ -217,6 +217,7 @@ func _on_fuel_timer_timeout() -> void:
 			active_cells.append(cell)
 	if active_cells.size() > 0:
 		if is_empty_fuel:
+			print("Added fuel, stopped timer")
 			is_empty_fuel = false
 			empty_fuel_timer.stop()
 			fuel_cell_added.emit()
@@ -226,6 +227,7 @@ func _on_fuel_timer_timeout() -> void:
 			pass
 		else:
 			empty_fuel_timer.start()
+			print("Fuel is empty, starting timer...")
 
 
 func _on_coolant_timer_timeout() -> void:
@@ -235,6 +237,7 @@ func _on_coolant_timer_timeout() -> void:
 			active_cells.append(cell)
 	if active_cells.size() > 0:
 		if is_empty_coolant:
+			print("Added coolant, stopped timer")
 			is_empty_coolant = false
 			empty_coolant_timer.stop()
 			coolant_cell_added.emit()
@@ -244,6 +247,7 @@ func _on_coolant_timer_timeout() -> void:
 			pass
 		else:
 			empty_coolant_timer.start()
+			print("Coolant is empty, starting timer...")
 
 
 func _on_slot_cell_entered(slot_index: int) -> void:
@@ -263,6 +267,7 @@ func _on_empty_fuel_timer_timeout() -> void:
 		is_damaged = true
 		is_empty_fuel = true
 		fuel_cells_ran_out.emit()
+		print("Fuel out for a while!!!")
 
 
 func _on_empty_coolant_timer_timeout() -> void:
@@ -274,3 +279,4 @@ func _on_empty_coolant_timer_timeout() -> void:
 		is_damaged = true
 		is_empty_coolant = true
 		coolant_cells_ran_out.emit()
+		print("Coolant out for a while!!!")

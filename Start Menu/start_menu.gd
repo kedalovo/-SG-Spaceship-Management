@@ -56,12 +56,14 @@ func _process(_delta: float) -> void:
 
 
 func quit_game() -> void:
+	print("Game closed")
 	Input.set_custom_mouse_cursor(null, Input.CURSOR_ARROW)
 	Input.set_custom_mouse_cursor(null, Input.CURSOR_POINTING_HAND)
 	get_tree().quit()
 
 
 func switch_scene() -> void:
+	print("Switching scenes...")
 	get_tree().set_current_scene(game_scene)
 	queue_free()
 
@@ -73,6 +75,7 @@ func _on_loading_finished() -> void:
 
 
 func _on_start_button_pressed() -> void:
+	print("Starting new game")
 	ResourceLoader.load_threaded_request("res://Game Scene/game.tscn")
 	is_loading_game = true
 
@@ -92,6 +95,8 @@ func _on_exit_button_pressed() -> void:
 func _on_check_button_toggled(toggled_on: bool) -> void:
 	match toggled_on:
 		true:
+			print("Set locale to russian")
 			TranslationServer.set_locale("ru")
 		false:
+			print("Set locale to english")
 			TranslationServer.set_locale("en")

@@ -35,6 +35,8 @@ const POINT_SYMBOL: String = "◆"
 @onready var fog_2: TextureRect = $"Scroll/Map Container/Fog 2"
 
 @export var line_color_global: Color
+@export var line_color_connections: Color
+@export var line_color_path: Color
 
 @onready var map_tooltip: PanelContainer = $"Map Tooltip"
 
@@ -45,6 +47,8 @@ const POS_X_SPREAD: int = 32
 const POS_Y_SPREAD: int = 32
 
 var current_location: map_node = null
+
+var path: Array[map_node] = []
 
 var grid: Array[Array] = []
 var lines_con: Array = []
@@ -92,6 +96,10 @@ func _draw() -> void:
 	for location in lines_con:
 		if !location.disabled:
 			draw_default_punctured_line(con_start.global_position, location.global_position)
+	for i in range(0, path.size() - 1):
+		var location = path[i]
+		var target = path[i + 1]
+		draw_line(location.global_position, target.global_position, line_color_path * line_color_connections)
 
 
 func toggle_input(new_state: bool) -> void:
@@ -106,7 +114,7 @@ func toggle_store_button(on: bool) -> void:
 
 
 func draw_default_punctured_line(from: Vector2, to: Vector2) -> void:
-	draw_punctured_line(from, to, 4, 30, Color.BLUE * line_color_global, 2)
+	draw_punctured_line(from, to, 4, 30, Color.BLUE * line_color_connections, 2)
 
 
 func draw_punctured_line(from: Vector2, to: Vector2, gap_size: int, segment_length: int, line_color: Color, line_width: int) -> void:
@@ -281,6 +289,7 @@ func generate_map() -> void:
 		for j in LINE_LENGTH:
 			@warning_ignore("integer_division")
 			var difficulty := i / (grid.size() / 3) + 1
+			line[j].name = "MapNode" + str(i) + "_" + str(j)
 			line[j].reparent(contents)
 			line[j].position = Vector2(j * 128 + 224 + randi_range(-POS_X_SPREAD, POS_X_SPREAD), i * -128 + 1884 + randi_range(-POS_Y_SPREAD, POS_Y_SPREAD))
 			line[j].z_index = 1
@@ -323,16 +332,17 @@ func generate_map() -> void:
 		i.is_secret = false
 		i.toggle_availability(true)
 		i.update_icon()
-	for i in grid[1]:
-		i.is_secret = false
-		i.update_icon()
+	#for i in grid[1]:
+		#i.is_secret = false
+		#i.update_icon()
 
 
 func update_secrecy() -> void:
 	if current_level == -1:
 		return
 	for i in game_manager.scan_distance:
-		for j in grid[current_level + i]:
+		for j in grid[current_level + i + 1]:
+			print(j, " is not secret anymore")
 			j.is_secret = false
 			j.update_icon()
 
@@ -483,12 +493,21 @@ func _on_map_node_mouse_exit(node: map_node) -> void:
 
 
 func _on_map_node_pressed(node: map_node) -> void:
-	current_location = node
+	if node.is_wormhole:
+		print("Changing current location to random next one...")
+		current_location = node.connected_to_nodes.pick_random()
+	else:
+		print("Changing current location to pressed...")
+		current_location = node
 	current_level += 1
 	for i in grid[current_level]:
 		i.toggle_availability(false)
 	for i in current_location.connected_to_nodes:
 		i.toggle_availability(true)
+	if node.has_wormhole:
+		node.wormhole.toggle_availability(true)
+	path.append(node)
+	update_secrecy()
 	location_changed.emit(node)
 
 

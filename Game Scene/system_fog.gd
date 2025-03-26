@@ -5,6 +5,8 @@ extends Node2D
 @onready var fog_2: TextureRect = $"Fog 2"
 @onready var animator: AnimationPlayer = $Animator
 
+var is_on: bool
+
 
 func _ready() -> void:
 	fog_1.texture.noise.seed = randi()
@@ -17,7 +19,7 @@ func _physics_process(delta: float) -> void:
 
 
 func toggle(on: bool) -> void:
-	if on:
+	if on and !is_on:
 		animator.play(&"show")
-	else:
+	elif !on and is_on:
 		animator.play_backwards(&"show")

@@ -100,6 +100,8 @@ script = ExtResource("1_jlmf0")
 default_color = Color(0.215686, 0.541176, 0.0470588, 1)
 highlight_color = Color(0.176955, 1, 0, 1)
 line_color_global = Color(1, 1, 1, 0.0784314)
+line_color_connections = Color(1, 1, 1, 1)
+line_color_path = Color(0.749756, 1, 0.679688, 0.509804)
 
 [node name="ColorRect" type="ColorRect" parent="."]
 z_index = -1

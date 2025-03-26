@@ -128,6 +128,7 @@ func propagate_hazard(idx: int) -> void:
 		return
 	var hazard: game_manager.hazard_types = current_location.hazards[idx]
 	var intensity: int = current_location.hazards_intensity[idx]
+	print("HAZARD: Creating hazard: ", hazard, " with intensity: ", intensity)
 	match hazard:
 		game_manager.hazard_types.ASTEROID_FIELD:
 			var picked_option: int = 0
@@ -604,10 +605,12 @@ func _on_map_location_changed(new_location: map_node) -> void:
 
 
 func _on_hazard_timer_1_timeout() -> void:
+	print("HAZARD: Propagating hazard 1")
 	propagate_hazard(0)
 
 
 func _on_hazard_timer_2_timeout() -> void:
+	print("HAZARD: Propagating hazard 2")
 	propagate_hazard(1)
 
 

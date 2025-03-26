@@ -49,6 +49,7 @@ func start() -> void:
 
 func stop() -> void:
 	$CookTimer.stop()
+	empty_timer.stop()
 
 
 func upgrade(to_tier: int) -> void:
@@ -104,6 +105,7 @@ func _on_cook_timer_timeout() -> void:
 	if !live_algae_in_cooker.is_empty():
 		if is_empty:
 			is_empty = false
+			print("Cooker filled, stopped timer")
 			empty_timer.stop()
 			algae_added.emit()
 		var picked: int = randi()%live_algae_in_cooker.size()
@@ -111,7 +113,9 @@ func _on_cook_timer_timeout() -> void:
 		if live_algae_in_cooker[picked].is_cooked:
 			live_algae_in_cooker.remove_at(picked)
 	else:
-		if (is_empty and empty_timer.is_stopped()) or !is_empty:
+		is_empty = true
+		if empty_timer.is_stopped():
+			print("Cooker is empty, starting timer...")
 			empty_timer.start()
 
 
@@ -122,6 +126,6 @@ func _on_damage_timer_timeout() -> void:
 
 func _on_empty_timer_timeout() -> void:
 	if live_algae_in_cooker.is_empty():
+		print("Cooker is empty for a while!!!")
 		is_damaged = true
-		is_empty = true
 		algae_ran_out.emit()

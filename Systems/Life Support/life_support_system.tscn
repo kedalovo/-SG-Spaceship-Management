@@ -33,7 +33,7 @@ normal = Vector2(0, 1)
 normal = Vector2(-1, 0)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_2cn4y"]
-size = Vector2(96, 64)
+size = Vector2(88, 64)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_blfqs"]
 size = Vector2(132, 160)

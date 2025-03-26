@@ -1,12 +1,6 @@
 extends Node2D
 
 
-#TODO 	blue lines on map
-#TODO	check algae consumption after breaking and fixing
-#TODO	check first slot in engines
-#TODO	check algae amount changes at each step
-
-
 const CURSOR_NORMAL = preload("res://UI/Cursor normal.png")
 const CURSOR_POINTER = preload("res://UI/Cursor pointer.png")
 
@@ -145,8 +139,10 @@ func _input(event: InputEvent) -> void:
 	if event.is_action_pressed(&"fullscreen"):
 		if DisplayServer.window_get_mode() == DisplayServer.WindowMode.WINDOW_MODE_WINDOWED:
 			DisplayServer.window_set_mode(DisplayServer.WINDOW_MODE_EXCLUSIVE_FULLSCREEN)
+			print("FULLSCREEN: On")
 		elif DisplayServer.window_get_mode() == DisplayServer.WindowMode.WINDOW_MODE_EXCLUSIVE_FULLSCREEN:
 			DisplayServer.window_set_mode(DisplayServer.WINDOW_MODE_WINDOWED)
+			print("FULLSCREEN: Off")
 
 
 func _notification(what: int) -> void:
@@ -238,7 +234,9 @@ func proceed() -> void:
 	life_support_system.stop()
 	engines_system.stop()
 	if GameManager.is_in_system:
+		print("Was in system, closed")
 		systems[current_system_idx].close()
+		current_system_idx = -1
 		GameManager.is_in_system = false
 	space.stop()
 	for node in systems:
@@ -262,6 +260,7 @@ func setup_tutorial() -> void:
 
 
 func _on_system_sprite_pressed(system_index: int) -> void:
+	print("Pressed on system: ", system_index, ", current: ", current_system_idx)
 	if current_system_idx == -1:
 		systems[system_index].open()
 		current_system_idx = system_index
@@ -274,6 +273,7 @@ func _on_system_container_gui_input(event: InputEvent) -> void:
 	if event is InputEventMouseButton and event.is_pressed() and Input.is_mouse_button_pressed(MOUSE_BUTTON_LEFT) and GameManager.is_in_system:
 		systems[current_system_idx].close()
 		GameManager.is_in_system = false
+		print("Exited system: ", current_system_idx)
 		if is_tutorial:
 			match current_system_idx:
 				0: # Life support
@@ -337,19 +337,27 @@ func _on_system_animation_finished(is_open: bool) -> void:
 
 
 func _on_left_button_pressed() -> void:
-	space.move(Vector2.LEFT)
+	var moved: bool = space.move(Vector2.LEFT)
+	if moved:
+		cabin_view.scale = Vector2(CABIN_ZOOM_LEVEL, CABIN_ZOOM_LEVEL)
 
 
 func _on_down_button_pressed() -> void:
-	space.move(Vector2.DOWN)
+	var moved: bool = space.move(Vector2.DOWN)
+	if moved:
+		cabin_view.scale = Vector2(CABIN_ZOOM_LEVEL, CABIN_ZOOM_LEVEL)
 
 
 func _on_right_button_pressed() -> void:
-	space.move(Vector2.RIGHT)
+	var moved: bool = space.move(Vector2.RIGHT)
+	if moved:
+		cabin_view.scale = Vector2(CABIN_ZOOM_LEVEL, CABIN_ZOOM_LEVEL)
 
 
 func _on_up_button_pressed() -> void:
-	space.move(Vector2.UP)
+	var moved: bool = space.move(Vector2.UP)
+	if moved:
+		cabin_view.scale = Vector2(CABIN_ZOOM_LEVEL, CABIN_ZOOM_LEVEL)
 
 
 func _on_damaged(strength: int, type: game_manager.damage_types) -> void:
@@ -435,6 +443,7 @@ func _on_space_new_location_set_up() -> void:
 
 func _on_space_coin_got() -> void:
 	balance.value += 1
+	print("Coin got, balance is: ", balance.value)
 
 
 func _on_store_item_bought(item: game_manager.store_items, price: int) -> void:

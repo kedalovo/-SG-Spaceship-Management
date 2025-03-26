@@ -21,15 +21,8 @@ var damage: int = 0
 
 
 func _ready() -> void:
+	set_process(false)
 	set_physics_process(false)
-	if game_manager.is_ballistic:
-		set_process(true)
-		progress.show()
-		ballistic_lines.show()
-	else:
-		set_process(false)
-		progress.hide()
-		ballistic_lines.hide()
 
 
 func _physics_process(delta: float) -> void:
@@ -59,3 +52,10 @@ func _on_animator_animation_finished(anim_name: StringName) -> void:
 func _on_start_timer_timeout() -> void:
 	$Sprite/Animator.play(&"start")
 	set_physics_process(true)
+	if game_manager.is_ballistic:
+		set_process(true)
+		progress.show()
+		ballistic_lines.show()
+	else:
+		progress.hide()
+		ballistic_lines.hide()
