@@ -114,7 +114,7 @@ func _on_cook_timer_timeout() -> void:
 			live_algae_in_cooker.remove_at(picked)
 	else:
 		is_empty = true
-		if empty_timer.is_stopped():
+		if empty_timer.is_stopped() and !is_damaged and !game_manager.is_tutorial:
 			print("Cooker is empty, starting timer...")
 			empty_timer.start()
 

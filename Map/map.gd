@@ -329,12 +329,14 @@ func generate_map() -> void:
 	
 	# Showing types of first two lines of locations
 	for i in grid[0]:
-		i.is_secret = false
-		i.toggle_availability(true)
-		i.update_icon()
-	#for i in grid[1]:
-		#i.is_secret = false
-		#i.update_icon()
+		if !i.disabled:
+			i.is_secret = false
+			i.toggle_availability(true)
+			i.update_icon()
+	for i in grid[1]:
+		if !i.disabled:
+			i.is_secret = false
+			i.update_icon()
 
 
 func update_secrecy() -> void:
@@ -342,9 +344,10 @@ func update_secrecy() -> void:
 		return
 	for i in game_manager.scan_distance:
 		for j in grid[current_level + i + 1]:
-			print(j, " is not secret anymore")
-			j.is_secret = false
-			j.update_icon()
+			if !j.disabled:
+				print(j, " is not secret anymore")
+				j.is_secret = false
+				j.update_icon()
 
 
 func tooltip_popup(node: map_node) -> void:

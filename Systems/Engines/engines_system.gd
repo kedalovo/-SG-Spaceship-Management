@@ -223,9 +223,8 @@ func _on_fuel_timer_timeout() -> void:
 			fuel_cell_added.emit()
 		active_cells.pick_random().use(0.5)
 	else:
-		if is_empty_fuel:
-			pass
-		else:
+		is_empty_fuel = true
+		if empty_fuel_timer.is_stopped() and !is_damaged and !game_manager.is_tutorial:
 			empty_fuel_timer.start()
 			print("Fuel is empty, starting timer...")
 
@@ -243,9 +242,8 @@ func _on_coolant_timer_timeout() -> void:
 			coolant_cell_added.emit()
 		active_cells.pick_random().use(0.5)
 	else:
-		if is_empty_coolant:
-			pass
-		else:
+		is_empty_coolant = true
+		if empty_coolant_timer.is_stopped() and !is_damaged and !game_manager.is_tutorial:
 			empty_coolant_timer.start()
 			print("Coolant is empty, starting timer...")
 

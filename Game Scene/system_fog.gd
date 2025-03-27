@@ -20,6 +20,8 @@ func _physics_process(delta: float) -> void:
 
 func toggle(on: bool) -> void:
 	if on and !is_on:
+		is_on = true
 		animator.play(&"show")
 	elif !on and is_on:
+		is_on = false
 		animator.play_backwards(&"show")

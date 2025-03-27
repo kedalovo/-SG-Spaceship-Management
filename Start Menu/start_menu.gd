@@ -85,7 +85,10 @@ func _on_continue_button_pressed() -> void:
 
 
 func _on_tutorial_button_pressed() -> void:
-	pass # Replace with function body.
+	print("Starting tutorial")
+	ResourceLoader.load_threaded_request("res://Game Scene/game.tscn")
+	is_loading_game = true
+	game_manager.is_tutorial = true
 
 
 func _on_exit_button_pressed() -> void:

@@ -86,13 +86,12 @@ var is_mouse_inside: bool
 var can_control_via_arrows: bool
 var is_store_open: bool
 var is_map_open: bool
-var is_tutorial: bool
 
 
 func _ready() -> void:
 	Input.set_custom_mouse_cursor(CURSOR_NORMAL, Input.CURSOR_ARROW)
 	Input.set_custom_mouse_cursor(CURSOR_POINTER, Input.CURSOR_POINTING_HAND)
-	if is_tutorial:
+	if game_manager.is_tutorial:
 		toggle_map(true)
 		setup_tutorial()
 	else:
@@ -199,7 +198,7 @@ func start_round() -> void:
 
 func game_over() -> void:
 	print("Game over!")
-	if is_tutorial:
+	if game_manager.is_tutorial:
 		return
 	game_manager.is_playing = false
 	game_over_menu.show()
@@ -226,7 +225,7 @@ func quit_game() -> void:
 
 
 func proceed() -> void:
-	if is_tutorial:
+	if game_manager.is_tutorial:
 		round_timer.start(180.0)
 		return
 	print("Round over, proceeding")
@@ -271,10 +270,7 @@ func _on_system_sprite_pressed(system_index: int) -> void:
 
 func _on_system_container_gui_input(event: InputEvent) -> void:
 	if event is InputEventMouseButton and event.is_pressed() and Input.is_mouse_button_pressed(MOUSE_BUTTON_LEFT) and GameManager.is_in_system:
-		systems[current_system_idx].close()
-		GameManager.is_in_system = false
-		print("Exited system: ", current_system_idx)
-		if is_tutorial:
+		if game_manager.is_tutorial:
 			match current_system_idx:
 				0: # Life support
 					tutorial.proceed()
@@ -294,16 +290,21 @@ func _on_system_container_gui_input(event: InputEvent) -> void:
 						hull_sprite.damage()
 						hull_system._damage(3, game_manager.damage_types.PHYSICAL)
 						systems_cracks.show()
+					else:
+						return
 				2: # Hull
-					if !hull_system.is_damaged:
+					if hull_system.get_holes_num() == 0:
 						tutorial.proceed()
 						hull_sprite.enabled = false
+						hull_sprite.fix()
 						electrical_sprite.enabled = true
 						electrical_system._damage(2, game_manager.damage_types.ELECTRICITY)
 						for sys in systems_visuals:
 							sys.toggle_crazy(true)
 						electrical_sprite.toggle_crazy(false)
 						electrical_sprite.damage()
+					else:
+						return
 				3: # Electrical
 					if !electrical_system.is_damaged:
 						tutorial.proceed()
@@ -314,6 +315,8 @@ func _on_system_container_gui_input(event: InputEvent) -> void:
 						external_system._damage(1, game_manager.damage_types.HEAT)
 						external_system._damage(1, game_manager.damage_types.ELECTRICITY)
 						cabin.toggle_dirt(true)
+					else:
+						return
 				4: # External
 					if !external_system.is_damaged:
 						tutorial.proceed()
@@ -323,10 +326,17 @@ func _on_system_container_gui_input(event: InputEvent) -> void:
 						computer_system._damage(2, game_manager.damage_types.ELECTRICITY)
 						clock.is_crazy = true
 						round_timer.paused = true
+					else:
+						return
 				5: # Computer
 					if !computer_system.is_damaged:
 						tutorial.proceed()
 						computer_sprite.enabled = false
+					else:
+						return
+		systems[current_system_idx].close()
+		GameManager.is_in_system = false
+		print("Exited system: ", current_system_idx)
 		current_system_idx = -1
 
 
@@ -432,7 +442,7 @@ func _on_round_timer_timeout() -> void:
 
 
 func _on_space_new_location_set_up() -> void:
-	if is_tutorial:
+	if game_manager.is_tutorial:
 		tutorial.proceed()
 		toggle_map(false)
 	else:
@@ -467,6 +477,7 @@ func _on_store_item_bought(item: game_manager.store_items, price: int) -> void:
 			game_manager.is_ballistic = true
 		game_manager.store_items.NAVIGATION:
 			game_manager.scan_distance = 3
+			map.update_secrecy()
 		game_manager.store_items.ALGAE:
 			life_support_system.add_fuel()
 			life_support_system.add_fuel()

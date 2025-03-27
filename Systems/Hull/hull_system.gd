@@ -77,7 +77,7 @@ func add_random_hole() -> void:
 		var condition: bool = true
 		while condition:
 			for i in holes.get_children():
-				if pos.distance_to(i.position) > 50:
+				if pos.distance_to(i.position) > 150:
 					print(pos.distance_to(i.position), " false")
 					condition = false
 				else:
@@ -86,6 +86,10 @@ func add_random_hole() -> void:
 					pos = game_manager.get_random_hole_position()
 					break
 		add_hole(pos)
+
+
+func get_holes_num() -> int:
+	return holes.get_child_count()
 
 
 func _on_patch_installed(patch: Patch, hole: Hole) -> void:
