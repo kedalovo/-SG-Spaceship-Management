@@ -1,8 +1,9 @@
-[gd_scene load_steps=7 format=3 uid="uid://cn0fv0fedt2ig"]
+[gd_scene load_steps=8 format=3 uid="uid://cn0fv0fedt2ig"]
 
 [ext_resource type="Script" path="res://Systems/Computer/computer_system.gd" id="1_3i7g7"]
 [ext_resource type="Texture2D" uid="uid://c2wnmae3lkpre" path="res://Systems/Computer/Assets/Computer outside.png" id="2_4nu0v"]
 [ext_resource type="Theme" uid="uid://deues2s64t2hh" path="res://Systems/Computer/Assets/Theme/computer_theme.tres" id="3_wrsqg"]
+[ext_resource type="AudioStream" uid="uid://bvdi0nbgmfa00" path="res://Resources/SFX/UI/Computer Prompt.wav" id="4_ybo3y"]
 
 [sub_resource type="Animation" id="Animation_ygv70"]
 length = 0.001
@@ -178,3 +179,8 @@ layout_mode = 2
 libraries = {
 "": SubResource("AnimationLibrary_8uvjj")
 }
+
+[node name="Code Line Press Audio" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("4_ybo3y")
+
+[node name="Code Line Hover Audio" type="AudioStreamPlayer" parent="."]

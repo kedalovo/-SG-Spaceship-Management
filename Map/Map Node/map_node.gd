@@ -13,6 +13,9 @@ signal button_pressed(node: map_node)
 @onready var debug_label: Label = $"Debug Label"
 @onready var animator: AnimationPlayer = $Icon/Animator
 
+@onready var hover_audio: AudioStreamPlayer = $"Hover Audio"
+@onready var press_audio: AudioStreamPlayer = $"Press Audio"
+
 var true_texture: Texture2D
 
 var wormhole: map_node
@@ -140,6 +143,7 @@ func set_difficulty(new_difficulty: int) -> void:
 
 func _on_mouse_grab_mouse_entered() -> void:
 	mouse_entered.emit(self)
+	hover_audio.play()
 
 
 func _on_mouse_grab_mouse_exited() -> void:
@@ -147,6 +151,7 @@ func _on_mouse_grab_mouse_exited() -> void:
 
 
 func _on_button_pressed() -> void:
+	press_audio.play()
 	if is_available:
 		print("Pressed on location")
 		button_pressed.emit(self)

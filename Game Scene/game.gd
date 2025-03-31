@@ -54,6 +54,14 @@ const CURSOR_POINTER = preload("res://UI/Cursor pointer.png")
 @onready var loss_timer: Timer = $"Loss Timer"
 @onready var game_over_menu: Control = $"Game Over Menu"
 
+var ambient_audio_animator: AnimationPlayer
+var current_ambient_audio: StringName
+
+@onready var system_hover_audio: AudioStreamPlayer2D = $"Systems Sprites/System Hover Audio"
+@onready var coin_audio: AudioStreamPlayer = $"Coin Audio"
+@onready var cabin_control_button_hover_audio: AudioStreamPlayer = $"Cabin/Controls/Cabin Control Button Hover Audio"
+@onready var cabin_control_button_press_audio: AudioStreamPlayer = $"Cabin/Controls/Cabin Control Button Press Audio"
+
 const CABIN_ZOOM_LEVEL: float = 1.1
 
 const TUTORIAL_ANIMATIONS: Array[StringName] = [
@@ -120,21 +128,13 @@ func _input(event: InputEvent) -> void:
 		pass
 	if game_manager.is_playing:
 		if event.is_action_pressed(&"left") and can_control_via_arrows:
-			var moved: bool = space.move(Vector2.LEFT)
-			if moved:
-				cabin_view.scale = Vector2(CABIN_ZOOM_LEVEL, CABIN_ZOOM_LEVEL)
+			_on_left_button_pressed()
 		if event.is_action_pressed(&"right") and can_control_via_arrows:
-			var moved: bool = space.move(Vector2.RIGHT)
-			if moved:
-				cabin_view.scale = Vector2(CABIN_ZOOM_LEVEL, CABIN_ZOOM_LEVEL)
+			_on_right_button_pressed()
 		if event.is_action_pressed(&"up") and can_control_via_arrows:
-			var moved: bool = space.move(Vector2.UP)
-			if moved:
-				cabin_view.scale = Vector2(CABIN_ZOOM_LEVEL, CABIN_ZOOM_LEVEL)
+			_on_up_button_pressed()
 		if event.is_action_pressed(&"down") and can_control_via_arrows:
-			var moved: bool = space.move(Vector2.DOWN)
-			if moved:
-				cabin_view.scale = Vector2(CABIN_ZOOM_LEVEL, CABIN_ZOOM_LEVEL)
+			_on_down_button_pressed()
 	if event.is_action_pressed(&"fullscreen"):
 		if DisplayServer.window_get_mode() == DisplayServer.WindowMode.WINDOW_MODE_WINDOWED:
 			DisplayServer.window_set_mode(DisplayServer.WINDOW_MODE_EXCLUSIVE_FULLSCREEN)
@@ -347,24 +347,28 @@ func _on_system_animation_finished(is_open: bool) -> void:
 
 
 func _on_left_button_pressed() -> void:
+	cabin_control_button_press_audio.play()
 	var moved: bool = space.move(Vector2.LEFT)
 	if moved:
 		cabin_view.scale = Vector2(CABIN_ZOOM_LEVEL, CABIN_ZOOM_LEVEL)
 
 
 func _on_down_button_pressed() -> void:
+	cabin_control_button_press_audio.play()
 	var moved: bool = space.move(Vector2.DOWN)
 	if moved:
 		cabin_view.scale = Vector2(CABIN_ZOOM_LEVEL, CABIN_ZOOM_LEVEL)
 
 
 func _on_right_button_pressed() -> void:
+	cabin_control_button_press_audio.play()
 	var moved: bool = space.move(Vector2.RIGHT)
 	if moved:
 		cabin_view.scale = Vector2(CABIN_ZOOM_LEVEL, CABIN_ZOOM_LEVEL)
 
 
 func _on_up_button_pressed() -> void:
+	cabin_control_button_press_audio.play()
 	var moved: bool = space.move(Vector2.UP)
 	if moved:
 		cabin_view.scale = Vector2(CABIN_ZOOM_LEVEL, CABIN_ZOOM_LEVEL)
@@ -447,12 +451,20 @@ func _on_space_new_location_set_up() -> void:
 		toggle_map(false)
 	else:
 		print("New location set")
+		match space.current_location.difficulty:
+			2:
+				ambient_audio_animator.play(&"ambience_2")
+			3:
+				pass
+			0:
+				push_error("Shouldn't happen")
 		toggle_store(false)
 		start_round()
 
 
 func _on_space_coin_got() -> void:
 	balance.value += 1
+	coin_audio.play()
 	print("Coin got, balance is: ", balance.value)
 
 
@@ -594,3 +606,12 @@ func _on_engines_system_coolant_cell_added() -> void:
 	smoke_4.emitting = false
 	engines_sprite.fix()
 	print("Coolant cell added after running out.")
+
+
+func _on_system_hovered(idx: int) -> void:
+	system_hover_audio.global_position = systems_visuals[idx].global_position
+	system_hover_audio.play()
+
+
+func _on_cabin_control_button_mouse_entered() -> void:
+	cabin_control_button_hover_audio.play()

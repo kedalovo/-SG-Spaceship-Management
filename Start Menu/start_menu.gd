@@ -9,6 +9,10 @@ const CURSOR_POINTER = preload("res://UI/Cursor pointer.png")
 @onready var noise_2: TextureRect = $"Background Container/Noise 2"
 @onready var progress: ProgressBar = $"Background Container/Margin/VBox/Progress"
 @onready var animator: AnimationPlayer = $"Background Container/Animator"
+@onready var ambient_audio: AudioStreamPlayer = $"Ambient Audio"
+
+@onready var button_press_audio: AudioStreamPlayer = $"Button Press Audio"
+@onready var button_hover_audio: AudioStreamPlayer = $"Button Hover Audio"
 
 var game_scene: Node
 
@@ -64,7 +68,10 @@ func quit_game() -> void:
 
 func switch_scene() -> void:
 	print("Switching scenes...")
+	ambient_audio.reparent(game_scene)
 	get_tree().set_current_scene(game_scene)
+	game_scene.ambient_audio_animator = game_scene.get_node("Ambient Audio/Animator")
+	game_scene.current_ambient_audio = &"AMBIENCE_1"
 	queue_free()
 
 
@@ -75,16 +82,18 @@ func _on_loading_finished() -> void:
 
 
 func _on_start_button_pressed() -> void:
+	button_press_audio.play()
 	print("Starting new game")
 	ResourceLoader.load_threaded_request("res://Game Scene/game.tscn")
 	is_loading_game = true
 
 
 func _on_continue_button_pressed() -> void:
-	pass # Replace with function body.
+	button_press_audio.play()
 
 
 func _on_tutorial_button_pressed() -> void:
+	button_press_audio.play()
 	print("Starting tutorial")
 	ResourceLoader.load_threaded_request("res://Game Scene/game.tscn")
 	is_loading_game = true
@@ -92,10 +101,12 @@ func _on_tutorial_button_pressed() -> void:
 
 
 func _on_exit_button_pressed() -> void:
+	button_press_audio.play()
 	quit_game()
 
 
 func _on_check_button_toggled(toggled_on: bool) -> void:
+	button_press_audio.play()
 	match toggled_on:
 		true:
 			print("Set locale to russian")
@@ -103,3 +114,23 @@ func _on_check_button_toggled(toggled_on: bool) -> void:
 		false:
 			print("Set locale to english")
 			TranslationServer.set_locale("en")
+
+
+func _on_start_button_mouse_entered() -> void:
+	button_hover_audio.play()
+
+
+func _on_continue_button_mouse_entered() -> void:
+	button_hover_audio.play()
+
+
+func _on_tutorial_button_mouse_entered() -> void:
+	button_hover_audio.play()
+
+
+func _on_exit_button_mouse_entered() -> void:
+	button_hover_audio.play()
+
+
+func _on_check_button_mouse_entered() -> void:
+	button_hover_audio.play()

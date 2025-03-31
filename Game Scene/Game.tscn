@@ -1,4 +1,4 @@
-[gd_scene load_steps=128 format=3 uid="uid://dr0fafp1u36yj"]
+[gd_scene load_steps=134 format=3 uid="uid://dr0fafp1u36yj"]
 
 [ext_resource type="Script" path="res://Game Scene/game.gd" id="1_t00el"]
 [ext_resource type="Texture2D" uid="uid://dmcht1gqpy4v3" path="res://Systems/Life Support/Assets/Life Support.png" id="2_3bjf3"]
@@ -43,9 +43,12 @@
 [ext_resource type="PackedScene" uid="uid://cn0fv0fedt2ig" path="res://Systems/Computer/computer_system.tscn" id="20_1h5sm"]
 [ext_resource type="BitMap" uid="uid://csmaqmv7np4t4" path="res://Cabin/Assets/Up Button bitmask.png" id="20_aibmr"]
 [ext_resource type="PackedScene" uid="uid://c88opie2hw5hq" path="res://Clock/clock.tscn" id="21_wxrcd"]
+[ext_resource type="AudioStream" uid="uid://dy3if7sxrrlqo" path="res://Resources/SFX/UI/Controls Hover.wav" id="22_38qlu"]
+[ext_resource type="AudioStream" uid="uid://bcgi7y0sxyms3" path="res://Resources/SFX/UI/Controls Press.wav" id="23_58h1f"]
 [ext_resource type="PackedScene" uid="uid://c1lkqnbuafwie" path="res://Space/space.tscn" id="24_qmju5"]
 [ext_resource type="Texture2D" uid="uid://b3hovyjabxyw3" path="res://Systems/Systems Cracks.png" id="24_sngj0"]
 [ext_resource type="Texture2D" uid="uid://bajrehqar6o1c" path="res://Systems/Systems container.png" id="41_cghc3"]
+[ext_resource type="AudioStream" uid="uid://b1qisqqm4e7rj" path="res://Resources/SFX/UI/System Hover.wav" id="41_rcf7w"]
 [ext_resource type="Texture2D" uid="uid://d120brxfi0olu" path="res://Systems/Red dot.png" id="42_1fkf3"]
 [ext_resource type="Texture2D" uid="uid://bdyrpfgdk7dns" path="res://Systems/Wall tile.png" id="43_se6t5"]
 [ext_resource type="PackedScene" uid="uid://dh1g8tgwww50" path="res://Map/map.tscn" id="43_xxu5e"]
@@ -58,6 +61,9 @@
 [ext_resource type="Texture2D" uid="uid://0cw1p0iyd5pj" path="res://Cabin/Assets/Tooltip screen.png" id="55_urjol"]
 [ext_resource type="Script" path="res://Game Scene/pause_menu.gd" id="57_monrg"]
 [ext_resource type="Script" path="res://Game Scene/tutorial.gd" id="58_yyymu"]
+[ext_resource type="AudioStream" uid="uid://d2kgkytk8unn1" path="res://Resources/SFX/UI/Coin.wav" id="60_py8ep"]
+[ext_resource type="AudioStream" uid="uid://id7umlrv2nuv" path="res://Resources/SFX/UI/Menu Press.wav" id="61_arsig"]
+[ext_resource type="AudioStream" uid="uid://diqcgtoi5yfo5" path="res://Resources/SFX/UI/Menu Hover.mp3" id="62_lb1va"]
 
 [sub_resource type="Gradient" id="Gradient_bmxab"]
 offsets = PackedFloat32Array(0.4, 0.6, 1)
@@ -2230,8 +2236,6 @@ offset_bottom = 111.0
 focus_mode = 0
 mouse_default_cursor_shape = 2
 action_mode = 0
-shortcut_feedback = false
-shortcut_in_tooltip = false
 texture_normal = ExtResource("5_wtfky")
 texture_pressed = ExtResource("6_673gh")
 texture_hover = ExtResource("7_riorj")
@@ -2245,8 +2249,6 @@ offset_bottom = 126.0
 focus_mode = 0
 mouse_default_cursor_shape = 2
 action_mode = 0
-shortcut_feedback = false
-shortcut_in_tooltip = false
 texture_normal = ExtResource("9_iu3k7")
 texture_pressed = ExtResource("10_6gvbp")
 texture_hover = ExtResource("11_nk282")
@@ -2260,8 +2262,6 @@ offset_bottom = 111.0
 focus_mode = 0
 mouse_default_cursor_shape = 2
 action_mode = 0
-shortcut_feedback = false
-shortcut_in_tooltip = false
 texture_normal = ExtResource("13_pdyli")
 texture_pressed = ExtResource("14_g5vwh")
 texture_hover = ExtResource("15_6iv40")
@@ -2275,12 +2275,18 @@ offset_bottom = 70.0
 focus_mode = 0
 mouse_default_cursor_shape = 2
 action_mode = 0
-shortcut_feedback = false
-shortcut_in_tooltip = false
 texture_normal = ExtResource("17_aga0h")
 texture_pressed = ExtResource("18_6souy")
 texture_hover = ExtResource("19_j6524")
 texture_click_mask = ExtResource("20_aibmr")
+
+[node name="Cabin Control Button Hover Audio" type="AudioStreamPlayer" parent="Cabin/Controls"]
+stream = ExtResource("22_38qlu")
+max_polyphony = 2
+
+[node name="Cabin Control Button Press Audio" type="AudioStreamPlayer" parent="Cabin/Controls"]
+stream = ExtResource("23_58h1f")
+max_polyphony = 2
 
 [node name="Clock" parent="Cabin" instance=ExtResource("21_wxrcd")]
 position = Vector2(128, 32)
@@ -2613,6 +2619,9 @@ focus_mode = 0
 mouse_default_cursor_shape = 2
 flat = true
 
+[node name="System Hover Audio" type="AudioStreamPlayer2D" parent="Systems Sprites"]
+stream = ExtResource("41_rcf7w")
+
 [node name="System Container" type="Control" parent="."]
 visible = false
 z_index = 2
@@ -2874,6 +2883,16 @@ text = "BTN_CONTINUE"
 layout_mode = 2
 text = "BTN_EXIT"
 
+[node name="Button Press Audio" type="AudioStreamPlayer" parent="Pause Menu"]
+process_mode = 3
+stream = ExtResource("61_arsig")
+volume_db = -10.0
+
+[node name="Button Hover Audio" type="AudioStreamPlayer" parent="Pause Menu"]
+process_mode = 3
+stream = ExtResource("62_lb1va")
+volume_db = -10.0
+
 [node name="Tutorial" type="Node" parent="."]
 script = ExtResource("58_yyymu")
 
@@ -3003,33 +3022,51 @@ layout_mode = 2
 size_flags_horizontal = 4
 text = "BTN_CONTINUE"
 
+[node name="System Audio Listener" type="AudioListener2D" parent="."]
+position = Vector2(608, 280)
+current = true
+
+[node name="Coin Audio" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("60_py8ep")
+max_polyphony = 2
+
 [connection signal="coin_got" from="Cabin/SubViewportContainer/SubViewport/Space" to="." method="_on_space_coin_got"]
 [connection signal="damaged" from="Cabin/SubViewportContainer/SubViewport/Space" to="." method="_on_damaged"]
 [connection signal="new_location_set_up" from="Cabin/SubViewportContainer/SubViewport/Space" to="." method="_on_space_new_location_set_up"]
+[connection signal="mouse_entered" from="Cabin/Controls/Left Button" to="." method="_on_cabin_control_button_mouse_entered"]
 [connection signal="pressed" from="Cabin/Controls/Left Button" to="." method="_on_left_button_pressed"]
+[connection signal="mouse_entered" from="Cabin/Controls/Down Button" to="." method="_on_cabin_control_button_mouse_entered"]
 [connection signal="pressed" from="Cabin/Controls/Down Button" to="." method="_on_down_button_pressed"]
+[connection signal="mouse_entered" from="Cabin/Controls/Right Button" to="." method="_on_cabin_control_button_mouse_entered"]
 [connection signal="pressed" from="Cabin/Controls/Right Button" to="." method="_on_right_button_pressed"]
+[connection signal="mouse_entered" from="Cabin/Controls/Up Button" to="." method="_on_cabin_control_button_mouse_entered"]
 [connection signal="pressed" from="Cabin/Controls/Up Button" to="." method="_on_up_button_pressed"]
+[connection signal="system_hovered" from="Systems Sprites/LifeSupportSprite" to="." method="_on_system_hovered"]
 [connection signal="system_pressed" from="Systems Sprites/LifeSupportSprite" to="." method="_on_system_sprite_pressed"]
 [connection signal="mouse_entered" from="Systems Sprites/LifeSupportSprite/Button" to="Systems Sprites/LifeSupportSprite" method="_on_button_mouse_entered"]
 [connection signal="mouse_exited" from="Systems Sprites/LifeSupportSprite/Button" to="Systems Sprites/LifeSupportSprite" method="_on_button_mouse_exited"]
 [connection signal="pressed" from="Systems Sprites/LifeSupportSprite/Button" to="Systems Sprites/LifeSupportSprite" method="_on_button_pressed"]
+[connection signal="system_hovered" from="Systems Sprites/EnginesSprite" to="." method="_on_system_hovered"]
 [connection signal="system_pressed" from="Systems Sprites/EnginesSprite" to="." method="_on_system_sprite_pressed"]
 [connection signal="mouse_entered" from="Systems Sprites/EnginesSprite/Button" to="Systems Sprites/EnginesSprite" method="_on_button_mouse_entered"]
 [connection signal="mouse_exited" from="Systems Sprites/EnginesSprite/Button" to="Systems Sprites/EnginesSprite" method="_on_button_mouse_exited"]
 [connection signal="pressed" from="Systems Sprites/EnginesSprite/Button" to="Systems Sprites/EnginesSprite" method="_on_button_pressed"]
+[connection signal="system_hovered" from="Systems Sprites/HullSprite" to="." method="_on_system_hovered"]
 [connection signal="system_pressed" from="Systems Sprites/HullSprite" to="." method="_on_system_sprite_pressed"]
 [connection signal="mouse_entered" from="Systems Sprites/HullSprite/Button" to="Systems Sprites/HullSprite" method="_on_button_mouse_entered"]
 [connection signal="mouse_exited" from="Systems Sprites/HullSprite/Button" to="Systems Sprites/HullSprite" method="_on_button_mouse_exited"]
 [connection signal="pressed" from="Systems Sprites/HullSprite/Button" to="Systems Sprites/HullSprite" method="_on_button_pressed"]
+[connection signal="system_hovered" from="Systems Sprites/ElectricalSprite" to="." method="_on_system_hovered"]
 [connection signal="system_pressed" from="Systems Sprites/ElectricalSprite" to="." method="_on_system_sprite_pressed"]
 [connection signal="mouse_entered" from="Systems Sprites/ElectricalSprite/Button" to="Systems Sprites/ElectricalSprite" method="_on_button_mouse_entered"]
 [connection signal="mouse_exited" from="Systems Sprites/ElectricalSprite/Button" to="Systems Sprites/ElectricalSprite" method="_on_button_mouse_exited"]
 [connection signal="pressed" from="Systems Sprites/ElectricalSprite/Button" to="Systems Sprites/ElectricalSprite" method="_on_button_pressed"]
+[connection signal="system_hovered" from="Systems Sprites/ExternalSprite" to="." method="_on_system_hovered"]
 [connection signal="system_pressed" from="Systems Sprites/ExternalSprite" to="." method="_on_system_sprite_pressed"]
 [connection signal="mouse_entered" from="Systems Sprites/ExternalSprite/Button" to="Systems Sprites/ExternalSprite" method="_on_button_mouse_entered"]
 [connection signal="mouse_exited" from="Systems Sprites/ExternalSprite/Button" to="Systems Sprites/ExternalSprite" method="_on_button_mouse_exited"]
 [connection signal="pressed" from="Systems Sprites/ExternalSprite/Button" to="Systems Sprites/ExternalSprite" method="_on_button_pressed"]
+[connection signal="system_hovered" from="Systems Sprites/ComputerSprite" to="." method="_on_system_hovered"]
 [connection signal="system_pressed" from="Systems Sprites/ComputerSprite" to="." method="_on_system_sprite_pressed"]
 [connection signal="mouse_entered" from="Systems Sprites/ComputerSprite/Button" to="Systems Sprites/ComputerSprite" method="_on_button_mouse_entered"]
 [connection signal="mouse_exited" from="Systems Sprites/ComputerSprite/Button" to="Systems Sprites/ComputerSprite" method="_on_button_mouse_exited"]
@@ -3061,7 +3098,9 @@ text = "BTN_CONTINUE"
 [connection signal="button_hover_stop" from="Store" to="." method="_on_store_button_hover_stop"]
 [connection signal="item_bought" from="Store" to="." method="_on_store_item_bought"]
 [connection signal="map_summoned" from="Store" to="." method="_on_store_map_summoned"]
+[connection signal="mouse_entered" from="Pause Menu/PanelContainer/VBox/Continue Button" to="Pause Menu" method="_on_continue_button_mouse_entered"]
 [connection signal="pressed" from="Pause Menu/PanelContainer/VBox/Continue Button" to="Pause Menu" method="_on_continue_button_pressed"]
+[connection signal="mouse_entered" from="Pause Menu/PanelContainer/VBox/Exit Button" to="Pause Menu" method="_on_exit_button_mouse_entered"]
 [connection signal="pressed" from="Pause Menu/PanelContainer/VBox/Exit Button" to="Pause Menu" method="_on_exit_button_pressed"]
 [connection signal="request" from="Tutorial" to="." method="_on_tutorial_request"]
 [connection signal="animation_started" from="Tutorial/Animator" to="Tutorial" method="_on_animator_animation_started"]

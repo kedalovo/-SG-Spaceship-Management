@@ -1,7 +1,8 @@
 extends Sprite2D
 
 
-signal system_pressed(idx)
+signal system_pressed(idx: int)
+signal system_hovered(idx: int)
 
 @export var system_index: int
 
@@ -57,6 +58,7 @@ func toggle_crazy(on: bool) -> void:
 
 func _on_button_mouse_entered() -> void:
 	if (!GameManager.is_in_system and enabled):
+		system_hovered.emit(system_index)
 		outline.show()
 
 

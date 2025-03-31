@@ -4,6 +4,9 @@ extends Node2D
 class_name CodeLine
 
 signal installed_correct_line(line: CodeLine, slot: CodeLine)
+signal mouse_entered
+signal button_down
+signal button_up
 
 
 @onready var label: Label = $Label
@@ -92,6 +95,7 @@ func check_if_correct(installed_length: int) -> bool:
 
 func _on_button_button_down() -> void:
 	if is_on_right:
+		button_down.emit()
 		label.horizontal_alignment = HORIZONTAL_ALIGNMENT_RIGHT
 		is_held = true
 		if is_installed:
@@ -101,6 +105,7 @@ func _on_button_button_down() -> void:
 
 func _on_button_button_up() -> void:
 	if is_held:
+		button_up.emit()
 		is_held = false
 	if hovered_over != null:
 		global_position = hovered_over.global_position
@@ -127,3 +132,7 @@ func _on_area_body_exited(body: Node2D) -> void:
 		if parent.is_held and parent.is_installed:
 			parent.is_installed = false
 			parent.installed_on = null
+
+
+func _on_button_mouse_entered() -> void:
+	mouse_entered.emit()

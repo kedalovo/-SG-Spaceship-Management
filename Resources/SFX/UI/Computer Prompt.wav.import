@@ -1,0 +1,24 @@
+[remap]
+
+importer="wav"
+type="AudioStreamWAV"
+uid="uid://bvdi0nbgmfa00"
+path="res://.godot/imported/Computer Prompt.wav-43a9a773d918b68bbfc81bea1b95de51.sample"
+
+[deps]
+
+source_file="res://Resources/SFX/UI/Computer Prompt.wav"
+dest_files=["res://.godot/imported/Computer Prompt.wav-43a9a773d918b68bbfc81bea1b95de51.sample"]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop_mode=0
+edit/loop_begin=0
+edit/loop_end=-1
+compress/mode=0

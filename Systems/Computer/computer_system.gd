@@ -8,6 +8,9 @@ const CODE_LINE = preload("res://Systems/Computer/Code Line/code_line.tscn")
 @onready var pieces_v_box: VBoxContainer = $UI/Margin/HBox/PiecesVBox
 @onready var camera: Camera2D = $Camera2D
 
+@onready var code_line_press_audio: AudioStreamPlayer = $"Code Line Press Audio"
+@onready var code_line_hover_audio: AudioStreamPlayer = $"Code Line Hover Audio"
+
 var busy_puzzle_slots: Array[bool] = [false, false, false, false, false, false]
 var busy_pieces_slots: Array[bool] = [false, false, false, false, false, false]
 
@@ -135,6 +138,9 @@ func add_code_line(is_right: bool, text: String) -> void:
 				pos.add_child(code_line)
 				pos.show()
 				added = true
+				code_line.mouse_entered.connect(_on_code_line_mouse_entered)
+				code_line.button_down.connect(_on_code_line_button_down)
+				code_line.button_up.connect(_on_code_line_button_up)
 				break
 	else:
 		for slot_idx in busy_puzzle_slots.size():
@@ -158,3 +164,15 @@ func _on_installed_correct_line(_line: CodeLine, _slot: CodeLine) -> void:
 		for child in pos.get_children():
 			child.queue_free()
 	fix()
+
+
+func _on_code_line_mouse_entered() -> void:
+	code_line_hover_audio.play()
+
+
+func _on_code_line_button_down() -> void:
+	code_line_press_audio.play()
+
+
+func _on_code_line_button_up() -> void:
+	code_line_press_audio.play()

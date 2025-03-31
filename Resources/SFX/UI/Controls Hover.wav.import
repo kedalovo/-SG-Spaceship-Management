@@ -1,0 +1,24 @@
+[remap]
+
+importer="wav"
+type="AudioStreamWAV"
+uid="uid://dy3if7sxrrlqo"
+path="res://.godot/imported/Controls Hover.wav-7c361f26b19a4fb23a3d0cdf623cb69c.sample"
+
+[deps]
+
+source_file="res://Resources/SFX/UI/Controls Hover.wav"
+dest_files=["res://.godot/imported/Controls Hover.wav-7c361f26b19a4fb23a3d0cdf623cb69c.sample"]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop_mode=0
+edit/loop_begin=0
+edit/loop_end=-1
+compress/mode=0

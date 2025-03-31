@@ -1,7 +1,9 @@
-[gd_scene load_steps=8 format=3 uid="uid://bfeexecpaotg3"]
+[gd_scene load_steps=10 format=3 uid="uid://bfeexecpaotg3"]
 
 [ext_resource type="Script" path="res://Map/Map Node/map_node.gd" id="1_h425h"]
 [ext_resource type="Texture2D" uid="uid://dwyl25pjvlbie" path="res://Map/Map Node/Icons/Wormhole.png" id="2_ovan4"]
+[ext_resource type="AudioStream" uid="uid://bmkvq202k8ej8" path="res://Resources/SFX/UI/Map Node Hover.wav" id="3_6dgno"]
+[ext_resource type="AudioStream" uid="uid://dgdswq02k2x1l" path="res://Resources/SFX/UI/Map Node Press.wav" id="4_3ndyg"]
 
 [sub_resource type="Animation" id="Animation_0jm40"]
 length = 0.001
@@ -127,6 +129,14 @@ offset_left = -20.0
 offset_top = -36.0
 offset_right = 20.0
 offset_bottom = -13.0
+
+[node name="Hover Audio" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("3_6dgno")
+volume_db = 5.0
+
+[node name="Press Audio" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("4_3ndyg")
+volume_db = -5.0
 
 [connection signal="mouse_entered" from="Button" to="." method="_on_mouse_grab_mouse_entered"]
 [connection signal="mouse_exited" from="Button" to="." method="_on_mouse_grab_mouse_exited"]

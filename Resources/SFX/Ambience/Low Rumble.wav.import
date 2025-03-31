@@ -1,0 +1,24 @@
+[remap]
+
+importer="wav"
+type="AudioStreamWAV"
+uid="uid://c6aap5ctk4ynn"
+path="res://.godot/imported/Low Rumble.wav-6d402bbf9f8bce5a421e71ae4344626d.sample"
+
+[deps]
+
+source_file="res://Resources/SFX/Ambience/Low Rumble.wav"
+dest_files=["res://.godot/imported/Low Rumble.wav-6d402bbf9f8bce5a421e71ae4344626d.sample"]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop_mode=0
+edit/loop_begin=0
+edit/loop_end=-1
+compress/mode=0

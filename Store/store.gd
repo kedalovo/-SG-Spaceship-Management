@@ -38,6 +38,9 @@ const OUT_OF_STOCK = preload("res://Store/Assets/Out of stock.png")
 @onready var coolant_label: Label = $"Buttons/Coolant Button/Margin/Label"
 @onready var patch_label: Label = $"Buttons/Patch Button/Margin/Label"
 
+@onready var audio_low_balance: AudioStreamPlayer = $"Audio Low Balance"
+@onready var store_button_hover_audio: AudioStreamPlayer2D = $"Store Button Hover Audio"
+
 
 func _ready() -> void:
 	toggle_input(true)
@@ -111,6 +114,7 @@ func _on_item_bought(item: game_manager.store_items, price: int) -> void:
 
 
 func _on_low_balance_flash() -> void:
+	audio_low_balance.play()
 	balance_flash.emit()
 
 
@@ -128,6 +132,8 @@ func _on_map_button_mouse_exited() -> void:
 
 
 func _on_store_button_hover(btn: store_button) -> void:
+	store_button_hover_audio.global_position = btn.global_position
+	store_button_hover_audio.play()
 	button_hover.emit(btn)
 
 
