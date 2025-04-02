@@ -1,0 +1,24 @@
+[remap]
+
+importer="wav"
+type="AudioStreamWAV"
+uid="uid://dlww2dh1qe38d"
+path="res://.godot/imported/Patch interaction.wav-3d3e5053af634fa8cf2f215b4a149696.sample"
+
+[deps]
+
+source_file="res://Resources/SFX/UI/Patch interaction.wav"
+dest_files=["res://.godot/imported/Patch interaction.wav-3d3e5053af634fa8cf2f215b4a149696.sample"]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop_mode=0
+edit/loop_begin=0
+edit/loop_end=-1
+compress/mode=0

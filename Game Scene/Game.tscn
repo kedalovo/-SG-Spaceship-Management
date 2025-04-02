@@ -1,4 +1,4 @@
-[gd_scene load_steps=134 format=3 uid="uid://dr0fafp1u36yj"]
+[gd_scene load_steps=140 format=3 uid="uid://dr0fafp1u36yj"]
 
 [ext_resource type="Script" path="res://Game Scene/game.gd" id="1_t00el"]
 [ext_resource type="Texture2D" uid="uid://dmcht1gqpy4v3" path="res://Systems/Life Support/Assets/Life Support.png" id="2_3bjf3"]
@@ -47,6 +47,7 @@
 [ext_resource type="AudioStream" uid="uid://bcgi7y0sxyms3" path="res://Resources/SFX/UI/Controls Press.wav" id="23_58h1f"]
 [ext_resource type="PackedScene" uid="uid://c1lkqnbuafwie" path="res://Space/space.tscn" id="24_qmju5"]
 [ext_resource type="Texture2D" uid="uid://b3hovyjabxyw3" path="res://Systems/Systems Cracks.png" id="24_sngj0"]
+[ext_resource type="AudioStream" uid="uid://bnm4flcvf4w0n" path="res://Resources/SFX/UI/Alarm.ogg" id="32_ykuea"]
 [ext_resource type="Texture2D" uid="uid://bajrehqar6o1c" path="res://Systems/Systems container.png" id="41_cghc3"]
 [ext_resource type="AudioStream" uid="uid://b1qisqqm4e7rj" path="res://Resources/SFX/UI/System Hover.wav" id="41_rcf7w"]
 [ext_resource type="Texture2D" uid="uid://d120brxfi0olu" path="res://Systems/Red dot.png" id="42_1fkf3"]
@@ -57,13 +58,18 @@
 [ext_resource type="PackedScene" uid="uid://btvb5400v1yyr" path="res://Store/store.tscn" id="46_ilj7l"]
 [ext_resource type="Script" path="res://Game Scene/system_fog.gd" id="47_tadro"]
 [ext_resource type="Theme" uid="uid://b44tv8qw1g4bl" path="res://Resources/Theme/main_theme.tres" id="54_bi7ny"]
+[ext_resource type="AudioStream" uid="uid://hykxas70301q" path="res://Resources/SFX/UI/System open.wav" id="55_bw45c"]
 [ext_resource type="Script" path="res://Game Scene/tooltip.gd" id="55_ssbhd"]
 [ext_resource type="Texture2D" uid="uid://0cw1p0iyd5pj" path="res://Cabin/Assets/Tooltip screen.png" id="55_urjol"]
+[ext_resource type="AudioStream" uid="uid://bftap0jnlvhfc" path="res://Resources/SFX/UI/System close.wav" id="56_66ysl"]
 [ext_resource type="Script" path="res://Game Scene/pause_menu.gd" id="57_monrg"]
 [ext_resource type="Script" path="res://Game Scene/tutorial.gd" id="58_yyymu"]
 [ext_resource type="AudioStream" uid="uid://d2kgkytk8unn1" path="res://Resources/SFX/UI/Coin.wav" id="60_py8ep"]
 [ext_resource type="AudioStream" uid="uid://id7umlrv2nuv" path="res://Resources/SFX/UI/Menu Press.wav" id="61_arsig"]
 [ext_resource type="AudioStream" uid="uid://diqcgtoi5yfo5" path="res://Resources/SFX/UI/Menu Hover.mp3" id="62_lb1va"]
+[ext_resource type="AudioStream" uid="uid://dhsl71pp38xrj" path="res://Resources/SFX/UI/Physical impact.wav" id="66_o3m5d"]
+[ext_resource type="AudioStream" uid="uid://kddsq4s1dug7" path="res://Resources/SFX/UI/Electricity impact.mp3" id="67_m1yqx"]
+[ext_resource type="AudioStream" uid="uid://dt1wglod8oqeu" path="res://Resources/SFX/UI/Heat impact.wav" id="68_t4c65"]
 
 [sub_resource type="Gradient" id="Gradient_bmxab"]
 offsets = PackedFloat32Array(0.4, 0.6, 1)
@@ -2282,10 +2288,12 @@ texture_click_mask = ExtResource("20_aibmr")
 
 [node name="Cabin Control Button Hover Audio" type="AudioStreamPlayer" parent="Cabin/Controls"]
 stream = ExtResource("22_38qlu")
+volume_db = -10.0
 max_polyphony = 2
 
 [node name="Cabin Control Button Press Audio" type="AudioStreamPlayer" parent="Cabin/Controls"]
 stream = ExtResource("23_58h1f")
+volume_db = -15.0
 max_polyphony = 2
 
 [node name="Clock" parent="Cabin" instance=ExtResource("21_wxrcd")]
@@ -2330,6 +2338,11 @@ libraries = {
 "": SubResource("AnimationLibrary_gutu4")
 }
 
+[node name="Sound" type="AudioStreamPlayer2D" parent="Systems Sprites/LifeSupportSprite/Warning Light"]
+stream = ExtResource("32_ykuea")
+volume_db = -20.0
+pitch_scale = 0.8
+
 [node name="Outline" type="Sprite2D" parent="Systems Sprites/LifeSupportSprite"]
 visible = false
 texture = ExtResource("3_hjlia")
@@ -2368,6 +2381,11 @@ texture = ExtResource("6_glmdj")
 libraries = {
 "": SubResource("AnimationLibrary_gutu4")
 }
+
+[node name="Sound" type="AudioStreamPlayer2D" parent="Systems Sprites/EnginesSprite/Warning Light"]
+stream = ExtResource("32_ykuea")
+volume_db = -20.0
+pitch_scale = 0.9
 
 [node name="Outline" type="Sprite2D" parent="Systems Sprites/EnginesSprite"]
 visible = false
@@ -2489,6 +2507,10 @@ libraries = {
 "": SubResource("AnimationLibrary_gutu4")
 }
 
+[node name="Sound" type="AudioStreamPlayer2D" parent="Systems Sprites/HullSprite/Warning Light"]
+stream = ExtResource("32_ykuea")
+volume_db = -20.0
+
 [node name="Outline" type="Sprite2D" parent="Systems Sprites/HullSprite"]
 visible = false
 texture = ExtResource("7_meg7b")
@@ -2527,6 +2549,11 @@ texture = ExtResource("6_glmdj")
 libraries = {
 "": SubResource("AnimationLibrary_gutu4")
 }
+
+[node name="Sound" type="AudioStreamPlayer2D" parent="Systems Sprites/ElectricalSprite/Warning Light"]
+stream = ExtResource("32_ykuea")
+volume_db = -20.0
+pitch_scale = 1.1
 
 [node name="Outline" type="Sprite2D" parent="Systems Sprites/ElectricalSprite"]
 visible = false
@@ -2567,6 +2594,11 @@ libraries = {
 "": SubResource("AnimationLibrary_gutu4")
 }
 
+[node name="Sound" type="AudioStreamPlayer2D" parent="Systems Sprites/ExternalSprite/Warning Light"]
+stream = ExtResource("32_ykuea")
+volume_db = -20.0
+pitch_scale = 1.2
+
 [node name="Outline" type="Sprite2D" parent="Systems Sprites/ExternalSprite"]
 visible = false
 texture = ExtResource("11_0dyms")
@@ -2605,6 +2637,11 @@ texture = ExtResource("6_glmdj")
 libraries = {
 "": SubResource("AnimationLibrary_gutu4")
 }
+
+[node name="Sound" type="AudioStreamPlayer2D" parent="Systems Sprites/ComputerSprite/Warning Light"]
+stream = ExtResource("32_ykuea")
+volume_db = -20.0
+pitch_scale = 1.3
 
 [node name="Outline" type="Sprite2D" parent="Systems Sprites/ComputerSprite"]
 visible = false
@@ -2705,6 +2742,7 @@ focus_mode = 0
 transparent_bg = true
 handle_input_locally = false
 canvas_item_default_texture_filter = 0
+audio_listener_enable_2d = true
 physics_object_picking = true
 physics_object_picking_sort = true
 physics_object_picking_first_only = true
@@ -2733,6 +2771,14 @@ position = Vector2(308, 216)
 
 [node name="Computer System" parent="SubViewportContainer/SubViewport" instance=ExtResource("20_1h5sm")]
 visible = false
+
+[node name="System Open Audio" type="AudioStreamPlayer" parent="SubViewportContainer/SubViewport"]
+stream = ExtResource("55_bw45c")
+volume_db = -15.0
+
+[node name="System Close Audio" type="AudioStreamPlayer" parent="SubViewportContainer/SubViewport"]
+stream = ExtResource("56_66ysl")
+volume_db = -15.0
 
 [node name="Map" parent="." instance=ExtResource("43_xxu5e")]
 z_index = 2
@@ -3029,6 +3075,18 @@ current = true
 [node name="Coin Audio" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("60_py8ep")
 max_polyphony = 2
+
+[node name="Physical Audio" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("66_o3m5d")
+volume_db = -15.0
+
+[node name="Electrical Audio" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("67_m1yqx")
+volume_db = -20.0
+
+[node name="Heat Audio" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("68_t4c65")
+volume_db = -20.0
 
 [connection signal="coin_got" from="Cabin/SubViewportContainer/SubViewport/Space" to="." method="_on_space_coin_got"]
 [connection signal="damaged" from="Cabin/SubViewportContainer/SubViewport/Space" to="." method="_on_damaged"]

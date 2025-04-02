@@ -15,6 +15,8 @@ signal patch_completed(patch: Patch, hole: Hole)
 @onready var sprite: Sprite2D = $Sprite
 @onready var outline: Sprite2D = $Outline
 @onready var button: Button = $Button
+@onready var sound: AudioStreamPlayer2D = $Sound
+@onready var bearing_sound: AudioStreamPlayer2D = $"Bearing sound"
 
 var initial_pos: Vector2
 
@@ -97,34 +99,42 @@ func _physics_process(_delta: float) -> void:
 func _on_mark_1_pressed() -> void:
 	mark_1.modulate = Color.WHITE
 	is_1_set = true
+	bearing_sound.play()
 	check_completion()
 
 
 func _on_mark_2_pressed() -> void:
 	mark_2.modulate = Color.WHITE
 	is_2_set = true
+	bearing_sound.play()
 	check_completion()
 
 
 func _on_mark_3_pressed() -> void:
 	mark_3.modulate = Color.WHITE
 	is_3_set = true
+	bearing_sound.play()
 	check_completion()
 
 
 func _on_mark_4_pressed() -> void:
 	mark_4.modulate = Color.WHITE
 	is_4_set = true
+	bearing_sound.play()
 	check_completion()
 
 
 func _on_button_button_down() -> void:
 	is_held = true
+	sound.pitch_scale = 1.0
+	sound.play()
 
 
 func _on_button_button_up() -> void:
 	outline.hide()
 	is_held = false
+	sound.pitch_scale = 1.1
+	sound.play()
 	if is_hovering_hole:
 		patch_installed.emit(self, mounted_on_hole)
 		button.hide()
@@ -134,6 +144,8 @@ func _on_button_button_up() -> void:
 
 func _on_button_mouse_entered() -> void:
 	outline.show()
+	sound.pitch_scale = 0.9
+	sound.play()
 
 
 func _on_button_mouse_exited() -> void:

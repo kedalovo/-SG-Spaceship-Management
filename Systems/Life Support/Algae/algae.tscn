@@ -1,8 +1,9 @@
-[gd_scene load_steps=5 format=3 uid="uid://cgui7sacjmeb7"]
+[gd_scene load_steps=6 format=3 uid="uid://cgui7sacjmeb7"]
 
 [ext_resource type="Script" path="res://Systems/Life Support/Algae/algae.gd" id="1_77bp4"]
 [ext_resource type="Texture2D" uid="uid://hxwlyo7e8ovw" path="res://Systems/Life Support/Assets/Algae.png" id="1_g5l83"]
 [ext_resource type="Texture2D" uid="uid://csxi5m2cuofu7" path="res://Systems/Life Support/Assets/Algae Outline.png" id="3_iqcyq"]
+[ext_resource type="AudioStream" uid="uid://c1m622r28l85e" path="res://Resources/SFX/UI/Algae interaction.wav" id="4_y6grm"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_50r2r"]
 radius = 9.0
@@ -22,6 +23,11 @@ shape = SubResource("CircleShape2D_50r2r")
 visible = false
 z_index = 1
 texture = ExtResource("3_iqcyq")
+
+[node name="Sound" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("4_y6grm")
+volume_db = -15.0
+max_polyphony = 2
 
 [connection signal="input_event" from="." to="." method="_on_input_event"]
 [connection signal="mouse_entered" from="." to="." method="_on_mouse_entered"]

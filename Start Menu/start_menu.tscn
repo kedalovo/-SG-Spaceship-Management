@@ -1,9 +1,10 @@
-[gd_scene load_steps=27 format=3 uid="uid://dn4ym10lpebtm"]
+[gd_scene load_steps=29 format=3 uid="uid://dn4ym10lpebtm"]
 
 [ext_resource type="Theme" uid="uid://b44tv8qw1g4bl" path="res://Resources/Theme/main_theme.tres" id="1_1wxod"]
 [ext_resource type="Script" path="res://Start Menu/start_menu.gd" id="2_iqtfu"]
 [ext_resource type="AudioStream" uid="uid://bbjoxc3rg7b7d" path="res://Resources/SFX/Ambience/Ambience 1.wav" id="3_f4y7q"]
 [ext_resource type="AudioStream" uid="uid://c5qs6yf0kwy5w" path="res://Resources/SFX/Ambience/Ambience 2.wav" id="4_xx2xb"]
+[ext_resource type="AudioStream" uid="uid://cu1apa38k34ki" path="res://Resources/SFX/Ambience/Ambience 3.wav" id="5_j1lm6"]
 [ext_resource type="AudioStream" uid="uid://id7umlrv2nuv" path="res://Resources/SFX/UI/Menu Press.wav" id="5_o0g5m"]
 [ext_resource type="AudioStream" uid="uid://diqcgtoi5yfo5" path="res://Resources/SFX/UI/Menu Hover.mp3" id="6_2ny7x"]
 
@@ -303,10 +304,39 @@ tracks/0/keys = {
 "times": PackedFloat32Array(0, 2)
 }
 
+[sub_resource type="Animation" id="Animation_3b228"]
+resource_name = "ambience_3"
+length = 2.0
+step = 0.1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:stream")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(1),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [ExtResource("5_j1lm6")]
+}
+tracks/1/type = "bezier"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".:volume_db")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"handle_modes": PackedInt32Array(0, 0, 0),
+"points": PackedFloat32Array(-20, 0, 0, 0, 0, -80, -0.5, 0, 0.5, 0, -20, 0, 0, 0, 0),
+"times": PackedFloat32Array(0, 1, 2)
+}
+
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_uskh8"]
 _data = {
 "RESET": SubResource("Animation_csqh8"),
 "ambience_2": SubResource("Animation_tj8uf"),
+"ambience_3": SubResource("Animation_3b228"),
 "start": SubResource("Animation_lgvk7")
 }
 

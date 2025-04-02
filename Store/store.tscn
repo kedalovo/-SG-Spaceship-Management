@@ -1,4 +1,4 @@
-[gd_scene load_steps=42 format=3 uid="uid://btvb5400v1yyr"]
+[gd_scene load_steps=44 format=3 uid="uid://btvb5400v1yyr"]
 
 [ext_resource type="Texture2D" uid="uid://bkry1rl40rve5" path="res://Store/Assets/Store Background.png" id="1_jd1dj"]
 [ext_resource type="Script" path="res://Store/store.gd" id="1_waq3s"]
@@ -29,6 +29,8 @@
 [ext_resource type="Texture2D" uid="uid://duj4reibc0j18" path="res://Store/Assets/Map Icon.png" id="25_tcmsf"]
 [ext_resource type="AudioStream" uid="uid://b786ma4u8fqyp" path="res://Resources/SFX/UI/Failed purchase.mp3" id="28_xmxuv"]
 [ext_resource type="AudioStream" uid="uid://x7ib0vlynw5g" path="res://Resources/SFX/UI/Store Button Hover.wav" id="29_er17j"]
+[ext_resource type="AudioStream" uid="uid://cp7iqio27ho08" path="res://Resources/SFX/UI/Item bought.wav" id="30_nehv6"]
+[ext_resource type="AudioStream" uid="uid://brgpeudp1mupw" path="res://Resources/SFX/UI/Item buying progress.wav" id="31_g6wej"]
 
 [sub_resource type="Gradient" id="Gradient_ohp06"]
 interpolation_mode = 2
@@ -728,8 +730,18 @@ stream = ExtResource("28_xmxuv")
 [node name="Store Button Hover Audio" type="AudioStreamPlayer2D" parent="."]
 stream = ExtResource("29_er17j")
 
+[node name="Item Bought Audio" type="AudioStreamPlayer2D" parent="Store Button Hover Audio"]
+stream = ExtResource("30_nehv6")
+volume_db = -15.0
+
+[node name="Item Buying Audio" type="AudioStreamPlayer2D" parent="Store Button Hover Audio"]
+stream = ExtResource("31_g6wej")
+volume_db = -15.0
+
 [connection signal="button_down" from="Buttons/Algae Button" to="Buttons/Algae Button" method="_on_button_down"]
 [connection signal="button_up" from="Buttons/Algae Button" to="Buttons/Algae Button" method="_on_button_up"]
+[connection signal="buy_start" from="Buttons/Algae Button" to="." method="_on_store_button_buy_start"]
+[connection signal="buy_stop" from="Buttons/Algae Button" to="." method="_on_store_button_buy_stop"]
 [connection signal="failed_buy_attempt" from="Buttons/Algae Button" to="." method="_on_low_balance_flash"]
 [connection signal="hover" from="Buttons/Algae Button" to="." method="_on_store_button_hover"]
 [connection signal="hover_stop" from="Buttons/Algae Button" to="." method="_on_store_button_hover_stop"]
@@ -739,6 +751,8 @@ stream = ExtResource("29_er17j")
 [connection signal="timeout" from="Buttons/Algae Button/Timer" to="Buttons/Algae Button" method="_on_timer_timeout"]
 [connection signal="button_down" from="Buttons/Fuel Button" to="Buttons/Fuel Button" method="_on_button_down"]
 [connection signal="button_up" from="Buttons/Fuel Button" to="Buttons/Fuel Button" method="_on_button_up"]
+[connection signal="buy_start" from="Buttons/Fuel Button" to="." method="_on_store_button_buy_start"]
+[connection signal="buy_stop" from="Buttons/Fuel Button" to="." method="_on_store_button_buy_stop"]
 [connection signal="failed_buy_attempt" from="Buttons/Fuel Button" to="." method="_on_low_balance_flash"]
 [connection signal="hover" from="Buttons/Fuel Button" to="." method="_on_store_button_hover"]
 [connection signal="hover_stop" from="Buttons/Fuel Button" to="." method="_on_store_button_hover_stop"]
@@ -748,6 +762,8 @@ stream = ExtResource("29_er17j")
 [connection signal="timeout" from="Buttons/Fuel Button/Timer" to="Buttons/Fuel Button" method="_on_timer_timeout"]
 [connection signal="button_down" from="Buttons/Coolant Button" to="Buttons/Coolant Button" method="_on_button_down"]
 [connection signal="button_up" from="Buttons/Coolant Button" to="Buttons/Coolant Button" method="_on_button_up"]
+[connection signal="buy_start" from="Buttons/Coolant Button" to="." method="_on_store_button_buy_start"]
+[connection signal="buy_stop" from="Buttons/Coolant Button" to="." method="_on_store_button_buy_stop"]
 [connection signal="failed_buy_attempt" from="Buttons/Coolant Button" to="." method="_on_low_balance_flash"]
 [connection signal="hover" from="Buttons/Coolant Button" to="." method="_on_store_button_hover"]
 [connection signal="hover_stop" from="Buttons/Coolant Button" to="." method="_on_store_button_hover_stop"]
@@ -757,6 +773,8 @@ stream = ExtResource("29_er17j")
 [connection signal="timeout" from="Buttons/Coolant Button/Timer" to="Buttons/Coolant Button" method="_on_timer_timeout"]
 [connection signal="button_down" from="Buttons/Patch Button" to="Buttons/Patch Button" method="_on_button_down"]
 [connection signal="button_up" from="Buttons/Patch Button" to="Buttons/Patch Button" method="_on_button_up"]
+[connection signal="buy_start" from="Buttons/Patch Button" to="." method="_on_store_button_buy_start"]
+[connection signal="buy_stop" from="Buttons/Patch Button" to="." method="_on_store_button_buy_stop"]
 [connection signal="failed_buy_attempt" from="Buttons/Patch Button" to="." method="_on_low_balance_flash"]
 [connection signal="hover" from="Buttons/Patch Button" to="." method="_on_store_button_hover"]
 [connection signal="hover_stop" from="Buttons/Patch Button" to="." method="_on_store_button_hover_stop"]
@@ -766,6 +784,8 @@ stream = ExtResource("29_er17j")
 [connection signal="timeout" from="Buttons/Patch Button/Timer" to="Buttons/Patch Button" method="_on_timer_timeout"]
 [connection signal="button_down" from="Buttons/Top Left Button" to="Buttons/Top Left Button" method="_on_button_down"]
 [connection signal="button_up" from="Buttons/Top Left Button" to="Buttons/Top Left Button" method="_on_button_up"]
+[connection signal="buy_start" from="Buttons/Top Left Button" to="." method="_on_store_button_buy_start"]
+[connection signal="buy_stop" from="Buttons/Top Left Button" to="." method="_on_store_button_buy_stop"]
 [connection signal="failed_buy_attempt" from="Buttons/Top Left Button" to="." method="_on_low_balance_flash"]
 [connection signal="hover" from="Buttons/Top Left Button" to="." method="_on_store_button_hover"]
 [connection signal="hover_stop" from="Buttons/Top Left Button" to="." method="_on_store_button_hover_stop"]
@@ -775,6 +795,8 @@ stream = ExtResource("29_er17j")
 [connection signal="timeout" from="Buttons/Top Left Button/Timer" to="Buttons/Top Left Button" method="_on_timer_timeout"]
 [connection signal="button_down" from="Buttons/Top Middle Button" to="Buttons/Top Middle Button" method="_on_button_down"]
 [connection signal="button_up" from="Buttons/Top Middle Button" to="Buttons/Top Middle Button" method="_on_button_up"]
+[connection signal="buy_start" from="Buttons/Top Middle Button" to="." method="_on_store_button_buy_start"]
+[connection signal="buy_stop" from="Buttons/Top Middle Button" to="." method="_on_store_button_buy_stop"]
 [connection signal="failed_buy_attempt" from="Buttons/Top Middle Button" to="." method="_on_low_balance_flash"]
 [connection signal="hover" from="Buttons/Top Middle Button" to="." method="_on_store_button_hover"]
 [connection signal="hover_stop" from="Buttons/Top Middle Button" to="." method="_on_store_button_hover_stop"]
@@ -784,6 +806,8 @@ stream = ExtResource("29_er17j")
 [connection signal="timeout" from="Buttons/Top Middle Button/Timer" to="Buttons/Top Middle Button" method="_on_timer_timeout"]
 [connection signal="button_down" from="Buttons/Top Right Button" to="Buttons/Top Right Button" method="_on_button_down"]
 [connection signal="button_up" from="Buttons/Top Right Button" to="Buttons/Top Right Button" method="_on_button_up"]
+[connection signal="buy_start" from="Buttons/Top Right Button" to="." method="_on_store_button_buy_start"]
+[connection signal="buy_stop" from="Buttons/Top Right Button" to="." method="_on_store_button_buy_stop"]
 [connection signal="failed_buy_attempt" from="Buttons/Top Right Button" to="." method="_on_low_balance_flash"]
 [connection signal="hover" from="Buttons/Top Right Button" to="." method="_on_store_button_hover"]
 [connection signal="hover_stop" from="Buttons/Top Right Button" to="." method="_on_store_button_hover_stop"]
@@ -793,6 +817,8 @@ stream = ExtResource("29_er17j")
 [connection signal="timeout" from="Buttons/Top Right Button/Timer" to="Buttons/Top Right Button" method="_on_timer_timeout"]
 [connection signal="button_down" from="Buttons/Bottom Left Button" to="Buttons/Bottom Left Button" method="_on_button_down"]
 [connection signal="button_up" from="Buttons/Bottom Left Button" to="Buttons/Bottom Left Button" method="_on_button_up"]
+[connection signal="buy_start" from="Buttons/Bottom Left Button" to="." method="_on_store_button_buy_start"]
+[connection signal="buy_stop" from="Buttons/Bottom Left Button" to="." method="_on_store_button_buy_stop"]
 [connection signal="failed_buy_attempt" from="Buttons/Bottom Left Button" to="." method="_on_low_balance_flash"]
 [connection signal="hover" from="Buttons/Bottom Left Button" to="." method="_on_store_button_hover"]
 [connection signal="hover_stop" from="Buttons/Bottom Left Button" to="." method="_on_store_button_hover_stop"]
@@ -802,6 +828,8 @@ stream = ExtResource("29_er17j")
 [connection signal="timeout" from="Buttons/Bottom Left Button/Timer" to="Buttons/Bottom Left Button" method="_on_timer_timeout"]
 [connection signal="button_down" from="Buttons/Bottom Middle Button" to="Buttons/Bottom Middle Button" method="_on_button_down"]
 [connection signal="button_up" from="Buttons/Bottom Middle Button" to="Buttons/Bottom Middle Button" method="_on_button_up"]
+[connection signal="buy_start" from="Buttons/Bottom Middle Button" to="." method="_on_store_button_buy_start"]
+[connection signal="buy_stop" from="Buttons/Bottom Middle Button" to="." method="_on_store_button_buy_stop"]
 [connection signal="failed_buy_attempt" from="Buttons/Bottom Middle Button" to="." method="_on_low_balance_flash"]
 [connection signal="hover" from="Buttons/Bottom Middle Button" to="." method="_on_store_button_hover"]
 [connection signal="hover_stop" from="Buttons/Bottom Middle Button" to="." method="_on_store_button_hover_stop"]
@@ -811,6 +839,8 @@ stream = ExtResource("29_er17j")
 [connection signal="timeout" from="Buttons/Bottom Middle Button/Timer" to="Buttons/Bottom Middle Button" method="_on_timer_timeout"]
 [connection signal="button_down" from="Buttons/Bottom Right Button" to="Buttons/Bottom Right Button" method="_on_button_down"]
 [connection signal="button_up" from="Buttons/Bottom Right Button" to="Buttons/Bottom Right Button" method="_on_button_up"]
+[connection signal="buy_start" from="Buttons/Bottom Right Button" to="." method="_on_store_button_buy_start"]
+[connection signal="buy_stop" from="Buttons/Bottom Right Button" to="." method="_on_store_button_buy_stop"]
 [connection signal="failed_buy_attempt" from="Buttons/Bottom Right Button" to="." method="_on_low_balance_flash"]
 [connection signal="hover" from="Buttons/Bottom Right Button" to="." method="_on_store_button_hover"]
 [connection signal="hover_stop" from="Buttons/Bottom Right Button" to="." method="_on_store_button_hover_stop"]

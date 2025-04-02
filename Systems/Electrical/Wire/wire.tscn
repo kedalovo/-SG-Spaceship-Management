@@ -1,7 +1,8 @@
-[gd_scene load_steps=5 format=3 uid="uid://td5pjg8pk11t"]
+[gd_scene load_steps=6 format=3 uid="uid://td5pjg8pk11t"]
 
 [ext_resource type="Script" path="res://Systems/Electrical/Wire/wire.gd" id="1_6piqi"]
 [ext_resource type="Texture2D" uid="uid://1l3w6ko6wsiv" path="res://Systems/Electrical/Assets/Wire.png" id="1_u23jg"]
+[ext_resource type="AudioStream" uid="uid://6r7fnvyei8sc" path="res://Resources/SFX/UI/Wire interaction.wav" id="3_g0gq7"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_oqpbr"]
 size = Vector2(16, 16)
@@ -55,6 +56,9 @@ collision_mask = 0
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Body"]
 shape = SubResource("RectangleShape2D_y3r12")
+
+[node name="Sound" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("3_g0gq7")
 
 [connection signal="button_down" from="Top/Button" to="." method="_on_button_button_down"]
 [connection signal="button_up" from="Top/Button" to="." method="_on_button_button_up"]

@@ -55,12 +55,17 @@ const CURSOR_POINTER = preload("res://UI/Cursor pointer.png")
 @onready var game_over_menu: Control = $"Game Over Menu"
 
 var ambient_audio_animator: AnimationPlayer
-var current_ambient_audio: StringName
 
 @onready var system_hover_audio: AudioStreamPlayer2D = $"Systems Sprites/System Hover Audio"
 @onready var coin_audio: AudioStreamPlayer = $"Coin Audio"
 @onready var cabin_control_button_hover_audio: AudioStreamPlayer = $"Cabin/Controls/Cabin Control Button Hover Audio"
 @onready var cabin_control_button_press_audio: AudioStreamPlayer = $"Cabin/Controls/Cabin Control Button Press Audio"
+
+@onready var physical_audio: AudioStreamPlayer = $"Physical Audio"
+@onready var electrical_audio: AudioStreamPlayer = $"Electrical Audio"
+@onready var heat_audio: AudioStreamPlayer = $"Heat Audio"
+@onready var system_open_audio: AudioStreamPlayer = $"SubViewportContainer/SubViewport/System Open Audio"
+@onready var system_close_audio: AudioStreamPlayer = $"SubViewportContainer/SubViewport/System Close Audio"
 
 const CABIN_ZOOM_LEVEL: float = 1.1
 
@@ -89,6 +94,8 @@ const TUTORIAL_ANIMATIONS: Array[StringName] = [
 	electrical_sprite, external_sprite, computer_sprite]
 
 var current_system_idx: int = -1
+
+var current_audio: int = -1
 
 var is_mouse_inside: bool
 var can_control_via_arrows: bool
@@ -262,6 +269,7 @@ func _on_system_sprite_pressed(system_index: int) -> void:
 	print("Pressed on system: ", system_index, ", current: ", current_system_idx)
 	if current_system_idx == -1:
 		systems[system_index].open()
+		system_open_audio.play()
 		current_system_idx = system_index
 		GameManager.is_in_system = true
 		system_container.show()
@@ -335,6 +343,7 @@ func _on_system_container_gui_input(event: InputEvent) -> void:
 					else:
 						return
 		systems[current_system_idx].close()
+		system_close_audio.play()
 		GameManager.is_in_system = false
 		print("Exited system: ", current_system_idx)
 		current_system_idx = -1
@@ -378,10 +387,13 @@ func _on_damaged(strength: int, type: game_manager.damage_types) -> void:
 	var damage_variants: Array[system] = []
 	match type:
 		game_manager.damage_types.PHYSICAL:
+			physical_audio.play()
 			damage_variants = [hull_system, engines_system, electrical_system, external_system]
 		game_manager.damage_types.HEAT:
+			heat_audio.play()
 			damage_variants = [life_support_system, engines_system, external_system]
 		game_manager.damage_types.ELECTRICITY:
+			electrical_audio.play()
 			damage_variants = [electrical_system, computer_system, external_system]
 	for i in strength:
 		var picked_system_idx: int = randi()% damage_variants.size()
@@ -451,13 +463,16 @@ func _on_space_new_location_set_up() -> void:
 		toggle_map(false)
 	else:
 		print("New location set")
-		match space.current_location.difficulty:
-			2:
-				ambient_audio_animator.play(&"ambience_2")
-			3:
-				pass
-			0:
-				push_error("Shouldn't happen")
+		if current_audio != space.current_location.difficulty:
+			match space.current_location.difficulty:
+				2:
+					ambient_audio_animator.play(&"ambience_2")
+					current_audio = 2
+				3:
+					ambient_audio_animator.play(&"ambience_3")
+					current_audio = 3
+				0:
+					push_error("Shouldn't happen")
 		toggle_store(false)
 		start_round()
 

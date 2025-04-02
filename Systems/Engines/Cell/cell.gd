@@ -12,6 +12,7 @@ signal held(type: game_manager.engine_cell_types)
 @onready var break_sprite: Sprite2D = $Break
 @onready var progress: TextureProgressBar = $Progress
 @onready var cell_body: CharacterBody2D = $"Cell Body"
+@onready var sound: AudioStreamPlayer2D = $Sound
 
 
 var type: game_manager.engine_cell_types
@@ -79,6 +80,8 @@ func _physics_process(_delta: float) -> void:
 func _on_button_mouse_entered() -> void:
 	is_mouse_on_top = true
 	if !is_depleting:
+		sound.pitch_scale = 0.9
+		sound.play()
 		outline.show()
 
 
@@ -92,12 +95,16 @@ func _on_button_button_down() -> void:
 	if !is_depleting:
 		is_held = true
 		held.emit(type)
+		sound.pitch_scale = 1.0
+		sound.play()
 	if is_depleted or is_destroyed:
 		being_deleted.emit(self)
 
 
 func _on_button_button_up() -> void:
 	if !is_depleting:
+		sound.pitch_scale = 1.1
+		sound.play()
 		is_held = false
 		outline.hide()
 		cell_released.emit(self)

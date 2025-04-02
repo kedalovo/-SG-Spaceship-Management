@@ -8,6 +8,8 @@ signal upgrade_bought(new_upgrade: game_manager.store_items, amount: int)
 signal failed_buy_attempt
 signal hover(btn: store_button)
 signal hover_stop
+signal buy_start
+signal buy_stop
 
 
 @export var upgrade: game_manager.store_items
@@ -48,9 +50,11 @@ func _on_button_down() -> void:
 		failed_buy_attempt.emit()
 		return
 	timer.start(time)
+	buy_start.emit()
 
 
 func _on_button_up() -> void:
+	buy_stop.emit()
 	timer.stop()
 
 
@@ -64,6 +68,7 @@ func _on_mouse_entered() -> void:
 
 func _on_mouse_exited() -> void:
 	if !timer.is_stopped():
+		buy_stop.emit()
 		timer.stop()
 	if is_bottom_button:
 		sprite_outline.hide()

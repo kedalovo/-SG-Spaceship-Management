@@ -1,9 +1,11 @@
-[gd_scene load_steps=17 format=3 uid="uid://cea3wb3hnskjg"]
+[gd_scene load_steps=19 format=3 uid="uid://cea3wb3hnskjg"]
 
 [ext_resource type="Script" path="res://Systems/Hull/Patch/patch.gd" id="1_778nv"]
 [ext_resource type="Texture2D" uid="uid://6xtels7glrj0" path="res://Systems/Hull/Assets/Patch.png" id="2_k3n6e"]
 [ext_resource type="Texture2D" uid="uid://dhnact3wyhj03" path="res://Systems/Hull/Assets/Screw Mark.png" id="3_qmtdr"]
 [ext_resource type="Texture2D" uid="uid://cqi86ps2dgf2e" path="res://Systems/Hull/Assets/Patch Outline.png" id="4_bwxr5"]
+[ext_resource type="AudioStream" uid="uid://dlww2dh1qe38d" path="res://Resources/SFX/UI/Patch interaction.wav" id="5_m0ljx"]
+[ext_resource type="AudioStream" uid="uid://uchwy42nsg7v" path="res://Resources/SFX/UI/Patch bearing install.wav" id="6_qhvfc"]
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_6efpx"]
 
@@ -161,6 +163,13 @@ offset_right = 18.0
 offset_bottom = 18.0
 focus_mode = 0
 flat = true
+
+[node name="Sound" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("5_m0ljx")
+
+[node name="Bearing sound" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("6_qhvfc")
+volume_db = -15.0
 
 [connection signal="pressed" from="Screw Marks/Mark 1/Button" to="." method="_on_mark_1_pressed"]
 [connection signal="pressed" from="Screw Marks/Mark 2/Button" to="." method="_on_mark_2_pressed"]

@@ -10,6 +10,7 @@ signal system_hovered(idx: int)
 @onready var warning_light: AnimatedSprite2D = $"Warning Light"
 @onready var light: PointLight2D = $"Warning Light/Light"
 @onready var animator: AnimationPlayer = $"Warning Light/Light/Animator"
+@onready var sound: AudioStreamPlayer2D = $"Warning Light/Sound"
 
 
 var is_mouse_inside: bool
@@ -23,6 +24,7 @@ func damage() -> void:
 		is_damaged = true
 		if !is_crazy:
 			warning_light.play(&"warning")
+			sound.play()
 			light.show()
 			animator.play(&"idle")
 
@@ -32,6 +34,7 @@ func fix() -> void:
 		is_damaged = false
 		if !is_crazy:
 			warning_light.play(&"default")
+			sound.stop()
 			light.hide()
 			animator.stop()
 
@@ -52,6 +55,7 @@ func toggle_crazy(on: bool) -> void:
 				animator.play(&"idle")
 			else:
 				warning_light.play(&"default")
+				sound.stop()
 				light.hide()
 				animator.stop()
 

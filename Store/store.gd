@@ -40,6 +40,8 @@ const OUT_OF_STOCK = preload("res://Store/Assets/Out of stock.png")
 
 @onready var audio_low_balance: AudioStreamPlayer = $"Audio Low Balance"
 @onready var store_button_hover_audio: AudioStreamPlayer2D = $"Store Button Hover Audio"
+@onready var item_bought_audio: AudioStreamPlayer2D = $"Store Button Hover Audio/Item Bought Audio"
+@onready var item_buying_audio: AudioStreamPlayer2D = $"Store Button Hover Audio/Item Buying Audio"
 
 
 func _ready() -> void:
@@ -111,6 +113,8 @@ func _on_item_bought(item: game_manager.store_items, price: int) -> void:
 		game_manager.store_items.PATCH:
 			pass
 	item_bought.emit(item, price)
+	
+	item_bought_audio.play()
 
 
 func _on_low_balance_flash() -> void:
@@ -134,8 +138,17 @@ func _on_map_button_mouse_exited() -> void:
 func _on_store_button_hover(btn: store_button) -> void:
 	store_button_hover_audio.global_position = btn.global_position
 	store_button_hover_audio.play()
+	item_buying_audio.pitch_scale = 1.5 / btn.time
 	button_hover.emit(btn)
 
 
 func _on_store_button_hover_stop() -> void:
 	button_hover_stop.emit()
+
+
+func _on_store_button_buy_start() -> void:
+	item_buying_audio.play()
+
+
+func _on_store_button_buy_stop() -> void:
+	item_buying_audio.stop()

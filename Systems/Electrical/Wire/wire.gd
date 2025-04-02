@@ -11,6 +11,7 @@ signal connected_to_wire(from: Wire, to: Wire)
 @onready var middle: Sprite2D = $Middle
 @onready var area: Area2D = $Top/Area
 @onready var own_body: CharacterBody2D = $Body
+@onready var sound: AudioStreamPlayer2D = $Sound
 
 var candidate: Wire
 
@@ -51,12 +52,16 @@ func connect_to_wire(wire: Wire) -> void:
 func _on_button_button_down() -> void:
 	if !is_receiver and !is_connected_to_wire:
 		is_held = true
+		sound.pitch_scale = 0.9
+		sound.play()
 
 
 func _on_button_button_up() -> void:
 	is_held = false
 	if is_on_candidate:
 		connect_to_wire(candidate)
+		sound.pitch_scale = 1.1
+		sound.play()
 	else:
 		if !is_receiver and !is_connected_to_wire:
 			rotation_degrees = 0

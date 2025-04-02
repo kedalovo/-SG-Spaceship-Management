@@ -5,6 +5,7 @@ class_name Algae
 
 @onready var outline: Sprite2D = $Outline
 @onready var sprite: Sprite2D = $Sprite
+@onready var sound: AudioStreamPlayer2D = $Sound
 
 
 var health: float = 100.0
@@ -34,18 +35,25 @@ func _physics_process(_delta: float) -> void:
 
 
 func _input(event: InputEvent) -> void:
-	if event is InputEventMouseButton and event.is_released() and !Input.is_mouse_button_pressed(MOUSE_BUTTON_LEFT):
+	if event is InputEventMouseButton and event.is_released() and !Input.is_mouse_button_pressed(MOUSE_BUTTON_LEFT) and is_held:
 		is_held = false
 		outline.hide()
+		sound.pitch_scale = 1.1
+		sound.play()
 
 
 func _on_input_event(_viewport: Node, event: InputEvent, _shape_idx: int) -> void:
-	if event is InputEventMouseButton and event.is_pressed() and Input.is_mouse_button_pressed(MOUSE_BUTTON_LEFT):
+	if event is InputEventMouseButton and event.is_pressed() and Input.is_mouse_button_pressed(MOUSE_BUTTON_LEFT) and !is_held:
 		is_held = true
+		sound.pitch_scale = 1.0
+		sound.play()
 
 
 func _on_mouse_entered() -> void:
 	if !is_cooking:
+		if !is_held:
+			sound.pitch_scale = 0.9
+			sound.play()
 		outline.show()
 
 

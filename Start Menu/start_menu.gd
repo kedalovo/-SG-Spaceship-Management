@@ -71,7 +71,7 @@ func switch_scene() -> void:
 	ambient_audio.reparent(game_scene)
 	get_tree().set_current_scene(game_scene)
 	game_scene.ambient_audio_animator = game_scene.get_node("Ambient Audio/Animator")
-	game_scene.current_ambient_audio = &"AMBIENCE_1"
+	game_scene.current_audio = 1
 	queue_free()
 
 
