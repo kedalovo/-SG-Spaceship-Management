@@ -13,6 +13,7 @@ const ALGAE_SCENE = preload("res://Systems/Life Support/Algae/algae.tscn")
 @onready var damage_timer: Timer = $DamageTimer
 @onready var camera: Camera2D = $Camera2D
 @onready var empty_timer: Timer = $"Empty Timer"
+@onready var burn_audio: AudioStreamPlayer2D = $"Burn Audio"
 
 var algae_in_cooker: Array[Algae] = []
 var live_algae_in_cooker: Array[Algae] = []
@@ -108,12 +109,15 @@ func _on_cook_timer_timeout() -> void:
 			print("Cooker filled, stopped timer")
 			empty_timer.stop()
 			algae_added.emit()
+		if !burn_audio.playing:
+			burn_audio.play()
 		var picked: int = randi()%live_algae_in_cooker.size()
 		live_algae_in_cooker[picked].cook(constant_damage)
 		if live_algae_in_cooker[picked].is_cooked:
 			live_algae_in_cooker.remove_at(picked)
 	else:
 		is_empty = true
+		burn_audio.stop()
 		if empty_timer.is_stopped() and !is_damaged and !game_manager.is_tutorial:
 			print("Cooker is empty, starting timer...")
 			empty_timer.start()

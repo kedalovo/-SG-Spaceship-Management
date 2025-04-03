@@ -1,4 +1,4 @@
-[gd_scene load_steps=20 format=3 uid="uid://dh1g8tgwww50"]
+[gd_scene load_steps=22 format=3 uid="uid://dh1g8tgwww50"]
 
 [ext_resource type="Script" path="res://Map/map.gd" id="1_jlmf0"]
 [ext_resource type="Texture2D" uid="uid://b6mmbj44xpsa0" path="res://Map/Assets/Map panel.png" id="2_8rhpx"]
@@ -7,6 +7,8 @@
 [ext_resource type="Texture2D" uid="uid://c2mypu71lgj13" path="res://Map/Assets/Store Icon.png" id="5_gb2tl"]
 [ext_resource type="BitMap" uid="uid://dbqxykcm213cb" path="res://Store/Assets/Button mask.png" id="6_hl6c4"]
 [ext_resource type="PackedScene" uid="uid://b86gbcpx61di7" path="res://Map/Map Tooltip/map_tooltip.tscn" id="7_ldttc"]
+[ext_resource type="AudioStream" uid="uid://id7umlrv2nuv" path="res://Resources/SFX/UI/Menu Press.wav" id="7_smagx"]
+[ext_resource type="AudioStream" uid="uid://diqcgtoi5yfo5" path="res://Resources/SFX/UI/Menu Hover.mp3" id="8_57itm"]
 
 [sub_resource type="Gradient" id="Gradient_7uqp6"]
 offsets = PackedFloat32Array(0, 0.2, 0.8, 1)
@@ -260,6 +262,14 @@ texture_disabled = ExtResource("5_gb2tl")
 texture_focused = ExtResource("5_gb2tl")
 texture_click_mask = ExtResource("6_hl6c4")
 stretch_mode = 0
+
+[node name="Press Audio" type="AudioStreamPlayer2D" parent="Store Button Background/Store Button"]
+stream = ExtResource("7_smagx")
+volume_db = -15.0
+
+[node name="Hover Audio" type="AudioStreamPlayer2D" parent="Store Button Background/Store Button"]
+stream = ExtResource("8_57itm")
+volume_db = -15.0
 
 [node name="Input Stopper" type="Control" parent="."]
 layout_mode = 3

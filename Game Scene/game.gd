@@ -66,6 +66,7 @@ var ambient_audio_animator: AnimationPlayer
 @onready var heat_audio: AudioStreamPlayer = $"Heat Audio"
 @onready var system_open_audio: AudioStreamPlayer = $"SubViewportContainer/SubViewport/System Open Audio"
 @onready var system_close_audio: AudioStreamPlayer = $"SubViewportContainer/SubViewport/System Close Audio"
+@onready var round_over_audio: AudioStreamPlayer = $"Round Over Audio"
 
 const CABIN_ZOOM_LEVEL: float = 1.1
 
@@ -236,6 +237,7 @@ func proceed() -> void:
 		round_timer.start(180.0)
 		return
 	print("Round over, proceeding")
+	round_over_audio.play()
 	toggle_store(true)
 	life_support_system.stop()
 	engines_system.stop()
@@ -268,6 +270,7 @@ func setup_tutorial() -> void:
 func _on_system_sprite_pressed(system_index: int) -> void:
 	print("Pressed on system: ", system_index, ", current: ", current_system_idx)
 	if current_system_idx == -1:
+		AudioServer.set_bus_mute(system_index + 1, false)
 		systems[system_index].open()
 		system_open_audio.play()
 		current_system_idx = system_index
@@ -342,6 +345,7 @@ func _on_system_container_gui_input(event: InputEvent) -> void:
 						computer_sprite.enabled = false
 					else:
 						return
+		AudioServer.set_bus_mute(current_system_idx + 1, true)
 		systems[current_system_idx].close()
 		system_close_audio.play()
 		GameManager.is_in_system = false

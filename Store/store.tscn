@@ -1,4 +1,4 @@
-[gd_scene load_steps=44 format=3 uid="uid://btvb5400v1yyr"]
+[gd_scene load_steps=46 format=3 uid="uid://btvb5400v1yyr"]
 
 [ext_resource type="Texture2D" uid="uid://bkry1rl40rve5" path="res://Store/Assets/Store Background.png" id="1_jd1dj"]
 [ext_resource type="Script" path="res://Store/store.gd" id="1_waq3s"]
@@ -27,8 +27,10 @@
 [ext_resource type="Texture2D" uid="uid://bdrc1yo8vvhbe" path="res://Store/Assets/Bottom right progress.png" id="21_4uli5"]
 [ext_resource type="BitMap" uid="uid://dbqxykcm213cb" path="res://Store/Assets/Button mask.png" id="24_shtal"]
 [ext_resource type="Texture2D" uid="uid://duj4reibc0j18" path="res://Store/Assets/Map Icon.png" id="25_tcmsf"]
+[ext_resource type="AudioStream" uid="uid://id7umlrv2nuv" path="res://Resources/SFX/UI/Menu Press.wav" id="28_efl73"]
 [ext_resource type="AudioStream" uid="uid://b786ma4u8fqyp" path="res://Resources/SFX/UI/Failed purchase.mp3" id="28_xmxuv"]
 [ext_resource type="AudioStream" uid="uid://x7ib0vlynw5g" path="res://Resources/SFX/UI/Store Button Hover.wav" id="29_er17j"]
+[ext_resource type="AudioStream" uid="uid://diqcgtoi5yfo5" path="res://Resources/SFX/UI/Menu Hover.mp3" id="29_mr5rv"]
 [ext_resource type="AudioStream" uid="uid://cp7iqio27ho08" path="res://Resources/SFX/UI/Item bought.wav" id="30_nehv6"]
 [ext_resource type="AudioStream" uid="uid://brgpeudp1mupw" path="res://Resources/SFX/UI/Item buying progress.wav" id="31_g6wej"]
 
@@ -716,6 +718,14 @@ texture_disabled = ExtResource("25_tcmsf")
 texture_focused = ExtResource("25_tcmsf")
 texture_click_mask = ExtResource("24_shtal")
 stretch_mode = 0
+
+[node name="Press Audio" type="AudioStreamPlayer2D" parent="Map Button Background/Map Button"]
+stream = ExtResource("28_efl73")
+volume_db = -15.0
+
+[node name="Hover Audio" type="AudioStreamPlayer2D" parent="Map Button Background/Map Button"]
+stream = ExtResource("29_mr5rv")
+volume_db = -15.0
 
 [node name="Input Stopper" type="Control" parent="."]
 layout_mode = 3

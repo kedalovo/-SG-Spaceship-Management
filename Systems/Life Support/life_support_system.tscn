@@ -1,7 +1,8 @@
-[gd_scene load_steps=21 format=3 uid="uid://vofuvgwwjlr5"]
+[gd_scene load_steps=22 format=3 uid="uid://vofuvgwwjlr5"]
 
 [ext_resource type="Texture2D" uid="uid://c6kiybletgsd" path="res://Systems/Life Support/Assets/Life Support Outside.png" id="1_cp3fi"]
 [ext_resource type="Script" path="res://Systems/Life Support/life_support_system.gd" id="1_gfff3"]
+[ext_resource type="AudioStream" uid="uid://c1gnic3ni68o5" path="res://Resources/SFX/UI/Algae burn.wav" id="3_bi8op"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_x2ggp"]
 size = Vector2(146, 9)
@@ -268,6 +269,10 @@ shape = SubResource("CircleShape2D_snft3")
 process_callback = 0
 wait_time = 15.0
 one_shot = true
+
+[node name="Burn Audio" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("3_bi8op")
+bus = &"Life Support"
 
 [connection signal="body_entered" from="Cooker Area" to="." method="_on_cooker_area_body_entered"]
 [connection signal="body_exited" from="Cooker Area" to="." method="_on_cooker_area_body_exited"]

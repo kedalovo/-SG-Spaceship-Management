@@ -182,5 +182,10 @@ libraries = {
 
 [node name="Code Line Press Audio" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("4_ybo3y")
+volume_db = -15.0
+bus = &"Computer"
 
 [node name="Code Line Hover Audio" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("4_ybo3y")
+volume_db = -15.0
+bus = &"Computer"

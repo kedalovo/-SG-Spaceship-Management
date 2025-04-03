@@ -62,6 +62,7 @@ flat = true
 stream = ExtResource("5_2x555")
 volume_db = -10.0
 max_polyphony = 2
+bus = &"Engine"
 
 [connection signal="button_down" from="Button" to="." method="_on_button_button_down"]
 [connection signal="button_up" from="Button" to="." method="_on_button_button_up"]

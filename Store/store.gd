@@ -42,6 +42,8 @@ const OUT_OF_STOCK = preload("res://Store/Assets/Out of stock.png")
 @onready var store_button_hover_audio: AudioStreamPlayer2D = $"Store Button Hover Audio"
 @onready var item_bought_audio: AudioStreamPlayer2D = $"Store Button Hover Audio/Item Bought Audio"
 @onready var item_buying_audio: AudioStreamPlayer2D = $"Store Button Hover Audio/Item Buying Audio"
+@onready var map_button_pressed_audio: AudioStreamPlayer2D = $"Map Button Background/Map Button/Press Audio"
+@onready var map_button_hover_audio: AudioStreamPlayer2D = $"Map Button Background/Map Button/Hover Audio"
 
 
 func _ready() -> void:
@@ -125,10 +127,12 @@ func _on_low_balance_flash() -> void:
 func _on_map_button_pressed() -> void:
 	toggle_input(false)
 	map_summoned.emit()
+	map_button_pressed_audio.play()
 
 
 func _on_map_button_mouse_entered() -> void:
 	map_button.modulate = highlight_color
+	map_button_hover_audio.play()
 
 
 func _on_map_button_mouse_exited() -> void:

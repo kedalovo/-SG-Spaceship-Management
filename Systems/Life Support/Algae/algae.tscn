@@ -28,6 +28,7 @@ texture = ExtResource("3_iqcyq")
 stream = ExtResource("4_y6grm")
 volume_db = -15.0
 max_polyphony = 2
+bus = &"Life Support"
 
 [connection signal="input_event" from="." to="." method="_on_input_event"]
 [connection signal="mouse_entered" from="." to="." method="_on_mouse_entered"]

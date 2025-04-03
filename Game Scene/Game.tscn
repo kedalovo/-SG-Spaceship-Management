@@ -1,4 +1,4 @@
-[gd_scene load_steps=140 format=3 uid="uid://dr0fafp1u36yj"]
+[gd_scene load_steps=141 format=3 uid="uid://dr0fafp1u36yj"]
 
 [ext_resource type="Script" path="res://Game Scene/game.gd" id="1_t00el"]
 [ext_resource type="Texture2D" uid="uid://dmcht1gqpy4v3" path="res://Systems/Life Support/Assets/Life Support.png" id="2_3bjf3"]
@@ -70,6 +70,7 @@
 [ext_resource type="AudioStream" uid="uid://dhsl71pp38xrj" path="res://Resources/SFX/UI/Physical impact.wav" id="66_o3m5d"]
 [ext_resource type="AudioStream" uid="uid://kddsq4s1dug7" path="res://Resources/SFX/UI/Electricity impact.mp3" id="67_m1yqx"]
 [ext_resource type="AudioStream" uid="uid://dt1wglod8oqeu" path="res://Resources/SFX/UI/Heat impact.wav" id="68_t4c65"]
+[ext_resource type="AudioStream" uid="uid://revm1fdbdhn1" path="res://Resources/SFX/UI/Success.wav" id="71_lgg3o"]
 
 [sub_resource type="Gradient" id="Gradient_bmxab"]
 offsets = PackedFloat32Array(0.4, 0.6, 1)
@@ -3087,6 +3088,10 @@ volume_db = -20.0
 [node name="Heat Audio" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("68_t4c65")
 volume_db = -20.0
+
+[node name="Round Over Audio" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("71_lgg3o")
+volume_db = -10.0
 
 [connection signal="coin_got" from="Cabin/SubViewportContainer/SubViewport/Space" to="." method="_on_space_coin_got"]
 [connection signal="damaged" from="Cabin/SubViewportContainer/SubViewport/Space" to="." method="_on_damaged"]

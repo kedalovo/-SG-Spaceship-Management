@@ -166,10 +166,12 @@ flat = true
 
 [node name="Sound" type="AudioStreamPlayer2D" parent="."]
 stream = ExtResource("5_m0ljx")
+bus = &"Hull"
 
 [node name="Bearing sound" type="AudioStreamPlayer2D" parent="."]
 stream = ExtResource("6_qhvfc")
 volume_db = -15.0
+bus = &"Hull"
 
 [connection signal="pressed" from="Screw Marks/Mark 1/Button" to="." method="_on_mark_1_pressed"]
 [connection signal="pressed" from="Screw Marks/Mark 2/Button" to="." method="_on_mark_2_pressed"]

@@ -34,6 +34,9 @@ const POINT_SYMBOL: String = "◆"
 @onready var fog_1: TextureRect = $"Scroll/Map Container/Fog 1"
 @onready var fog_2: TextureRect = $"Scroll/Map Container/Fog 2"
 
+@onready var store_button_press_audio: AudioStreamPlayer2D = $"Store Button Background/Store Button/Press Audio"
+@onready var store_button_hover_audio: AudioStreamPlayer2D = $"Store Button Background/Store Button/Hover Audio"
+
 @export var line_color_global: Color
 @export var line_color_connections: Color
 @export var line_color_path: Color
@@ -517,10 +520,12 @@ func _on_map_node_pressed(node: map_node) -> void:
 func _on_store_button_pressed() -> void:
 	toggle_input(false)
 	store_summoned.emit()
+	store_button_press_audio.play()
 
 
 func _on_store_button_mouse_entered() -> void:
 	store_button_link.modulate = highlight_color
+	store_button_hover_audio.play()
 
 
 func _on_store_button_mouse_exited() -> void:
