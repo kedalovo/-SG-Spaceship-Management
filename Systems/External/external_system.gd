@@ -59,6 +59,13 @@ func _damage(_strength: int, _type: game_manager.damage_types) -> void:
 
 
 func open() -> void:
+	var count: = 0
+	for i in 4:
+		for j in modules.get_children():
+			if j.type == i:
+				count += 1
+		for k in (3 - count):
+			add_module(i)
 	setup_blueprints()
 	super.open()
 
@@ -98,6 +105,7 @@ func check_completion() -> void:
 	if installed_blueprint_spots == busy_blueprint_spots:
 		for module in modules.get_children():
 			if module.is_installed:
+				add_module(module.type)
 				module.queue_free()
 		for pos in pos_h_box.get_children():
 			pos.hide()

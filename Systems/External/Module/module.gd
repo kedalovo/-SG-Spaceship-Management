@@ -9,6 +9,7 @@ signal installed(blueprint: Blueprint, module: Module)
 
 @onready var sprite: Sprite2D = $Sprite
 @onready var outline: Sprite2D = $Outline
+@onready var audio: AudioStreamPlayer2D = $Audio
 
 @onready var type: game_manager.module_types
 
@@ -40,6 +41,8 @@ func set_type(new_type: game_manager.module_types) -> void:
 func _on_button_button_down() -> void:
 	if !is_installed:
 		is_held = true
+		audio.pitch_scale = 1.0
+		audio.play()
 		outline.hide()
 
 
@@ -50,6 +53,8 @@ func _on_button_button_up() -> void:
 		target_blueprint = null
 		global_position = installed_on.global_position
 		is_installed = true
+		audio.pitch_scale = 1.2
+		audio.play()
 		installed.emit(installed_on, self)
 	else:
 		position = initial_position
@@ -58,6 +63,8 @@ func _on_button_button_up() -> void:
 func _on_button_mouse_entered() -> void:
 	if !is_installed and !is_held:
 		outline.show()
+		audio.pitch_scale = 0.8
+		audio.play()
 
 
 func _on_button_mouse_exited() -> void:
