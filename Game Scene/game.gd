@@ -249,6 +249,77 @@ func proceed() -> void:
 	space.stop()
 	for node in systems:
 		node.fix()
+	#TODO: saving
+	#Structure:
+	#{
+	#shop:
+	#	{life_support: 0, engines: 0, hull: 0, ballistics: false, controls: false, navigation: 0},
+	#consumables:
+	#	{algae: 0, fuel_cell: 0, coolant_cell: 0, patch: 0},
+	#consumed:
+	#	{algae: [0, 0, 0], fuel_cell: [0, 0], coolant_cell: [0]},
+	#map_grid,
+	#balance,
+	#map_path,
+	#current_location
+	#}
+	var consumed_algae: Array[float] = []
+	var consumed_fuel_cell: Array[float] = []
+	var consumed_coolant_cell: Array[float] = []
+	var packed_map_data: PackedScene = PackedScene.new()
+	
+	var temp = life_support_system.algae_container.get_children()
+	for i in temp:
+		if (!i.is_cooked and i.is_cooking) or i.is_cooked:
+			consumed_algae.append(i.health)
+	temp = engines_system.cells_fuel
+	for i in temp:
+		if (!i.is_depleted and i.is_depleting) or i.is_depleted:
+			consumed_fuel_cell.append(i.health)
+	temp = engines_system.cells_coolant
+	for i in temp:
+		if (!i.is_depleted and i.is_depleting) or i.is_depleted:
+			consumed_coolant_cell.append(i.health)
+	var result := packed_map_data.pack(map.contents)
+	if result == OK:
+		pass
+	else:
+		push_error("Couldn't pack scene: ", result)
+	
+	var save_data: Dictionary = {
+		"shop":
+		{
+			"life_support": life_support_system.current_tier,
+			"engines": engines_system.current_tier,
+			"hull": hull_system.current_tier,
+			"ballistics": game_manager.is_ballistic,
+			"controls": can_control_via_arrows,
+			"navigation": game_manager.scan_distance
+		},
+		"consumables":
+		{
+			"algae": game_manager.algae_amount,
+			"fuel_cell": game_manager.fuel_cell_amount,
+			"coolant_cell": game_manager.coolant_cell_amount,
+			"patch": game_manager.patch_amount
+		},
+		"consumed":
+		{
+			"algae": consumed_algae,
+			"fuel_cell": consumed_fuel_cell,
+			"coolant_cell": consumed_coolant_cell
+		},
+		"other_data":
+		[
+			packed_map_data,
+			balance.value,
+			map.path,
+			space.current_location.map_index
+		]
+	}
+	var save_file: FileAccess = FileAccess.open("user://save.json", FileAccess.WRITE)
+	save_file.store_string(JSON.stringify(save_data, "\t"))
+	save_file.close()
 
 
 func setup_tutorial() -> void:

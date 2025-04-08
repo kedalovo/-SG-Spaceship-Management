@@ -26,6 +26,8 @@ var hazards: Array[game_manager.hazard_types] = []
 var hazards_intensity: Array[int] = []
 var hazards_types: Array[Array] = []
 
+var map_index: Vector2i = Vector2i(-1, -1)
+
 var reason: int = 0
 var difficulty: int = 0
 

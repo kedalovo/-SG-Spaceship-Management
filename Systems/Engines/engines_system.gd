@@ -198,11 +198,9 @@ func _on_cell_being_deleted(cell: Cell) -> void:
 	cell_slots.get_child(cell.in_slot).is_busy = false
 	if cell.type == game_manager.engine_cell_types.FUEL:
 		cells_fuel.erase(cell)
-		game_manager.fuel_cell_amount -= 1
 	else:
 		if cell.type == game_manager.engine_cell_types.COOLANT:
 			cells_coolant.erase(cell)
-			game_manager.coolant_cell_amount -= 1
 	if cell.is_destroyed:
 		destroyed_cells -= 1
 	if destroyed_cells == 0 and is_damaged:

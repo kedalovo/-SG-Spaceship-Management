@@ -48,6 +48,12 @@ func use(amount: float) -> void:
 
 
 func place_into_slot(slot: Node) -> void:
+	if !is_depleting:
+		match type:
+			game_manager.engine_cell_types.FUEL:
+				game_manager.fuel_cell_amount -= 1
+			game_manager.engine_cell_types.COOLANT:
+				game_manager.coolant_cell_amount -= 1
 	in_slot = slot.index
 	slot.is_busy = true
 	position = slot.position

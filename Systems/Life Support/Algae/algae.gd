@@ -22,7 +22,6 @@ func cook(damage: float) -> void:
 		if health <= 0:
 			health = 0
 			is_cooked = true
-			game_manager.algae_amount -= 1
 			is_cooking = false
 			call_deferred("set_collision_layer_value", 16, true)
 		sprite.modulate = Color.WHITE.darkened((100.0 - health) / 100.0)

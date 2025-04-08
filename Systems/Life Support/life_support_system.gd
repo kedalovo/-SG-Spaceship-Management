@@ -84,6 +84,7 @@ func _damage(strength: int, type: game_manager.damage_types):
 func _on_cooker_area_body_entered(body: Node2D) -> void:
 	if body is Algae:
 		if !(body.is_cooking or body.is_cooked):
+			game_manager.algae_amount -= 1
 			algae_in_cooker.append(body)
 			live_algae_in_cooker.append(body)
 

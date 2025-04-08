@@ -51,7 +51,7 @@ const POS_Y_SPREAD: int = 32
 
 var current_location: map_node = null
 
-var path: Array[map_node] = []
+var path: Array[Vector2i] = []
 
 var grid: Array[Array] = []
 var lines_con: Array = []
@@ -100,8 +100,8 @@ func _draw() -> void:
 		if !location.disabled:
 			draw_default_punctured_line(con_start.global_position, location.global_position)
 	for i in range(0, path.size() - 1):
-		var location = path[i]
-		var target = path[i + 1]
+		var location = grid[path[i][0]][path[i][1]]
+		var target = grid[path[i+1][0]][path[i+1][1]]
 		draw_line(location.global_position, target.global_position, line_color_path * line_color_connections)
 
 
@@ -292,6 +292,7 @@ func generate_map() -> void:
 		for j in LINE_LENGTH:
 			@warning_ignore("integer_division")
 			var difficulty := i / (grid.size() / 3) + 1
+			line[j].map_index = Vector2i(i, j)
 			line[j].name = "MapNode" + str(i) + "_" + str(j)
 			line[j].reparent(contents)
 			line[j].position = Vector2(j * 128 + 224 + randi_range(-POS_X_SPREAD, POS_X_SPREAD), i * -128 + 1884 + randi_range(-POS_Y_SPREAD, POS_Y_SPREAD))
@@ -512,7 +513,7 @@ func _on_map_node_pressed(node: map_node) -> void:
 		i.toggle_availability(true)
 	if node.has_wormhole:
 		node.wormhole.toggle_availability(true)
-	path.append(node)
+	path.append(node.map_index)
 	update_secrecy()
 	location_changed.emit(node)
 
