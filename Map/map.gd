@@ -105,6 +105,17 @@ func _draw() -> void:
 		draw_line(location.global_position, target.global_position, line_color_path * line_color_connections)
 
 
+func load_map_data(map_data: Array[map_node_save_template]) -> void:
+	for node in map_data:
+		pass
+
+
+func get_map_node(index: Vector2i) -> map_node:
+	if index.x < 0 or index.y < 0:
+		push_error("Trying to find map node with index ", index, ": out of bounds")
+	return map_node.new()
+
+
 func toggle_input(new_state: bool) -> void:
 	if new_state:
 		input_stopper.mouse_filter = Control.MOUSE_FILTER_IGNORE

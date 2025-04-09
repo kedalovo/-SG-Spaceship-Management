@@ -110,11 +110,13 @@ func _ready() -> void:
 	if game_manager.is_tutorial:
 		toggle_map(true)
 		setup_tutorial()
-	else:
+	elif !game_manager.is_loading_save:
 		toggle_map(true)
 		for i in 5:
 			engines_system.add_fuel()
 			engines_system.add_coolant()
+	else:
+		load_game()
 
 
 func _input(event: InputEvent) -> void:
@@ -128,6 +130,7 @@ func _input(event: InputEvent) -> void:
 		#print(balance.value)
 		pass
 	if event.is_action_pressed(&"test_quote"):
+		save_game()
 		#map_animator.play_backwards(&"open")
 		#Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
 		#map.cursor.hide()
@@ -249,20 +252,9 @@ func proceed() -> void:
 	space.stop()
 	for node in systems:
 		node.fix()
-	#TODO: saving
-	#Structure:
-	#{
-	#shop:
-	#	{life_support: 0, engines: 0, hull: 0, ballistics: false, controls: false, navigation: 0},
-	#consumables:
-	#	{algae: 0, fuel_cell: 0, coolant_cell: 0, patch: 0},
-	#consumed:
-	#	{algae: [0, 0, 0], fuel_cell: [0, 0], coolant_cell: [0]},
-	#map_grid,
-	#balance,
-	#map_path,
-	#current_location
-	#}
+
+
+func save_game() -> void:
 	var consumed_algae: Array[float] = []
 	var consumed_fuel_cell: Array[float] = []
 	var consumed_coolant_cell: Array[float] = []
@@ -285,41 +277,68 @@ func proceed() -> void:
 		pass
 	else:
 		push_error("Couldn't pack scene: ", result)
+	var map_data: Array[map_node_save_template] = []
+	for i in map.grid:
+		for j in i:
+			map_data.append(map_node_save_template.new(j))
 	
-	var save_data: Dictionary = {
-		"shop":
-		{
-			"life_support": life_support_system.current_tier,
-			"engines": engines_system.current_tier,
-			"hull": hull_system.current_tier,
-			"ballistics": game_manager.is_ballistic,
-			"controls": can_control_via_arrows,
-			"navigation": game_manager.scan_distance
-		},
-		"consumables":
-		{
-			"algae": game_manager.algae_amount,
-			"fuel_cell": game_manager.fuel_cell_amount,
-			"coolant_cell": game_manager.coolant_cell_amount,
-			"patch": game_manager.patch_amount
-		},
-		"consumed":
-		{
-			"algae": consumed_algae,
-			"fuel_cell": consumed_fuel_cell,
-			"coolant_cell": consumed_coolant_cell
-		},
-		"other_data":
-		[
-			packed_map_data,
-			balance.value,
-			map.path,
-			space.current_location.map_index
-		]
-	}
-	var save_file: FileAccess = FileAccess.open("user://save.json", FileAccess.WRITE)
-	save_file.store_string(JSON.stringify(save_data, "\t"))
-	save_file.close()
+	var new_save_data: save_game_template = save_game_template.new()
+	
+	new_save_data.life_support_tier = life_support_system.current_tier
+	new_save_data.engines_tier = engines_system.current_tier
+	new_save_data.hull_tier = hull_system.current_tier
+	new_save_data.is_ballistic = game_manager.is_ballistic
+	new_save_data.can_control_via_arrows = can_control_via_arrows
+	new_save_data.scan_distance = game_manager.scan_distance
+	
+	new_save_data.algae_amount = game_manager.algae_amount
+	new_save_data.fuel_cell_amount = game_manager.fuel_cell_amount
+	new_save_data.coolant_cell_amount = game_manager.coolant_cell_amount
+	new_save_data.patch_amount = game_manager.patch_amount
+	
+	new_save_data.consumed_algae = consumed_algae
+	new_save_data.consumed_fuel_cells = consumed_fuel_cell
+	new_save_data.consumed_coolant_cells = consumed_coolant_cell
+	
+	new_save_data.map_data = map_data
+	new_save_data.balance = balance.value
+	new_save_data.map_path = map.path
+	new_save_data.current_location_index = space.current_location.map_index
+	ResourceSaver.save(new_save_data, "user://save.tres")
+
+
+func load_game() -> void:
+	var save_data: save_game_template = ResourceLoader.load("user://save.tres")
+	for i in save_data.life_support_tier:
+		life_support_system.upgrade(i+1)
+	for i in save_data.engines_tier:
+		engines_system.upgrade(i+1)
+	for i in save_data.hull_tier:
+		hull_system.upgrade(i+1)
+	game_manager.is_ballistic = save_data.is_ballistic
+	can_control_via_arrows = save_data.can_control_via_arrows
+	game_manager.scan_distance = save_data.scan_distance
+	
+	for i in save_data.algae_amount:
+		life_support_system.add_fuel()
+	for i in save_data.fuel_cell_amount:
+		engines_system.add_fuel()
+	for i in save_data.coolant_cell_amount:
+		engines_system.add_coolant()
+	for i in save_data.patch_amount:
+		hull_system.add_patch()
+	
+	for i in save_data.consumed_algae:
+		life_support_system.add_consumed_fuel(i)
+	for i in save_data.consumed_fuel_cells:
+		engines_system.add_consumed_fuel(i)
+	for i in save_data.consumed_coolant_cells:
+		engines_system.add_consumed_coolant(i)
+	
+	map.load_map_data(save_data.map_data)
+	balance.value = save_data.balance
+	map.path = save_data.map_path
+	space.current_location = map.get_map_node(save_data.current_location_index)
 
 
 func setup_tutorial() -> void:

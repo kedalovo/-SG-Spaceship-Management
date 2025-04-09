@@ -54,6 +54,8 @@ static var is_ballistic: bool = false
 
 static var is_tutorial: bool = false
 
+static var is_loading_save: bool = false
+
 enum damage_types {
 	PHYSICAL,
 	HEAT,

@@ -23,8 +23,9 @@ var max_patch_number: int = 15
 
 func _ready() -> void:
 	super._ready()
-	for i in 5:
-		add_patch()
+	if !game_manager.is_loading_save:
+		for i in 5:
+			add_patch()
 
 
 func open() -> void:

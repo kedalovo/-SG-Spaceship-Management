@@ -34,7 +34,7 @@ normal = Vector2(0, 1)
 normal = Vector2(-1, 0)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_2cn4y"]
-size = Vector2(88, 64)
+size = Vector2(88, 56)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_blfqs"]
 size = Vector2(132, 160)
@@ -210,8 +210,7 @@ disabled = true
 [node name="Algae Container" type="Node2D" parent="."]
 
 [node name="Cooker Area" type="Area2D" parent="."]
-visible = false
-position = Vector2(72, 20)
+position = Vector2(72, 24)
 input_pickable = false
 
 [node name="Shape" type="CollisionShape2D" parent="Cooker Area"]

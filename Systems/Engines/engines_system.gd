@@ -35,7 +35,8 @@ var is_empty_coolant: bool
 func _ready() -> void:
 	super._ready()
 	setup_slots()
-	setup_cells()
+	if !game_manager.is_loading_save:
+		setup_cells()
 	hovered_slot = -1
 
 
@@ -117,6 +118,16 @@ func add_fuel() -> Cell:
 	return new_cell
 
 
+func add_consumed_fuel(health: float) -> void:
+	var new_cell := create_cell(game_manager.engine_cell_types.FUEL)
+	new_cell.health = health
+	cells_fuel.append(new_cell)
+	for idx in slots_fuel:
+		var slot: cell_slot = cell_slots.get_child(idx)
+		if !slot.is_busy:
+			new_cell.place_into_slot(slot)
+
+
 func add_coolant() -> Cell:
 	var new_cell := create_cell(game_manager.engine_cell_types.COOLANT)
 	new_cell.position = Vector2(randf_range(-95.0, -70.0), randf_range(26.0, 42.0))
@@ -125,6 +136,16 @@ func add_coolant() -> Cell:
 	cells_coolant.append(new_cell)
 	game_manager.coolant_cell_amount += 1
 	return new_cell
+
+
+func add_consumed_coolant(health: float) -> void:
+	var new_cell := create_cell(game_manager.engine_cell_types.COOLANT)
+	new_cell.health = health
+	cells_coolant.append(new_cell)
+	for idx in slots_coolant:
+		var slot: cell_slot = cell_slots.get_child(idx)
+		if !slot.is_busy:
+			new_cell.place_into_slot(slot)
 
 
 func create_cell(new_type: game_manager.engine_cell_types) -> Cell:
@@ -184,7 +205,7 @@ func _on_cell_released(cell: Cell) -> void:
 		for i in cell_slots.get_children():
 			i.get_node("Line2D").hide()
 	if hovered_slot >= 0:
-		var slot: Area2D = cell_slots.get_child(hovered_slot)
+		var slot: cell_slot = cell_slots.get_child(hovered_slot)
 		hovered_slot = -1
 		if slot.slot_type == cell.type and !slot.is_busy:
 			cell.place_into_slot(slot)

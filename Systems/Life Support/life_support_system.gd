@@ -25,8 +25,9 @@ var is_empty: bool
 
 func _ready() -> void:
 	super._ready()
-	for i in 10:
-		add_fuel()
+	if !game_manager.is_loading_save:
+		for i in 10:
+			add_fuel()
 
 
 func get_health() -> int:
@@ -42,6 +43,14 @@ func add_fuel() -> void:
 	new_algae.position = Vector2(randi_range(-152, -88), randi_range(-36, 0))
 	algae_container.add_child(new_algae)
 	game_manager.algae_amount += 1
+
+
+func add_consumed_fuel(health: float):
+	var new_algae = ALGAE_SCENE.instantiate()
+	new_algae.position = Vector2(randi_range(36, 112), randi_range(0, 44))
+	new_algae.health = health
+	new_algae.sprite.modulate = Color.WHITE.darkened((100.0 - health) / 100.0)
+	algae_container.add_child(new_algae)
 
 
 func start() -> void:

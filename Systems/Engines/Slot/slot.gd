@@ -1,6 +1,9 @@
 extends Area2D
 
 
+class_name cell_slot
+
+
 signal cell_entered(slot_index: int)
 signal cell_exited(slot_index: int)
 
