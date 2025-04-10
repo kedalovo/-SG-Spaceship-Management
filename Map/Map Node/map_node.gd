@@ -19,7 +19,6 @@ signal button_pressed(node: map_node)
 var true_texture: Texture2D
 
 var wormhole: map_node
-var _wormhole_index: Vector2i
 
 var connected_to_nodes: Array[map_node] = []
 
@@ -60,7 +59,6 @@ func setup_wormhole() -> void:
 	wormhole.position = position + Vector2(randf_range(-32.0, 32.0), randf_range(-32.0, -64.0))
 	wormhole.is_secret = false
 	wormhole.modulate = Color("5d1212")
-	_wormhole_index = wormhole.map_index
 	wormhole.spin()
 
 

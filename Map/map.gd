@@ -106,8 +106,46 @@ func _draw() -> void:
 
 
 func load_map_data(map_data: Array[map_node_save_template]) -> void:
-	for node in map_data:
-		pass
+	var level: Array[map_node] = []
+	for i in LINE_NUM:
+		for j in LINE_LENGTH:
+			var new_map_node := MAP_NODE.instantiate()
+			map_nodes.add_child(new_map_node)
+			level.append(new_map_node)
+		grid.append(level)
+	
+	var idx: int = 0
+	for line in grid:
+		for new_map_node in line as Array[map_node]:
+			var node_data: map_node_save_template = map_data[idx]
+			
+			new_map_node.true_texture = load(node_data.true_icon_path)
+			
+			var connections: Array[map_node] = []
+			for i in node_data.connected_to_nodes:
+				connections.append(grid[i.x][i.y])
+			new_map_node.connected_to_nodes = connections
+			
+			new_map_node.hazards = node_data.hazards
+			new_map_node.hazards_intensity = node_data.hazards_intensity
+			new_map_node.hazards_types = node_data.hazards_types
+			new_map_node.map_index = node_data.map_index
+			if node_data.has_wormhole:
+				new_map_node.wormhole = grid[node_data.wormhole_index.x][node_data.wormhole_index.y]
+			new_map_node.global_position = node_data.global_position
+			new_map_node.difficulty = node_data.difficulty
+			
+			new_map_node.disabled = node_data.disabled
+			new_map_node.is_continuation = node_data.is_continuation
+			new_map_node.is_secret = node_data.is_secret
+			new_map_node.is_available = node_data.is_available
+			new_map_node.has_destination = node_data.has_destination
+			new_map_node.has_wormhole = node_data.has_wormhole
+			new_map_node.is_wormhole = node_data.is_wormhole
+			if new_map_node.is_wormhole:
+				new_map_node.mouse_entered.connect(_on_map_node_mouse_enter)
+				new_map_node.mouse_exited.connect(_on_map_node_mouse_exit)
+				new_map_node.button_pressed.connect(_on_map_node_pressed)
 
 
 func get_map_node(index: Vector2i) -> map_node:

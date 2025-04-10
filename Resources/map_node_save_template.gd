@@ -11,6 +11,7 @@ class_name map_node_save_template
 @export var hazards_types: Array[Array] = []
 @export var map_index: Vector2i = Vector2i(-1, -1)
 @export var wormhole_index: Vector2i = Vector2i(-1, -1)
+@export var global_position: Vector2 = Vector2(-1.0, -1.0)
 
 @export var reason: int = -1
 @export var difficulty: int = -1
@@ -32,9 +33,10 @@ func _init(new_map_node: map_node = map_node.new()) -> void:
 	hazards_intensity = new_map_node.hazards_intensity
 	hazards_types = new_map_node.hazards_types
 	map_index = new_map_node.map_index
-	wormhole_index = new_map_node._wormhole_index
+	if new_map_node.has_wormhole:
+		wormhole_index = new_map_node.wormhole.map_index
+	global_position = new_map_node.global_position
 	
-	reason = new_map_node.reason
 	difficulty = new_map_node.difficulty
 	
 	disabled = new_map_node.disabled

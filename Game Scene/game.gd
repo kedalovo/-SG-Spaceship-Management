@@ -255,10 +255,10 @@ func proceed() -> void:
 
 
 func save_game() -> void:
+	#TODO: wormholes won't save with this save method
 	var consumed_algae: Array[float] = []
 	var consumed_fuel_cell: Array[float] = []
 	var consumed_coolant_cell: Array[float] = []
-	var packed_map_data: PackedScene = PackedScene.new()
 	
 	var temp = life_support_system.algae_container.get_children()
 	for i in temp:
@@ -272,11 +272,7 @@ func save_game() -> void:
 	for i in temp:
 		if (!i.is_depleted and i.is_depleting) or i.is_depleted:
 			consumed_coolant_cell.append(i.health)
-	var result := packed_map_data.pack(map.contents)
-	if result == OK:
-		pass
-	else:
-		push_error("Couldn't pack scene: ", result)
+	
 	var map_data: Array[map_node_save_template] = []
 	for i in map.grid:
 		for j in i:
