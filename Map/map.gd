@@ -68,8 +68,9 @@ var is_active: bool
 func _ready() -> void:
 	fog_1.texture.noise.seed = randi()
 	fog_2.texture.noise.seed = randi()
-	generate_map()
-	scroll.set_deferred(&"scroll_vertical", 1504)
+	if !game_manager.is_loading_save:
+		scroll.set_deferred(&"scroll_vertical", 1504)
+		generate_map()
 
 
 func _physics_process(_delta: float) -> void:
@@ -94,7 +95,7 @@ func _draw() -> void:
 						draw_default_punctured_line(location.global_position, target.global_position)
 			else:
 				for target in location.connected_to_nodes:
-					if !target.disabled and !location.disabled:
+					if !target.disabled and !location.disabled and !location.is_wormhole and !target.is_wormhole:
 						draw_line(target.global_position, location.global_position, line_color_global, 2)
 	for location in lines_con:
 		if !location.disabled:
@@ -105,20 +106,26 @@ func _draw() -> void:
 		draw_line(location.global_position, target.global_position, line_color_path * line_color_connections)
 
 
-func load_map_data(map_data: Array[map_node_save_template]) -> void:
+func load_map_data(map_data: Array[Array]) -> void:
 	var level: Array[map_node] = []
-	for i in LINE_NUM:
-		for j in LINE_LENGTH:
+	for i in map_data.size():
+		for j in map_data[i].size():
 			var new_map_node := MAP_NODE.instantiate()
-			map_nodes.add_child(new_map_node)
+			contents.add_child(new_map_node)
+			new_map_node.z_index = 1
 			level.append(new_map_node)
-		grid.append(level)
+			new_map_node.mouse_entered.connect(_on_map_node_mouse_enter)
+			new_map_node.mouse_exited.connect(_on_map_node_mouse_exit)
+			new_map_node.button_pressed.connect(_on_map_node_pressed)
+		grid.append(level.duplicate())
+		level.clear()
 	
-	var idx: int = 0
-	for line in grid:
-		for new_map_node in line as Array[map_node]:
-			var node_data: map_node_save_template = map_data[idx]
+	for line in grid.size():
+		for col in grid[line].size():
+			var new_map_node: map_node = grid[line][col]
+			var node_data: map_node_save_template = map_data[line][col]
 			
+			new_map_node.name = node_data.node_name
 			new_map_node.true_texture = load(node_data.true_icon_path)
 			
 			var connections: Array[map_node] = []
@@ -132,8 +139,8 @@ func load_map_data(map_data: Array[map_node_save_template]) -> void:
 			new_map_node.map_index = node_data.map_index
 			if node_data.has_wormhole:
 				new_map_node.wormhole = grid[node_data.wormhole_index.x][node_data.wormhole_index.y]
-			new_map_node.global_position = node_data.global_position
-			new_map_node.difficulty = node_data.difficulty
+			new_map_node.global_position = node_data.global_position + Vector2(0, 1504)
+			new_map_node.set_difficulty(node_data.difficulty)
 			
 			new_map_node.disabled = node_data.disabled
 			new_map_node.is_continuation = node_data.is_continuation
@@ -142,15 +149,22 @@ func load_map_data(map_data: Array[map_node_save_template]) -> void:
 			new_map_node.has_destination = node_data.has_destination
 			new_map_node.has_wormhole = node_data.has_wormhole
 			new_map_node.is_wormhole = node_data.is_wormhole
-			if new_map_node.is_wormhole:
-				new_map_node.mouse_entered.connect(_on_map_node_mouse_enter)
-				new_map_node.mouse_exited.connect(_on_map_node_mouse_exit)
-				new_map_node.button_pressed.connect(_on_map_node_pressed)
+			if !new_map_node.is_wormhole:
+				new_map_node.set_default_texture(QUESTION_ICON)
+			if new_map_node.has_wormhole:
+				new_map_node.setup_wormhole()
+			if new_map_node.disabled:
+				new_map_node.hide()
+			#print("Added map node: ", new_map_node.name, " at index: ", new_map_node.map_index, " at position: ", new_map_node.position, " at global: ", new_map_node.global_position)
+	scroll.set_deferred(&"scroll_vertical", 1504)
 
 
 func get_map_node(index: Vector2i) -> map_node:
 	if index.x < 0 or index.y < 0:
 		push_error("Trying to find map node with index ", index, ": out of bounds")
+	else:
+		return grid[index.x][index.y]
+	push_warning("Couldn't find map node with index: ", index)
 	return map_node.new()
 
 
@@ -313,6 +327,7 @@ func generate_map() -> void:
 	
 	# Adding wormholes to map nodes without destinations
 	for i in grid.size()-1:
+		var k: int = 0
 		for j in grid[i]:
 			j.check_destinations()
 			if !j.disabled and j.has_destination:
@@ -324,6 +339,9 @@ func generate_map() -> void:
 				wormhole.mouse_exited.connect(_on_map_node_mouse_exit)
 				wormhole.button_pressed.connect(_on_map_node_pressed)
 				wormhole.connected_to_nodes = grid[i+1]
+				wormhole.map_index = Vector2i(i, LINE_LENGTH + k)
+				grid[i].append(wormhole)
+				k += 1
 				j.wormhole = wormhole
 	
 	var hazards: Array[game_manager.hazard_types] = [
@@ -395,10 +413,21 @@ func generate_map() -> void:
 func update_secrecy() -> void:
 	if current_level == -1:
 		return
+	for i in grid.size() - 1:
+		if i > current_level:
+			break
+		else:
+			for j in grid[i]:
+				if !j.disabled:
+					print(j.name, " is not secret anymore")
+					j.is_secret = false
+					j.update_icon()
+					
+	print("Map's current level is ", current_level)
 	for i in game_manager.scan_distance:
 		for j in grid[current_level + i + 1]:
 			if !j.disabled:
-				print(j, " is not secret anymore")
+				print(j.name, " is not secret anymore")
 				j.is_secret = false
 				j.update_icon()
 

@@ -122,10 +122,8 @@ func add_consumed_fuel(health: float) -> void:
 	var new_cell := create_cell(game_manager.engine_cell_types.FUEL)
 	new_cell.health = health
 	cells_fuel.append(new_cell)
-	for idx in slots_fuel:
-		var slot: cell_slot = cell_slots.get_child(idx)
-		if !slot.is_busy:
-			new_cell.place_into_slot(slot)
+	if get_free_slot_count(game_manager.engine_cell_types.FUEL) > 0:
+		new_cell.place_into_slot(get_free_slot(game_manager.engine_cell_types.FUEL))
 
 
 func add_coolant() -> Cell:
@@ -142,10 +140,8 @@ func add_consumed_coolant(health: float) -> void:
 	var new_cell := create_cell(game_manager.engine_cell_types.COOLANT)
 	new_cell.health = health
 	cells_coolant.append(new_cell)
-	for idx in slots_coolant:
-		var slot: cell_slot = cell_slots.get_child(idx)
-		if !slot.is_busy:
-			new_cell.place_into_slot(slot)
+	if get_free_slot_count(game_manager.engine_cell_types.COOLANT) > 0:
+		new_cell.place_into_slot(get_free_slot(game_manager.engine_cell_types.COOLANT))
 
 
 func create_cell(new_type: game_manager.engine_cell_types) -> Cell:
@@ -191,6 +187,22 @@ func get_coolant_health() -> float:
 		if cell.is_depleting:
 			health += cell.health
 	return health
+
+
+func get_free_slot_count(type: game_manager.engine_cell_types) -> int:
+	var result: int = 0
+	for i in cell_slots.get_children():
+		if !i.is_busy and i.slot_type == type:
+			result += 1
+	return result
+
+
+func get_free_slot(type: game_manager.engine_cell_types) -> cell_slot:
+	for i in cell_slots.get_children():
+		if !i.is_busy and i.slot_type == type:
+			return i
+	push_error("No free cell slots available")
+	return cell_slot.new()
 
 
 func _on_cell_held(type: game_manager.engine_cell_types) -> void:

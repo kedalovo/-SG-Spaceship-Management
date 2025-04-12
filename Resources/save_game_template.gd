@@ -4,7 +4,6 @@ extends Resource
 class_name save_game_template
 
 
-@export var consumables: Dictionary = {}
 @export var life_support_tier: int = 0
 @export var engines_tier: int = 0
 @export var hull_tier: int = 0
@@ -21,7 +20,8 @@ class_name save_game_template
 @export var consumed_fuel_cells: Array[float] = []
 @export var consumed_coolant_cells: Array[float] = []
 
-@export var map_data: Array = []
+@export var map_data: Array[Array] = []
 @export var balance: int = 0
 @export var map_path: Array[Vector2i] = []
 @export var current_location_index: Vector2i = Vector2i(0, 0)
+@export var current_map_level: int = 0

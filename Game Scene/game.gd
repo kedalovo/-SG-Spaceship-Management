@@ -110,19 +110,22 @@ func _ready() -> void:
 	if game_manager.is_tutorial:
 		toggle_map(true)
 		setup_tutorial()
-	elif !game_manager.is_loading_save:
+	elif game_manager.is_loading_save:
+		load_game()
+		toggle_store(true)
+	else:
 		toggle_map(true)
 		for i in 5:
 			engines_system.add_fuel()
 			engines_system.add_coolant()
-	else:
-		load_game()
 
 
 func _input(event: InputEvent) -> void:
 	if event.is_action_pressed(&"esc"):
 		pause_game()
 	if event.is_action_pressed(&"test_space"):
+		round_timer.stop()
+		proceed()
 		#map_animator.play(&"open")
 		#Input.mouse_mode = Input.MOUSE_MODE_HIDDEN
 		#map.cursor.show()
@@ -239,6 +242,8 @@ func proceed() -> void:
 	if game_manager.is_tutorial:
 		round_timer.start(180.0)
 		return
+	else:
+		save_game()
 	print("Round over, proceeding")
 	round_over_audio.play()
 	toggle_store(true)
@@ -255,7 +260,6 @@ func proceed() -> void:
 
 
 func save_game() -> void:
-	#TODO: wormholes won't save with this save method
 	var consumed_algae: Array[float] = []
 	var consumed_fuel_cell: Array[float] = []
 	var consumed_coolant_cell: Array[float] = []
@@ -273,10 +277,13 @@ func save_game() -> void:
 		if (!i.is_depleted and i.is_depleting) or i.is_depleted:
 			consumed_coolant_cell.append(i.health)
 	
-	var map_data: Array[map_node_save_template] = []
+	var map_data: Array[Array] = []
+	var level: Array[map_node_save_template]
 	for i in map.grid:
 		for j in i:
-			map_data.append(map_node_save_template.new(j))
+			level.append(map_node_save_template.new(j))
+		map_data.append(level.duplicate())
+		level.clear()
 	
 	var new_save_data: save_game_template = save_game_template.new()
 	
@@ -300,7 +307,9 @@ func save_game() -> void:
 	new_save_data.balance = balance.value
 	new_save_data.map_path = map.path
 	new_save_data.current_location_index = space.current_location.map_index
+	new_save_data.current_map_level = map.current_level
 	ResourceSaver.save(new_save_data, "user://save.tres")
+	print("[SAVE] Save complete.")
 
 
 func load_game() -> void:
@@ -335,6 +344,10 @@ func load_game() -> void:
 	balance.value = save_data.balance
 	map.path = save_data.map_path
 	space.current_location = map.get_map_node(save_data.current_location_index)
+	map.current_level = save_data.current_map_level
+	map.current_location = space.current_location
+	map.update_secrecy()
+	print("[LOAD] Load complete.")
 
 
 func setup_tutorial() -> void:

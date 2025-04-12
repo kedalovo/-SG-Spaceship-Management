@@ -47,10 +47,10 @@ func add_fuel() -> void:
 
 func add_consumed_fuel(health: float):
 	var new_algae = ALGAE_SCENE.instantiate()
+	algae_container.add_child(new_algae)
 	new_algae.position = Vector2(randi_range(36, 112), randi_range(0, 44))
 	new_algae.health = health
 	new_algae.sprite.modulate = Color.WHITE.darkened((100.0 - health) / 100.0)
-	algae_container.add_child(new_algae)
 
 
 func start() -> void:

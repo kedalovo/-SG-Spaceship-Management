@@ -4,6 +4,7 @@ extends Resource
 class_name map_node_save_template
 
 
+@export var node_name: String = ""
 @export var true_icon_path: String = "res://Map/Map Node/Icons/Question Icon.png"
 @export var connected_to_nodes: Array[Vector2i] = []
 @export var hazards: Array[game_manager.hazard_types] = []
@@ -26,6 +27,7 @@ class_name map_node_save_template
 
 
 func _init(new_map_node: map_node = map_node.new()) -> void:
+	node_name = new_map_node.name
 	true_icon_path = new_map_node.true_texture.resource_path
 	for i in new_map_node.connected_to_nodes:
 		connected_to_nodes.append(i.map_index)

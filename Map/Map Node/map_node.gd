@@ -16,7 +16,7 @@ signal button_pressed(node: map_node)
 @onready var hover_audio: AudioStreamPlayer = $"Hover Audio"
 @onready var press_audio: AudioStreamPlayer = $"Press Audio"
 
-var true_texture: Texture2D
+var true_texture: Texture2D = preload("res://Map/Map Node/Icons/Wormhole.png")
 
 var wormhole: map_node
 

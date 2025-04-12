@@ -14,6 +14,10 @@ const CURSOR_POINTER = preload("res://UI/Cursor pointer.png")
 @onready var button_press_audio: AudioStreamPlayer = $"Button Press Audio"
 @onready var button_hover_audio: AudioStreamPlayer = $"Button Hover Audio"
 
+@onready var start_button: Button = $"Background Container/Margin/VBox/Start Button"
+@onready var continue_button: Button = $"Background Container/Margin/VBox/Continue Button"
+@onready var tutorial_button: Button = $"Background Container/Margin/VBox/Tutorial Button"
+
 var game_scene: Node
 
 var loading_progress: Array = []
@@ -29,6 +33,8 @@ func _ready() -> void:
 	Input.set_custom_mouse_cursor(CURSOR_POINTER, Input.CURSOR_POINTING_HAND)
 	noise.texture.noise.seed = randi()
 	noise_2.texture.noise.seed = randi()
+	if FileAccess.file_exists("user://save.tres"):
+		continue_button.disabled = false
 
 
 func _notification(what: int) -> void:
@@ -75,6 +81,12 @@ func switch_scene() -> void:
 	queue_free()
 
 
+func disable_buttons() -> void:
+	start_button.disabled = true
+	continue_button.disabled = true
+	tutorial_button.disabled = true
+
+
 func _on_loading_finished() -> void:
 	get_tree().root.add_child(game_scene)
 	get_tree().root.move_child(game_scene, 1)
@@ -82,55 +94,82 @@ func _on_loading_finished() -> void:
 
 
 func _on_start_button_pressed() -> void:
-	button_press_audio.play()
-	print("Starting new game")
-	ResourceLoader.load_threaded_request("res://Game Scene/game.tscn")
-	is_loading_game = true
+	if is_finished_loading:
+		return
+	else:
+		button_press_audio.play()
+		print("Starting new game...")
+		ResourceLoader.load_threaded_request("res://Game Scene/game.tscn")
+		is_loading_game = true
+		disable_buttons()
 
 
 func _on_continue_button_pressed() -> void:
-	button_press_audio.play()
+	if is_finished_loading:
+		return
+	else:
+		button_press_audio.play()
+		print("Loading previous game...")
+		game_manager.is_loading_save = true
+		ResourceLoader.load_threaded_request("res://Game Scene/game.tscn")
+		is_loading_game = true
+		disable_buttons()
 
 
 func _on_tutorial_button_pressed() -> void:
-	button_press_audio.play()
-	print("Starting tutorial")
-	ResourceLoader.load_threaded_request("res://Game Scene/game.tscn")
-	is_loading_game = true
-	game_manager.is_tutorial = true
+	if is_finished_loading:
+		return
+	else:
+		button_press_audio.play()
+		print("Starting tutorial")
+		ResourceLoader.load_threaded_request("res://Game Scene/game.tscn")
+		is_loading_game = true
+		game_manager.is_tutorial = true
+		disable_buttons()
 
 
 func _on_exit_button_pressed() -> void:
-	button_press_audio.play()
-	quit_game()
+	if is_finished_loading:
+		return
+	else:
+		button_press_audio.play()
+		quit_game()
 
 
 func _on_check_button_toggled(toggled_on: bool) -> void:
-	button_press_audio.play()
-	match toggled_on:
-		true:
-			print("Set locale to russian")
-			TranslationServer.set_locale("ru")
-		false:
-			print("Set locale to english")
-			TranslationServer.set_locale("en")
+	if is_finished_loading:
+		return
+	else:
+		button_press_audio.play()
+		match toggled_on:
+			true:
+				print("Set locale to russian")
+				TranslationServer.set_locale("ru")
+			false:
+				print("Set locale to english")
+				TranslationServer.set_locale("en")
 
 
 func _on_start_button_mouse_entered() -> void:
-	button_hover_audio.play()
+	if !is_finished_loading:
+		button_hover_audio.play()
 
 
 func _on_continue_button_mouse_entered() -> void:
-	button_hover_audio.play()
+	if !is_finished_loading:
+		button_hover_audio.play()
 
 
 func _on_tutorial_button_mouse_entered() -> void:
-	button_hover_audio.play()
+	if !is_finished_loading:
+		button_hover_audio.play()
 
 
 func _on_exit_button_mouse_entered() -> void:
-	button_hover_audio.play()
+	if !is_finished_loading:
+		button_hover_audio.play()
 
 
 func _on_check_button_mouse_entered() -> void:
-	button_hover_audio.play()
+	if !is_finished_loading:
+		button_hover_audio.play()
