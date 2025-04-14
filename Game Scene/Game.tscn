@@ -2924,10 +2924,12 @@ size_flags_vertical = 4
 
 [node name="Continue Button" type="Button" parent="Pause Menu/PanelContainer/VBox"]
 layout_mode = 2
+focus_mode = 0
 text = "BTN_CONTINUE"
 
 [node name="Exit Button" type="Button" parent="Pause Menu/PanelContainer/VBox"]
 layout_mode = 2
+focus_mode = 0
 text = "BTN_EXIT"
 
 [node name="Button Press Audio" type="AudioStreamPlayer" parent="Pause Menu"]
@@ -3092,6 +3094,24 @@ volume_db = -20.0
 [node name="Round Over Audio" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("71_lgg3o")
 volume_db = -10.0
+
+[node name="HBox" type="HBoxContainer" parent="."]
+offset_left = 256.0
+offset_right = 296.0
+offset_bottom = 40.0
+theme = ExtResource("54_bi7ny")
+
+[node name="Label" type="Label" parent="HBox"]
+layout_mode = 2
+
+[node name="Label2" type="Label" parent="HBox"]
+layout_mode = 2
+
+[node name="Label3" type="Label" parent="HBox"]
+layout_mode = 2
+
+[node name="Label4" type="Label" parent="HBox"]
+layout_mode = 2
 
 [connection signal="coin_got" from="Cabin/SubViewportContainer/SubViewport/Space" to="." method="_on_space_coin_got"]
 [connection signal="damaged" from="Cabin/SubViewportContainer/SubViewport/Space" to="." method="_on_damaged"]

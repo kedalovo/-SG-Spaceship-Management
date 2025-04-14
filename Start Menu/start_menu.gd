@@ -88,6 +88,7 @@ func disable_buttons() -> void:
 
 
 func _on_loading_finished() -> void:
+	is_finished_loading = true
 	get_tree().root.add_child(game_scene)
 	get_tree().root.move_child(game_scene, 1)
 	animator.play(&"start_game")
@@ -151,17 +152,17 @@ func _on_check_button_toggled(toggled_on: bool) -> void:
 
 
 func _on_start_button_mouse_entered() -> void:
-	if !is_finished_loading:
+	if !is_finished_loading and !is_loading_game:
 		button_hover_audio.play()
 
 
 func _on_continue_button_mouse_entered() -> void:
-	if !is_finished_loading:
+	if !is_finished_loading and !is_loading_game:
 		button_hover_audio.play()
 
 
 func _on_tutorial_button_mouse_entered() -> void:
-	if !is_finished_loading:
+	if !is_finished_loading and !is_loading_game:
 		button_hover_audio.play()
 
 

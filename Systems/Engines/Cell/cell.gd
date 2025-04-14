@@ -52,8 +52,10 @@ func place_into_slot(slot: Node) -> void:
 		match type:
 			game_manager.engine_cell_types.FUEL:
 				game_manager.fuel_cell_amount -= 1
+				print("[VALUE-] Fuel cell removed, now ", game_manager.fuel_cell_amount)
 			game_manager.engine_cell_types.COOLANT:
 				game_manager.coolant_cell_amount -= 1
+				print("[VALUE-] Coolant cell removed, now ", game_manager.coolant_cell_amount)
 	in_slot = slot.index
 	slot.is_busy = true
 	position = slot.position
@@ -73,6 +75,7 @@ func set_type(new_type: game_manager.engine_cell_types) -> void:
 
 
 func destroy() -> void:
+	print("[CELL] Destroying")
 	is_depleting = false
 	is_destroyed = true
 	break_sprite.show()
@@ -99,16 +102,19 @@ func _on_button_mouse_exited() -> void:
 
 func _on_button_button_down() -> void:
 	if !is_depleting:
+		print("[CELL] Picked up")
 		is_held = true
 		held.emit(type)
 		sound.pitch_scale = 1.0
 		sound.play()
 	if is_depleted or is_destroyed:
+		print("[CELL] Deleting destroyed")
 		being_deleted.emit(self)
 
 
 func _on_button_button_up() -> void:
 	if !is_depleting:
+		print("[CELL] Put down")
 		sound.pitch_scale = 1.1
 		sound.play()
 		is_held = false

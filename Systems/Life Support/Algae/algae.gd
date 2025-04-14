@@ -17,6 +17,8 @@ var is_held: bool = false
 
 func cook(damage: float) -> void:
 	if !is_cooked:
+		if !is_cooking:
+			print("[ALGAE] Started cooking")
 		is_cooking = true
 		health -= damage * game_manager.wear_modifier
 		if health <= 0:
@@ -35,6 +37,7 @@ func _physics_process(_delta: float) -> void:
 
 func _input(event: InputEvent) -> void:
 	if event is InputEventMouseButton and event.is_released() and !Input.is_mouse_button_pressed(MOUSE_BUTTON_LEFT) and is_held:
+		print("[ALGAE] Released")
 		is_held = false
 		outline.hide()
 		sound.pitch_scale = 1.1
@@ -43,6 +46,8 @@ func _input(event: InputEvent) -> void:
 
 func _on_input_event(_viewport: Node, event: InputEvent, _shape_idx: int) -> void:
 	if event is InputEventMouseButton and event.is_pressed() and Input.is_mouse_button_pressed(MOUSE_BUTTON_LEFT) and !is_held:
+		if !is_cooked:
+			print("[ALGAE] Picked up")
 		is_held = true
 		sound.pitch_scale = 1.0
 		sound.play()

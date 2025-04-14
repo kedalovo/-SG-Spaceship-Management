@@ -103,19 +103,28 @@ func add_module(type: game_manager.module_types) -> void:
 
 func check_completion() -> void:
 	if installed_blueprint_spots == busy_blueprint_spots:
-		for module in modules.get_children():
-			if module.is_installed:
-				add_module(module.type)
-				module.queue_free()
-		for pos in pos_h_box.get_children():
-			pos.hide()
-			for child in pos.get_children():
-				child.queue_free()
 		busy_blueprint_spots = [false, false, false, false]
 		installed_blueprint_spots = [false, false, false, false]
 		fix()
 
 
+func clear() -> void:
+	for module in modules.get_children():
+		if module.is_installed:
+			add_module(module.type)
+			module.queue_free()
+	for pos in pos_h_box.get_children():
+		pos.hide()
+		for child in pos.get_children():
+			child.queue_free()
+
+
 func _on_module_installed(blueprint: Blueprint, _module: Module) -> void:
 	installed_blueprint_spots[blueprint.get_parent().get_index()] = true
+	print("Module installed. Module position: ", _module.position, ", blueprint position: ", blueprint.position)
 	check_completion()
+
+
+func _on_finished_animation(is_open: bool) -> void:
+	if !is_open:
+		clear()

@@ -43,6 +43,7 @@ func add_fuel() -> void:
 	new_algae.position = Vector2(randi_range(-152, -88), randi_range(-36, 0))
 	algae_container.add_child(new_algae)
 	game_manager.algae_amount += 1
+	print("[VALUE+] Algae added, now ", game_manager.algae_amount)
 
 
 func add_consumed_fuel(health: float):
@@ -94,6 +95,7 @@ func _on_cooker_area_body_entered(body: Node2D) -> void:
 	if body is Algae:
 		if !(body.is_cooking or body.is_cooked):
 			game_manager.algae_amount -= 1
+			print("[VALUE-] Algae removed, now ", game_manager.algae_amount)
 			algae_in_cooker.append(body)
 			live_algae_in_cooker.append(body)
 

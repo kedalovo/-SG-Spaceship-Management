@@ -49,6 +49,7 @@ func _on_timer_timeout() -> void:
 	if is_instant:
 		for i in types:
 			hit.emit(spot, strength, i)
+		print("[HAZARD] Hit at ", spot, " with ", types.size(), " types")
 	finished.emit(self)
 
 
@@ -56,3 +57,4 @@ func _on_hurt_timer_timeout() -> void:
 	if !is_instant:
 		for i in types:
 			hit.emit(spot, strength, i)
+		print("[HAZARD] Regular hit at ", spot, " with ", types.size(), " types")

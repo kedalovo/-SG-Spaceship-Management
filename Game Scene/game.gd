@@ -115,9 +115,6 @@ func _ready() -> void:
 		toggle_store(true)
 	else:
 		toggle_map(true)
-		for i in 5:
-			engines_system.add_fuel()
-			engines_system.add_coolant()
 
 
 func _input(event: InputEvent) -> void:
@@ -126,19 +123,8 @@ func _input(event: InputEvent) -> void:
 	if event.is_action_pressed(&"test_space"):
 		round_timer.stop()
 		proceed()
-		#map_animator.play(&"open")
-		#Input.mouse_mode = Input.MOUSE_MODE_HIDDEN
-		#map.cursor.show()
-		#balance.value = 5
-		#print(balance.value)
 		pass
 	if event.is_action_pressed(&"test_quote"):
-		save_game()
-		#map_animator.play_backwards(&"open")
-		#Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
-		#map.cursor.hide()
-		#balance.value = 10
-		#print(balance.value)
 		pass
 	if game_manager.is_playing:
 		if event.is_action_pressed(&"left") and can_control_via_arrows:
@@ -166,6 +152,13 @@ func _notification(what: int) -> void:
 func _physics_process(_delta: float) -> void:
 	cabin_view.scale = lerp(cabin_view.scale, Vector2.ONE, 0.1)
 	clock.set_time(round_timer.time_left)
+
+
+func _process(_delta: float) -> void:
+	$HBox/Label.text = "Algae: " + str(game_manager.algae_amount)
+	$HBox/Label2.text = "Fuel cells: " + str(game_manager.fuel_cell_amount)
+	$HBox/Label3.text = "Coolant cells: " + str(game_manager.coolant_cell_amount)
+	$HBox/Label4.text = "Patch: " + str(game_manager.patch_amount)
 
 
 func toggle_map(open: bool) -> void:

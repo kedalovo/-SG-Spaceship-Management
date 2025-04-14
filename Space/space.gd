@@ -279,9 +279,10 @@ func create_asteroid(size: game_manager.asteroid_types, spot: Vector2, time: flo
 				push_warning("Tried creating a small asteroid in ", spot, ", which is busy")
 				return
 			if types.is_empty():
-				asteroid.set_types([game_manager.damage_types.PHYSICAL] as Array[game_manager.damage_types])
+				types = [game_manager.damage_types.PHYSICAL]
 			else:
-				asteroid.set_types(types + [game_manager.damage_types.PHYSICAL])
+				types.append(game_manager.damage_types.PHYSICAL)
+			asteroid.set_types(types)
 			asteroid.set_time(time)
 			asteroid.set_visuals(size, false)
 			hazard_visuals.add_child(asteroid)
@@ -352,9 +353,10 @@ func create_nebula(size: game_manager.nebula_types, spot: Vector2, time: float, 
 				push_warning("Tried creating a small nebula in ", spot, ", which is busy")
 				return
 			if types.is_empty():
-				nebula.set_types([game_manager.damage_types.ELECTRICITY] as Array[game_manager.damage_types])
+				types = [game_manager.damage_types.ELECTRICITY]
 			else:
-				nebula.set_types(types + [game_manager.damage_types.ELECTRICITY])
+				types.append(game_manager.damage_types.ELECTRICITY)
+			nebula.set_types(types)
 			nebula.set_time(time)
 			nebula.set_visuals(size, false)
 			hazard_visuals.add_child(nebula)
@@ -436,6 +438,8 @@ func create_hazard(spot: Vector2, time: float, strength: int, types: Array[game_
 		return
 	var hazard := HAZARD.instantiate()
 	hazard.strength = strength
+	if types.size() == 0:
+		push_warning("Types for the hazard are empty")
 	hazard.types = types
 	hazard.spot = spot
 	hazard.is_instant = is_instant
@@ -467,6 +471,7 @@ func direct_hit(strength: int, type: game_manager.damage_types) -> void:
 
 
 func hit(spot: Vector2, strength: int, type: game_manager.damage_types) -> void:
+	print("Attempted hit: current spot is ", current_pos, ", spot is ", spot)
 	if spot == current_pos:
 		damaged.emit(strength, type)
 

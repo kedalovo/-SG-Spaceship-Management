@@ -17,6 +17,7 @@ var patch_number: int:
 	set(v):
 		patch_number = clampi(v, 0, max_patch_number)
 		game_manager.patch_amount = patch_number
+		print("[VALUE] Patch amount now ", game_manager.patch_amount)
 		balance_label.text = str(patch_number)
 var max_patch_number: int = 15
 
@@ -46,6 +47,8 @@ func close() -> void:
 func _damage(_strength: int, _type: game_manager.damage_types) -> void:
 	if _type == game_manager.damage_types.PHYSICAL:
 		for i in _strength:
+			if !is_damaged:
+				is_damaged = true
 			print("Hull system: damaged")
 			add_random_hole()
 
@@ -103,3 +106,5 @@ func _on_patch_completed(_patch: Patch, hole: Hole) -> void:
 	patch_number -= 1
 	if holes.get_child_count() == 1:
 		fix()
+	else:
+		push_error(holes.get_child_count())

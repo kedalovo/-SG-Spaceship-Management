@@ -107,3 +107,5 @@ size_flags_vertical = 4
 libraries = {
 "": SubResource("AnimationLibrary_vj4gp")
 }
+
+[connection signal="finished_animation" from="." to="." method="_on_finished_animation"]
