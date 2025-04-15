@@ -48,7 +48,7 @@ func use(amount: float) -> void:
 
 
 func place_into_slot(slot: Node) -> void:
-	if !is_depleting:
+	if !is_depleting and in_slot < 0:
 		match type:
 			game_manager.engine_cell_types.FUEL:
 				game_manager.fuel_cell_amount -= 1

@@ -3099,6 +3099,7 @@ volume_db = -10.0
 offset_left = 256.0
 offset_right = 296.0
 offset_bottom = 40.0
+mouse_filter = 2
 theme = ExtResource("54_bi7ny")
 
 [node name="Label" type="Label" parent="HBox"]

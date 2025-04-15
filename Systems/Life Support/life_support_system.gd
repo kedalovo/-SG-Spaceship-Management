@@ -26,8 +26,9 @@ var is_empty: bool
 func _ready() -> void:
 	super._ready()
 	if !game_manager.is_loading_save:
-		for i in 10:
+		for i in 9:
 			add_fuel()
+		add_consumed_fuel(100.0)
 
 
 func get_health() -> int:
@@ -49,9 +50,13 @@ func add_fuel() -> void:
 func add_consumed_fuel(health: float):
 	var new_algae = ALGAE_SCENE.instantiate()
 	algae_container.add_child(new_algae)
+	new_algae.is_cooking = true
 	new_algae.position = Vector2(randi_range(36, 112), randi_range(0, 44))
 	new_algae.health = health
 	new_algae.sprite.modulate = Color.WHITE.darkened((100.0 - health) / 100.0)
+	algae_in_cooker.append(new_algae)
+	if health > 0.0:
+		live_algae_in_cooker.append(new_algae)
 
 
 func start() -> void:
@@ -93,7 +98,7 @@ func _damage(strength: int, type: game_manager.damage_types):
 
 func _on_cooker_area_body_entered(body: Node2D) -> void:
 	if body is Algae:
-		if !(body.is_cooking or body.is_cooked):
+		if !body.is_cooking and !body.is_cooked and body.health == 100.0:
 			game_manager.algae_amount -= 1
 			print("[VALUE-] Algae removed, now ", game_manager.algae_amount)
 			algae_in_cooker.append(body)
@@ -101,7 +106,7 @@ func _on_cooker_area_body_entered(body: Node2D) -> void:
 
 
 func _on_cooker_area_body_exited(body: Node2D) -> void:
-	if body is Algae:
+	if body is Algae and cooker_area.monitoring:
 		if body.is_cooking:
 			body.is_cooking = false
 			algae_in_cooker.erase(body)

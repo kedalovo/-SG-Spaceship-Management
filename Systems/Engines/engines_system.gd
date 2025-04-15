@@ -36,7 +36,7 @@ func _ready() -> void:
 	super._ready()
 	setup_slots()
 	if !game_manager.is_loading_save:
-		for i in 5:
+		for i in 8:
 			add_fuel()
 			add_coolant()
 		setup_cells()
@@ -219,7 +219,7 @@ func get_unused_cell_count(type: game_manager.engine_cell_types) -> int:
 func get_unused_cell(type: game_manager.engine_cell_types) -> Cell:
 	var result: Cell = Cell.new()
 	for cell in cells_container.get_children():
-		if cell.type == type and cell.is_depleting and !cell.is_depleted and !cell.is_destroyed:
+		if cell.type == type and !cell.is_depleting and !cell.is_depleted and !cell.is_destroyed:
 			return cell
 	push_error("There are no cells of type ", type, " that are unused!")
 	return result
