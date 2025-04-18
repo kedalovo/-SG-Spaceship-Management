@@ -3069,6 +3069,7 @@ size_flags_horizontal = 4
 [node name="Game Over Button" type="Button" parent="Game Over Menu/Panel/VBox/VBox"]
 layout_mode = 2
 size_flags_horizontal = 4
+focus_mode = 0
 text = "BTN_CONTINUE"
 
 [node name="System Audio Listener" type="AudioListener2D" parent="."]
@@ -3160,20 +3161,26 @@ layout_mode = 2
 [connection signal="algae_ran_out" from="SubViewportContainer/SubViewport/Life Support System" to="." method="_on_life_support_system_algae_ran_out"]
 [connection signal="finished_animation" from="SubViewportContainer/SubViewport/Life Support System" to="." method="_on_system_animation_finished"]
 [connection signal="fixed" from="SubViewportContainer/SubViewport/Life Support System" to="." method="_on_system_fixed"]
+[connection signal="lose" from="SubViewportContainer/SubViewport/Life Support System" to="." method="_on_system_lose"]
 [connection signal="coolant_cell_added" from="SubViewportContainer/SubViewport/Engines System" to="." method="_on_engines_system_coolant_cell_added"]
 [connection signal="coolant_cells_ran_out" from="SubViewportContainer/SubViewport/Engines System" to="." method="_on_engines_system_coolant_cells_ran_out"]
 [connection signal="finished_animation" from="SubViewportContainer/SubViewport/Engines System" to="." method="_on_system_animation_finished"]
 [connection signal="fixed" from="SubViewportContainer/SubViewport/Engines System" to="." method="_on_system_fixed"]
 [connection signal="fuel_cell_added" from="SubViewportContainer/SubViewport/Engines System" to="." method="_on_engines_system_fuel_cell_added"]
 [connection signal="fuel_cells_ran_out" from="SubViewportContainer/SubViewport/Engines System" to="." method="_on_engines_system_fuel_cells_ran_out"]
+[connection signal="lose" from="SubViewportContainer/SubViewport/Engines System" to="." method="_on_system_lose"]
 [connection signal="finished_animation" from="SubViewportContainer/SubViewport/Hull System" to="." method="_on_system_animation_finished"]
 [connection signal="fixed" from="SubViewportContainer/SubViewport/Hull System" to="." method="_on_system_fixed"]
+[connection signal="lose" from="SubViewportContainer/SubViewport/Hull System" to="." method="_on_system_lose"]
 [connection signal="finished_animation" from="SubViewportContainer/SubViewport/Electrical System" to="." method="_on_system_animation_finished"]
 [connection signal="fixed" from="SubViewportContainer/SubViewport/Electrical System" to="." method="_on_system_fixed"]
+[connection signal="lose" from="SubViewportContainer/SubViewport/Electrical System" to="." method="_on_system_lose"]
 [connection signal="finished_animation" from="SubViewportContainer/SubViewport/External System" to="." method="_on_system_animation_finished"]
 [connection signal="fixed" from="SubViewportContainer/SubViewport/External System" to="." method="_on_system_fixed"]
+[connection signal="lose" from="SubViewportContainer/SubViewport/External System" to="." method="_on_system_lose"]
 [connection signal="finished_animation" from="SubViewportContainer/SubViewport/Computer System" to="." method="_on_system_animation_finished"]
 [connection signal="fixed" from="SubViewportContainer/SubViewport/Computer System" to="." method="_on_system_fixed"]
+[connection signal="lose" from="SubViewportContainer/SubViewport/Computer System" to="." method="_on_system_lose"]
 [connection signal="location_changed" from="Map" to="Cabin/SubViewportContainer/SubViewport/Space" method="_on_map_location_changed"]
 [connection signal="store_summoned" from="Map" to="." method="_on_map_store_summoned"]
 [connection signal="timeout" from="RoundTimer" to="." method="_on_round_timer_timeout"]

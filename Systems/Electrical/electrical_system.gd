@@ -11,6 +11,7 @@ const TRANCEIVER_POSITIONS: Array[Vector2] = [
 
 @onready var wires: Node2D = $Wires
 @onready var camera: Camera2D = $Camera2D
+@onready var lose_timer: Timer = $"Lose Timer"
 
 var receiver_states: Array[bool] = [false, false, false, false, false]
 var tranceiver_states: Array[bool] = [false, false, false, false, false]
@@ -31,6 +32,7 @@ func _damage(_strength: int, _type: game_manager.damage_types) -> void:
 			if !tranceiver_states[idx]:
 				free_tranceiver_slots.append(idx)
 		if free_receiver_slots.size() > 0:
+			lose_timer.start()
 			for i in clamp(_strength, 0, free_receiver_slots.size()):
 				print("Electrical system: damaged")
 				add_receiver_wire(free_receiver_slots.pop_at(randi()%free_receiver_slots.size()))
@@ -90,3 +92,8 @@ func _on_wire_connected(_from: Wire, _to: Wire) -> void:
 	wires_to_connect -= 1
 	if wires_to_connect == 0:
 		fix()
+		lose_timer.stop()
+
+
+func _on_lose_timer_timeout() -> void:
+	lose.emit()

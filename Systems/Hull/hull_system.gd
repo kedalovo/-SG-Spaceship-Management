@@ -9,6 +9,7 @@ const HOLE = preload("res://Systems/Hull/Hole/hole.tscn")
 @onready var patches: Node2D = $Patches
 @onready var camera: Camera2D = $Camera2D
 @onready var balance_label: Label = $"Balance Label"
+@onready var lose_timer: Timer = $"Lose Timer"
 
 
 var patch_number: int:
@@ -46,6 +47,8 @@ func close() -> void:
 
 func _damage(_strength: int, _type: game_manager.damage_types) -> void:
 	if _type == game_manager.damage_types.PHYSICAL:
+		if _strength > 0:
+			lose_timer.start()
 		for i in _strength:
 			if !is_damaged:
 				is_damaged = true
@@ -106,5 +109,10 @@ func _on_patch_completed(_patch: Patch, hole: Hole) -> void:
 	patch_number -= 1
 	if holes.get_child_count() == 1:
 		fix()
+		lose_timer.stop()
 	else:
 		push_error(holes.get_child_count())
+
+
+func _on_lose_timer_timeout() -> void:
+	lose.emit()

@@ -10,6 +10,7 @@ const CODE_LINE = preload("res://Systems/Computer/Code Line/code_line.tscn")
 
 @onready var code_line_press_audio: AudioStreamPlayer = $"Code Line Press Audio"
 @onready var code_line_hover_audio: AudioStreamPlayer = $"Code Line Hover Audio"
+@onready var lose_timer: Timer = $"Lose Timer"
 
 var busy_puzzle_slots: Array[bool] = [false, false, false, false, false, false]
 var busy_pieces_slots: Array[bool] = [false, false, false, false, false, false]
@@ -24,6 +25,7 @@ func _damage(_strength: int, _type: game_manager.damage_types) -> void:
 		print("🖥️Computer system: damaged")
 		is_damaged = true
 		create_random_pattern(_strength)
+		lose_timer.start()
 
 
 func create_random_pattern(size: int) -> void:
@@ -164,6 +166,7 @@ func _on_installed_correct_line(_line: CodeLine, _slot: CodeLine) -> void:
 		for child in pos.get_children():
 			child.queue_free()
 	fix()
+	lose_timer.stop()
 
 
 func _on_code_line_mouse_entered() -> void:
@@ -176,3 +179,7 @@ func _on_code_line_button_down() -> void:
 
 func _on_code_line_button_up() -> void:
 	code_line_press_audio.play()
+
+
+func _on_lose_timer_timeout() -> void:
+	lose.emit()

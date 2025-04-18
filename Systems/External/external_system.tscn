@@ -108,4 +108,7 @@ libraries = {
 "": SubResource("AnimationLibrary_vj4gp")
 }
 
+[node name="Lose Timer" type="Timer" parent="."]
+
 [connection signal="finished_animation" from="." to="." method="_on_finished_animation"]
+[connection signal="timeout" from="Lose Timer" to="." method="_on_lose_timer_timeout"]

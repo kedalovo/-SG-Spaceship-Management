@@ -17,6 +17,7 @@ const CELL_SCENE = preload("res://Systems/Engines/Cell/cell.tscn")
 @onready var label: Label = $Label
 @onready var empty_fuel_timer: Timer = $"Empty Fuel Timer"
 @onready var empty_coolant_timer: Timer = $"Empty Coolant Timer"
+@onready var lose_timer: Timer = $"Lose Timer"
 
 @onready var slots_fuel: Array[int] = []
 @onready var slots_coolant: Array[int] = []
@@ -256,7 +257,7 @@ func _on_cell_being_deleted(cell: Cell) -> void:
 			cells_coolant.erase(cell)
 	if cell.is_destroyed:
 		destroyed_cells -= 1
-	if destroyed_cells == 0 and is_damaged:
+	if destroyed_cells == 0 and is_damaged and !(is_empty_coolant or is_empty_fuel):
 		fix()
 	cell.queue_free()
 
@@ -269,6 +270,10 @@ func _on_fuel_timer_timeout() -> void:
 	if active_cells.size() > 0:
 		if is_empty_fuel:
 			print("Added fuel, stopped timer")
+			if destroyed_cells == 0 and is_damaged and !is_empty_coolant:
+				fix()
+			if !is_empty_coolant:
+				lose_timer.stop()
 			is_empty_fuel = false
 			empty_fuel_timer.stop()
 			fuel_cell_added.emit()
@@ -288,6 +293,10 @@ func _on_coolant_timer_timeout() -> void:
 	if active_cells.size() > 0:
 		if is_empty_coolant:
 			print("Added coolant, stopped timer")
+			if destroyed_cells == 0 and is_damaged and !is_empty_fuel:
+				fix()
+			if !is_empty_fuel:
+				lose_timer.stop()
 			is_empty_coolant = false
 			empty_coolant_timer.stop()
 			coolant_cell_added.emit()
@@ -316,16 +325,22 @@ func _on_empty_fuel_timer_timeout() -> void:
 		is_damaged = true
 		is_empty_fuel = true
 		fuel_cells_ran_out.emit()
+		lose_timer.start()
 		print("Fuel out for a while!!!")
 
 
 func _on_empty_coolant_timer_timeout() -> void:
 	var active_cells: Array[Cell] = []
-	for cell in cells_fuel:
+	for cell in cells_coolant:
 		if cell.is_depleting and !cell.is_depleted and !cell.is_destroyed and !cell.is_held:
 			active_cells.append(cell)
 	if active_cells.size() == 0:
 		is_damaged = true
 		is_empty_coolant = true
 		coolant_cells_ran_out.emit()
+		lose_timer.start()
 		print("Coolant out for a while!!!")
+
+
+func _on_lose_timer_timeout() -> void:
+	lose.emit()

@@ -14,6 +14,7 @@ const ALGAE_SCENE = preload("res://Systems/Life Support/Algae/algae.tscn")
 @onready var camera: Camera2D = $Camera2D
 @onready var empty_timer: Timer = $"Empty Timer"
 @onready var burn_audio: AudioStreamPlayer2D = $"Burn Audio"
+@onready var lose_timer: Timer = $"Lose Timer"
 
 var algae_in_cooker: Array[Algae] = []
 var live_algae_in_cooker: Array[Algae] = []
@@ -125,6 +126,7 @@ func _on_cook_timer_timeout() -> void:
 			is_empty = false
 			print("Cooker filled, stopped timer")
 			empty_timer.stop()
+			lose_timer.stop()
 			algae_added.emit()
 		if !burn_audio.playing:
 			burn_audio.play()
@@ -150,3 +152,8 @@ func _on_empty_timer_timeout() -> void:
 		print("Cooker is empty for a while!!!")
 		is_damaged = true
 		algae_ran_out.emit()
+		lose_timer.start()
+
+
+func _on_lose_timer_timeout() -> void:
+	lose.emit()

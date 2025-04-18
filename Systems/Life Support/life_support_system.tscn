@@ -273,6 +273,10 @@ one_shot = true
 stream = ExtResource("3_bi8op")
 bus = &"Life Support"
 
+[node name="Lose Timer" type="Timer" parent="."]
+wait_time = 20.0
+one_shot = true
+
 [connection signal="body_entered" from="Cooker Area" to="." method="_on_cooker_area_body_entered"]
 [connection signal="body_exited" from="Cooker Area" to="." method="_on_cooker_area_body_exited"]
 [connection signal="body_entered" from="Upgraded Cooker Area" to="." method="_on_cooker_area_body_entered"]
@@ -282,3 +286,4 @@ bus = &"Life Support"
 [connection signal="timeout" from="CookTimer" to="." method="_on_cook_timer_timeout"]
 [connection signal="timeout" from="DamageTimer" to="." method="_on_damage_timer_timeout"]
 [connection signal="timeout" from="Empty Timer" to="." method="_on_empty_timer_timeout"]
+[connection signal="timeout" from="Lose Timer" to="." method="_on_lose_timer_timeout"]

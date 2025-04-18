@@ -207,6 +207,9 @@ func game_over() -> void:
 	print("Game over!")
 	if game_manager.is_tutorial:
 		return
+	if FileAccess.file_exists("user://save.tres"):
+		var d := DirAccess.open("user://")
+		d.remove("save.tres")
 	game_manager.is_playing = false
 	game_over_menu.show()
 
@@ -726,3 +729,7 @@ func _on_system_hovered(idx: int) -> void:
 
 func _on_cabin_control_button_mouse_entered() -> void:
 	cabin_control_button_hover_audio.play()
+
+
+func _on_system_lose() -> void:
+	game_over()

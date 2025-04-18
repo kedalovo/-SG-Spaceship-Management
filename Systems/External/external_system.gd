@@ -12,6 +12,7 @@ const MODULE_BLUEPRINT = preload("res://Systems/External/Module Blueprint/module
 @onready var module_blueprints: Node2D = $"Module Blueprints"
 @onready var pos_h_box: HBoxContainer = $HBox
 @onready var camera: Camera2D = $Camera2D
+@onready var lose_timer: Timer = $"Lose Timer"
 
 @onready var module_spaces: Array[Node2D] = [module_1, module_2, module_3, module_4]
 
@@ -56,6 +57,8 @@ func _damage(_strength: int, _type: game_manager.damage_types) -> void:
 			for i in _strength:
 				print("📡External system: damaged")
 				add_blueprint(randi_range(1, 2))
+	if _strength > 0:
+		lose_timer.start()
 
 
 func open() -> void:
@@ -106,6 +109,7 @@ func check_completion() -> void:
 		busy_blueprint_spots = [false, false, false, false]
 		installed_blueprint_spots = [false, false, false, false]
 		fix()
+		lose_timer.stop()
 
 
 func clear() -> void:
@@ -128,3 +132,7 @@ func _on_module_installed(blueprint: Blueprint, _module: Module) -> void:
 func _on_finished_animation(is_open: bool) -> void:
 	if !is_open:
 		clear()
+
+
+func _on_lose_timer_timeout() -> void:
+	lose.emit()
