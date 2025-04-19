@@ -245,6 +245,10 @@ func proceed() -> void:
 	toggle_store(true)
 	life_support_system.stop()
 	engines_system.stop()
+	hull_system.stop()
+	electrical_system.stop()
+	external_system.stop()
+	computer_system.stop()
 	if GameManager.is_in_system:
 		print("Was in system, closed")
 		systems[current_system_idx].close()
@@ -273,6 +277,7 @@ func save_game() -> void:
 		if (!i.is_depleted and i.is_depleting) or i.is_depleted:
 			consumed_coolant_cell.append(i.health)
 	
+	map.reset_scroll()
 	var map_data: Array[Array] = []
 	var level: Array[map_node_save_template]
 	for i in map.grid:
@@ -335,6 +340,8 @@ func load_game() -> void:
 		engines_system.add_consumed_fuel(i)
 	for i in save_data.consumed_coolant_cells:
 		engines_system.add_consumed_coolant(i)
+	
+	store.load_data(save_data)
 	
 	map.load_map_data(save_data.map_data)
 	balance.value = save_data.balance
@@ -455,30 +462,30 @@ func _on_system_animation_finished(is_open: bool) -> void:
 
 
 func _on_left_button_pressed() -> void:
-	cabin_control_button_press_audio.play()
 	var moved: bool = space.move(Vector2.LEFT)
 	if moved:
+		cabin_control_button_press_audio.play()
 		cabin_view.scale = Vector2(CABIN_ZOOM_LEVEL, CABIN_ZOOM_LEVEL)
 
 
 func _on_down_button_pressed() -> void:
-	cabin_control_button_press_audio.play()
 	var moved: bool = space.move(Vector2.DOWN)
 	if moved:
+		cabin_control_button_press_audio.play()
 		cabin_view.scale = Vector2(CABIN_ZOOM_LEVEL, CABIN_ZOOM_LEVEL)
 
 
 func _on_right_button_pressed() -> void:
-	cabin_control_button_press_audio.play()
 	var moved: bool = space.move(Vector2.RIGHT)
 	if moved:
+		cabin_control_button_press_audio.play()
 		cabin_view.scale = Vector2(CABIN_ZOOM_LEVEL, CABIN_ZOOM_LEVEL)
 
 
 func _on_up_button_pressed() -> void:
-	cabin_control_button_press_audio.play()
 	var moved: bool = space.move(Vector2.UP)
 	if moved:
+		cabin_control_button_press_audio.play()
 		cabin_view.scale = Vector2(CABIN_ZOOM_LEVEL, CABIN_ZOOM_LEVEL)
 
 

@@ -123,6 +123,10 @@ func clear() -> void:
 			child.queue_free()
 
 
+func stop() -> void:
+	lose_timer.stop()
+
+
 func _on_module_installed(blueprint: Blueprint, _module: Module) -> void:
 	installed_blueprint_spots[blueprint.get_parent().get_index()] = true
 	print("Module installed. Module position: ", _module.position, ", blueprint position: ", blueprint.position)
@@ -135,4 +139,5 @@ func _on_finished_animation(is_open: bool) -> void:
 
 
 func _on_lose_timer_timeout() -> void:
+	print("[LOSE] External system lost")
 	lose.emit()

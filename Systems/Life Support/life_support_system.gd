@@ -26,6 +26,7 @@ var is_empty: bool
 
 func _ready() -> void:
 	super._ready()
+	upgrade_tiers = 2
 	if !game_manager.is_loading_save:
 		for i in 9:
 			add_fuel()
@@ -67,6 +68,7 @@ func start() -> void:
 func stop() -> void:
 	$CookTimer.stop()
 	empty_timer.stop()
+	lose_timer.stop()
 
 
 func upgrade(to_tier: int) -> void:
@@ -156,4 +158,5 @@ func _on_empty_timer_timeout() -> void:
 
 
 func _on_lose_timer_timeout() -> void:
+	print("[LOSE] Life support system lost")
 	lose.emit()

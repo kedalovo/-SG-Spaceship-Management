@@ -158,6 +158,10 @@ func add_code_line(is_right: bool, text: String) -> void:
 		code_line.queue_free()
 
 
+func stop() -> void:
+	lose_timer.stop()
+
+
 func _on_installed_correct_line(_line: CodeLine, _slot: CodeLine) -> void:
 	for pos in pieces_v_box.get_children():
 		for child in pos.get_children():
@@ -182,4 +186,5 @@ func _on_code_line_button_up() -> void:
 
 
 func _on_lose_timer_timeout() -> void:
+	print("[LOSE] Computer system lost")
 	lose.emit()

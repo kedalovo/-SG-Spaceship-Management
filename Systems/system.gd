@@ -25,6 +25,7 @@ func _ready() -> void:
 
 func upgrade(to_tier: int) -> void:
 	to_tier = clampi(to_tier, current_tier, upgrade_tiers)
+	current_tier = to_tier
 
 
 func _damage(_strength: int, _type: game_manager.damage_types) -> void:

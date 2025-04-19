@@ -69,7 +69,7 @@ func _ready() -> void:
 	fog_1.texture.noise.seed = randi()
 	fog_2.texture.noise.seed = randi()
 	if !game_manager.is_loading_save:
-		scroll.set_deferred(&"scroll_vertical", 1504)
+		reset_scroll()
 		generate_map()
 
 
@@ -106,6 +106,10 @@ func _draw() -> void:
 		draw_line(location.global_position, target.global_position, line_color_path * line_color_connections)
 
 
+func reset_scroll() -> void:
+	scroll.set_deferred(&"scroll_vertical", 1504)
+
+
 func load_map_data(map_data: Array[Array]) -> void:
 	var level: Array[map_node] = []
 	for i in map_data.size():
@@ -139,7 +143,7 @@ func load_map_data(map_data: Array[Array]) -> void:
 			new_map_node.map_index = node_data.map_index
 			if node_data.has_wormhole:
 				new_map_node.wormhole = grid[node_data.wormhole_index.x][node_data.wormhole_index.y]
-			new_map_node.global_position = node_data.global_position + Vector2(0, 1504)
+			new_map_node.position = node_data.global_position
 			new_map_node.set_difficulty(node_data.difficulty)
 			
 			new_map_node.disabled = node_data.disabled
@@ -155,8 +159,7 @@ func load_map_data(map_data: Array[Array]) -> void:
 				new_map_node.setup_wormhole()
 			if new_map_node.disabled:
 				new_map_node.hide()
-			#print("Added map node: ", new_map_node.name, " at index: ", new_map_node.map_index, " at position: ", new_map_node.position, " at global: ", new_map_node.global_position)
-	scroll.set_deferred(&"scroll_vertical", 1504)
+	reset_scroll()
 
 
 func get_map_node(index: Vector2i) -> map_node:

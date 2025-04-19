@@ -88,6 +88,10 @@ func add_tranceiver_wire(slot: int) -> void:
 	last_color = -1
 
 
+func stop() -> void:
+	lose_timer.stop()
+
+
 func _on_wire_connected(_from: Wire, _to: Wire) -> void:
 	wires_to_connect -= 1
 	if wires_to_connect == 0:
@@ -96,4 +100,5 @@ func _on_wire_connected(_from: Wire, _to: Wire) -> void:
 
 
 func _on_lose_timer_timeout() -> void:
+	print("[LOSE] Electrical system lost")
 	lose.emit()

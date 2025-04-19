@@ -37,7 +37,7 @@ func _init(new_map_node: map_node = map_node.new()) -> void:
 	map_index = new_map_node.map_index
 	if new_map_node.has_wormhole:
 		wormhole_index = new_map_node.wormhole.map_index
-	global_position = new_map_node.global_position
+	global_position = new_map_node.position
 	
 	difficulty = new_map_node.difficulty
 	

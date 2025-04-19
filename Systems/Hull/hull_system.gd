@@ -25,6 +25,7 @@ var max_patch_number: int = 15
 
 func _ready() -> void:
 	super._ready()
+	upgrade_tiers = 2
 	if !game_manager.is_loading_save:
 		for i in 5:
 			add_patch()
@@ -99,6 +100,10 @@ func get_holes_num() -> int:
 	return holes.get_child_count()
 
 
+func stop() -> void:
+	lose_timer.stop()
+
+
 func _on_patch_installed(patch: Patch, hole: Hole) -> void:
 	patch.position = hole.position
 	patch.set_marks()
@@ -115,4 +120,5 @@ func _on_patch_completed(_patch: Patch, hole: Hole) -> void:
 
 
 func _on_lose_timer_timeout() -> void:
+	print("[LOSE] Hull system lost")
 	lose.emit()

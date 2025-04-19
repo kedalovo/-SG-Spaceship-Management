@@ -35,6 +35,7 @@ var is_empty_coolant: bool
 
 func _ready() -> void:
 	super._ready()
+	upgrade_tiers = 1
 	setup_slots()
 	if !game_manager.is_loading_save:
 		for i in 8:
@@ -58,6 +59,7 @@ func stop() -> void:
 	coolant_timer.stop()
 	empty_fuel_timer.stop()
 	empty_coolant_timer.stop()
+	lose_timer.stop()
 	is_empty_fuel = false
 	is_empty_coolant = false
 
@@ -124,6 +126,7 @@ func add_fuel() -> Cell:
 func add_consumed_fuel(health: float) -> void:
 	var new_cell := create_cell(game_manager.engine_cell_types.FUEL)
 	new_cell.health = health
+	new_cell.is_depleting = true
 	cells_fuel.append(new_cell)
 	if get_free_slot_count(game_manager.engine_cell_types.FUEL) > 0:
 		new_cell.place_into_slot(get_free_slot(game_manager.engine_cell_types.FUEL))
@@ -143,6 +146,7 @@ func add_coolant() -> Cell:
 func add_consumed_coolant(health: float) -> void:
 	var new_cell := create_cell(game_manager.engine_cell_types.COOLANT)
 	new_cell.health = health
+	new_cell.is_depleting = true
 	cells_coolant.append(new_cell)
 	if get_free_slot_count(game_manager.engine_cell_types.COOLANT) > 0:
 		new_cell.place_into_slot(get_free_slot(game_manager.engine_cell_types.COOLANT))
@@ -343,4 +347,5 @@ func _on_empty_coolant_timer_timeout() -> void:
 
 
 func _on_lose_timer_timeout() -> void:
+	print("[LOSE] Engines system lost")
 	lose.emit()

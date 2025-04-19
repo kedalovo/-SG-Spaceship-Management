@@ -64,6 +64,49 @@ func toggle_input(new_state: bool) -> void:
 		input_stopper.mouse_filter = Control.MOUSE_FILTER_STOP
 
 
+func load_data(save_data: save_game_template) -> void:
+	match save_data.life_support_tier:
+		1:
+			top_left_button.upgrade = game_manager.store_items.LIFE_SUPPORT_2
+			top_left_button.update_texture(LIFE_SUPPORT_UPGRADE_2)
+			top_left_button.custom_tooltip = "TOOLTIP_LIFE_SUPPORT_2"
+		2:
+			top_left_button.update_texture(OUT_OF_STOCK)
+			top_left_button.custom_tooltip = "TOOLTIP_OUT_OF_STOCK"
+			top_left_button.upgrade = game_manager.store_items.OUT_OF_STOCK
+			top_left_button.price = 0
+	if save_data.engines_tier == 1:
+		top_middle_button.update_texture(OUT_OF_STOCK)
+		top_middle_button.custom_tooltip = "TOOLTIP_OUT_OF_STOCK"
+		top_middle_button.upgrade = game_manager.store_items.OUT_OF_STOCK
+		top_middle_button.price = 0
+	match save_data.hull_tier:
+		1:
+			top_right_button.upgrade = game_manager.store_items.HULL_2
+			top_right_button.update_texture(HULL_UPGRADE_2)
+			top_right_button.custom_tooltip = "TOOLTIP_HULL_2"
+		2:
+			top_right_button.update_texture(OUT_OF_STOCK)
+			top_right_button.custom_tooltip = "TOOLTIP_OUT_OF_STOCK"
+			top_right_button.upgrade = game_manager.store_items.OUT_OF_STOCK
+			top_right_button.price = 0
+	if save_data.can_control_via_arrows:
+		bottom_middle_button.update_texture(OUT_OF_STOCK)
+		bottom_middle_button.custom_tooltip = "TOOLTIP_OUT_OF_STOCK"
+		bottom_middle_button.upgrade = game_manager.store_items.OUT_OF_STOCK
+		bottom_middle_button.price = 0
+	if save_data.is_ballistic:
+		bottom_left_button.update_texture(OUT_OF_STOCK)
+		bottom_left_button.custom_tooltip = "TOOLTIP_OUT_OF_STOCK"
+		bottom_left_button.upgrade = game_manager.store_items.OUT_OF_STOCK
+		bottom_left_button.price = 0
+	if save_data.scan_distance == 3:
+		bottom_right_button.update_texture(OUT_OF_STOCK)
+		bottom_right_button.custom_tooltip = "TOOLTIP_OUT_OF_STOCK"
+		bottom_right_button.upgrade = game_manager.store_items.OUT_OF_STOCK
+		bottom_right_button.price = 0
+
+
 func _on_item_bought(item: game_manager.store_items, price: int) -> void:
 	match item:
 		game_manager.store_items.NONE:
