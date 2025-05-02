@@ -27,6 +27,8 @@ func _ready() -> void:
 		add_module(i)
 		add_module(i)
 		add_module(i)
+		add_module(i)
+		add_module(i)
 
 
 func setup_blueprints() -> void:
@@ -67,7 +69,7 @@ func open() -> void:
 		for j in modules.get_children():
 			if j.type == i:
 				count += 1
-		for k in (3 - count):
+		for k in (5 - count):
 			add_module(i)
 	setup_blueprints()
 	super.open()

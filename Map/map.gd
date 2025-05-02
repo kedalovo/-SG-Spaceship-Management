@@ -583,7 +583,11 @@ func _on_map_node_mouse_exit(node: map_node) -> void:
 func _on_map_node_pressed(node: map_node) -> void:
 	if node.is_wormhole:
 		print("Changing current location to random next one...")
-		current_location = node.connected_to_nodes.pick_random()
+		var temp: Array[map_node] = []
+		for i in node.connected_to_nodes:
+			if !i.disabled:
+				temp.append(i)
+		current_location = temp.pick_random()
 	else:
 		print("Changing current location to pressed...")
 		current_location = node
@@ -592,11 +596,11 @@ func _on_map_node_pressed(node: map_node) -> void:
 		i.toggle_availability(false)
 	for i in current_location.connected_to_nodes:
 		i.toggle_availability(true)
-	if node.has_wormhole:
-		node.wormhole.toggle_availability(true)
-	path.append(node.map_index)
+	if current_location.has_wormhole:
+		current_location.wormhole.toggle_availability(true)
+	path.append(current_location.map_index)
 	update_secrecy()
-	location_changed.emit(node)
+	location_changed.emit(current_location)
 
 
 func _on_store_button_pressed() -> void:

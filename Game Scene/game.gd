@@ -568,7 +568,8 @@ func _on_space_new_location_set_up() -> void:
 		tutorial.proceed()
 		toggle_map(false)
 	else:
-		print("New location set")
+		print("New location set, difficulty: ", space.current_location.difficulty)
+		print(current_audio)
 		if current_audio != space.current_location.difficulty:
 			match space.current_location.difficulty:
 				2:

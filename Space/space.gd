@@ -204,22 +204,22 @@ func propagate_hazard(idx: int) -> void:
 				2:
 					create_rocket(0.8, 6.5, 1)
 				3:
-					for i in randi()%2:
+					for i in randi()%2+1:
 						create_rocket(1.0, 6.0, 2, i * 2.5)
 				4:
-					for i in randi()%2:
+					for i in randi()%2+1:
 						create_rocket(1.2, 5.5, 2, i * 2.5)
 				5:
-					for i in randi()%2:
+					for i in randi()%2+1:
 						create_rocket(1.4, 5.0, 2, i * 2.5)
 				6:
-					for i in randi()%3:
+					for i in randi()%3+1:
 						create_rocket(1.6, 4.5, 3, i * 2.0)
 				7:
-					for i in randi()%3:
+					for i in randi()%3+1:
 						create_rocket(1.8, 4.0, 3, i * 2.0)
 				8:
-					for i in randi()%3:
+					for i in randi()%3+1:
 						create_rocket(2.0, 3.5, 3, i * 2.0)
 		game_manager.hazard_types.NEBULA:
 			var picked_option: int = 0
@@ -601,10 +601,7 @@ func _on_star_flare_hit(damage: int) -> void:
 
 func _on_map_location_changed(new_location: map_node) -> void:
 	if !is_tutorial:
-		if new_location.is_wormhole:
-			current_location = new_location.connected_to_nodes.pick_random()
-		else:
-			current_location = new_location
+		current_location = new_location
 		start()
 	new_location_set_up.emit()
 

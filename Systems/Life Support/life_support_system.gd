@@ -95,7 +95,7 @@ func _damage(strength: int, type: game_manager.damage_types):
 	if type == game_manager.damage_types.HEAT:
 		print("Life support system: damaged")
 		is_damaged = true
-		constant_damage = 0.5 + strength
+		constant_damage = 0.5 + strength / 2.0
 		damage_timer.start(10 + strength * 5)
 
 

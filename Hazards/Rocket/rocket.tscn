@@ -102,6 +102,7 @@ one_shot = true
 autostart = true
 
 [node name="Progress" type="TextureProgressBar" parent="."]
+modulate = Color(1, 1, 1, 0.470588)
 offset_left = -32.0
 offset_top = -32.0
 offset_right = 32.0
@@ -110,6 +111,7 @@ fill_mode = 4
 texture_progress = ExtResource("3_ht2ba")
 
 [node name="Ballistic Lines" type="Sprite2D" parent="."]
+modulate = Color(1, 1, 1, 0.470588)
 texture = ExtResource("4_kbny4")
 
 [connection signal="animation_finished" from="Sprite/Animator" to="." method="_on_animator_animation_finished"]

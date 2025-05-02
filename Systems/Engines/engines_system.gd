@@ -168,13 +168,19 @@ func open() -> void:
 	super.open()
 
 
+func close() -> void:
+	super.close()
+	for i in cell_slots.get_children():
+		i.get_node("Line2D").hide()
+
+
 func _damage(_strength: int, _type: game_manager.damage_types):
 	if _type in [game_manager.damage_types.PHYSICAL, game_manager.damage_types.HEAT]:
 		var _cells: Array[Node] = []
 		for cell in cells_container.get_children():
 			if cell.is_depleting or cell.is_depleted:
 				_cells.append(cell)
-		for i in _strength * 2:
+		for i in clampi(_strength * 2, 0, _cells.size()):
 			print("Engines system: damaged [", i+1, "]/[", _strength * 2, "]")
 			_cells.pop_at(randi()%_cells.size()).destroy()
 			is_damaged = true

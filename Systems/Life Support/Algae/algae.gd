@@ -20,7 +20,7 @@ func cook(damage: float) -> void:
 		if !is_cooking:
 			print("[ALGAE] Started cooking")
 		is_cooking = true
-		health -= damage * game_manager.wear_modifier
+		health -= damage * clampf(game_manager.wear_modifier / 2.0, 1.0, 5.0)
 		if health <= 0:
 			health = 0
 			is_cooked = true
