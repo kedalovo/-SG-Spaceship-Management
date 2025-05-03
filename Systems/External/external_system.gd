@@ -98,12 +98,11 @@ func add_blueprint(type: game_manager.module_types) -> void:
 func add_module(type: game_manager.module_types) -> void:
 	var module: Module = MODULE.instantiate()
 	module.set_type(type)
-	for place in module_spaces:
-		if place.name.ends_with(str(type+1)):
-			modules.add_child(module)
-			module.position = place.position
-			module.installed.connect(_on_module_installed)
-			break
+	var place = module_spaces[type]
+	modules.add_child(module)
+	module.position = place.position
+	module.initial_position = place.position
+	module.installed.connect(_on_module_installed)
 
 
 func check_completion() -> void:
@@ -112,6 +111,7 @@ func check_completion() -> void:
 		installed_blueprint_spots = [false, false, false, false]
 		fix()
 		lose_timer.stop()
+		clear()
 
 
 func clear() -> void:
@@ -137,7 +137,8 @@ func _on_module_installed(blueprint: Blueprint, _module: Module) -> void:
 
 func _on_finished_animation(is_open: bool) -> void:
 	if !is_open:
-		clear()
+		pass
+		#clear()
 
 
 func _on_lose_timer_timeout() -> void:

@@ -180,8 +180,8 @@ func _damage(_strength: int, _type: game_manager.damage_types):
 		for cell in cells_container.get_children():
 			if cell.is_depleting or cell.is_depleted:
 				_cells.append(cell)
-		for i in clampi(_strength * 2, 0, _cells.size()):
-			print("Engines system: damaged [", i+1, "]/[", _strength * 2, "]")
+		for i in clampi(_strength, 0, _cells.size()):
+			print("Engines system: damaged")
 			_cells.pop_at(randi()%_cells.size()).destroy()
 			is_damaged = true
 			destroyed_cells += 1
@@ -259,6 +259,8 @@ func _on_cell_released(cell: Cell) -> void:
 
 
 func _on_cell_being_deleted(cell: Cell) -> void:
+	for i in cell_slots.get_children():
+		i.get_node("Line2D").hide()
 	cell_slots.get_child(cell.in_slot).is_busy = false
 	if cell.type == game_manager.engine_cell_types.FUEL:
 		cells_fuel.erase(cell)

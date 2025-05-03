@@ -52,13 +52,15 @@ func add_fuel() -> void:
 func add_consumed_fuel(health: float):
 	var new_algae = ALGAE_SCENE.instantiate()
 	algae_container.add_child(new_algae)
-	new_algae.is_cooking = true
 	new_algae.position = Vector2(randi_range(36, 112), randi_range(0, 44))
 	new_algae.health = health
 	new_algae.sprite.modulate = Color.WHITE.darkened((100.0 - health) / 100.0)
 	algae_in_cooker.append(new_algae)
 	if health > 0.0:
+		new_algae.is_cooking = true
 		live_algae_in_cooker.append(new_algae)
+	else:
+		new_algae.is_cooked = true
 
 
 func start() -> void:
@@ -88,6 +90,7 @@ func upgrade(to_tier: int) -> void:
 		$"Dispose Area".monitoring = false
 		$"Upgraded Dispose Area".monitoring = true
 	elif current_tier == 1 and to_tier == 2:
+		super.upgrade(to_tier)
 		$"Algae Sorter".gravity_space_override = Area2D.SpaceOverride.SPACE_OVERRIDE_COMBINE
 
 

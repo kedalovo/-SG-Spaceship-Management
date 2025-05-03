@@ -3022,7 +3022,7 @@ text = "BTN_CONTINUE"
 clip_text = true
 
 [node name="Loss Timer" type="Timer" parent="."]
-wait_time = 10.0
+wait_time = 15.0
 one_shot = true
 
 [node name="Game Over Menu" type="Control" parent="."]

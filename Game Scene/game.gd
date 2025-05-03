@@ -125,6 +125,7 @@ func _input(event: InputEvent) -> void:
 		proceed()
 		pass
 	if event.is_action_pressed(&"test_quote"):
+		external_system._damage(1, game_manager.damage_types.ELECTRICITY)
 		pass
 	if game_manager.is_playing:
 		if event.is_action_pressed(&"left") and can_control_via_arrows:
@@ -142,6 +143,11 @@ func _input(event: InputEvent) -> void:
 		elif DisplayServer.window_get_mode() == DisplayServer.WindowMode.WINDOW_MODE_EXCLUSIVE_FULLSCREEN:
 			DisplayServer.window_set_mode(DisplayServer.WINDOW_MODE_WINDOWED)
 			print("FULLSCREEN: Off")
+	var mouse_button := event as InputEventMouseButton
+	if mouse_button == null:
+		return
+	elif mouse_button.button_index == MOUSE_BUTTON_RIGHT and mouse_button.pressed:
+		close_current_system()
 
 
 func _notification(what: int) -> void:
@@ -204,14 +210,15 @@ func start_round() -> void:
 
 
 func game_over() -> void:
-	print("Game over!")
-	if game_manager.is_tutorial:
-		return
-	if FileAccess.file_exists("user://save.tres"):
-		var d := DirAccess.open("user://")
-		d.remove("save.tres")
-	game_manager.is_playing = false
-	game_over_menu.show()
+	if game_manager.is_playing:
+		print("Game over!")
+		if game_manager.is_tutorial:
+			return
+		if FileAccess.file_exists("user://save.tres"):
+			var d := DirAccess.open("user://")
+			d.remove("save.tres")
+		game_manager.is_playing = false
+		game_over_menu.show()
 
 
 func pause_game() -> void:
@@ -369,6 +376,16 @@ func setup_tutorial() -> void:
 	map.toggle_store_button(false)
 
 
+func close_current_system() -> void:
+	if game_manager.is_in_system:
+		AudioServer.set_bus_mute(current_system_idx + 1, true)
+		systems[current_system_idx].close()
+		system_close_audio.play()
+		GameManager.is_in_system = false
+		print("Exited system: ", current_system_idx)
+		current_system_idx = -1
+
+
 func _on_system_sprite_pressed(system_index: int) -> void:
 	print("Pressed on system: ", system_index, ", current: ", current_system_idx)
 	if current_system_idx == -1:
@@ -447,12 +464,7 @@ func _on_system_container_gui_input(event: InputEvent) -> void:
 						computer_sprite.enabled = false
 					else:
 						return
-		AudioServer.set_bus_mute(current_system_idx + 1, true)
-		systems[current_system_idx].close()
-		system_close_audio.play()
-		GameManager.is_in_system = false
-		print("Exited system: ", current_system_idx)
-		current_system_idx = -1
+		close_current_system()
 
 
 func _on_system_animation_finished(is_open: bool) -> void:
@@ -569,7 +581,6 @@ func _on_space_new_location_set_up() -> void:
 		toggle_map(false)
 	else:
 		print("New location set, difficulty: ", space.current_location.difficulty)
-		print(current_audio)
 		if current_audio != space.current_location.difficulty:
 			match space.current_location.difficulty:
 				2:

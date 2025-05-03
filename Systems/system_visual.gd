@@ -52,6 +52,7 @@ func toggle_crazy(on: bool) -> void:
 			if is_damaged:
 				warning_light.play(&"warning")
 				light.show()
+				sound.play()
 				animator.play(&"idle")
 			else:
 				warning_light.play(&"default")

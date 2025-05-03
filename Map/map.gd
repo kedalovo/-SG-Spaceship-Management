@@ -428,7 +428,7 @@ func update_secrecy() -> void:
 					
 	print("Map's current level is ", current_level)
 	for i in game_manager.scan_distance:
-		for j in grid[current_level + i + 1]:
+		for j in grid[clampi(current_level + i + 1, 0, grid.size()-1)]:
 			if !j.disabled:
 				print(j.name, " is not secret anymore")
 				j.is_secret = false

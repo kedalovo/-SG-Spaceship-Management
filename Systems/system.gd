@@ -6,6 +6,7 @@ class_name system
 
 signal finished_animation(is_open: bool)
 signal fixed(fixed_system: system)
+@warning_ignore("unused_signal")
 signal lose
 
 

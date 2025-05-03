@@ -115,8 +115,8 @@ func _on_patch_completed(_patch: Patch, hole: Hole) -> void:
 	if holes.get_child_count() == 1:
 		fix()
 		lose_timer.stop()
-	else:
-		push_error(holes.get_child_count())
+	#else:
+		#push_error(holes.get_child_count())
 
 
 func _on_lose_timer_timeout() -> void:

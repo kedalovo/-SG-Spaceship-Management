@@ -92,19 +92,19 @@ func start() -> void:
 					1:
 						create_star(30, 1)
 					2:
-						create_star(20, 1)
+						create_star(27, 1)
 					3:
-						create_star(20, 2)
-					4:
 						create_star(25, 2)
+					4:
+						create_star(23, 2)
 					5:
 						create_star(20, 2)
 					6:
-						create_star(15, 2)
+						create_star(20, 2)
 					7:
-						create_star(15, 3)
+						create_star(18, 3)
 					8:
-						create_star(10, 3)
+						create_star(18, 3)
 
 
 func stop() -> void:
@@ -273,15 +273,15 @@ func create_asteroid(size: game_manager.asteroid_types, spot: Vector2, time: flo
 	if game_manager.damage_types.PHYSICAL in types:
 		push_error("All asteroids are physical by default, can't assign physical type")
 	var asteroid := ASTEROID.instantiate()
+	if types.is_empty():
+		types = [game_manager.damage_types.PHYSICAL]
+	else:
+		types.append(game_manager.damage_types.PHYSICAL)
 	match size:
 		game_manager.asteroid_types.SMALL:
 			if spot in hazard_spots:
 				push_warning("Tried creating a small asteroid in ", spot, ", which is busy")
 				return
-			if types.is_empty():
-				types = [game_manager.damage_types.PHYSICAL]
-			else:
-				types.append(game_manager.damage_types.PHYSICAL)
 			asteroid.set_types(types)
 			asteroid.set_time(time)
 			asteroid.set_visuals(size, false)
@@ -347,15 +347,15 @@ func create_nebula(size: game_manager.nebula_types, spot: Vector2, time: float, 
 	if game_manager.damage_types.PHYSICAL in types:
 		push_error("Nebulas can't be physical")
 	var nebula := NEBULA.instantiate()
+	if types.is_empty():
+		types = [game_manager.damage_types.ELECTRICITY]
+	else:
+		types.append(game_manager.damage_types.ELECTRICITY)
 	match size:
 		game_manager.nebula_types.SMALL:
 			if spot in hazard_nebula_spots:
 				push_warning("Tried creating a small nebula in ", spot, ", which is busy")
 				return
-			if types.is_empty():
-				types = [game_manager.damage_types.ELECTRICITY]
-			else:
-				types.append(game_manager.damage_types.ELECTRICITY)
 			nebula.set_types(types)
 			nebula.set_time(time)
 			nebula.set_visuals(size, false)
@@ -414,7 +414,7 @@ func create_rocket(speed: float, time: float, damage: int, offset: float = 0.0) 
 	new_rocket.damage = clampi(damage, 1, 5)
 	new_rocket.finished.connect(_on_rocket_hit)
 	hazard_visuals.add_child(new_rocket)
-	new_rocket.position = Vector2(64, 64)
+	new_rocket.position = Vector2(64, 64) * Vector2(randi()%2-1, randi()%2-1)
 
 
 func create_star(period: float, damage: int) -> void:
