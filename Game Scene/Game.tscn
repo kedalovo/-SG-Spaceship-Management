@@ -1,4 +1,4 @@
-[gd_scene load_steps=141 format=3 uid="uid://dr0fafp1u36yj"]
+[gd_scene load_steps=143 format=3 uid="uid://dr0fafp1u36yj"]
 
 [ext_resource type="Script" path="res://Game Scene/game.gd" id="1_t00el"]
 [ext_resource type="Texture2D" uid="uid://dmcht1gqpy4v3" path="res://Systems/Life Support/Assets/Life Support.png" id="2_3bjf3"]
@@ -68,6 +68,7 @@
 [ext_resource type="AudioStream" uid="uid://id7umlrv2nuv" path="res://Resources/SFX/UI/Menu Press.wav" id="61_arsig"]
 [ext_resource type="AudioStream" uid="uid://diqcgtoi5yfo5" path="res://Resources/SFX/UI/Menu Hover.mp3" id="62_lb1va"]
 [ext_resource type="AudioStream" uid="uid://dhsl71pp38xrj" path="res://Resources/SFX/UI/Physical impact.wav" id="66_o3m5d"]
+[ext_resource type="Script" path="res://Game Scene/victory_screen.gd" id="67_6l2as"]
 [ext_resource type="AudioStream" uid="uid://kddsq4s1dug7" path="res://Resources/SFX/UI/Electricity impact.mp3" id="67_m1yqx"]
 [ext_resource type="AudioStream" uid="uid://dt1wglod8oqeu" path="res://Resources/SFX/UI/Heat impact.wav" id="68_t4c65"]
 [ext_resource type="AudioStream" uid="uid://revm1fdbdhn1" path="res://Resources/SFX/UI/Success.wav" id="71_lgg3o"]
@@ -2188,6 +2189,9 @@ shadow_size = 8
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_38m68"]
 bg_color = Color(0, 0, 0, 1)
 
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_8hl0v"]
+bg_color = Color(0, 0, 0, 1)
+
 [node name="Game" type="Node2D"]
 script = ExtResource("1_t00el")
 
@@ -3072,6 +3076,68 @@ size_flags_horizontal = 4
 focus_mode = 0
 text = "BTN_CONTINUE"
 
+[node name="Victory Screen" type="Control" parent="."]
+visible = false
+z_index = 30
+layout_mode = 3
+anchors_preset = 0
+offset_right = 960.0
+offset_bottom = 540.0
+theme = ExtResource("54_bi7ny")
+script = ExtResource("67_6l2as")
+
+[node name="Panel" type="PanelContainer" parent="Victory Screen"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_8hl0v")
+
+[node name="VBox" type="VBoxContainer" parent="Victory Screen/Panel"]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+
+[node name="Title Label" type="Label" parent="Victory Screen/Panel/VBox"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 48
+text = "VICTORY_TITLE"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Contents Label" type="Label" parent="Victory Screen/Panel/VBox"]
+custom_minimum_size = Vector2(257, 0)
+layout_mode = 2
+text = "VICTORY_CONTENTS"
+autowrap_mode = 2
+
+[node name="HBox" type="HBoxContainer" parent="Victory Screen/Panel/VBox"]
+layout_mode = 2
+
+[node name="Menu Button" type="Button" parent="Victory Screen/Panel/VBox/HBox"]
+layout_mode = 2
+size_flags_horizontal = 3
+focus_mode = 0
+text = "VICTORY_MENU"
+
+[node name="Exit Button" type="Button" parent="Victory Screen/Panel/VBox/HBox"]
+layout_mode = 2
+size_flags_horizontal = 3
+focus_mode = 0
+text = "VICTORY_EXIT"
+
+[node name="Button Press Audio" type="AudioStreamPlayer" parent="Victory Screen"]
+process_mode = 3
+stream = ExtResource("61_arsig")
+volume_db = -10.0
+
+[node name="Button Hover Audio" type="AudioStreamPlayer" parent="Victory Screen"]
+process_mode = 3
+stream = ExtResource("62_lb1va")
+volume_db = -10.0
+
 [node name="System Audio Listener" type="AudioListener2D" parent="."]
 position = Vector2(608, 280)
 current = true
@@ -3095,25 +3161,6 @@ volume_db = -20.0
 [node name="Round Over Audio" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("71_lgg3o")
 volume_db = -10.0
-
-[node name="HBox" type="HBoxContainer" parent="."]
-offset_left = 256.0
-offset_right = 296.0
-offset_bottom = 40.0
-mouse_filter = 2
-theme = ExtResource("54_bi7ny")
-
-[node name="Label" type="Label" parent="HBox"]
-layout_mode = 2
-
-[node name="Label2" type="Label" parent="HBox"]
-layout_mode = 2
-
-[node name="Label3" type="Label" parent="HBox"]
-layout_mode = 2
-
-[node name="Label4" type="Label" parent="HBox"]
-layout_mode = 2
 
 [connection signal="coin_got" from="Cabin/SubViewportContainer/SubViewport/Space" to="." method="_on_space_coin_got"]
 [connection signal="damaged" from="Cabin/SubViewportContainer/SubViewport/Space" to="." method="_on_damaged"]
@@ -3198,3 +3245,7 @@ layout_mode = 2
 [connection signal="pressed" from="Tutorial/Arrow/Continue Button" to="Tutorial" method="_on_continue_button_pressed"]
 [connection signal="timeout" from="Loss Timer" to="." method="_on_loss_timer_timeout"]
 [connection signal="pressed" from="Game Over Menu/Panel/VBox/VBox/Game Over Button" to="." method="_on_game_over_button_pressed"]
+[connection signal="mouse_entered" from="Victory Screen/Panel/VBox/HBox/Menu Button" to="Victory Screen" method="_on_menu_button_mouse_entered"]
+[connection signal="pressed" from="Victory Screen/Panel/VBox/HBox/Menu Button" to="Victory Screen" method="_on_menu_button_pressed"]
+[connection signal="mouse_entered" from="Victory Screen/Panel/VBox/HBox/Exit Button" to="Victory Screen" method="_on_exit_button_mouse_entered"]
+[connection signal="pressed" from="Victory Screen/Panel/VBox/HBox/Exit Button" to="Victory Screen" method="_on_exit_button_pressed"]

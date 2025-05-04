@@ -203,3 +203,11 @@ Good luck!","Вот и всё! Обучение окончено и вы зна�
 Удачи!"
 GAME_OVER_TITLE,Game over,Игра окончена
 GAME_OVER_TEXT,"Unfortunately, several systems in your spaceship have failed, which caused an inevitable collapse of vital functions.","К сожалению, несколько систем вашего звездолёта перестали работать, что вызвало неизбежный коллапс жизненноважных функций."
+VICTORY_TITLE,Victory!,Победа!
+VICTORY_CONTENTS,"Congratulations on finishing the game! You've managed to endure the darkness and harshness of space.
+
+I wish you well on your next journey!","Поздравляем, вы прошли игру до конца! Вам удалось выжить в темноте и жестокости космоса.
+
+Желаю вам удачи в следующем приключении!"
+VICTORY_MENU,Main menu,Выйти в меню
+VICTORY_EXIT,Exit to desktop,Выйти на рабочий стол

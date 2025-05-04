@@ -98,29 +98,33 @@ func _physics_process(_delta: float) -> void:
 
 func _on_mark_1_pressed() -> void:
 	mark_1.modulate = Color.WHITE
+	if !is_1_set:
+		bearing_sound.play()
 	is_1_set = true
-	bearing_sound.play()
 	check_completion()
 
 
 func _on_mark_2_pressed() -> void:
 	mark_2.modulate = Color.WHITE
+	if !is_2_set:
+		bearing_sound.play()
 	is_2_set = true
-	bearing_sound.play()
 	check_completion()
 
 
 func _on_mark_3_pressed() -> void:
 	mark_3.modulate = Color.WHITE
+	if !is_3_set:
+		bearing_sound.play()
 	is_3_set = true
-	bearing_sound.play()
 	check_completion()
 
 
 func _on_mark_4_pressed() -> void:
 	mark_4.modulate = Color.WHITE
+	if !is_4_set:
+		bearing_sound.play()
 	is_4_set = true
-	bearing_sound.play()
 	check_completion()
 
 

@@ -68,6 +68,8 @@ var ambient_audio_animator: AnimationPlayer
 @onready var system_close_audio: AudioStreamPlayer = $"SubViewportContainer/SubViewport/System Close Audio"
 @onready var round_over_audio: AudioStreamPlayer = $"Round Over Audio"
 
+@onready var victory_screen: Control = $"Victory Screen"
+
 const CABIN_ZOOM_LEVEL: float = 1.1
 
 const TUTORIAL_ANIMATIONS: Array[StringName] = [
@@ -121,11 +123,11 @@ func _input(event: InputEvent) -> void:
 	if event.is_action_pressed(&"esc"):
 		pause_game()
 	if event.is_action_pressed(&"test_space"):
-		round_timer.stop()
-		proceed()
+		#round_timer.stop()
+		#proceed()
 		pass
 	if event.is_action_pressed(&"test_quote"):
-		external_system._damage(1, game_manager.damage_types.ELECTRICITY)
+		#external_system._damage(1, game_manager.damage_types.ELECTRICITY)
 		pass
 	if game_manager.is_playing:
 		if event.is_action_pressed(&"left") and can_control_via_arrows:
@@ -158,13 +160,6 @@ func _notification(what: int) -> void:
 func _physics_process(_delta: float) -> void:
 	cabin_view.scale = lerp(cabin_view.scale, Vector2.ONE, 0.1)
 	clock.set_time(round_timer.time_left)
-
-
-func _process(_delta: float) -> void:
-	$HBox/Label.text = "Algae: " + str(game_manager.algae_amount)
-	$HBox/Label2.text = "Fuel cells: " + str(game_manager.fuel_cell_amount)
-	$HBox/Label3.text = "Coolant cells: " + str(game_manager.coolant_cell_amount)
-	$HBox/Label4.text = "Patch: " + str(game_manager.patch_amount)
 
 
 func toggle_map(open: bool) -> void:
@@ -245,11 +240,14 @@ func proceed() -> void:
 	if game_manager.is_tutorial:
 		round_timer.start(180.0)
 		return
+	elif space.current_location.map_index.x == 14:
+		victory_screen.show()
+		print("VICTORY!")
 	else:
+		toggle_store(true)
 		save_game()
 	print("Round over, proceeding")
 	round_over_audio.play()
-	toggle_store(true)
 	life_support_system.stop()
 	engines_system.stop()
 	hull_system.stop()
@@ -258,9 +256,7 @@ func proceed() -> void:
 	computer_system.stop()
 	if GameManager.is_in_system:
 		print("Was in system, closed")
-		systems[current_system_idx].close()
-		current_system_idx = -1
-		GameManager.is_in_system = false
+		close_current_system()
 	space.stop()
 	for node in systems:
 		node.fix()
@@ -378,12 +374,80 @@ func setup_tutorial() -> void:
 
 func close_current_system() -> void:
 	if game_manager.is_in_system:
+		if game_manager.is_tutorial:
+			tutorial_proceed(current_system_idx)
 		AudioServer.set_bus_mute(current_system_idx + 1, true)
 		systems[current_system_idx].close()
 		system_close_audio.play()
 		GameManager.is_in_system = false
 		print("Exited system: ", current_system_idx)
 		current_system_idx = -1
+
+
+func tutorial_proceed(system_idx: int) -> void:
+	match system_idx:
+		0: # Life support
+			tutorial.proceed()
+			life_support_sprite.enabled = false
+			engines_sprite.enabled = true
+			engines_sprite.damage()
+			smoke_1.emitting = true
+			smoke_2.emitting = true
+			smoke_3.emitting = true
+			smoke_4.emitting = true
+			engines_system._damage(2, game_manager.damage_types.PHYSICAL)
+		1: # Engines
+			if !engines_system.is_damaged:
+				tutorial.proceed()
+				engines_sprite.enabled = false
+				hull_sprite.enabled = true
+				hull_sprite.damage()
+				hull_system._damage(3, game_manager.damage_types.PHYSICAL)
+				systems_cracks.show()
+			else:
+				return
+		2: # Hull
+			if hull_system.get_holes_num() == 0:
+				tutorial.proceed()
+				hull_sprite.enabled = false
+				hull_sprite.fix()
+				electrical_sprite.enabled = true
+				electrical_system._damage(2, game_manager.damage_types.ELECTRICITY)
+				for sys in systems_visuals:
+					sys.toggle_crazy(true)
+				electrical_sprite.toggle_crazy(false)
+				electrical_sprite.damage()
+			else:
+				return
+		3: # Electrical
+			if !electrical_system.is_damaged:
+				tutorial.proceed()
+				electrical_sprite.enabled = false
+				external_sprite.enabled = true
+				external_sprite.damage()
+				external_system._damage(1, game_manager.damage_types.PHYSICAL)
+				external_system._damage(1, game_manager.damage_types.HEAT)
+				external_system._damage(1, game_manager.damage_types.ELECTRICITY)
+				cabin.toggle_dirt(true)
+			else:
+				return
+		4: # External
+			if !external_system.is_damaged:
+				tutorial.proceed()
+				external_sprite.enabled = false
+				computer_sprite.enabled = true
+				computer_sprite.damage()
+				computer_system._damage(2, game_manager.damage_types.ELECTRICITY)
+				clock.is_crazy = true
+				round_timer.paused = true
+			else:
+				return
+		5: # Computer
+			if !computer_system.is_damaged:
+				tutorial.proceed()
+				computer_sprite.enabled = false
+			else:
+				return
 
 
 func _on_system_sprite_pressed(system_index: int) -> void:
@@ -400,70 +464,6 @@ func _on_system_sprite_pressed(system_index: int) -> void:
 
 func _on_system_container_gui_input(event: InputEvent) -> void:
 	if event is InputEventMouseButton and event.is_pressed() and Input.is_mouse_button_pressed(MOUSE_BUTTON_LEFT) and GameManager.is_in_system:
-		if game_manager.is_tutorial:
-			match current_system_idx:
-				0: # Life support
-					tutorial.proceed()
-					life_support_sprite.enabled = false
-					engines_sprite.enabled = true
-					engines_sprite.damage()
-					smoke_1.emitting = true
-					smoke_2.emitting = true
-					smoke_3.emitting = true
-					smoke_4.emitting = true
-					engines_system._damage(2, game_manager.damage_types.PHYSICAL)
-				1: # Engines
-					if !engines_system.is_damaged:
-						tutorial.proceed()
-						engines_sprite.enabled = false
-						hull_sprite.enabled = true
-						hull_sprite.damage()
-						hull_system._damage(3, game_manager.damage_types.PHYSICAL)
-						systems_cracks.show()
-					else:
-						return
-				2: # Hull
-					if hull_system.get_holes_num() == 0:
-						tutorial.proceed()
-						hull_sprite.enabled = false
-						hull_sprite.fix()
-						electrical_sprite.enabled = true
-						electrical_system._damage(2, game_manager.damage_types.ELECTRICITY)
-						for sys in systems_visuals:
-							sys.toggle_crazy(true)
-						electrical_sprite.toggle_crazy(false)
-						electrical_sprite.damage()
-					else:
-						return
-				3: # Electrical
-					if !electrical_system.is_damaged:
-						tutorial.proceed()
-						electrical_sprite.enabled = false
-						external_sprite.enabled = true
-						external_sprite.damage()
-						external_system._damage(1, game_manager.damage_types.PHYSICAL)
-						external_system._damage(1, game_manager.damage_types.HEAT)
-						external_system._damage(1, game_manager.damage_types.ELECTRICITY)
-						cabin.toggle_dirt(true)
-					else:
-						return
-				4: # External
-					if !external_system.is_damaged:
-						tutorial.proceed()
-						external_sprite.enabled = false
-						computer_sprite.enabled = true
-						computer_sprite.damage()
-						computer_system._damage(2, game_manager.damage_types.ELECTRICITY)
-						clock.is_crazy = true
-						round_timer.paused = true
-					else:
-						return
-				5: # Computer
-					if !computer_system.is_damaged:
-						tutorial.proceed()
-						computer_sprite.enabled = false
-					else:
-						return
 		close_current_system()
 
 
@@ -751,4 +751,5 @@ func _on_cabin_control_button_mouse_entered() -> void:
 
 
 func _on_system_lose() -> void:
-	game_over()
+	if !game_manager.is_tutorial:
+		game_over()
