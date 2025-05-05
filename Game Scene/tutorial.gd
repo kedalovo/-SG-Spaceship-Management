@@ -66,6 +66,7 @@ func _on_continue_button_pressed() -> void:
 			proceed()
 			request.emit("systems")
 		&"tutorial_8_end":
+			game_manager.is_tutorial = false
 			get_tree().change_scene_to_file("res://Start Menu/start_menu.tscn")
 
 

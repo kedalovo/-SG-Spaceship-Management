@@ -116,6 +116,11 @@ func _ready() -> void:
 		load_game()
 		toggle_store(true)
 	else:
+		var dir: DirAccess = DirAccess.open("user://")
+		if dir.file_exists("user://save.tres"):
+			dir.remove("user://save.tres")
+		if dir.file_exists("user://perm_save.tres"):
+			dir.remove("user://perm_save.tres")
 		toggle_map(true)
 
 
@@ -263,6 +268,8 @@ func proceed() -> void:
 
 
 func save_game() -> void:
+	var is_permanent: bool = space.current_location.map_index.x in [4, 9]
+	
 	var consumed_algae: Array[float] = []
 	var consumed_fuel_cell: Array[float] = []
 	var consumed_coolant_cell: Array[float] = []
@@ -312,12 +319,24 @@ func save_game() -> void:
 	new_save_data.map_path = map.path
 	new_save_data.current_location_index = space.current_location.map_index
 	new_save_data.current_map_level = map.current_level
-	ResourceSaver.save(new_save_data, "user://save.tres")
-	print("[SAVE] Save complete.")
+	if is_permanent:
+		ResourceSaver.save(new_save_data, "user://perm_save.tres")
+		print("[SAVE] Permasave complete.")
+	else:
+		ResourceSaver.save(new_save_data, "user://save.tres")
+		print("[SAVE] Save complete.")
 
 
 func load_game() -> void:
-	var save_data: save_game_template = ResourceLoader.load("user://save.tres")
+	var save_data: save_game_template
+	var dir: DirAccess = DirAccess.open("user://")
+	if dir.file_exists("user://save.tres"):
+		save_data = ResourceLoader.load("user://save.tres")
+	elif dir.file_exists("user://perm_save.tres"):
+		save_data = ResourceLoader.load("user://perm_save.tres")
+	else:
+		push_error("Tried to load non-existent save data")
+		return
 	for i in save_data.life_support_tier:
 		life_support_system.upgrade(i+1)
 	for i in save_data.engines_tier:

@@ -104,7 +104,7 @@ func _damage(strength: int, type: game_manager.damage_types):
 
 func _on_cooker_area_body_entered(body: Node2D) -> void:
 	if body is Algae:
-		if !body.is_cooking and !body.is_cooked and body.health == 100.0:
+		if !body.is_cooking and !body.is_cooked and body.health == 100.0 and body not in algae_in_cooker:
 			game_manager.algae_amount -= 1
 			print("[VALUE-] Algae removed, now ", game_manager.algae_amount)
 			algae_in_cooker.append(body)

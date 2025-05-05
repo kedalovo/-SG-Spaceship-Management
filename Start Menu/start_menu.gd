@@ -33,7 +33,7 @@ func _ready() -> void:
 	Input.set_custom_mouse_cursor(CURSOR_POINTER, Input.CURSOR_POINTING_HAND)
 	noise.texture.noise.seed = randi()
 	noise_2.texture.noise.seed = randi()
-	if FileAccess.file_exists("user://save.tres"):
+	if FileAccess.file_exists("user://save.tres") or FileAccess.file_exists("user://perm_save.tres"):
 		continue_button.disabled = false
 
 
@@ -172,5 +172,18 @@ func _on_exit_button_mouse_entered() -> void:
 
 
 func _on_check_button_mouse_entered() -> void:
+	if !is_finished_loading:
+		button_hover_audio.play()
+
+
+func _on_fullscreen_button_pressed() -> void:
+	button_press_audio.play()
+	if DisplayServer.window_get_mode() == DisplayServer.WindowMode.WINDOW_MODE_WINDOWED:
+		DisplayServer.window_set_mode(DisplayServer.WINDOW_MODE_EXCLUSIVE_FULLSCREEN)
+	elif DisplayServer.window_get_mode() == DisplayServer.WindowMode.WINDOW_MODE_EXCLUSIVE_FULLSCREEN:
+		DisplayServer.window_set_mode(DisplayServer.WINDOW_MODE_WINDOWED)
+
+
+func _on_fullscreen_button_mouse_entered() -> void:
 	if !is_finished_loading:
 		button_hover_audio.play()

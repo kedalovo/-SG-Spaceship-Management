@@ -436,18 +436,26 @@ size_flags_vertical = 8
 alignment = 1
 
 [node name="English Label" type="Label" parent="Background Container/Margin/Language HBox"]
+visible = false
 layout_mode = 2
 size_flags_horizontal = 10
 text = "English"
 
 [node name="CheckButton" type="CheckButton" parent="Background Container/Margin/Language HBox"]
+visible = false
 layout_mode = 2
 size_flags_horizontal = 4
 
 [node name="Russian Label" type="Label" parent="Background Container/Margin/Language HBox"]
+visible = false
 layout_mode = 2
 size_flags_horizontal = 2
 text = "Русский"
+
+[node name="Fullscreen Button" type="Button" parent="Background Container/Margin/Language HBox"]
+layout_mode = 2
+size_flags_horizontal = 6
+text = "BTN_FULLSCREEN"
 
 [node name="VBox" type="VBoxContainer" parent="Background Container/Margin"]
 layout_mode = 2
@@ -563,6 +571,8 @@ volume_db = -10.0
 
 [connection signal="mouse_entered" from="Background Container/Margin/Language HBox/CheckButton" to="." method="_on_check_button_mouse_entered"]
 [connection signal="toggled" from="Background Container/Margin/Language HBox/CheckButton" to="." method="_on_check_button_toggled"]
+[connection signal="mouse_entered" from="Background Container/Margin/Language HBox/Fullscreen Button" to="." method="_on_fullscreen_button_mouse_entered"]
+[connection signal="pressed" from="Background Container/Margin/Language HBox/Fullscreen Button" to="." method="_on_fullscreen_button_pressed"]
 [connection signal="mouse_entered" from="Background Container/Margin/VBox/Start Button" to="." method="_on_start_button_mouse_entered"]
 [connection signal="pressed" from="Background Container/Margin/VBox/Start Button" to="." method="_on_start_button_pressed"]
 [connection signal="mouse_entered" from="Background Container/Margin/VBox/Continue Button" to="." method="_on_continue_button_mouse_entered"]

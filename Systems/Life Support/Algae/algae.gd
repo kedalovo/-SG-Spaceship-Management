@@ -45,9 +45,8 @@ func _input(event: InputEvent) -> void:
 
 
 func _on_input_event(_viewport: Node, event: InputEvent, _shape_idx: int) -> void:
-	if event is InputEventMouseButton and event.is_pressed() and Input.is_mouse_button_pressed(MOUSE_BUTTON_LEFT) and !is_held:
-		if !is_cooked:
-			print("[ALGAE] Picked up")
+	if event is InputEventMouseButton and event.is_pressed() and Input.is_mouse_button_pressed(MOUSE_BUTTON_LEFT) and !is_held and !is_cooking:
+		print("[ALGAE] Picked up")
 		is_held = true
 		sound.pitch_scale = 1.0
 		sound.play()
