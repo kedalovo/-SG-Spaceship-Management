@@ -25,6 +25,7 @@ var is_held: bool = false
 var is_slot: bool = false
 var is_installed: bool = false
 var is_correct: bool = false
+var is_busy: bool = false
 
 
 func _physics_process(_delta: float) -> void:
@@ -101,6 +102,7 @@ func _on_button_button_down() -> void:
 		if is_installed:
 			installed_on.show_label()
 			installed_on.is_correct = false
+			installed_on.is_busy = false
 
 
 func _on_button_button_up() -> void:
@@ -108,13 +110,15 @@ func _on_button_button_up() -> void:
 		button_up.emit()
 		is_held = false
 	if hovered_over != null:
-		global_position = hovered_over.global_position
-		installed_on = hovered_over
-		installed_on.hide_label()
-		if installed_on.check_if_correct(length):
-			installed_on.installed_correct_line.emit(self, installed_on)
-		label.horizontal_alignment = HORIZONTAL_ALIGNMENT_LEFT
-		is_installed = true
+		if !hovered_over.is_busy:
+			hovered_over.is_busy = true
+			global_position = hovered_over.global_position
+			installed_on = hovered_over
+			installed_on.hide_label()
+			if installed_on.check_if_correct(length):
+				installed_on.installed_correct_line.emit(self, installed_on)
+			label.horizontal_alignment = HORIZONTAL_ALIGNMENT_LEFT
+			is_installed = true
 	else:
 		position = Vector2.ZERO
 

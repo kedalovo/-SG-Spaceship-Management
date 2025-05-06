@@ -169,6 +169,8 @@ func _on_installed_correct_line(_line: CodeLine, _slot: CodeLine) -> void:
 	for pos in puzzle_v_box.get_children():
 		for child in pos.get_children():
 			child.queue_free()
+	busy_pieces_slots = [false, false, false, false, false, false]
+	busy_puzzle_slots = [false, false, false, false, false, false]
 	fix()
 	lose_timer.stop()
 

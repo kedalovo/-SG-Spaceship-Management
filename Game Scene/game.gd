@@ -132,7 +132,7 @@ func _input(event: InputEvent) -> void:
 		#proceed()
 		pass
 	if event.is_action_pressed(&"test_quote"):
-		#external_system._damage(1, game_manager.damage_types.ELECTRICITY)
+		computer_system._damage(1, game_manager.damage_types.ELECTRICITY)
 		pass
 	if game_manager.is_playing:
 		if event.is_action_pressed(&"left") and can_control_via_arrows:
@@ -346,6 +346,11 @@ func load_game() -> void:
 	game_manager.is_ballistic = save_data.is_ballistic
 	can_control_via_arrows = save_data.can_control_via_arrows
 	game_manager.scan_distance = save_data.scan_distance
+	
+	game_manager.algae_amount = save_data.algae_amount
+	game_manager.fuel_cell_amount = save_data.fuel_cell_amount
+	game_manager.coolant_cell_amount = save_data.coolant_cell_amount
+	game_manager.patch_amount = save_data.patch_amount
 	
 	for i in save_data.algae_amount:
 		life_support_system.add_fuel()
