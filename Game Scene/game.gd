@@ -132,7 +132,7 @@ func _input(event: InputEvent) -> void:
 		#proceed()
 		pass
 	if event.is_action_pressed(&"test_quote"):
-		computer_system._damage(1, game_manager.damage_types.ELECTRICITY)
+		#computer_system._damage(1, game_manager.damage_types.ELECTRICITY)
 		pass
 	if game_manager.is_playing:
 		if event.is_action_pressed(&"left") and can_control_via_arrows:
