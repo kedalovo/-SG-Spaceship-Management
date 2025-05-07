@@ -65,13 +65,13 @@ This upgrade makes your tank bigger, so that you can store more algae and surviv
 Это улучшение делает ваше хранилище водорослей объёмнее, что позволяет вам выжить дольше."
 TOOLTIP_LIFE_SUPPORT_2,"Life support upgrade 2.
 
-Final upgrade of life support allows burnt algae to be sorted automatically to save you some time on manual labour.
+Final upgrade of life support allows burnt algae to be automatically removed from the burner.
 
-Makes burnt algae gravitate towards right side of the tank.","Улучшение системы жизнеобеспечения 2.
+No more dirty work!","Улучшение системы жизнеобеспечения 2.
 
-Финальное улучшение системы жизнеобеспечения позволяет сгоревшим водорослям автоматически сортироваться, чтобы облегчить ваш ручной труд.
+Финальное улучшение системы жизнеобеспечения позволяет сгоревшим водорослям автоматически уничтожаться.
 
-Притягивает сгоревшие водоросли в правую сторону танкера."
+Больше никакой грязной работы!"
 TOOLTIP_ENGINES,"Engines upgrade.
 
 Engines keep your ship running, so it's important to take care of them.

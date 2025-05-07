@@ -15,6 +15,8 @@ signal connected_to_wire(from: Wire, to: Wire)
 
 var candidate: Wire
 
+var slot: int
+
 var is_held: bool = false
 var is_receiver: bool = false
 var is_connected_to_wire: bool = false

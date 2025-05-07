@@ -64,6 +64,7 @@ func set_slot(new_length: int) -> void:
 		own_body = $Body
 		area = $Area
 		button = $Button
+	is_slot = true
 	slot_length = new_length
 	modulate = Color("ffffff64")
 	area.monitoring = true

@@ -112,13 +112,14 @@ func reset_cells() -> void:
 			cell.place_into_slot(slot)
 
 
-func add_fuel() -> Cell:
+func add_fuel(from_save: bool = false) -> Cell:
 	var new_cell := create_cell(game_manager.engine_cell_types.FUEL)
 	new_cell.position = Vector2(randf_range(-100.0, -70.0), randf_range(-40.0, -10.0))
 	new_cell.start_pos = new_cell.position
 	new_cell.rotation_degrees = randf() * 360
 	cells_fuel.append(new_cell)
-	game_manager.fuel_cell_amount += 1
+	if !from_save:
+		game_manager.fuel_cell_amount += 1
 	print("[VALUE+] Fuel cell added, now ", game_manager.fuel_cell_amount)
 	return new_cell
 
@@ -132,13 +133,14 @@ func add_consumed_fuel(health: float) -> void:
 		new_cell.place_into_slot(get_free_slot(game_manager.engine_cell_types.FUEL))
 
 
-func add_coolant() -> Cell:
+func add_coolant(from_save: bool = false) -> Cell:
 	var new_cell := create_cell(game_manager.engine_cell_types.COOLANT)
 	new_cell.position = Vector2(randf_range(-95.0, -70.0), randf_range(26.0, 42.0))
 	new_cell.start_pos = new_cell.position
 	new_cell.rotation_degrees = randf() * 360
 	cells_coolant.append(new_cell)
-	game_manager.coolant_cell_amount += 1
+	if !from_save:
+		game_manager.coolant_cell_amount += 1
 	print("[VALUE+] Coolant cell added, now ", game_manager.coolant_cell_amount)
 	return new_cell
 

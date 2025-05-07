@@ -1,8 +1,9 @@
-[gd_scene load_steps=8 format=3 uid="uid://cn0fv0fedt2ig"]
+[gd_scene load_steps=9 format=3 uid="uid://cn0fv0fedt2ig"]
 
 [ext_resource type="Script" path="res://Systems/Computer/computer_system.gd" id="1_3i7g7"]
 [ext_resource type="Texture2D" uid="uid://c2wnmae3lkpre" path="res://Systems/Computer/Assets/Computer outside.png" id="2_4nu0v"]
 [ext_resource type="Theme" uid="uid://deues2s64t2hh" path="res://Systems/Computer/Assets/Theme/computer_theme.tres" id="3_wrsqg"]
+[ext_resource type="Script" path="res://Systems/Computer/puzzle_v_box_lines.gd" id="4_1wlwm"]
 [ext_resource type="AudioStream" uid="uid://bvdi0nbgmfa00" path="res://Resources/SFX/UI/Computer Prompt.wav" id="4_ybo3y"]
 
 [sub_resource type="Animation" id="Animation_ygv70"]
@@ -109,6 +110,7 @@ layout_mode = 2
 layout_mode = 2
 size_flags_horizontal = 3
 alignment = 1
+script = ExtResource("4_1wlwm")
 
 [node name="Control" type="Control" parent="UI/Margin/HBox/PuzzleVBox"]
 visible = false
@@ -193,5 +195,11 @@ bus = &"Computer"
 [node name="Lose Timer" type="Timer" parent="."]
 wait_time = 20.0
 one_shot = true
+
+[node name="Label" type="Label" parent="."]
+offset_left = -64.0
+offset_top = -72.0
+offset_right = -24.0
+offset_bottom = -49.0
 
 [connection signal="timeout" from="Lose Timer" to="." method="_on_lose_timer_timeout"]

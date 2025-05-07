@@ -128,8 +128,9 @@ func _input(event: InputEvent) -> void:
 	if event.is_action_pressed(&"esc"):
 		pause_game()
 	if event.is_action_pressed(&"test_space"):
-		#round_timer.stop()
-		#proceed()
+		#for i in computer_system.puzzle_v_box.get_children():
+			#if i.visible:
+				#print(i.position)
 		pass
 	if event.is_action_pressed(&"test_quote"):
 		#computer_system._damage(1, game_manager.damage_types.ELECTRICITY)
@@ -165,6 +166,13 @@ func _notification(what: int) -> void:
 func _physics_process(_delta: float) -> void:
 	cabin_view.scale = lerp(cabin_view.scale, Vector2.ONE, 0.1)
 	clock.set_time(round_timer.time_left)
+
+
+func _process(_delta: float) -> void:
+	$HBoxContainer/Label.text = "Algae: " + str(game_manager.algae_amount)
+	$HBoxContainer/Label2.text = "Fuel: " + str(game_manager.fuel_cell_amount)
+	$HBoxContainer/Label3.text = "Coolant: " + str(game_manager.coolant_cell_amount)
+	$HBoxContainer/Label4.text = "Patch: " + str(game_manager.patch_amount)
 
 
 func toggle_map(open: bool) -> void:
@@ -350,16 +358,16 @@ func load_game() -> void:
 	game_manager.algae_amount = save_data.algae_amount
 	game_manager.fuel_cell_amount = save_data.fuel_cell_amount
 	game_manager.coolant_cell_amount = save_data.coolant_cell_amount
-	game_manager.patch_amount = save_data.patch_amount
+	hull_system.patch_number = save_data.patch_amount
 	
 	for i in save_data.algae_amount:
-		life_support_system.add_fuel()
+		life_support_system.add_fuel(true)
 	for i in save_data.fuel_cell_amount:
-		engines_system.add_fuel()
+		engines_system.add_fuel(true)
 	for i in save_data.coolant_cell_amount:
-		engines_system.add_coolant()
+		engines_system.add_coolant(true)
 	for i in save_data.patch_amount:
-		hull_system.add_patch()
+		hull_system.add_patch(true)
 	
 	for i in save_data.consumed_algae:
 		life_support_system.add_consumed_fuel(i)
@@ -539,7 +547,10 @@ func _on_damaged(strength: int, type: game_manager.damage_types) -> void:
 			damage_variants = [electrical_system, computer_system, external_system]
 	for i in strength:
 		var picked_system_idx: int = randi()% damage_variants.size()
-		damage_variants[picked_system_idx]._damage(1, type)
+		if damage_variants[picked_system_idx] == electrical_system and electrical_system.is_free():
+			damage_variants[picked_system_idx]._damage(1, type)
+		elif damage_variants[picked_system_idx] != electrical_system:
+			damage_variants[picked_system_idx]._damage(1, type)
 		systems_visuals[systems.find(damage_variants[picked_system_idx])].damage()
 		match damage_variants[picked_system_idx]:
 			life_support_system:

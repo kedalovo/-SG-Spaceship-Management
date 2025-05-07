@@ -41,11 +41,12 @@ func get_health() -> int:
 	return total_hp
 
 
-func add_fuel() -> void:
+func add_fuel(from_save: bool = false) -> void:
 	var new_algae = ALGAE_SCENE.instantiate()
 	new_algae.position = Vector2(randi_range(-152, -88), randi_range(-36, 0))
 	algae_container.add_child(new_algae)
-	game_manager.algae_amount += 1
+	if !from_save:
+		game_manager.algae_amount += 1
 	print("[VALUE+] Algae added, now ", game_manager.algae_amount)
 
 
@@ -60,7 +61,10 @@ func add_consumed_fuel(health: float):
 		new_algae.is_cooking = true
 		live_algae_in_cooker.append(new_algae)
 	else:
-		new_algae.is_cooked = true
+		if current_tier == 2:
+			new_algae.queue_free()
+		else:
+			new_algae.is_cooked = true
 
 
 func start() -> void:
@@ -91,7 +95,6 @@ func upgrade(to_tier: int) -> void:
 		$"Upgraded Dispose Area".monitoring = true
 	elif current_tier == 1 and to_tier == 2:
 		super.upgrade(to_tier)
-		$"Algae Sorter".gravity_space_override = Area2D.SpaceOverride.SPACE_OVERRIDE_COMBINE
 
 
 func _damage(strength: int, type: game_manager.damage_types):
@@ -136,9 +139,12 @@ func _on_cook_timer_timeout() -> void:
 		if !burn_audio.playing:
 			burn_audio.play()
 		var picked: int = randi()%live_algae_in_cooker.size()
+		var alg: Algae = live_algae_in_cooker[picked]
 		live_algae_in_cooker[picked].cook(constant_damage)
 		if live_algae_in_cooker[picked].is_cooked:
 			live_algae_in_cooker.remove_at(picked)
+			if current_tier == 2:
+				alg.queue_free()
 	else:
 		is_empty = true
 		burn_audio.stop()

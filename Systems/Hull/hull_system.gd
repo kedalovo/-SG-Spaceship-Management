@@ -57,8 +57,9 @@ func _damage(_strength: int, _type: game_manager.damage_types) -> void:
 			add_random_hole()
 
 
-func add_patch() -> void:
-	patch_number += 1
+func add_patch(from_save: bool = false) -> void:
+	if !from_save:
+		patch_number += 1
 	var new_patch := PATCH.instantiate()
 	new_patch.patch_installed.connect(_on_patch_installed)
 	new_patch.patch_completed.connect(_on_patch_completed)

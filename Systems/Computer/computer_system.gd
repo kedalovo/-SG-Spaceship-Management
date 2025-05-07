@@ -122,6 +122,7 @@ func add_empty_slot(new_length: int) -> void:
 		if !busy_puzzle_slots[slot_idx]:
 			busy_puzzle_slots[slot_idx] = true
 			var pos: Control = puzzle_v_box.get_child(slot_idx)
+			puzzle_v_box.points.append(pos)
 			pos.add_child(code_line)
 			pos.show()
 			break
@@ -149,6 +150,7 @@ func add_code_line(is_right: bool, text: String) -> void:
 			if !busy_puzzle_slots[slot_idx]:
 				busy_puzzle_slots[slot_idx] = true
 				var pos: Control = puzzle_v_box.get_child(slot_idx)
+				puzzle_v_box.points.append(pos)
 				pos.add_child(code_line)
 				pos.show()
 				added = true
@@ -171,6 +173,7 @@ func _on_installed_correct_line(_line: CodeLine, _slot: CodeLine) -> void:
 			child.queue_free()
 	busy_pieces_slots = [false, false, false, false, false, false]
 	busy_puzzle_slots = [false, false, false, false, false, false]
+	puzzle_v_box.points.clear()
 	fix()
 	lose_timer.stop()
 

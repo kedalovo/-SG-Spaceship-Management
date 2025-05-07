@@ -60,6 +60,7 @@ func add_receiver_wire(slot: int) -> void:
 	var new_wire = create_wire()
 	new_wire.set_receiver()
 	new_wire.position = RECEIVER_POSITIONS[slot]
+	new_wire.slot = slot
 	receiver_states[slot] = true
 	var free_color_states: Array[int] = []
 	for idx in color_states.size():
@@ -81,6 +82,7 @@ func add_tranceiver_wire(slot: int) -> void:
 	var new_wire = create_wire()
 	new_wire.set_tranceiver()
 	new_wire.position = TRANCEIVER_POSITIONS[slot]
+	new_wire.slot = slot
 	tranceiver_states[slot] = true
 	new_wire.modulate = game_manager.WIRE_COLORS[last_color]
 	new_wire.connected_to_wire.connect(_on_wire_connected)
@@ -92,10 +94,29 @@ func stop() -> void:
 	lose_timer.stop()
 
 
+func is_free() -> bool:
+	var free_receiver_slots: Array[int] = []
+	var free_tranceiver_slots: Array[int] = []
+	for idx in receiver_states.size():
+		if !receiver_states[idx]:
+			free_receiver_slots.append(idx)
+	for idx in tranceiver_states.size():
+		if !tranceiver_states[idx]:
+			free_tranceiver_slots.append(idx)
+	return free_receiver_slots.size() > 0
+
+
 func _on_wire_connected(_from: Wire, _to: Wire) -> void:
 	wires_to_connect -= 1
 	if wires_to_connect == 0:
 		fix()
+		for wire in wires.get_children():
+			if wire.is_receiver:
+				receiver_states[wire.slot] = false
+			else:
+				tranceiver_states[wire.slot] = false
+			color_states[game_manager.WIRE_COLORS.find(wire.modulate)] = false
+			wire.queue_free()
 		lose_timer.stop()
 
 
